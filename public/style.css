@@ -1,0 +1,139 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.continer{
+    background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+}
+#sqrdiv1{
+    height: 100vh;
+}
+#sqrdiv2{
+    border-radius: 15px;
+    background-color: white;
+}
+.heads{
+    margin-left: 12%;
+    font-weight: 700;
+}
+.headz{
+    margin-left: 12%;
+    margin-top: 20px;
+    border-radius: 4px;
+    padding: 5px;
+    border: 1px solid rgb(95, 95, 95);
+    width: 80%;
+}
+#uslogbtn{
+    font-weight: 700;
+    width: 80px;
+    height: 20px;
+    color: white;
+}
+#btnuslog{
+    background-color: red;
+    border-radius: 10px;
+}
+#havacc{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: x-small;
+}
+#otp{
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+}
+#eyeicon{
+    height: 14px;
+    width: 18px ;
+}
+#eyeicon1{
+    height: 14px;
+    width: 18px ;
+    /* margin-left: 38%; */
+}
+#eyeicon2{
+    height: 14px;
+    width: 18px ;
+    /* margin-left: 38%; */
+}
+/* .input-box{
+    margin-left: 12%;
+    margin-top: 20px;
+    display: flex;
+    border-radius: 4px;
+    border: 1px solid rgb(95, 95, 95);
+    width:80%;
+    justify-content: s;
+    padding: 5px;
+}
+.input-box input{
+    width: 173px;
+    border-radius: 4px;
+}
+.eye{
+    outline: 0;
+    border: 0;
+}*/
+.navis{ 
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    margin-right: 40px;
+}
+#divone{
+    background-color: #0e0eff;
+    height: 45px;
+}
+#divsub{
+    background-color: #0e0eff;
+}
+#divtwo{
+    background-color: #0e0eff;
+    height: 45px;
+}
+#divthree{
+    background-color: #0e0eff;
+    height: 45px;
+    padding-top: 20px;
+}
+#zeecart{
+    text-decoration: none;
+    background-color: red;
+    color: white;
+    padding: 2px;
+    font-weight: 700;
+    width: 10px;
+}
+.zeecart{
+    color: white;
+    font-weight: 700;
+}
+.menu{
+    background-color: #0e0eff;
+}
+.menu ul{
+    display: flex;
+}
+.menu a{
+    text-decoration: none;
+    color: white;
+}
+.menu ul li{
+    list-style: none;
+    margin: 0 10px;
+}
+#ipt{
+    width: 350px;
+    height: 26px;
+    outline: 0;
+    border: 0;
+}
+.djrock{
+    background-color: rgb(0, 250, 250);
+}

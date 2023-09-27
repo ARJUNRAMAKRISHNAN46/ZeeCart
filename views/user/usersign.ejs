@@ -1,0 +1,77 @@
+<%- include('../layout/header.ejs') %>
+
+<form action="/users/signup" method="post">
+<div class="continer" >
+   
+        <div class="row d-flex justify-content-center align-items-center" id="sqrdiv1">
+        
+            <div class="col-10 col-md-6 col-lg-4 p-5" id="sqrdiv2">
+                <!-- <h6 class="heads">Name</h6> -->
+                <input class="headz" type="name" name="name" placeholder="enter name"><br>
+
+                <!-- <h6 class="mt-2 heads">Email</h6> -->
+                <input class="headz" type="email" name="email" placeholder="enter email"><br>
+
+                <input class="headz" type="otp" placeholder="enter otp"><br>
+                <h6 class="mt-2 heads"><a href="" id="otp">Send OTP</a></h6>
+
+
+                
+                <!-- <h6 class="mt-2 heads">Enter Password</h6> -->
+                <div class="input-box">
+                <input class="eye" type="password" name="password" placeholder="enter password" id="password1">
+                <img src="/eye-close.png" alt="" id="eyeicon1">
+                <br>
+                </div>
+
+                <!-- <h6 class="mt-2 heads">Confirm Password</h6> -->
+                <div class="input-box">
+                <input class="eye" type="password" name="confirmPassword" placeholder="confirm password" id="password2">
+                <img src="/eye-close.png" alt="" id="eyeicon2">
+                <br>
+                </div>
+                
+                <div class="d-flex justify-content-center mt-5">
+                <button class="btn" type="submit" id="btnuslog"><h5 id="uslogbtn">Sign Up</h5></button>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <a id="havacc" href="/users/login">Have already an account ? Log in</a>
+                </div>
+                <div>
+                    <a href="/google">continue with google</a>
+                </div> 
+            </div>
+        
+        </div>
+   
+</div>
+</form>
+
+<script>
+    let eyeicon1 = document.getElementById('eyeicon1');
+    let password1 = document.getElementById('password1');
+    let eyeicon2 = document.getElementById('eyeicon2');
+    let password2 = document.getElementById('password2');
+
+    eyeicon1.onclick = function(){
+        if(password1.type == "password"){
+            password1.type = "text";
+            eyeicon1.src = "eye-open.png"
+        }else{
+            password1.type = "password";
+            eyeicon1.src = "eye-close.png"
+        }
+    }
+    eyeicon2.onclick = function(){
+        if(password2.type == "password"){
+            password2.type = "text";
+            eyeicon2.src = "eye-open.png"
+        }else{
+            password2.type = "password";
+            eyeicon2.src = "eye-close.png"
+        }
+    }
+
+</script>
+
+<%- include('../layout/footer.ejs') %>
