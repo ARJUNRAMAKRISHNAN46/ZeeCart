@@ -1,0 +1,44 @@
+<%- include('../layout/header.ejs')%>
+
+<form action="/home" method="post">
+    <div class="senior">
+        <div class="row headdiv d-flex justify-content-center align-items-center">
+          <div class="subdivlog col-10 col-md-8 col-lg-4">
+            <div class="d-flex justify-content-center">
+                <h3>Zee<span id="zeecart">C</span>art</h3>
+            </div> 
+            <div class="row mt-4">
+                <input class="inpt" type="email" name="email" placeholder="Enter your Email" required>
+            </div>
+            <div class="eyediv1 row mt-3 d-flex  align-items-center">
+                <input class="inpt2" type="password" name="password" placeholder="Enter your Password" id="password" required>
+                <img src="/eye-close.png" alt="fjfgj" id="eyeicon">
+            </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn" type="submit" id="btnuslog"><h5 id="uslogbtn">Login</h5></button>
+                </div>
+            <div class="d-flex justify-content-center mt-2">
+                <a id="havacc" href="/signup">Create New Account</a>
+            </div>
+          </div>
+        </div>
+      </div>
+</form>
+
+<script>
+
+    let password = document.getElementById('password');
+    let eyeicon = document.getElementById('eyeicon');
+    eyeicon.onclick = function(){
+        if(password.type == 'password'){
+            password.type = 'text';
+            eyeicon.src = 'eye-open.png'
+        }else{
+            password.type = 'password';
+            eyeicon.src = 'eye-close.png'
+        }
+    }
+
+</script>
+
+<%- include('../layout/footer.ejs')%>

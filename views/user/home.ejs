@@ -20,27 +20,8 @@
                 <li><a href="" class="fa-solid fa-house-chimney"></a></li>
             </ul>
         </div>
-
     </div>
-    <div class="containers d-flex">
-        <div class="row">
-            <% img.forEach((img)=>{%>
-                <div class="col-6 col-md-2 mt-4" >
-                    <div class="card" >
-                        <img src="<%=img.url%>" alt="" class="card-img-top" height="200px">
-                        <div class="card-body">
-                            <h4 class="card-title"><%=img.title%></h4>
-                        </div>
-                    </div>
-                </div>
-            <%})%>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <img class="img-fluid" src="<%=banner.url%>" alt="">
-        </div>
-    </div>
+    
 </div>
 
 <%- include('../layout/footer') %>

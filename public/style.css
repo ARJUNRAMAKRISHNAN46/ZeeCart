@@ -48,38 +48,22 @@
     color: black;
     font-weight: 700;
 }
-#eyeicon{
-    height: 14px;
-    width: 18px ;
+
+#eyeicon1 {
+    width: 45px;
+    height: 15px;
 }
-#eyeicon1{
-    height: 14px;
-    width: 18px ;
-    /* margin-left: 38%; */
+
+#eyeicon2 {
+    width: 45px;
+    height: 15px;
 }
-#eyeicon2{
-    height: 14px;
-    width: 18px ;
-    /* margin-left: 38%; */
+
+#eyeicon {
+    width: 45px;
+    height: 15px;
 }
-/* .input-box{
-    margin-left: 12%;
-    margin-top: 20px;
-    display: flex;
-    border-radius: 4px;
-    border: 1px solid rgb(95, 95, 95);
-    width:80%;
-    justify-content: s;
-    padding: 5px;
-}
-.input-box input{
-    width: 173px;
-    border-radius: 4px;
-}
-.eye{
-    outline: 0;
-    border: 0;
-}*/
+
 .navis{ 
     text-decoration: none;
     color: white;
@@ -106,7 +90,8 @@
     text-decoration: none;
     background-color: red;
     color: white;
-    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
     font-weight: 700;
     width: 10px;
 }
@@ -136,4 +121,160 @@
 }
 .djrock{
     background-color: rgb(0, 250, 250);
+}
+#bodydemo{
+    overflow-y: hidden;
+}
+.row .inpt{
+    width: 280px;
+    border-radius: 5px;
+    height: 35px;
+}
+
+.sendotp {
+    /* background-color: #757575; */
+    font-weight: 700;
+    width: 103px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    color: black;
+}
+.sendotp:hover {
+    background-color: #ff0000;
+    color: white ;
+}
+
+.row .inpt2 {
+    width: 227px;
+    border-radius: 5px;
+    height: 35px;
+    border: 0;
+    outline: 0;
+}
+
+.eyediv1 {
+    border: 1px solid grey;
+    border-radius: 5px;
+    width: 274px;
+}
+.eyediv2 {
+    border: 1px solid grey;
+    border-radius: 5px;
+    width: 274px;
+}
+
+.row input {
+    outline: 0;
+    border: 1px solid grey;
+}
+
+.zeecartlogo {
+    background-color: #757575;
+}
+
+.headdiv{
+    background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');
+    height: 102.5vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-color: green; */
+}
+
+.row .subdiv{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(122, 122, 122);
+    height: 500px;
+    width: 350px;
+    border-radius: 20px;
+    padding: 50px;
+}
+
+.row .subdivlog{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(122, 122, 122);
+    height: 380px;
+    width: 350px;
+    border-radius: 20px;
+    padding: 50px;
+}
+
+.row a{
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+
+/* admin side work */
+
+.sidenav {
+    height: 100%;
+    width: 0px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #F2F2F2;
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+  .btnz{
+    border: 1px solid lightgray;
+    height: 45px;
+  }
+  .zeediv{
+    padding: 20px;
+    background-color: #757575;
+  
+  }
+  .a-tag{
+    color: #313131;
+    font-size: medium;
+    text-decoration: none;
+  }
+  
+  .sidenav .closebtn {
+  /* position: absolute; */
+  /* top: -10px; */
+  height: 30px;
+  text-decoration: none;
+  color: black;
+  /* right: 5px; */
+
+  font-size: 20px;
+  margin-left: 50px;
+}
+.openNav{
+    position: sticky;
+    top: 5px;
+    left: 10px;
+}
+.userData{
+    position:relative;
+    top: 0;
+    right: 200px;
+}
+.duplicate{
+    width: 200px;
+    height: 1000px;
+    background-color: rgb(172, 255, 255);
+    z-index: -1;
+}
+.table {
+    background-color: rgb(56, 56, 56);
+} 
+.table tr{
+    color: white;
+}
+.table .thed {
+    background-color: black;
+    border: 4px solid rgb(255, 255, 255);
+}
+table tbody td {
+    border: 1px solid white;
+}
+table .thead {
+    background-color: black;
+    border: 1px solid rgb(255, 255, 255);
 }

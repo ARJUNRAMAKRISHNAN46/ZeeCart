@@ -1,4 +1,5 @@
 const passport = require('passport')
+const userModel = require('./models/model')
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.serializeUser((user,done)=>{
@@ -16,8 +17,8 @@ passport.use(new GoogleStrategy({
     scope : ["profile","email"]
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+    // u
+    console.log(profile);
+    cb(null,profile)
   }
 ));
