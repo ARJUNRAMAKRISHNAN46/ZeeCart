@@ -1,70 +1,114 @@
 <%- include('../layout/header.ejs') %>
-<body id="bodydemo">
-    
-<form action="/signup" method="post">
-<div class="senior">
-    <div class="row headdiv d-flex justify-content-center align-items-center">
-      <div class="subdiv col-10 col-md-8 col-lg-4">
-        <div class="d-flex justify-content-center">
-            <h3>Zee<span id="zeecart">C</span>art</h3>
-        </div>
-        <div class="row mt-2">
-            <input class="inpt" type="text" name="name" placeholder="Enter your Name" id="firstinput" required>
-        </div>
-        <div class="row mt-2">
-            <input class="inpt" type="email" name="email" placeholder="Enter your Email" required>
-        </div>
-        <div class="row mt-2">
-            <a href="/send-otp"><p  class="sendotp">Send OTP</p></a>
-            <input class="inpt" type="text" name="otp" placeholder="Enter the OTP" required>
-        </div>
-        <div class="eyediv1 row mt-2 d-flex  align-items-center">
-            <input class="inpt2" type="password" name="password" placeholder="Enter your Password" id="password1" required>
-            <img src="/eye-close.png" alt="fjfgj" id="eyeicon1">
-        </div>
-        <div class="eyediv2 row mt-2 d-flex justify-content-center align-items-center">
-            <input class="inpt2" type="password" name="confirmpassword" placeholder="Confirm Password" id="password2" required>
-            <img src="/eye-close.png" alt="" id="eyeicon2">
-        </div>
-            <div class="d-flex justify-content-center mt-3">
-                <button class="btn" type="submit" id="btnuslog"><h5 id="uslogbtn">Sign Up</h5></button>
+
+    <body id="bodydemo">
+
+        <form action="/signup" method="post">
+            <div class="senior">
+                <div class="row headdiv d-flex justify-content-center align-items-center">
+                    <div class="subdiv col-10 col-md-8 col-lg-4">
+                        <div class="d-flex justify-content-center">
+                            <h3>Zee<span id="zeecart">C</span>art</h3>
+                        </div>
+                        <div class="row mt-2">
+                            <input class="inpt" type="text" name="name" placeholder="Enter your Name" id="firstinput"
+                                required>
+                        </div>
+                        <div class="row mt-2">
+                            <input class="inpt" type="email" name="email" placeholder="Enter your Email" required>
+                        </div>
+                        <div class="row mt-2">
+                            <button class="sendotp" type="button" onclick="sendOTP(event)">
+                                Send OTP
+                            </button>
+                            <input class="inpt" type="text" name="otp" placeholder="Enter the OTP" required>
+                        </div>
+                        <div class="eyediv1 row mt-2 d-flex  align-items-center">
+                            <input class="inpt2" type="password" name="password" placeholder="Enter your Password"
+                                id="password1" required>
+                            <img src="/eye-close.png" alt="fjfgj" id="eyeicon1">
+                        </div>
+                        <div class="eyediv2 row mt-2 d-flex justify-content-center align-items-center">
+                            <input class="inpt2" type="password" name="confirmpassword" placeholder="Confirm Password"
+                                id="password2" required>
+                            <img src="/eye-close.png" alt="" id="eyeicon2">
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button class="btn" type="submit" id="btnuslog">
+                                <h5 id="uslogbtn">Sign Up</h5>
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <a id="havacc" href="/">Have already an account ? Log in</a>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a href="/google"><i class="fa-brands fa-google-plus-g"></i> continue with google</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        <div class="d-flex justify-content-center mt-2">
-            <a id="havacc" href="/">Have already an account ? Log in</a>
-        </div>
-        <div class="d-flex justify-content-center">
-                <a href="/google"><i class="fa-brands fa-google-plus-g"></i> continue with google</a>
-        </div> 
-      </div>
-    </div>
-  </div>
-</form>
+        </form>
 
-<script>
-    let eyeicon1 = document.getElementById('eyeicon1');
-    let password1 = document.getElementById('password1');
-    let eyeicon2 = document.getElementById('eyeicon2');
-    let password2 = document.getElementById('password2');
+        <script>
 
-    eyeicon1.onclick = function(){
-        if(password1.type == "password"){
-            password1.type = "text";
-            eyeicon1.src = "/eye-open.png"
-        }else{
-            password1.type = "password";
-            eyeicon1.src = "/eye-close.png"
-        }
-    }
-    eyeicon2.onclick = function(){
-        if(password2.type == "password"){
-            password2.type = "text";
-            eyeicon2.src = "/eye-open.png"
-        }else{
-            password2.type = "password";
-            eyeicon2.src = "/eye-close.png"
-        }
-    }
+            const sendOTP = async (event) => {
+                const button = event.target;
+                button.disabled = true;
 
-</script>
+                const emailInput = document.querySelector('input[type="email"]');
+                if (!emailInput) {
+                    button.disabled = false;
+                    return alert("no email input");
+                }
 
-<%- include('../layout/footer.ejs') %>
+                const email = emailInput.value;
+                if (!email) {
+                    button.disabled = false;
+                    return alert("please enter an email");
+                }
+
+                const res = await fetch("/send-otp", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application.json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                button.disabled = false;
+                button.textContent = 'Resend OTP'
+
+                if (res.status < 400) {
+                    return alert((await res.json())?.message || `OTP sent to ${email}`);
+                }
+                
+                return alert(`Failed to sent OTP to ${email}`);
+            };
+
+            let eyeicon1 = document.getElementById('eyeicon1');
+            let password1 = document.getElementById('password1');
+            let eyeicon2 = document.getElementById('eyeicon2');
+            let password2 = document.getElementById('password2');
+
+            eyeicon1.onclick = function () {
+                if (password1.type == "password") {
+                    password1.type = "text";
+                    eyeicon1.src = "/eye-open.png"
+                } else {
+                    password1.type = "password";
+                    eyeicon1.src = "/eye-close.png"
+                }
+            }
+            eyeicon2.onclick = function () {
+                if (password2.type == "password") {
+                    password2.type = "text";
+                    eyeicon2.src = "/eye-open.png"
+                } else {
+                    password2.type = "password";
+                    eyeicon2.src = "/eye-close.png"
+                }
+            }
+
+        </script>
+
+        <%- include('../layout/footer.ejs') %>

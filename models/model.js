@@ -13,7 +13,11 @@ const userschema = new Schema({
     password : {
         type : String
     }
+},
+{
+    timestamps : true
 })
+
 //brand schema
 const brandSchema = new Schema({
     brandName : {
@@ -28,11 +32,13 @@ const catagorySchema = new Schema({
 }) 
 
 
-const User = mongoose.model('Users',userschema);
+
+
+const Users = mongoose.model('Users',userschema);
 const Brand = mongoose.model('Brand',brandSchema);
 const Catagory = mongoose.model('Catagory',catagorySchema);
 module.exports = {
-    User,
+    Users,
     Brand,
-    Catagory
+    Catagory,
 }
