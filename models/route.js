@@ -1,12 +1,12 @@
-const express = require('express');
-const routerz = express.Router();
+// const express = require('express');
+// const routerz = express.Router();
 
-//request new verification otp
+// //request new verification otp
 
-routerz.post('/send-otp',async (req,res) => {
-    try {
-        const { email,subject,message,duration } = req.body;
-    } catch (error) {
+// routerz.post('/send-otp',async (req,res) => {
+//     try {
+//         const { email,subject,message,duration } = req.body;
+//     } catch (error) {
         
-    }
-})
+//     }
+// })

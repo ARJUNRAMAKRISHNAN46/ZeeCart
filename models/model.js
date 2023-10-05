@@ -30,15 +30,23 @@ const catagorySchema = new Schema({
         type : String
     }
 }) 
+//product upload schema 
+const productUploadSchema = new Schema({
+    originalname : {
+        type : String
+    }
+})
 
 
 
-
-const Users = mongoose.model('Users',userschema);
+const Users = mongoose.model('User',userschema);
 const Brand = mongoose.model('Brand',brandSchema);
 const Catagory = mongoose.model('Catagory',catagorySchema);
+const productUpload = mongoose.model('productUpload',productUploadSchema);
+
 module.exports = {
     Users,
     Brand,
     Catagory,
+    productUpload
 }

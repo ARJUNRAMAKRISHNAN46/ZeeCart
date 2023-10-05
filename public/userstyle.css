@@ -1,0 +1,155 @@
+#zeecart{
+    text-decoration: none;
+    background-color: red;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: 700;
+    width: 10px;
+}
+.main-navbar {
+    border-bottom: 1px solid #ccc;
+}
+
+.main-navbar .top-navbar {
+    background-color: #2874f0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.main-navbar .top-navbar .brand-name {
+    color: #fff;
+}
+
+.main-navbar .top-navbar .nav-link {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.main-navbar .top-navbar .dropdown-menu {
+    padding: 0px 0px;
+    border-radius: 0px;
+}
+
+.main-navbar .top-navbar .dropdown-menu .dropdown-item {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.main-navbar .top-navbar .dropdown-menu .dropdown-item i {
+    width: 20px;
+    text-align: center;
+    color: #2874f0;
+    font-size: 14px;
+}
+
+.main-navbar .navbar {
+    padding: 0px;
+    background-color: #ddd;
+}
+
+.main-navbar .navbar .nav-item .nav-link {
+    padding: 8px 20px;
+    color: #000;
+    font-size: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+    .main-navbar .top-navbar .nav-link {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+    #titles{
+        font-size: small;
+    }
+}
+
+/*-----------------------------------------------------------Category Start--------------------------------------------------------------*/
+.category-card {
+    border: 1px solid #ddd;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    margin-bottom: 24px;
+    background-color: #fff;
+}
+
+.category-card a {
+    text-decoration: none;
+}
+
+.category-card .category-card-img {
+    max-height: 260px;
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+}
+
+.category-card .category-card-body {
+    padding: 10px 16px;
+}
+
+.category-card .category-card-body h5 {
+    margin-bottom: 0px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    text-align: center;
+}
+
+/* -------------------------------------------------------------wishlist-------------------------------------------------------------------- */
+
+.wishmain {
+    background-color: #E0E9FF;
+}
+.wishtwo {
+    height: 100vh;
+    width: 250px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(122, 122, 122);
+}
+.wishthree {
+    height: 80px;
+    width: 80px;
+    background-color: rgb(58, 58, 58);
+    margin-left: 80px; margin-top: 40px;
+    border-radius: 50%;
+}
+.wishfour {
+    padding: 3px;
+}
+.wishbutt0 {
+    width: 230px;
+    height: 40px; 
+    margin-top: 40px;
+    border: 1px solid rgb(147, 147, 147);
+    background-color: #ffff;
+}
+.wishbutt {
+    width: 230px; 
+    height: 40px; 
+    margin-top: 5px; 
+    border: 1px solid rgb(147, 147, 147); 
+    background-color: #ffff;
+}
+#logbutt{
+    position: relative; top: 45vh;
+}
+#logbutt:hover {
+    background-color: #E0E9FF;
+}
+button {
+    font-weight: 600;
+    color: #2a2a2a;
+}
+
+/* -------------------------------------------------------------Admin Table-------------------------------------------------------------------- */
+
+table td {
+    border: 1px solid black;
+}
+table tbody th {
+    border: 1px solid black;
+}
+ul {
+    list-style-type: none;
+}

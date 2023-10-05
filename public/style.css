@@ -3,7 +3,8 @@
     padding: 0;
 }
 .continer{
-    background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');
+    /* background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'); */
+    background-color: #2D40EB;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100vw;
@@ -34,7 +35,7 @@
     color: white;
 }
 #btnuslog{
-    background-color: red;
+    background-color: #2D40EB;
     border-radius: 10px;
 }
 #havacc{
@@ -127,7 +128,7 @@
 }
 .row .inpt{
     width: 280px;
-    border-radius: 5px;
+    border-radius: 50px;
     height: 35px;
 }
 
@@ -142,13 +143,13 @@
     color: black;
 }
 .sendotp:hover {
-    background-color: #ff0000;
+    background-color: #2D40EB;
     color: white ;
 }
 
 .row .inpt2 {
     width: 227px;
-    border-radius: 5px;
+    border-radius: 50px;
     height: 35px;
     border: 0;
     outline: 0;
@@ -156,7 +157,7 @@
 
 .eyediv1 {
     border: 1px solid grey;
-    border-radius: 5px;
+    border-radius: 50px;
     width: 274px;
 }
 .eyediv2 {
@@ -175,11 +176,11 @@
 }
 
 .headdiv{
-    background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');
+    /* background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'); */
     height: 102.5vh;
     background-repeat: no-repeat;
     background-size: cover;
-    /* background-color: green; */
+    background-color: #2D40EB;
 }
 
 .row .subdiv{
@@ -192,8 +193,8 @@
 }
 
 .row .subdivlog{
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(122, 122, 122);
+    background-color: #fefefe;
+    border: 2px solid rgb(56, 56, 56);
     height: 380px;
     width: 350px;
     border-radius: 20px;
@@ -235,12 +236,9 @@
   }
   
   .sidenav .closebtn {
-  /* position: absolute; */
-  /* top: -10px; */
   height: 30px;
   text-decoration: none;
   color: black;
-  /* right: 5px; */
 
   font-size: 20px;
   margin-left: 50px;
@@ -278,3 +276,6 @@ table .thead {
     background-color: black;
     border: 1px solid rgb(255, 255, 255);
 }
+
+
+

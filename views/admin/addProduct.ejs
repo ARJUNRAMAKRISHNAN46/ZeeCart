@@ -1,0 +1,26 @@
+<%- include('../layout/header.ejs') %>
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6 d-flex justify-content-start align-items-center" style="background-color: blueviolet;color: white;">
+            <p class="mx-2">Products Management</p>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <!-- <button class="mx-2">Add Product</button> -->
+        </div>
+        <div>
+            <p>Upload first image</p>
+            <input type="file" name="productImage1" onchange="previewImage('imag4', 'im4','l4')">>
+            <p>Upload second image</p>
+            <input type="file" name="productImage2">
+            <p>Upload third image</p>
+            <input type="file" name="productImage3">
+        </div>
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <button class="mx-5 my-5" type="submit">Upload</button>
+        </div>
+
+    </div>
+</form>
+
+<%- include('../layout/footer.ejs') %>

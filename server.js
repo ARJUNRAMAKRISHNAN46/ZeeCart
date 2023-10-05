@@ -29,6 +29,8 @@ app.use(
 
 app.use(express.static("public"));
 
+
+
 app.use("/", router);
 app.use("/", routers);
 
