@@ -32,9 +32,64 @@ const catagorySchema = new Schema({
 }) 
 //product upload schema 
 const productUploadSchema = new Schema({
-    originalname : {
-        type : String
-    }
+    ProductName: {
+        type: String,
+        required: true,
+      },
+      Price: {
+        type: Number,
+        required: true,
+      },
+      Description: {
+        type: String,
+        required: true,
+      },
+      BrandName: {
+        type: String,
+        required: true,
+      },
+      Tags: {
+          type: Array,
+      },
+      images: {
+        type: String,
+        required: true,
+      },
+      AvailableQuantity: {
+        type: Number,
+        required: true,
+      },
+      Category: {
+        type: String,
+        required: true,
+      },
+      DiscountAmount: {
+        type: Number,
+      },
+    //   Status: {
+    //     type: String,
+    //     required: true
+    //   },
+      UpdatedOn: {
+        type: Date
+      },
+    //   Display: {
+    //     type: String,
+    //     required: true
+    //   },
+      Specification1: {
+        type: String
+      },
+      Specification2: {
+        type: String
+      },
+      Specification3: {
+        type: String
+      },
+      Specification4: {
+        type: String
+      }
+   
 })
 
 
@@ -42,11 +97,11 @@ const productUploadSchema = new Schema({
 const Users = mongoose.model('User',userschema);
 const Brand = mongoose.model('Brand',brandSchema);
 const Catagory = mongoose.model('Catagory',catagorySchema);
-const productUpload = mongoose.model('productUpload',productUploadSchema);
+const productuploads = mongoose.model('productUpload',productUploadSchema);
 
 module.exports = {
     Users,
     Brand,
     Catagory,
-    productUpload
+    productuploads
 }

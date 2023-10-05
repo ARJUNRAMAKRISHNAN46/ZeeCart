@@ -91,19 +91,25 @@
                     <div class="col-md-12">
                         <h4 class="mb-4">Our Categories</h4>
                     </div>
+                    <%imgs.forEach((x)=>{ %>
                     <div class="col-3 col-md-2">
                         <div class="category-card">
                             <a href="">
                                 <div class="category-card-img">
-                                    <img src="/s23ultra.jpg" class="w-100" alt="Laptop">
+                                    <img src="/product-images/<%= x.images %>" alt="Product Image 1" class="w-100" alt="Laptop">
                                 </div>
-                                <div class="category-card-body">
-                                    <h5>Galaxy S23 Ultra</h5>
+                                <div class="category-card-body d-flex justify-content-center align-items-center" style="height: 25px;">
+                                    <h5><%=x.ProductName%></h5>
                                 </div>
+                                <div class="category-card-body d-flex justify-content-center align-items-center" style="height: 25px;">
+                                    <h6>Starting ₹<%=x.Price%>/-</h6>
+                                </div>
+                               
                             </a>
                         </div>
                     </div>
-                    <div class="col-3 col-md-2">
+                    <%}) %>
+                    <!-- <div class="col-3 col-md-2">
                         <div class="category-card">
                             <a href="">
                                 <div class="category-card-img">
@@ -282,7 +288,7 @@
                             </div>
                         </a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -321,7 +327,7 @@
                 </div>
                 <div class="col-3 col-md-2">
                     <div class="category-card">
-                        <a href="">
+                        <a href="/prodspec">
                             <div class="category-card-img">
                                 <img src="/s23ultra.jpg" class="w-100" alt="Laptop">
                             </div>

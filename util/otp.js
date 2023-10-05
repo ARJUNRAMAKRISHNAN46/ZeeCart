@@ -17,7 +17,7 @@ const { sendMail } = require("./mail");
 //     to: email,
 //     subject: "OTP Verification",
 //     text: `Your OTP is: ${otp}`,
-    
+
 //   };
 //   console.log("final   "+otp);
 //   oTp=otp
@@ -29,8 +29,9 @@ const { sendMail } = require("./mail");
 //   };
 // }
 
-async function sendOTP (email) {
+async function sendOTP(email, req) {
   const otp = generateOTP();
+  // req.session.otp = otp;
 
   const newotp = await OTP.findOneAndUpdate(
     { email },
@@ -44,18 +45,17 @@ async function sendOTP (email) {
     to: email,
     subject: "OTP Verification",
     text: `Your OTP is: ${otp}`,
-    
   };
-  console.log("final   "+otp);
-  oTp=otp
+  console.log("final   " + otp);
+  oTp = otp;
   const mailReasponse = await sendMail(mailOptions);
 
   return {
     mailReasponse,
     newotp,
-    otp
+    otp,
   };
 }
 module.exports = {
   sendOTP,
-}
+};

@@ -1,26 +1,195 @@
 <%- include('../layout/header.ejs') %>
 
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6 d-flex justify-content-start align-items-center" style="background-color: blueviolet;color: white;">
-            <p class="mx-2">Products Management</p>
-        </div>
-        <div class="col-md-6 d-flex justify-content-end align-items-center">
-            <!-- <button class="mx-2">Add Product</button> -->
-        </div>
-        <div>
-            <p>Upload first image</p>
-            <input type="file" name="productImage1" onchange="previewImage('imag4', 'im4','l4')">>
-            <p>Upload second image</p>
-            <input type="file" name="productImage2">
-            <p>Upload third image</p>
-            <input type="file" name="productImage3">
-        </div>
-        <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <button class="mx-5 my-5" type="submit">Upload</button>
-        </div>
+    <body>
+        <span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
+        <div id="mySidenav" class="sidenav">
+            <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn"
+                    onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
+            <!-- &times; -->
+            <div class="zeediv d-flex align-items-center justify-content-center">
+                <h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3>
+            </div>
 
-    </div>
-</form>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Dashboard</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Products</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/catagory?page=1">Catagory</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/brands?page=1">Brand</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Payments</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Admins</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/customers?page=1">Customers</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Orders</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Coupen</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Banner</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Logout</a></span></div>
+        </div>
+        <main class="px-md-4 icons " style="margin-left: 18%;width: 80%; margin-top: 6%;">
+            
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-8">
+                    <h1 class="mt-5">Add Product</h1>
+                    <br>
+                    <form action="/addProduct" method="post" enctype="multipart/form-data" class="bg-white">
+                        <div class="form-group">
+                            <label for="productName">Product Name : </label>
+                            <input type="text" name="ProductName" class="form-control bg-light" id="productName"
+                                placeholder="Enter product name" required />
+                        </div><br>
 
-<%- include('../layout/footer.ejs') %>
+                        <div class="form-group">
+                            <label for="productDescription">Product Description:</label>
+                            <textarea class="form-control bg-light" name="Description" id="productDescription"
+                                rows="4" placeholder="Enter product description" required></textarea>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="productSpecification">Product Specification:</label>
+                            <textarea class="form-control bg-light" name="" id="productSpecification1"
+                                placeholder="Enter product Specification" required></textarea>
+                            <label for="productSpecification2">Product Specification:</label>
+                            <textarea class="form-control bg-light" name="" id="productSpecification"
+                                placeholder="Enter product Specification" required></textarea>
+                            <label for="productSpecification3">Product Specification:</label>
+                            <textarea class="form-control bg-light" name="" id="productSpecification"
+                                placeholder="Enter product Specification" required></textarea>
+                            <label for="productSpecification4">Product Specification:</label>
+                            <textarea class="form-control bg-light" name="" id="productSpecification"
+                                placeholder="Enter product Specification" required></textarea>
+                        </div>
+                        <br>
+
+                        <div class="border p-3 mb-3 bg-light "> <!-- Added bg-light and text-center classes -->
+                            <h3>Media</h3>
+                            <div class="form-group text-center ">
+                                <label for="productImage">Drag and drop or click to upload an image:</label>
+                                <br><br><br><br>
+                                <input type="file" name="images" class="form-control-file" id="productImage"
+                                    accept="image/*" multiple style="display: none;" required />
+                            </div>
+                            <!-- uploaded images -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="uploaded-image">
+                                        <img src="" alt="Uploaded Image 1" id="uploadedImage1" class="img-fluid"
+                                            data-index="1">
+                                        <button class="btn btn-danger btn-sm delete-image" style="display: none;"
+                                            data-index="1">Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="uploaded-image">
+                                        <img src="" alt="Uploaded Image 2" id="uploadedImage2" class="img-fluid"
+                                            data-index="2">
+                                        <button class="btn btn-danger btn-sm delete-image" style="display: none;"
+                                            data-index="2">Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="uploaded-image">
+                                        <img src="" alt="Uploaded Image 3" id="uploadedImage3" class="img-fluid"
+                                            data-index="3">
+                                        <button class="btn btn-danger btn-sm delete-image" style="display: none;"
+                                            data-index="3">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="border p-3 mb-3">
+                            <h2>Pricing</h2>
+                            <div class="form-group">
+                                <label for="basePrice">Base Price:</label>
+                                <input type="number" name="Price" class="form-control bg-light" id="basePrice"
+                                    placeholder="Enter base price" required />
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="discountAmount">Discount Amount:</label>
+                                <input type="number" name="DiscountAmount" class="form-control bg-light"
+                                    id="discountAmount" placeholder="Enter discount amount" required />
+                            </div>
+                        </div>
+
+
+                        <div class="border p-3 mb-3">
+                            
+                        </div>
+
+
+
+                        <div class="border p-3 mb-3">
+                            <h2>Stock</h2>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="AvailableQuantity" class="form-control bg-light"
+                                    id="quantity" placeholder="Enter quantity" required />
+                            </div>
+                        </div>
+
+
+                </div>
+
+                <div class="col-md-4 my-5">
+                    <div class="bg-white p-3">
+                        <div class="form-group">
+                            <br>
+                            <label>Category:</label>
+                            <select class="form-select bg-light" id="category" name="Category" required>
+                                <option value="" selected disabled>Select a category</option>
+                                <option >BUDGET SMARTPHONES</option>
+                                <option >FLAGSHIP SMARTPHONES</option>
+                                <option >BEST SELLING SMARTPHONES</option>
+                                <option >IOS SMARTPHONES</option>
+                                <option >GAMING SMARTPHONES</option>
+                            </select>
+                        </div><br>
+                        <div class="form-group">
+                            <br>
+                            <label>Brand Name:</label>
+                            <select name="BrandName" class="form-select bg-light" id="brand" required>
+                                <option value="" selected disabled>Select a Brand</option>
+                                <option >SAMSUNG</option>
+                                <option >APPLE</option>
+                                <option >XIOMI</option>
+                                <option >REALME</option>
+                                <option >VIVO</option>
+                                <option >OPPO</option>
+                            </select>
+                        </div><br>
+                        <div class="form-group">
+                            <label for="tags">Tags:</label>
+                            <input type="text" class="form-control bg-light" name="Tags" id="tags"
+                                placeholder="Enter tags" required />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary ms-3">Add Product</button>
+                </div>
+                </form>
+            </div>
+        </main>
+
+
+
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
+
+        <%- include('../layout/footer.ejs') %>

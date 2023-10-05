@@ -149,7 +149,7 @@
 
 .row .inpt2 {
     width: 227px;
-    border-radius: 50px;
+    border-radius: 5px;
     height: 35px;
     border: 0;
     outline: 0;
@@ -236,9 +236,12 @@
   }
   
   .sidenav .closebtn {
+  /* position: absolute; */
+  /* top: -10px; */
   height: 30px;
   text-decoration: none;
   color: black;
+  /* right: 5px; */
 
   font-size: 20px;
   margin-left: 50px;
@@ -256,7 +259,7 @@
 .duplicate{
     width: 200px;
     height: 1000px;
-    background-color: rgb(172, 255, 255);
+    background-color: rgb(255, 255, 255);
     z-index: -1;
 }
 .table {

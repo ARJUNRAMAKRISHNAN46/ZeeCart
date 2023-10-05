@@ -1,9 +1,7 @@
-const { Users, Brand, Catagory, productUpload } = require("../models/model");
+const { Users, Brand, Catagory, productuploads } = require("../models/model");
 const multer = require("multer");
-const upload = multer({ dest: "product-images/" });
 
 module.exports = {
-  upload,
   //<---------------------------------------------Brands------------------------------------------------------------->
   admin_brands: async (req, res) => {
     const pageNum = req.query.page;
@@ -32,86 +30,88 @@ module.exports = {
       .skip((pageNum - 1) * perPage)
       .limit(perPage);
     let i = (pageNum - 1) * perPage;
-    res.render("admin/catagory", { catagoryz, i });
+    res.render("admin/addproduct", { catagoryz, i });
   },
   // <---------------------------------------------Product------------------------------------------------------------->
   admin_product: async (req, res) => {
     res.render("admin/addProduct");
   },
   // <---------------------------------------------------------------------------------------------------------->
-  product_upload : async (req,res) => {
-    // console.log(req.files['productImage1']);
-    // console.log(req.files['productImage2']);
-    // const name = req.files.originalname;
-    // console.log(name);
-    res.render('admin/addProduct')
+  product_upload: async (req, res) => {
+    res.render("admin/addProduct");
   },
   // -----------------------------------------------Upload Product-----------------------------------------------------------
 
-  // addProduct: async (req, res) => {
-  //   try {
-  //     // const main = req.files["main"][0];
-  //     // const img2 = req.files["image1"][0];
-  //     // const img3 = req.files["image2"][0];
-  //     // const img4 = req.files["image3"][0];
-  //     // const img5 = req.files["image4"][0];
+  editProduct: async (req, res) => {
+    const product = await Product.find();
+    res.render("admin/admin-editProduct", { product: product[0] });
+  },
 
-  //     // Do whatever you want with these files.
-  //     console.log("Uploaded files:");
-  //     console.log(main);
-  //     console.log(img2);
-  //     console.log(img3);
-  //     console.log(img4);
-  //     console.log(img5);
-  //     const {
-  //       productname,
-  //       price,
-  //       discount,
-  //       brand,
-  //       category,
-  //       spec1,
-  //       spec2,
-  //       spec3,
-  //       spec4,
-  //       description,
-  //     } = req.body;
+  // -----------------------------------------------Get addProduct-----------------------------------------------------------
 
-  //     console.log("name is " + productname);
+  getAddProduct: (req, res) => {
+    res.render("admin/admin-addProduct");
+  },
 
-  //     let categoryId = await categoryCollection.find({
-  //       categoryname: category,
-  //     });
-  //     await new productCollection({
-  //       productName: productname,
-  //       category: new ObjectId(categoryId[0]._id),
-  //       price: price,
-  //       discount: discount,
-  //       image: {
-  //         mainimage: main.filename,
-  //         // image1: img2.filename,
-  //         // image2: img3.filename,
-  //         image3: img4.filename,
-  //         // image4: img5.filename,
-  //       },
-  //       brand: brand,
-  //       description: description,
-  //       addedDate: Date.now(),
-  //       specification: {
-  //         spec1: spec1,
-  //         spec2: spec2,
-  //         spec3: spec3,
-  //         spec4: spec4,
-  //       },
-  //     }).save();
-  //     let data = await category.find({ categoryname: category });
-  //     // console.log(data + " __ this category data");
-  //     await category.updateOne(
-  //       { categoryname: category },
-  //       { $inc: { stock: 1 } }
-  //     );
-  //     res.render("/");
-  //   } catch (err) {
-  //     console.log("error found" + err);
-  //   }
-  // },
+  // -----------------------------------------------Post addProduct-----------------------------------------------------------
+
+  AddProduct: async (req, res) => {
+    const productDetails = req.body;
+    try {
+      console.log(req.body);
+      const uploaded = await productuploads.create({...productDetails,images:req.file.filename});
+      if(uploaded){
+      res.redirect("/");
+      }
+    } catch (error) {
+      console.log("An Error happened");
+      throw error;
+    }
+  },
+
+  // -----------------------------------------------Post editProduct-----------------------------------------------------------
+
+  editProduct: async (req, res) => {
+    const product = await Product.find();
+    res.render("admin/admin-editProduct", { product: product[0] });
+  },
+
+  // -----------------------------------------------Get editProduct-----------------------------------------------------------
+
+  Edit_Product: async (req, res) => {
+    console.log(req.params.id);
+    console.log(req.body);
+    console.log(req.files);
+    try {
+      const id = req.params.id;
+      const productType = req.body.productType;
+
+      const variations = [];
+      console.log(req.body);
+      if (productType === "Tyre") {
+        const tyreSize = req.body.Tyre;
+
+        variations.push({ value: tyreSize });
+      } else if (productType === "Oil") {
+        console.log("inside oil");
+        const oilSize = req.body.Oil;
+        variations.push({ value: oilSize });
+      }
+      console.log(variations);
+      req.body.Variation = variations[0].value;
+      req.body.images = req.files.map((val) => val.filename);
+      req.body.Display = "Active";
+      req.body.Status = "in Stock";
+      req.body.updateOn = new Date();
+      const updatingProduct = await Product.findOneAndUpdate(
+        { _id: id },
+        req.body
+      );
+
+      res.redirect("/");
+    } catch (error) {
+      console.log("An Error happened");
+      throw error;
+    }
+  },
 };

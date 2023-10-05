@@ -26,10 +26,12 @@ async function Logged(req, res) {
   console.log(data);
   const Name = data.name;
   const pass = await bcrypt.compare(password, data.password);
+  const imgs = await User.productuploads.find()
+  console.log(imgs);
 
   if (data.email == email && data.password == password) {
     req.session.logged = true;
-    res.render("user/home", { Name });
+    res.render("user/home", { Name, imgs });
   } else {
     res.send({ err: "invalid user name or password" });
   }
@@ -63,7 +65,7 @@ async function signUp(req, res) {
   const finalotp = Number(arr.join(""));
   console.log('finalotp '+finalotp);
 
-  console.log();
+  console.log(req.session.otp);
 
   //   if (recievedotp === generateOTP) {
   //     const data = sendOTPController();
