@@ -1,72 +1,99 @@
 <%- include('../layout/header.ejs') %>
 
-<body style="background-color: rgb(172, 255, 255);">
-<span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
-<div id="mySidenav" class="sidenav">
-    <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
-    <!-- &times; -->
-    <div class="zeediv d-flex align-items-center justify-content-center"><h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3></div>
+    <body>
+        <span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
+        <div id="mySidenav" class="sidenav">
+            <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn"
+                    onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
+            <!-- &times; -->
+            <div class="zeediv d-flex align-items-center justify-content-center">
+                <h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3>
+            </div>
 
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Dashboard</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Products</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/catagory?page=1">Catagory</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/brands?page=1">Brand</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Payments</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Admins</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/customers?page=1">Customers</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Orders</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Coupen</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Banner</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href=""></a></span></div>
-
-  
-</div>
-<div class="d-flex">
-
-        <table class="table table-borderedmy-0 mx-auto container" style="margin-top: 10px;">
-            <thead>
-                <tr>
-                    <th class="thed" scope="col">No.</th>
-                    <th class="thed" scope="col">Name</th>
-                    <th class="thed" scope="col">Email</th>
-                    <th class="thed" scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%userData.forEach((x)=>{ %>
-                    <tr>
-                        <td><i><%=++i%></i></td>
-                        <td><i><%=x.name%></i></td>
-                        <td><i><%=x.email%></i></td><br>
-                        <td><i>Active</i></td>
-                    </tr>
-                <%}) %>
-            </tbody>
-        </table>
-</div>
-<div class="col-lg-12">
-    <nav aria-label="page navigation example">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>
-            <li class="page-item"><a class="page-link" href="/customers?page=2">2</a></li>
-            <li class="page-item"><a class="page-link" href="/customers?page=3">3</a></li>
-            <li class="page-item"><a class="page-link" href="/customers?page=4">4</a></li>
-            <li class="page-item"><a class="page-link" href="/customers?page=5">5</a></li>
-            <li class="page-item"><a class="page-link" href="/customers?page=6">6</a></li>
-
-        </ul>
-    </nav>
-</div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Dashboard</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/products?page=1">Products</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/catagory?page=1">Catagory</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/brands?page=1">Brand</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Payments</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Admins</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/customers?page=1">Customers</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Orders</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Coupen</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="">Banner</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href=""></a></span></div>
 
 
-<script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "200px";
-    }
-    
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
-    </script>
+        </div>
+        <div class="row d-flex">
 
-<%- include('../layout/footer.ejs') %>
+            <div class="col-2 col-lg-1 usertable">No</div>
+            <div class="col-2 col-lg-2 usertable">Name</div>
+            <div class="col-2 col-lg-3 usertable">Email</div>
+            <div class="col-2 col-lg-2 usertable">Orders</div>
+            <div class="col-2 col-lg-2 usertable">Status</div>
+            <div class="col-2 col-lg-2 usertable">Action</div>
+
+        </div>
+        <%userData.forEach((x)=>{ %>
+            <div class="row d-flex">
+
+                <div class="col-2 col-lg-1 userlist">
+                    <%=++i%>
+                </div>
+                <div class="col-10 col-lg-2 userlist">
+                    <%=x.name%>
+                </div>
+                <div class="col-10 col-lg-3 userlist">
+                    <%=x.email%>
+                </div>
+                <div class="col-2 col-lg-2 userlist">Orders</div>
+                <div class="col-6 col-lg-2 userlist" id="Blockstatus">
+                    <p>
+                        <%=x.statuz%>
+                    </p>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-2 userlist" id="Blockuser"><a id="<%=x.statuz%>" class="blockbtn"
+                        href="/block/<%-x._id%>">
+                        <%=x.statuz%>
+                    </a></div>
+
+            </div>
+            <%}) %>
+                <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;top: 600px;">
+                    <nav aria-label="page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>
+                            <li class="page-item"><a class="page-link" href="/customers?page=2">2</a></li>
+                            <li class="page-item"><a class="page-link" href="/customers?page=3">3</a></li>
+                            <li class="page-item"><a class="page-link" href="/customers?page=4">4</a></li>
+                            <li class="page-item"><a class="page-link" href="/customers?page=5">5</a></li>
+                            <li class="page-item"><a class="page-link" href="/customers?page=6">6</a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+
+
+                <script>
+                    function openNav() {
+                        document.getElementById("mySidenav").style.width = "200px";
+                    }
+
+                    function closeNav() {
+                        document.getElementById("mySidenav").style.width = "0";
+                    }
+                </script>
+
+                <%- include('../layout/footer.ejs') %>

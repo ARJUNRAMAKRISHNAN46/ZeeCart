@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const User = require("../models/model");
+const UserSchema = require("../models/model");
+const { render } = require("ejs");
+const passport = require("passport");
+const userOTPVerification = require("../models/otpverification");
+const nodemailer = require("nodemailer");
 const {
   Logged,
   host,
@@ -10,27 +16,30 @@ const {
   Cart,
   signUp,
   sendOTPController,
+  productSpec,
+  getOpt,
+  getLogin,
+  logOut,
+  forgotPassword,
+  verifyEmail,
+  comapareOtp,
+  setPassword
 } = require("../controllers/controller");
-const {
-  userLogin,
-  userSigntoLog,
-} = require("../controllers/user-controller");
 
-const UserSchema = require("../models/model");
-const { render } = require("ejs");
-const passport = require("passport");
-const userOTPVerification = require("../models/otpverification");
-const nodemailer = require("nodemailer");
-
-const credential = {
-  email: "abcd@gmail.com",
-  password: 123,
-};
 router.get("/", host);
-router.post("/logged", Logged);
-router.post("/send-otp", sendOTPController);
-router.route("/home").get(userSigntoLog).post(userLogin);
-
+router.route("/home").get(getLogin).post(Logged);
+router.route("/send-otp").get(getOpt).post(sendOTPController);
+router.get("/wishlist", wishList);
+router.get("/profile", Profile);
+router.get("/orders", Orders);
+router.get("/cart", Cart);
+router.post("/signed", signUp);
+router.get("/productspecs/:id", productSpec);
+router.get("/logout", logOut);
+router.get("/forgotpass", forgotPassword);
+router.post("/verifyemail", verifyEmail);
+router.post("/verifyotp", comapareOtp);
+router.post('/setpassword',setPassword);
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -38,14 +47,13 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    res.render("user/newhome", {});
+  async (req, res) => {
+    console.log();
+    const imgs = await User.productuploads.find();
+    // const data = await User.Users.find();
+    const data = "user";
+    res.render("user/home", { imgs, data });
   }
 );
-router.get("/wishlist", wishList);
-router.get("/profile", Profile);
-router.get("/orders", Orders);
-router.get("/cart", Cart);
-router.post("/signed", signUp);
 
 module.exports = router;

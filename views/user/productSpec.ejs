@@ -1,0 +1,41 @@
+<%- include('../layout/user/header.ejs') -%>
+
+
+    <div class="d-flex" style="background-color: aqua; height: 900px;">
+        <div style="width: 500px;height: 500px; margin: 5vw;border-right: 1px solid black;">
+            <div style="width: 500px; height: 400px;background-color: red;" id="img-container"><img style="width: 350px; height: 250px;" src="/product-images/<%=prodSpec.images[0]%>" alt="Product Image 1"  alt=""></div>
+            <div class="row" style="background-color: green;width: 500px; height: 200px;">
+
+            </div>
+            <div style="width: 500px; height: 100px;margin-top: 50px;">
+                <button class="btn" style="background-color: #E2E700;color: #fff;font-weight: 700;width: 150PX;height: 40PX;">ADD TO CART</button>
+                <button class="btn" style="background-color: #FF7A00;color: #fff;font-weight: 700;width: 150PX;height: 40PX;margin-left: 90px;">BUY NOW</button>
+            </div>
+        </div>
+        <div style="width: 800px;height: 500px;; margin-top: 5vw;">
+            <div style="width: 600px; height: 80px;font-weight: 500;font-weight: 700;font-size: x-large;"><%=prodSpec.ProductName%> <%=prodSpec.Specification1%>|<%=prodSpec.Specification4%></div>
+            <div style="width: 800px; height: 50px;font-weight: 500;font-size: larger; color: green;font-weight:700;">₹<%=prodSpec.Price%>/-</div>
+            <div style="width: 100px; height: 30px;font-weight: 500; background-color: green; padding-left: 8px;color: #fff; border-radius: 5px;"> Stock : <%=prodSpec.AvailableQuantity%></div>
+            <div class="d-flex align-items-end" style="width: 800px; height: 50px;font-weight: 700;font-size: larger;">SPECIFICATION</div>
+            <div style="width: 800px; height: 30px;font-weight: 500;"><%=prodSpec.Specification1%></div>
+            <div style="width: 800px; height: 30px;font-weight: 500;"><%=prodSpec.Specification2%></div>
+            <div style="width: 800px; height: 30px;font-weight: 500;"><%=prodSpec.Specification3%></div>
+            <div style="width: 800px; height: 30px;font-weight: 500;"><%=prodSpec.Specification4%></div>
+            <div style="width: 800px; height: 40px;font-weight: 500;">BRAND : <%=prodSpec.BrandName%></div>
+            <div style="width: 800px; height: 130px; display: flex;">
+                <div style="width: 130px; height: 130px;"><h6>DISCRIPTION : </h6></div>
+                <div style="width: 670px; height: 130px;;font-size: small;"><%=prodSpec.Description%></div>
+            </div>
+         </div>
+    </div>
+
+    <script>
+        var options = {
+            width: 380,
+            zoomWidth: 500,
+            offset: {vertical: 0, horizontal: 10}
+        };
+        new ImageZoom(document.getElementById("img-container"), options);
+         
+        </script>
+<%- include('../layout/user/footer.ejs') -%>

@@ -1,232 +1,72 @@
-    <div class="home" style="display: flex;" style="min-height:100vh">
-            <div class="content_section">
-                <div class="overview_section">
-                    <div class="head_inp">
-                        <h5>Products</h5>
-                        <a href="/admin/logout">Logout</a>
-                    </div>
-                </div>
-                <div class="items_section" style="flex-direction: column;">
-                    <div class="admin_top_control">
-                        <a  id="mySizeChart">Add Product</a>
-                    </div>
-                    <div class="add_product_section" id="adp" style="transform: translateY(0);">
-                        <a href="/admin/products">
-                            <img src="/images/close.png" style="width:20px;height: 20px;position:absolute;top:5%;right:2%;cursor:pointer" alt="" id="clsbtn">
-                        </a>
-                        <form action="/" method="post" class="form_section" enctype="multipart/form-data">
-                            <div class="images">
-                                <div class="preview_imgs">
-                                    <div class="secondary">
-                                        <input type="file" name="image1" id="imag1" accept="image/*"  onchange="previewImage('imag1', 'im1','1l')">
-                                        <label for="imag1">
-                                            <p id="1l" style="display: none;">
-                                                Upload Preview image 1
-                                            </p>
-                                            <img src="" alt="" id="im1">
-                                        </label>
-                                        <!-- <input type="file" name="image2" id="imag2" accept="image/*"  onchange="previewImage('imag2', 'im2','l2')" >
-                                        <label for="imag2">
-                                            <p id="l2" style="display: none;">
-                                                Upload Preview image 2
-                                            </p>
-                                            <img src="" alt="" id="im2">
-                                        </label> -->
-                                        <!-- <input type="file" name="image3" id="imag3" accept="image/*"  onchange="previewImage('imag3', 'im3','l3')">
-                                        <label for="imag3">
-                                            <p id="l3" style="display: none;">
-                                                Upload Preview image 3
-                                            </p>
-                                            <img src="" alt="" id="im3">
-                                        </label> -->
-                                        <input type="file" name="image4" id="imag4" accept="image/*"  onchange="previewImage('imag4', 'im4','l4')">
-                                        <label for="imag4">
-                                            <p id="l4" style="display: none;">
-                                                Upload Preview image 4
-                                            </p>
-                                            <img src="" alt="" id="im4">
-                                        </label>
-                                    </div>
-                                    <div class="main">
-                                        <input type="file" name="main" id="main" accept="image/*"  onchange="previewImage('main', 'mn','ml')" >
-                                        <label for="main">
-                                            <p id="ml" style="display: none;">
-                                                Main image
-                                            </p>
-                                            <img src="" alt="" id="mn">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="inputs">
-                                <div class="all_inp">
-                                    <div class="head">
-                                        <h4>Update product</h4>
-                                    </div>
-                                    <div class="control_section">
-                                        <p for="">product name</p>
-                                        <input type="text"  name="productname" value="" required>
-                                    </div>
-                                    <div class="control_section " id="sp">
-                                        <div class="p">
+<%- include('../layout/header.ejs') %>
 
-                                            <p for="">Price</p>
-                                            <input type="number" name="price" value="" required>
-                                        </div>
-                                        <div class="dsp">
+<body>
+<span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
+<div id="mySidenav" class="sidenav">
+    <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
+    <!-- &times; -->
+    <div class="zeediv d-flex align-items-center justify-content-center"><h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3></div>
 
-                                            <p for="">Discountedprice</p>
-                                            <input type="number" name="discount" value="">
-                                        </div>
-                                    </div>
-                                    <div class="control_section " id="sp">
-                                        <div class="p">
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Dashboard</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/products?page=1">Products</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/catagory?page=1">Catagory</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/brands?page=1">Brand</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Payments</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Admins</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/customers?page=1">Customers</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Orders</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Coupen</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Banner</a></span></div>
+    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href=""></a></span></div>
 
-                                            <p for="">Brand</p>
-                                            <input type="text" name="brand" required value="">
-                                        </div>
-                                        <div class="dsp">
+  
+</div>
+<div class="d-flex">
 
-                                            <p for="">Category</p>
-                                            <select name="category" id="">
-                                                        
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="control_section " id="sp">
-                                        <div class="p" id="spc">
-                                            <p for="" style="position: absolute;top:0;left:0">Specifications</p>
-                                             </div>
-                        
-                                    </div>
-                                    <div class="control_section">
-                                        <p for="">Description</p>
-                                    </div>
-                                    <div class="control_section end">
-                                        <button type="submit">submit</button>
-                                        <button type="reset">cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="table" id="tb">
-                        <div class="top_section">
-                            <p>Products</p>
-                            <div class="filter">
-                                <a href="">Filtered by
-                                    <img src="/images/filter.svg" alt="">
-                                </a>
-                                <a href="">Sorted by
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.6027 7.02075L10.1484 11.475C9.62236 12.0011 8.76156 12.0011 8.23552 11.475L3.78125 7.02075"
-                                            stroke="#898989" stroke-width="1.02476" stroke-miterlimit="10"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="table_content">
-                            <div class="table_datas head">PRODUCT NAME</div>
-                            <div class="table_datas head" style="width: 10%;">PRICE</div>
-                            <div class="table_datas head">IMAGE</div>
-                            <div class="table_datas head">CATEGORY</div>
-                            <div class="table_datas head">Status</div>
-                            <div class="table_datas head"></div>
-                        </div>
-                            <div class="table_content data_section">
-                                <div class="table_datas ">
-                               
-                                </div>
-                                <div class="table_datas ">
-                                </div>
-                                <div class="table_datas ">
-                                        <div class="active" style="width: 70px;">
-                                            In Stock
-                                        </div>
-                                    <div class="blocked" style="width: 70px;">
-                                        expired
-                                    </div>
-                                </div>
-                                <div class="table_datas ">
+        <table class="table table-borderedmy-0 mx-auto container" style="margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th class="thed" scope="col">No.</th>
+                    <th class="thed" scope="col">Name</th>
+                    <th class="thed" scope="col">Price</th>
+                    <th class="thed" scope="col">Brand</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%productDetails.forEach((x)=>{ %>
+                    <tr>
+                        <td><%=++i%></td>
+                        <td><%=x.ProductName%></td>
+                        <td><%=x.Price%></td>
+                        <td><%=x.BrandName%></td>
+                    </tr>
+                <%}) %>
+            </tbody>
+        </table>
+</div>
+<div class="col-lg-12" style="position: absolute;left: 1200px; bottom: 50px; width: 300px;">
+    <nav aria-label="page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="/products?page=1">1</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=2">2</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=3">3</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=4">4</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=5">5</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=6">6</a></li>
 
-                                        <img src="/images/predit.svg" style="width: 30px;height: 30px;margin-right:10px" alt="">
-                                    </a>
-                                        <img src="/images/delp.svg" style="width: 30px;height: 30px;" alt="">
-                                </div>
-                                
-                            </div>
-                                
-                    </div>
-                    <div class="key_val" id="key-val">
-                 
-                            <div class="detail">
-                                <div class="data">
-                                    <p>PRODUCT NAME</p>
-                                    <p>bOAT headset</p>
-                                </div>  
-                                <div class="data">
-                                    <p>PRICE</p>
-                                    <p>1000₹</p>
-                                </div>
-                                <div class="data">
-                                    <p>IMAGE</p>
-                                    <div class="status" id="blocked">
-                                        <div class="btn_active">
-                                            In Stock
-                                        </div>
-                                        <a href="/">
-                                            <img src="/images/boat.jpg" style="width: 35px;height:35px" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="data">
-                                    <p>Status</p>
-                                        <div class="status" id="blocked">
-                                            <div class="btn_active">
-                                                Actived
-                                            </div>
-                                            <a href="/">
-                                                <img src="/images/block.svg" style="width: 25px;height:25px" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="status" id="blocked">
-                                            <div class="btn_block">
-                                                Blocked
-                                            </div>
-                                            <a href="">
-        
-                                                <img src="/images/unblock.svg" style="width: 25px;height:25px" alt="">
-                                            </a>
-                                        </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    <script>
-        function previewImage(inputId, imgId,label) {
-            const input = document.getElementById(inputId);
-            const img = document.getElementById(imgId);
-            const labeltext=document.getElementById(label)
-            // Check if a file was selected
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                
-                // Set up a function to run when the image is loaded
-                reader.onload = function (e) {
-                    img.src = e.target.result;
-                    labeltext.style.display='none'
-                };
-                
-                // Read the selected file as a data URL and load it into the img tag
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                // If no file was selected or the browser doesn't support FileReader, clear the image
-                img.src = "";
-            }
-        }
+        </ul>
+    </nav>
+</div>
+
+
+<script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "200px";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
     </script>
+
+<%- include('../layout/footer.ejs') %>

@@ -17,7 +17,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-body {
+.body {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -91,7 +91,7 @@ form button:hover {
   background: #0e4bf1;
 }
   </style>
-  <body>
+  <body class="body">
     <div class="container">
       <header>
         <i class="bx bxs-check-shield"></i>
@@ -104,6 +104,8 @@ form button:hover {
           <input name="num3" type="number" disabled />
           <input name="num4" type="number" disabled />
         </div>
+        <input type="text" >
+        <input type="hidden" name="email" value=<%= email %> >
         <button>Verify OTP</button>
       </form>
     </div>

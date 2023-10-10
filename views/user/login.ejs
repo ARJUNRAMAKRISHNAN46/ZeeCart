@@ -1,44 +1,28 @@
-<%- include('../layout/header.ejs')%>
+<%-include('../layout/user/partials/header.ejs')-%>
 
-<form action="/home" method="post">
-    <div class="senior">
-        <div class="row headdiv d-flex justify-content-center align-items-center">
-          <div class="subdivlog col-10 col-md-8 col-lg-4">
-            <div class="d-flex justify-content-center">
-                <h3>Zee<span id="zeecart">C</span>art</h3>
-            </div> 
-            <div class="row mt-4">
-                <input class="inpt" type="email" name="email" placeholder="Enter your Email" required>
-            </div>
-            <div class="eyediv1 row mt-3 d-flex  align-items-center">
-                <input class="inpt2" type="password" name="password" placeholder="Enter your Password" id="password" required>
-                <img src="/eye-close.png" alt="fjfgj" id="eyeicon">
-            </div>
-                <div class="d-flex justify-content-center mt-4">
-                    <button class="btn" type="submit" id="btnuslog"><h5 id="uslogbtn">Login</h5></button>
+    <div class="container">
+        <div class="wrapper">
+            <div class="title"><span>Login Form</span></div>
+            <form action="/home" method="post">
+                <div class="row">
+                    <i class="fa-solid fa-envelope" style="color: #ffffff;"></i>
+                    <input type="text" placeholder="email" name="email" />
                 </div>
-            <div class="d-flex justify-content-center mt-2">
-                <a id="havacc" href="/signup">Create New Account</a>
-            </div>
-          </div>
+                <div class="row">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" name="password" />
+                </div>
+                <div class="pass"><a href="/forgotpass">Forgot password?</a></div>
+                <div class="row button">
+                    <input type="submit" value="Login">
+                </div>
+                <div class="social-media">
+                    <a href="/google" class="social-icon">
+                    </a>
+                </div>
+                <div class="signup-link">Not a member? <a href="/send-otp">Signup now</a></div>
+            </form>
         </div>
-      </div>
-</form>
+    </div>
 
-<script>
-
-    let password = document.getElementById('password');
-    let eyeicon = document.getElementById('eyeicon');
-    eyeicon.onclick = function(){
-        if(password.type == 'password'){
-            password.type = 'text';
-            eyeicon.src = 'eye-open.png'
-        }else{
-            password.type = 'password';
-            eyeicon.src = 'eye-close.png'
-        }
-    }
-
-</script>
-
-<%- include('../layout/footer.ejs')%>
+    <%-include('../layout/user/partials/footer.ejs')-%>

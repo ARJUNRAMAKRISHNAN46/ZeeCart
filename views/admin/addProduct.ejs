@@ -13,7 +13,7 @@
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="">Dashboard</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Products</a></span></div>
+                        href="/products">Products</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/catagory?page=1">Catagory</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
@@ -34,7 +34,7 @@
                         href="">Logout</a></span></div>
         </div>
         <main class="px-md-4 icons " style="margin-left: 18%;width: 80%; margin-top: 6%;">
-            
+
             <div class="row d-flex justify-content-between">
                 <div class="col-md-8">
                     <h1 class="mt-5">Add Product</h1>
@@ -48,41 +48,47 @@
 
                         <div class="form-group">
                             <label for="productDescription">Product Description:</label>
-                            <textarea class="form-control bg-light" name="Description" id="productDescription"
-                                rows="4" placeholder="Enter product description" required></textarea>
+                            <textarea class="form-control bg-light" name="Description" id="productDescription" rows="4"
+                                placeholder="Enter product description" required></textarea>
                         </div>
                         <br>
                         <div class="form-group">
                             <label for="productSpecification">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="" id="productSpecification1"
+                            <textarea class="form-control bg-light" name="Specification1" id="productSpecification1"
                                 placeholder="Enter product Specification" required></textarea>
                             <label for="productSpecification2">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="" id="productSpecification"
+                            <textarea class="form-control bg-light" name="Specification2" id="productSpecification"
                                 placeholder="Enter product Specification" required></textarea>
                             <label for="productSpecification3">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="" id="productSpecification"
+                            <textarea class="form-control bg-light" name="Specification3" id="productSpecification"
                                 placeholder="Enter product Specification" required></textarea>
                             <label for="productSpecification4">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="" id="productSpecification"
+                            <textarea class="form-control bg-light" name="Specification4" id="productSpecification"
                                 placeholder="Enter product Specification" required></textarea>
                         </div>
                         <br>
 
-                        <div class="border p-3 mb-3 bg-light "> <!-- Added bg-light and text-center classes -->
+                        <!-- <div class="border p-3 mb-3 bg-light "> Added bg-light and text-center classes
                             <h3>Media</h3>
-                            <div class="form-group text-center ">
+                            <div class=" text-center ">
                                 <label for="productImage">Drag and drop or click to upload an image:</label>
                                 <br><br><br><br>
-                                <input type="file" name="images" class="form-control-file" id="productImage"
+                                <input type="file" name="main" class="form-control-file" id="productImage"
+                                    accept="image/*" multiple style="display: none;background-color: blue;" required />
+                                <input type="file" name="image1" class="form-control-file" id="productImage"
+                                    accept="image/*" multiple style="display: none;" required />
+                                <input type="file" name="image2" class="form-control-file" id="productImage"
+                                    accept="image/*" multiple style="display: none;" required />
+                                <input type="file" name="image3" class="form-control-file" id="productImage"
                                     accept="image/*" multiple style="display: none;" required />
                             </div>
-                            <!-- uploaded images -->
+                            uploaded images
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="uploaded-image">
                                         <img src="" alt="Uploaded Image 1" id="uploadedImage1" class="img-fluid"
                                             data-index="1">
-                                        <button class="btn btn-danger btn-sm delete-image" style="display: none;"
+                                        <button class="btn btn-danger btn-sm delete-image" 
                                             data-index="1">Delete</button>
                                     </div>
                                 </div>
@@ -90,7 +96,7 @@
                                     <div class="uploaded-image">
                                         <img src="" alt="Uploaded Image 2" id="uploadedImage2" class="img-fluid"
                                             data-index="2">
-                                        <button class="btn btn-danger btn-sm delete-image" style="display: none;"
+                                        <button class="btn btn-danger btn-sm delete-image" 
                                             data-index="2">Delete</button>
                                     </div>
                                 </div>
@@ -98,11 +104,19 @@
                                     <div class="uploaded-image">
                                         <img src="" alt="Uploaded Image 3" id="uploadedImage3" class="img-fluid"
                                             data-index="3">
-                                        <button class="btn btn-danger btn-sm delete-image" style="display: none;"
+                                        <button class="btn btn-danger btn-sm delete-image" 
                                             data-index="3">Delete</button>
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+
+
+                        <div>
+                            <input type="file" name="main" accept="image/*" style="width: 188px; height:188px;">
+                            <input type="file" name="image1" accept="image/*" style="width: 188px; height:188px;">
+                            <input type="file" name="image2" accept="image/*" style="width: 188px; height:188px;">
+                            <input type="file" name="image3" accept="image/*" style="width: 188px; height:188px;">
                         </div>
 
 
@@ -123,7 +137,7 @@
 
 
                         <div class="border p-3 mb-3">
-                            
+
                         </div>
 
 
@@ -148,11 +162,11 @@
                             <label>Category:</label>
                             <select class="form-select bg-light" id="category" name="Category" required>
                                 <option value="" selected disabled>Select a category</option>
-                                <option >BUDGET SMARTPHONES</option>
-                                <option >FLAGSHIP SMARTPHONES</option>
-                                <option >BEST SELLING SMARTPHONES</option>
-                                <option >IOS SMARTPHONES</option>
-                                <option >GAMING SMARTPHONES</option>
+                                <option>BUDGET SMARTPHONES</option>
+                                <option>FLAGSHIP SMARTPHONES</option>
+                                <option>BEST SELLING SMARTPHONES</option>
+                                <option>IOS SMARTPHONES</option>
+                                <option>GAMING SMARTPHONES</option>
                             </select>
                         </div><br>
                         <div class="form-group">
@@ -160,12 +174,12 @@
                             <label>Brand Name:</label>
                             <select name="BrandName" class="form-select bg-light" id="brand" required>
                                 <option value="" selected disabled>Select a Brand</option>
-                                <option >SAMSUNG</option>
-                                <option >APPLE</option>
-                                <option >XIOMI</option>
-                                <option >REALME</option>
-                                <option >VIVO</option>
-                                <option >OPPO</option>
+                                <option>SAMSUNG</option>
+                                <option>APPLE</option>
+                                <option>XIOMI</option>
+                                <option>REALME</option>
+                                <option>VIVO</option>
+                                <option>OPPO</option>
                             </select>
                         </div><br>
                         <div class="form-group">
