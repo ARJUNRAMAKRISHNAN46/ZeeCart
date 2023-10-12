@@ -1,101 +1,75 @@
-<!doctype html>
-<html lang="en">
+<%- include('../layout/header.ejs') -%>
+<%-include('../layout/user/header.ejs')-%>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ecommerce Navbar Design</title>
+    <section>
+        <div class="main-navbar shadow-sm sticky-top" style="width: 100vw;">
+            <ul style="list-style: none;">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        </i><strong>Filter</strong>
+                    </a>
+                    <ul class="dropdown-menu" style="line-height: 10px;" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/profile"><h6><strong>RAM</strong></h6></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>6 GB <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>8 GB <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/profile"><h6><strong>ROM</strong></h6></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>128 GB <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>256 GB <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/profile"><h6><strong>BRAND</strong></h6></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>SAMSUNG <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>APPLE <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>REALME <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>XIOMI <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>OPPO <input type="checkbox" checked="checked"></p></a></li>
+                        <li><a class="dropdown-item" href="/orders"><p>VIVO <input type="checkbox" checked="checked"></p></a></li>
 
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/userstyle.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-    <div class="main-navbar shadow-sm sticky-top">
-        <div class="top-navbar">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
-                        <h5 class="brand-name">Zee<span href="" id="zeecart">C</span>art</h5>
-                    </div>
-                    <div class="col-md-5 my-auto">
-                        <form role="search">
-                            <div class="input-group">
-                                <input type="search" placeholder="Search your product" class="form-control" />
-                                <button class="btn bg-white" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-5 my-auto">
-                        <ul class="nav justify-content-end">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fa fa-shopping-cart"></i> Cart (0)
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fa fa-heart"></i> Wishlist (0)
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-user"></i> Username
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-list"></i> My Orders</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-heart"></i> My Wishlist</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i> My
-                                            Cart</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <%imgs.forEach((x)=> { %>
+        <div class="orders-container">
+            <div class="order-item d-flex">
+                <div style="width: 100px;height: 100px;margin-right: 10px;"><img class="card-img-top"
+                        style="height: 90px;width: 90px;" src="/product-images/<%=x.images[0] %>" alt="Card image cap">
+                </div>
+                <div class="d-flex justify-content-center align-items-center"
+                    style="width: 200px;height: 100px;margin-right: 10px;">
+                    <p>
+                        <%=x.BrandName%><br>
+                            <%=x.ProductName%>
+                    </p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center"
+                    style="width: 120px;height: 100px;margin-right: 10px;">
+                    <p>₹<%=x.Price%>/-</p>
+                </div>
+                <div class="" style="width: 600px;height: 100px; line-height: 10px">
+                    <p>
+                        <%=x.Specification1%>
+                    </p>
+                    <p>
+                        <%=x.Specification2%>
+                    </p>
+                    <p>
+                        <%=x.Specification3%>
+                    </p>
+                    <p>
+                        <%=x.Specification4%>
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
+        <%}) %>
 
-    <!-- _________________________________________________________________________________________________________________________________________ -->
 
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/22a2280219e3a53b.jpg?q=20"
-                    class="d-block w-100" alt="...">
+
             </div>
-            <div class="carousel-item">
-                <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/ed12b7707a04473c.jpg?q=20"
-                    class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/9f1b48d30a8035e8.jpg?q=20"
-                    class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
+            <script>
+                let box = document.getElementById('productListHead');
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+            </script>
+<%- include('../layout/user/footer.ejs') -%>

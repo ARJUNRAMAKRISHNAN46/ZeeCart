@@ -139,3 +139,9 @@ form .signup-link a:hover {
     color: red;
     font-weight: 500;
 }
+
+.loginDiv {
+  font-size: small;
+  font-weight: 500;
+  color: red;
+}

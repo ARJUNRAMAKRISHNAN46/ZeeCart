@@ -23,7 +23,11 @@ const {
   forgotPassword,
   verifyEmail,
   comapareOtp,
-  setPassword
+  setPassword,
+  throwErrOne,
+  throwErrTwo,
+  throwErrThree,
+  productList
 } = require("../controllers/controller");
 
 router.get("/", host);
@@ -31,8 +35,9 @@ router.route("/home").get(getLogin).post(Logged);
 router.route("/send-otp").get(getOpt).post(sendOTPController);
 router.get("/wishlist", wishList);
 router.get("/profile", Profile);
-router.get("/orders", Orders);
+router.get("/productorders", Orders);
 router.get("/cart", Cart);
+router.get('/shop',productList)
 router.post("/signed", signUp);
 router.get("/productspecs/:id", productSpec);
 router.get("/logout", logOut);
@@ -40,6 +45,11 @@ router.get("/forgotpass", forgotPassword);
 router.post("/verifyemail", verifyEmail);
 router.post("/verifyotp", comapareOtp);
 router.post('/setpassword',setPassword);
+router.get('/access-denied',throwErrOne);
+router.get('/invalid-user',throwErrTwo);
+router.get('/invalid-otp',throwErrThree);
+router.get('/homepage',getLogin)
+
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })

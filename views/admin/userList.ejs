@@ -11,7 +11,7 @@
             </div>
 
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Dashboard</a></span></div>
+                        href="/dashboard?page=1">Dashboard</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/products?page=1">Products</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
@@ -19,23 +19,23 @@
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/brands?page=1">Brand</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Payments</a></span></div>
+                        href="/payments?page=1">Payments</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Admins</a></span></div>
+                        href="/admin?page=1">Admins</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/customers?page=1">Customers</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Orders</a></span></div>
+                        href="orders?page=1">Orders</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Coupen</a></span></div>
+                        href="coupon?page=1">Coupen</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="">Banner</a></span></div>
+                        href="banner?page=1">Banner</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href=""></a></span></div>
 
 
         </div>
-        <div class="row d-flex">
+        <div class="row d-flex" style="width: 100vw;">
 
             <div class="col-2 col-lg-1 usertable">No</div>
             <div class="col-2 col-lg-2 usertable">Name</div>
@@ -45,55 +45,57 @@
             <div class="col-2 col-lg-2 usertable">Action</div>
 
         </div>
-        <%userData.forEach((x)=>{ %>
-            <div class="row d-flex">
+        <div style="height: 11  0vh;">
+            <%userData.forEach((x)=>{ %>
+                <div class="row d-flex" style="width: 100vw;">
 
-                <div class="col-2 col-lg-1 userlist">
-                    <%=++i%>
+                    <div class="col-2 col-lg-1 userlist d-flex justify-content-center">
+                        <%=++i%>
+                    </div>
+                    <div class="col-10 col-lg-2 userlist">
+                        <%=x.name%>
+                    </div>
+                    <div class="col-10 col-lg-3 userlist">
+                        <%=x.email%>
+                    </div>
+                    <div class="col-2 col-lg-2 userlist">Orders</div>
+                    <div class="col-6 col-lg-2 userlist" id="Blockstatus">
+                        <p>
+                            <%=x.statuz%>
+                        </p>
+                        </a>
+                    </div>
+                    <div class="col-6 col-lg-2 userlist" id="Blockuser"><a id="<%=x.statuz%>" class="blockbtn"
+                            href="/block/<%-x._id%>">
+                            <%=x.statuz%>
+                        </a></div>
+
                 </div>
-                <div class="col-10 col-lg-2 userlist">
-                    <%=x.name%>
-                </div>
-                <div class="col-10 col-lg-3 userlist">
-                    <%=x.email%>
-                </div>
-                <div class="col-2 col-lg-2 userlist">Orders</div>
-                <div class="col-6 col-lg-2 userlist" id="Blockstatus">
-                    <p>
-                        <%=x.statuz%>
-                    </p>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-2 userlist" id="Blockuser"><a id="<%=x.statuz%>" class="blockbtn"
-                        href="/block/<%-x._id%>">
-                        <%=x.statuz%>
-                    </a></div>
+                <%}) %>
+        </div>
+        <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;top: 650px;">
+            <nav aria-label="page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=3">3</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=4">4</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=5">5</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=6">6</a></li>
 
-            </div>
-            <%}) %>
-                <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;top: 600px;">
-                    <nav aria-label="page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>
-                            <li class="page-item"><a class="page-link" href="/customers?page=2">2</a></li>
-                            <li class="page-item"><a class="page-link" href="/customers?page=3">3</a></li>
-                            <li class="page-item"><a class="page-link" href="/customers?page=4">4</a></li>
-                            <li class="page-item"><a class="page-link" href="/customers?page=5">5</a></li>
-                            <li class="page-item"><a class="page-link" href="/customers?page=6">6</a></li>
-
-                        </ul>
-                    </nav>
-                </div>
+                </ul>
+            </nav>
+        </div>
 
 
-                <script>
-                    function openNav() {
-                        document.getElementById("mySidenav").style.width = "200px";
-                    }
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+            }
 
-                    function closeNav() {
-                        document.getElementById("mySidenav").style.width = "0";
-                    }
-                </script>
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
 
-                <%- include('../layout/footer.ejs') %>
+        <%- include('../layout/footer.ejs') %>

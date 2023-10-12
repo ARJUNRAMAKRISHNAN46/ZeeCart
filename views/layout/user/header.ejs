@@ -11,6 +11,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/userstyle.css">
     <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body style="overflow-x: hidden;">
@@ -34,7 +37,16 @@
                     </div>
                     <div class="col-md-5 my-auto">
                         <ul class="nav justify-content-end">
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="/homepage">
+                                    <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i> Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/shop">
+                                    <i class="fa fa-shopping-cart"></i> Shop
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/cart">
                                     <i class="fa fa-shopping-cart"></i> Cart
@@ -46,9 +58,19 @@
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="/profile" id="navbarDropdown">
-                                    <i class="fa fa-user"></i> UserName
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                    user
                                 </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/profile"><i class="fa fa-user"></i> Profile</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/productorders"><i class="fa fa-list"></i> My Orders</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out"></i>
+                                            Logout</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </div>

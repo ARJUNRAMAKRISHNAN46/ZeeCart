@@ -118,14 +118,14 @@
     padding: 3px;
 }
 .wishbutt0 {
-    width: 230px;
+    width: 100%;
     height: 40px; 
     margin-top: 40px;
     border: 1px solid rgb(147, 147, 147);
     background-color: #ffff;
 }
 .wishbutt {
-    width: 230px; 
+    width: 100%; 
     height: 40px; 
     margin-top: 5px; 
     border: 1px solid rgb(147, 147, 147); 
@@ -153,3 +153,21 @@ table tbody th {
 ul {
     list-style-type: none;
 }
+
+/* product */
+.row .para {
+    font-weight: 500;
+    font-size: small;
+    line-height: 15px;
+}
+
+.row .paraCap {
+    font-weight: 700;
+    font-size: large;
+}
+
+.row .paraCapz {
+    font-weight: 700;
+    font-size:medium;
+}
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+</style>
+
+<body>
+    
+    <form action="/resetpass" method="post">
+        <div class="main">
+            <div class="sub">
+                <h3 class="heading">New Password</h3>
+                <P>Enter New Password</P>
+                <div style="background-color: brown;height: 50px; margin-bottom: 20px;padding: 10px;">
+                    <input class="input_reset" type="text" name="password" id="password">
+                    <input class="checkbtn" type="button" >
+                </div>
+                <input type="hidden" name="email" value="<%=email%>">
+                <button class="btn">Submit</button>
+            </div>
+        </div>
+</body>
+
+</html>

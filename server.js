@@ -13,6 +13,11 @@ const { sendOTP } = require("./util/otp");
 
 const app = express();
 
+app.use((req,res,next)=>{
+  res.set("Cache-Control","no-store")
+  next();
+});
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
@@ -28,8 +33,6 @@ app.use(
 );
 
 app.use(express.static("public"));
-
-
 
 app.use("/", router);
 app.use("/", routers);

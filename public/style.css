@@ -3,7 +3,6 @@
   padding: 0;
 }
 .continer {
-  /* background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'); */
   background-color: #2d40eb;
   background-repeat: no-repeat;
   background-size: cover;
@@ -176,7 +175,6 @@
 }
 
 .headdiv {
-  /* background-image: url('https://images.unsplash.com/photo-1635776062043-223faf322554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdyYWRpZW50JTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'); */
   height: 102.5vh;
   background-repeat: no-repeat;
   background-size: cover;
@@ -287,9 +285,23 @@
   color: red;
 }
 
+.input_12 {
+  width: 250px;
+  font-weight: 700;
+  font-size: large;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+}
+
 .input_1 {
-  width: 260px;
-  height: 25px;
+  width: 100px;
+  font-weight: 700;
+  font-size: large;
+  padding-left: 10px;
+  height: 30px;
   border-radius: 8px;
   border: 1px solid lightgray;
 }
@@ -306,7 +318,6 @@
   height: 30px;
 }
 
-
 .sub .btn {
   border-radius: 5px;
   padding: 3px 8px;
@@ -319,12 +330,140 @@
   color: #fff;
 }
 
-.checkbtn { 
+.checkbtn {
   width: 30px;
   height: 30px;
 }
 
+#rowz {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+.row .colso {
+  width: 500px;
+  height: 50vh;
+  background-color: blue;
+  border-radius: 10px;
+}
+
+form .headinDiv1 {
+  margin-top: 8vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+form .headinDiv2 {
+  margin-top: 1vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+form .headinDiv3 {
+  margin-top: 1vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+form .headinDiv3 .inputOne {
+  width: 300px;
+  height: 30px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+form .headinDiv3 .checkBtn {
+  margin-top: 1vh;
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.msg {
+  font-size: small;
+  font-weight: 500;
+  color: red;
+  background-color: rgb(255, 245, 212);
+}
+
+.msg_span {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Reset some default browser styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Container for order history */
+.orders-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  background-color: #fff0f0;
+}
+
+/* Order item styling */
+.order-item {
+  border: 1px solid #ffdfdf;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 10px;
+  }
+
+  .order-item {
+    padding: 5px;
+  }
+}
+
+.productList {
+  width: 199px;
+  height: 35px;
+  background-color: #d6d6d6;
+  display: flex;
+  align-items: start;
+  padding-left: 10px;
+  border: 1px solid rgb(181, 181, 181);
+}
+
+.productList1 {
+  width: 199px;
+  height: 35px;
+  display: flex;
+  align-items: start;
+  padding-left: 10px;
+}
+
+.productListHead {
+  width: 200px;
+  height: 500px;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid rgb(181, 181, 181);
+}
+
+.orderHead {
+  font-weight: 600;
+  padding: 10px;
+}
 
 /* <-----------------------------------------admin side work--------------------------------------------> */
 

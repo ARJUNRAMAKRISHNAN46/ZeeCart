@@ -1,68 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Order History</title>
+    <style>
+        /* Reset some default browser styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Container for order history */
+        .orders-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        /* Order item styling */
+        .order-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .orders-container {
+                padding: 10px;
+            }
+
+            .order-item {
+                padding: 5px;
+            }
+        }
+    </style>
 </head>
-<style>
-    .main {
-        width: 100vw;
-        height: 100vh;
-        background-color: blue;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .sub {
-        width: 80vw;
-        height: 60vh;
-        background-color: #a4f1ff;
-    }
-
-    .heading {
-        margin-top: 18vh;
-        color: red;
-    }
-
-    .input_1 {
-        width: 260px;
-        height: 25px;
-        border-radius: 8px;
-        border: 1px solid lightgray;
-    }
-
-    #input_1 {
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-    .btn {
-        border-radius: 5px;
-        padding: 3px 8px;
-        background-color: blue;
-        color: #fff;
-        text-decoration: none;
-    }
-</style>
-
 <body>
-    <form action="/forgotpass" method="post">
-        <div class="main">
-            <div class="sub">
-                <h3 class="heading">New Password</h3>
-                <P>Enter New Password</P>
-                <input class="input_1" id="input_1" type="password" name="password" id="password"><br>
-                <button class="btn">Verify OTP</button>
-            </div>
-        </div>
-    </form>
-    <script>
+    <header>
+        <h1>My Orders</h1>
+    </header>
 
+    <div class="orders-container">
+        <div class="order-item d-flex" style="border: 1px solid black;">
+            <div style="width: 190px;border: 1px solid black;height: 100px;margin-right: 10px;">dfghjkl</div>            
+            <div style="width: 190px;border: 1px solid black;height: 100px;margin-right: 10px;">dfghjkl</div>            
+            <div style="width: 190px;border: 1px solid black;height: 100px;margin-right: 10px;">dfghjkl</div>            
+            <div style="width: 150px;border: 1px solid black;height: 100px;">dfghjkl</div>            
+        </div>
+
+        <!-- <div class="order-item">
+            <h2>Order #67890</h2>
+            <p>Date: February 10, 2023</p>
+            <p>Total: $75.00</p> -->
+            <!-- Add more order details as needed -->
+        <!-- </div> -->
+
+        <!-- Repeat the order-item section for each order -->
+
+    </div>
+
+    <script>
+        // You can add JavaScript functionality here if needed
     </script>
 </body>
-
 </html>

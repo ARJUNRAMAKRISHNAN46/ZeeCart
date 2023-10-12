@@ -1,46 +1,5 @@
 <%- include('../layout/header.ejs') -%>
-
-<div class="main-navbar shadow-sm sticky-top" style="background-color: #fff;">
-    <div class="top-navbar">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
-                    <h5 class="brand-name">Zee<span href="" id="zeecart">C</span>art</h5>
-                </div>
-                <div class="col-md-5 my-auto">
-                    <form role="search">
-                        <div class="input-group">
-                            <input type="search" placeholder="Search your product" class="form-control" />
-                            <button class="btn bg-white" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-5 my-auto">
-                    <ul class="nav justify-content-end">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cart">
-                                <i class="fa fa-shopping-cart"></i> Cart
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/wishlist">
-                                <i class="fa fa-heart"></i> Wishlist
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="/profile" id="navbarDropdown">
-                                <i class="fa fa-user"></i> <%=data.name%>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<%-include('../layout/user/header.ejs')-%>
 
     <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
 
@@ -77,10 +36,10 @@
                 <%imgs.forEach((x)=>{ %>
 
                     <div class="card col-6 col-md-3">
-                        <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
+                        <img class="card-img-top" style="height: 320px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title"><%=x.ProductName%></h5>
-                          <p class="card-text"><%=x.Specification1%></p>
+                          <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
                           <a href="/productspecs/<%-x._id%>" class="btn btn-primary">view Details</a>
                         </div>
                       </div>
@@ -125,11 +84,11 @@
                 <%imgs.forEach((x)=>{ %>
 
                     <div class="card col-6 col-md-3">
-                        <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
+                        <img class="card-img-top" style="height: 320px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title"><%=x.ProductName%></h5>
-                          <p class="card-text"></p>
-                          <a href="/productspecs/<%-x._id%>" class="btn btn-primary">View Details</a>
+                          <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
+                          <a href="/productspecs/<%-x._id%>" class="btn btn-primary">view Details</a>
                         </div>
                       </div>
 

@@ -1,68 +1,101 @@
 <%- include('../layout/header.ejs') %>
 
-<body>
-<span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
-<div id="mySidenav" class="sidenav">
-    <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
-    <!-- &times; -->
-    <div class="zeediv d-flex align-items-center justify-content-center"><h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3></div>
+    <body>
+        <span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
+        <div id="mySidenav" class="sidenav">
+            <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn"
+                    onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
+            <!-- &times; -->
+            <div class="zeediv d-flex align-items-center justify-content-center">
+                <h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3>
+            </div>
 
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Dashboard</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/products?page=1">Products</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/catagory?page=1">Catagory</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/brands?page=1">Brand</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Payments</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Admins</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="/customers?page=1">Customers</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Orders</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Coupen</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href="">Banner</a></span></div>
-    <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"  href=""></a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/dashboard?page=1">Dashboard</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/products?page=1">Products</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/catagory?page=1">Catagory</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/brands?page=1">Brand</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/payments?page=1">Payments</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="admin?page=1">Admins</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="/customers?page=1">Customers</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="orders?page=1">Orders</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="coupon?page=1">Coupen</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href="banner?page=1">Banner</a></span></div>
+            <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                        href=""></a></span></div>
 
-  
-</div>
-<div class="d-flex">
-    
-        <table class="table table-borderedmy-0 mx-auto container" style="margin-top: 10px;">
-            <thead>
-                <tr>
-                    <th class="thed" scope="col">No.</th>
-                    <th class="thed" scope="col">Name</th>
-                    <th class="thed" scope="col">Email</th>
-                    <th class="thed" scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%brandz.forEach((x)=>{ %>
-                    <tr>
-                        <td><%=++i%></td>
-                        <td><%=x.brandName%></td>
-                        <td>Edit</td>
-                        <td>Remove</td>
-                    </tr>
+
+        </div>
+        <div class="col-12 d-flex justify-content-end" style="height: 80px;">
+            <div class="col-md-3 col-6 d-flex justify-content-center align-items-center" style="height: 80px;">
+                <form action="/addbrand">
+                    <button style="border-radius: 5px;width: 100px;height: 40px;color: white; background-color: rgb(57, 57, 255);">Add Brand</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row d-flex align-items-center justify-content-center" style="width: 100vw;">
+
+            <div class="col-2 col-md-3 col-lg-1 usertable">No</div>
+            <div class="col-6 col-md-3 col-lg-2 usertable">Brand Name</div>
+            <div class="col-2 col-md-3 col-lg-1 usertable">Edit</div>
+            <div class="col-2 col-md-3 col-lg-1 usertable">Delete</div>
+           
+        </div>
+        <div style="height: 11  0vh;">
+            <%brandz.forEach((x)=>{ %>
+                <div class="row d-flex align-items-center justify-content-center" style="width: 100vw;">
+
+                    <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center">
+                        <%=++i%>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2 userlist d-flex justify-content-center">
+                        <%=x.brandName%>
+                    </div>
+                    <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center align-items-center">
+                        <a style="padding: 2px 18px; background-color: green;border-radius: 5px;color: white;" href="/editbrand/<%-x._id%>">Edit</a>
+                    </div>
+                    
+                    <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center align-items-center">
+                        <a style="padding: 2px 12px; background-color: red;border-radius: 5px;color: white;" href="/deletebrand/<%-x._id%>">Delete</a>
+                    </div>
+                    
+
+                </div>
                 <%}) %>
-            </tbody>
-        </table>
-</div>
-<div class="col-lg-12" style="position: absolute;left: 1200px; bottom: 50px; width: 300px;">
-    <nav aria-label="page navigation example">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="/brands?page=1">1</a></li>
-            <li class="page-item"><a class="page-link" href="/brands?page=2">2</a></li>
-            <li class="page-item"><a class="page-link" href="/brands?page=3">3</a></li>
-        </ul>
-    </nav>
-</div>
+        </div>
+        <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;top: 650px;">
+            <nav aria-label="page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=3">3</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=4">4</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=5">5</a></li>
+                    <li class="page-item"><a class="page-link" href="/customers?page=6">6</a></li>
+
+                </ul>
+            </nav>
+        </div>
 
 
-<script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "200px";
-    }
-    
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
-    </script>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+            }
 
-<%- include('../layout/footer.ejs') %>
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
+
+        <%- include('../layout/footer.ejs') %>

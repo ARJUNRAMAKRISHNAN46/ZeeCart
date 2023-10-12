@@ -1,119 +1,40 @@
-<!doctype html>
-<html lang="en">
+<%- include('../layout/header.ejs') -%>
+<%-include('../layout/user/header.ejs')-%>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ecommerce Navbar Design</title>
+    <header class="orderHead">
+        <h5>User > My Orders</h5>
+    </header>
 
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/userstyle.css">
-</head>
-
-<body>
-
-    <div class="main-navbar shadow-sm sticky-top">
-        <div class="top-navbar">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
-                        <h5 class="brand-name">Zee<span href="" id="zeecart">C</span>art</h5>
-                    </div>
-                    <div class="col-md-5 my-auto">
-                        <form role="search">
-                            <div class="input-group">
-                                <input type="search" placeholder="Search your product" class="form-control" />
-                                <button class="btn bg-white" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-5 my-auto">
-                        <ul class="nav justify-content-end">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="/cart">
-                                    <i class="fa fa-shopping-cart"></i> Cart
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/wishlist">
-                                    <i class="fa fa-heart"></i> Wishlist
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="/profile" id="navbarDropdown">
-                                    <i class="fa fa-user"></i> Username
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+    <%imgs.forEach((x)=> { %>
+        <div class="orders-container">
+            <div class="order-item d-flex">
+                <div style="width: 100px;height: 100px;margin-right: 10px;"><img class="card-img-top"
+                        style="height: 90px;width: 90px;" src="/product-images/<%=x.images[0] %>" alt="Card image cap">
+                </div>
+                <div class="d-flex justify-content-center align-items-center"
+                    style="width: 180px;height: 100px;margin-right: 10px;">
+                    <p>
+                        <%=x.BrandName%><br>
+                            <%=x.ProductName%>
+                    </p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center"
+                    style="width: 100px;height: 100px;margin-right: 10px;">
+                    <p>₹<%=x.Price%>/-</p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center"
+                    style="width: 170px;height: 100px;margin-right: 10px;">
+                    <a href="" style="text-decoration: none;padding:3px 8px; border-radius: 50%;"><i
+                            class="fa-solid fa-plus" style="color: black;"></i></a>
+                    <div style="width: 80px;height: 30px;text-align: center;border: 2px solid black;">1</div><a
+                        style="text-decoration: none;padding:3px 8px; border-radius: 50%;" href=""><i
+                            class="fa-solid fa-minus" style="color: black;"></i></a>
+                </div>
+                <div class="d-flex justify-content-center align-items-center" style="width: 150px;height: 100px;">
+                    <p></p>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- _________________________________________________________________________________________________________________________________________ -->
-
-    <div class="row wishmain">
-        <div class="wishtwo">
-            <div class="wishthree"></div>
-            <div class="wishfour">
-                <form action="/profile">
-                    <button class="wishbutt0">Profile</button>
-                </form>
-                <form action="/orders">
-                    <button class="wishbutt" style="background-color:#E0E9FF;">My Orders</button>
-                </form>
-                <form action="wishlist">
-                    <button class="wishbutt">My Wishlist</button>
-                </form>
-                <form action="/cart">
-                    <button class="wishbutt">My Cart</button>
-                </form>
-                <form action="/logout">
-                    <button class="wishbutt" id="logbutt">Log Out</button>
-                </form>
+        <%}) %>
             </div>
-        </div>
-        <div class="d-flex justify-content-center align-items-center" style="width: 1299px; height: 100vh;">
-            <div style="width: 1199px; height: 90vh;border: 1px solid black;">
-                <table  class="table table-borderedmy-0 mx-auto container" style="border: 1px solid black;">
-                    <thead>
-                        <tr>
-                            <th class="table-primary" scope="col">ORDER ID</th>
-                            <th class="table-primary" scope="col">PRODUCT</th>
-                            <th class="table-primary" scope="col">PRICE</th>
-                            <th class="table-primary" scope="col">UPDATE</th>
-                            <th class="table-primary" scope="col">PAYMENT METHOD</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                        </tr>
-                        <tr>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                            <td>kfhewsiuof</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+            <%- include('../layout/user/footer.ejs') -%>
