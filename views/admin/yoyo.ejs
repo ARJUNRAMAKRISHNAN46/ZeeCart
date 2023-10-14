@@ -1,0 +1,123 @@
+<%- include('../layout/header.ejs') %>
+
+    <div class="row">
+        <form action="">
+            <div class="d-flex justify-content-center align-items-center" style="">
+                <div class="col-12 col-md-6 p-3"
+                    style="border: 1px solid black;background-color: blueviolet; margin-top: 50px;border-radius: 10px;">
+                    <h1>Add Product</h1>
+                    <div>
+                        <label for="productName">Product Name : </label>
+                        <input type="text" name="ProductName" class="form-control bg-light" id="productName"
+                            placeholder="Enter product name" required />
+                    </div>
+                    <div>
+                        <label for="productDescription">Product Description:</label>
+                        <textarea class="form-control bg-light" name="Description" id="productDescription" rows="4"
+                            placeholder="Enter product description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="productSpecification">Product Specification:</label>
+                        <textarea class="form-control bg-light" name="Specification1" id="productSpecification1"
+                            placeholder="Enter product Specification" required></textarea>
+                        <label for="productSpecification2">Product Specification:</label>
+                        <textarea class="form-control bg-light" name="Specification2" id="productSpecification"
+                            placeholder="Enter product Specification" required></textarea>
+                        <label for="productSpecification3">Product Specification:</label>
+                        <textarea class="form-control bg-light" name="Specification3" id="productSpecification"
+                            placeholder="Enter product Specification" required></textarea>
+                        <label for="productSpecification4">Product Specification:</label>
+                        <textarea class="form-control bg-light" name="Specification4" id="productSpecification"
+                            placeholder="Enter product Specification" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-8" style="margin-top: 50px;background-color: rgb(233, 210, 255);">
+                    <p style="background-color: rgb(219, 219, 255);">Upload Images</p>
+                    <div class="row" style="">
+                        <div class="col-8 col-md-3" style="">
+                            <input type="file" name="main" id="imageInput1" accept="image/*">
+                        </div>
+                        <div class="col-8 col-md-3" style="">
+                            <input type="file" name="image1" id="imageInput2" accept="image/*">
+                        </div>
+                        <div class="col-12 col-md-3" style="">
+                            <input type="file" name="image2" id="imageInput3" accept="image/*">
+                        </div>
+                        <div class="col-12 col-md-3" style="">
+                            <input type="file" name="image3" id="imageInput4" accept="image/*">
+                        </div>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 200px;height: 200px;">
+                            <img id="imagePreview1" src="" alt="Image Preview 1"
+                                style="max-width: 200px; max-height: 200px;">
+                        </div>
+                        <div style="width: 200px;height: 200px;">
+                            <img id="imagePreview2" src="" alt="Image Preview 2"
+                                style="max-width: 200px; max-height: 200px;">
+                        </div>
+                        <div style="width: 200px;height: 200px;">
+                            <img id="imagePreview3" src="" alt="Image Preview 3"
+                                style="max-width: 200px; max-height: 200px;">
+                        </div>
+                        <div style="width: 200px;height: 200px;">
+                            <img id="imagePreview4" src="" alt="Image Preview 4"
+                                style="max-width: 200px; max-height: 200px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="col-12 col-md-4" style="border: 1px solid black ;border-radius: 10px;background-color: blueviolet;">
+            <input type="hidden" name="status" value="Active">
+            <h2>Pricing</h2>
+            <div>
+                <label for="basePrice">Base Price:</label><br>
+                <input type="number" name="Price" class="" id="basePrice" placeholder="Enter base price" required />
+            </div>
+            <br>
+            <div>
+                <label for="quantity">Quantity:</label><br>
+                <input type="number" name="AvailableQuantity" class="" id="quantity" placeholder="Enter quantity"
+                    required />
+            </div>
+            <br>
+            <div>
+                <label>Category:</label><br>
+                <select class="" id="category" name="Category" required>
+                    <option value="" selected disabled>Select a category</option>
+                    <option>BUDGET SMARTPHONES</option>
+                    <option>FLAGSHIP SMARTPHONES</option>
+                    <option>BEST SELLING SMARTPHONES</option>
+                    <option>IOS SMARTPHONES</option>
+                    <option>GAMING SMARTPHONES</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label>Brand Name:</label><br>
+                <select name="BrandName" class="" id="brand" required>
+                    <option value="" selected disabled>Select a Brand</option>
+                    <option>SAMSUNG</option>
+                    <option>APPLE</option>
+                    <option>XIOMI</option>
+                    <option>REALME</option>
+                    <option>VIVO</option>
+                    <option>OPPO</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6" style="border: 1px solid black;">
+
+    </div>
+    <div>
+
+    </div>
+    </form>
+    </div>
+
+    <%- include('../layout/footer.ejs') %>

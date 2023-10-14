@@ -33,12 +33,12 @@
                 <div class="col-md-12">
                     <h4 class="mb-4"><strong>BEST SELLING MOBILES</strong></h4>
                 </div>
-                <%imgs.forEach((x)=>{ %>
+                <%arr.forEach((x)=>{ %>
 
-                    <div class="card col-6 col-md-3">
-                        <img class="card-img-top" style="height: 320px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
+                    <div class="card col-6 col-md-2">
+                        <img class="card-img-top" style="height: 220px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
                         <div class="card-body">
-                          <h5 class="card-title"><%=x.ProductName%></h5>
+                          <h6 class="card-title"><%=x.ProductName%></h6>
                           <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
                           <a href="/productspecs/<%-x._id%>" class="btn btn-primary">view Details</a>
                         </div>
@@ -81,7 +81,7 @@
                 <div class="col-md-12">
                     <h4 class="mb-4"><strong>FLAGSHIP MOBILES</strong></h4>
                 </div>
-                <%imgs.forEach((x)=>{ %>
+                <%arr.forEach((x)=>{ %>
 
                     <div class="card col-6 col-md-3">
                         <img class="card-img-top" style="height: 320px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">

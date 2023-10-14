@@ -25,12 +25,15 @@ const {
   getCategory,
   uploadCatagory,
   editCatagory,
-  deleteCatagory
+  deleteCatagory,
+  product_Blocking,
+  editProduct,
+  Edit_Product,
+  adminLogOut
 } = require("../controllers/admin-controller");
 const UserSchema = require("../models/model");
 const multer = require("multer");
 const upload = require("../middleware/multer");
-
 //<--------------Catagory---------------->
 routers.get("/catagory",admin_catagory);
 routers.get('/getcatagory',getCategory);
@@ -47,12 +50,12 @@ routers.get('/editbrand/:id',editBrand);
 routers.post('/uploadbrand',uploadBrand);
 //<---------------Product----------------->
 routers.get("/products",admin_product);
-routers.get('/addproduct',getAddProduct);
-
+routers.get('/getproduct',getAddProduct);
+routers.get('/blockproduct/:id',product_Blocking);
+routers.get('/editProduct/:id',editProduct);
 //<-----------------Users------------------>
 routers.get("/customers",admin_Users);
 routers.get('/block/:id',user_Blocking);
-
 routers.get('/adminpanel',adHost);
 routers.post('/adminlogin',admin_Login);
 routers.get("/dashboard",admin_dash);
@@ -61,6 +64,8 @@ routers.get('/orders',admin_orders);
 routers.get('/payments',admin_payments);
 routers.get('/admin',admin_admin);
 routers.get('/coupon',admin_coupon);
+routers.get('/log-out',adminLogOut);
+
 // <-------------Image upload-------------->
 const uploadFields = [
     { name: "main", maxCount: 1 },
@@ -69,5 +74,6 @@ const uploadFields = [
     { name: "image3", maxCount: 1 },
   ];
 routers.post("/addproduct", upload.fields(uploadFields),AddProduct);
+routers.post('/editedproduct/:id', upload.fields(uploadFields),Edit_Product);
 
 module.exports = routers;

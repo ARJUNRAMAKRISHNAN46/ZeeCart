@@ -104,12 +104,12 @@
   form button:hover {
     background: #0e4bf1;
   }
-  .loginDiv {
-  font-size: small;
-  font-weight: 500;
-  color: red;
-}
 
+  .loginDiv {
+    font-size: small;
+    font-weight: 500;
+    color: red;
+  }
 </style>
 
 <body class="body">
@@ -130,11 +130,45 @@
         <input name="num3" type="number" disabled />
         <input name="num4" type="number" disabled />
       </div>
-      <input type="hidden" name="email" value=<%=email %> >
+      <input type="hidden" name="email" value="<%=email %>">
+      <div class="d-flex "> <p class="text-danger">OTP will be expired in : <p id="timer">02:00</p></p></div>
+      <div id="resendOtp" style="display: none;">
+        <a style="text-decoration: none;" href="/resendOtp">Resend OTP</a>
+      </div>
       <button>Verify OTP</button>
+      <input type="hidden" name="name" value="<%=password %>">
+      <input type="hidden" name="statuz" value="<%=statuz %>">
+      <input type="hidden" name="password" value="<%=password %>">
     </form>
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+
+let duration = 30; // Duration in seconds
+    const timerDisplay = $("#timer");
+    const resendOtp = $("#resendOtp");
+
+    function updateTimer() {
+      const minutes = Math.floor(duration / 60);
+      let seconds = duration % 60;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      timerDisplay.text(`${minutes}:${seconds}`);
+
+      if (duration === 0) {
+        clearInterval(countdown);
+        timerDisplay.text("00:00");
+        resendOtp.css("display", "block");
+      } else {
+        duration--;
+      }
+    }
+
+    // Initial call to display the full minute
+    updateTimer();
+
+    // Set up the countdown
+    const countdown = setInterval(updateTimer, 1000);
     const inputs = document.querySelectorAll("input"),
       button = document.querySelector("button");
 
@@ -171,6 +205,9 @@
     });
 
     window.addEventListener("load", () => inputs[0].focus());
+
+
+   
   </script>
 </body>
 

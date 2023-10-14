@@ -14,10 +14,18 @@ async function host(req, res) {
   const email = req.session.email;
   const data = await User.Users.findOne({ email });
   const imgs = await User.productuploads.find();
+  const arr = [];
+  imgs.forEach((x) => {
+    if (x.status == "Active") {
+      arr.push(x);
+    }
+  });
+  console.log(arr);
+
   if (req.session.email) {
-    res.render("user/home", { data, imgs });
+    res.render("user/home", { data, arr });
   } else {
-    res.render("user/login", { title: "user login page", err: '' });
+    res.render("user/login", { title: "user login page", err: "" });
   }
 }
 
@@ -28,7 +36,7 @@ async function getLogin(req, res) {
   const data = await User.Users.findOne({ email });
   const imgs = await User.productuploads.find();
   if (req.session.email) {
-    res.redirect('/');
+    res.redirect("/");
   } else {
     res.render("user/login", { err: "" });
   }
@@ -44,21 +52,21 @@ async function Logged(req, res) {
     //fetching product images from database
     const imgs = await User.productuploads.find();
     if (req.session.emai) {
-      res.redirect('/');
+      res.redirect("/");
     } else {
       //comparing passwords
-      const pass = await bcrypt.compare(password, data.password);
+      // const pass = await bcrypt.compare(password, data.password);
       //compare entered password,email and password,email in db
       if (data.email == email && data.password == password) {
         if (data.statuz == "Active") {
           req.session.email = email;
-          console.log(req.session.email);//--------------------------------------------------------->
-          res.redirect('/')
+          console.log(req.session.email); //--------------------------------------------------------->
+          res.redirect("/");
         } else {
-          res.redirect('/access-denied');
+          res.redirect("/access-denied");
         }
       } else {
-        res.redirect('/invalid-user')
+        res.redirect("/invalid-user");
       }
     }
   } catch (error) {
@@ -68,53 +76,85 @@ async function Logged(req, res) {
 
 // <-------------------------------------access denied------------------------------------>
 
-async function throwErrOne(req,res) {
-  res.render('user/login',{ err: "your access is denied by the admin" });//throwing an error when the user was blocked by admin
+async function throwErrOne(req, res) {
+  res.render("user/login", { err: "your access is denied by the admin" }); //throwing an error when the user was blocked by admin
 }
 
 // <-------------------------------------invalid user------------------------------------>
 
-async function throwErrTwo(req,res) {
-  res.render('user/login',{ err: "invalid username or password" });
+async function throwErrTwo(req, res) {
+  res.render("user/login", { err: "invalid username or password" });
 }
 
 // <-------------------------------------Get Send-otp------------------------------------>
 
 async function getOpt(req, res) {
   const email = req.session.email;
-  const data = await User.Users.findOne({ email });//searching for email if it is already registered or not
+  const data = await User.Users.findOne({ email }); //searching for email if it is already registered or not
   const imgs = await User.productuploads.find();
   if (req.session.email) {
-    res.redirect('/');
+    res.redirect("/");
   } else {
     res.render("user/signup", { err: "" });
   }
 }
 
 // <-------------------------------------Post Send-otp------------------------------------>
-
+var e_mail;
+var n_ame;
+var s_tatuz;
+var p_assword;
 async function sendOTPController(req, res) {
   try {
     const { statuz, name, email, password } = req.body;
-    console.log(statuz, name, email, password);//fetching user data from database
+    console.log(statuz, name, email, password); //fetching user data from database
     const data = await User.Users.findOne({ email });
-    const imgs = await User.productuploads.find();
+    console.log(email);
     if (req.session.emai) {
-      res.redirect('/');
+      res.redirect("/");
     } else {
       if (data) {
-        res.redirect('/');
+        res.render("user/signup", { err: "email already exists" });
       } else {
         //creating user details in database
-        const usedata = await User.Users.create(req.body);
+        // const usedata = await User.Users.create(req.body);
         //sending otp to the entered email
+        e_mail = email;
+        n_ame = name;
+        s_tatuz = statuz;
+        p_assword = password
         await sendOTP(email);
-        res.render("user/otp", {err : '', email: email });
+        setTimeout(async () => {
+          console.log("ok");
+          await OTP.deleteOne({ email: email });
+        }, 30000);
+        res.render("user/otp", {
+          err: "",
+          email: email,
+          statuz,
+          name: name,
+          password,
+        });
       }
     }
   } catch (error) {
     console.log(error);
   }
+}
+
+async function resendOtp(req, res) {
+  const { statuz, name, email, password } = req.body;
+  console.log(statuz, name, e_mail, password); //fetching user data from database
+  const data = await User.Users.findOne({ email });
+
+  res.render("user/otp", {
+    err: "",
+    email: e_mail,
+    statuz : s_tatuz,
+    name: n_ame,
+    password : p_assword,
+  });
+  console.log("email" + e_mail);
 }
 
 // <------------------------------------Signup--------------------------------------->
@@ -129,16 +169,31 @@ async function signUp(req, res) {
     //taking the user entered otp
     const otpNumber = arr.map(Number);
     const finalotp = Number(arr.join(""));
-    const email = req.body.email;
+    console.log(finalotp + "ghj");
+    const { email, name, password, statuz } = req.body;
+
     const userOTP = await OTP.find({ email });
-    const data = await User.Users.findOne({ email });
-    const imgs = await User.productuploads.find();
+    console.log(userOTP[0].otp);
+
     //comparing the entered otp and and sending otp
     if (userOTP[0].otp == finalotp) {
       req.session.email = email;
-      res.redirect('/');
+      const usedata = await User.Users.create({
+        email: email,
+        statuz: statuz,
+        name: name,
+        password: password,
+      });
+
+      res.redirect("/");
     } else {
-      res.render('user/otp',{ err: "Invalid otp",email});
+      res.render("user/otp", {
+        err: "Invalid otp",
+        email,
+        name,
+        statuz,
+        password,
+      });
     }
   } catch (error) {
     console.log(error);
@@ -147,10 +202,10 @@ async function signUp(req, res) {
 
 // <-------------------------------------error otp--------------------------------------->
 
-async function throwErrThree(req,res) {
-  const email = req.body.email
+async function throwErrThree(req, res) {
+  const email = req.body.email;
   console.log(email);
-  res.render('user/otp',{ err: "Email ID already exists",email});
+  res.render("user/otp", { err: "Email ID already exists", email });
 }
 
 // <-------------------------------------Wishlist--------------------------------------->
@@ -158,7 +213,7 @@ async function throwErrThree(req,res) {
 async function Orders(req, res) {
   const imgs = await User.productuploads.find();
   console.log(imgs);
-  res.render("user/orders",{imgs});
+  res.render("user/orders", { imgs });
 }
 
 // <-------------------------------------Profile------------------------------------->
@@ -186,8 +241,9 @@ async function productSpec(req, res) {
     const id = req.params.id;
     //fetching product details
     const prodSpec = await productuploads.findById(id);
+    let i = 0;
     console.log(prodSpec, "product spec");
-    res.render("user/productSpec", { prodSpec });
+    res.render("user/productSpec", { prodSpec, i });
   } catch (error) {
     console.log(error);
   }
@@ -203,8 +259,8 @@ async function forgotPassword(req, res) {
 
 async function verifyEmail(req, res) {
   try {
-    const {email} = req.body;
-    await sendOTP(email);//sending otp for entered otp 
+    const { email } = req.body;
+    await sendOTP(email); //sending otp for entered otp
 
     res.render("user/email_verify", { email });
   } catch (error) {
@@ -220,31 +276,33 @@ async function comapareOtp(req, res) {
     console.log(otp);
     const email = req.body.email;
     const userOTP = await OTP.find({ email });
-    console.log('uer'+userOTP[0].otp);
-    console.log("otp"+otp);
+    console.log("uer" + userOTP[0].otp);
+    console.log("otp" + otp);
     //comparing the user entered otp and sended otp
     if (userOTP[0].otp == otp) {
-      res.render('user/newpassword',{email});
+      res.render("user/newpassword", { email });
     } else {
       console.log("an error occured");
     }
   } catch (error) {
-    // console.log(error);
     console.log("an error occured in controller 208");
   }
 }
 
 // <--------------------------------------------Set password---------------------------------------------->
-//reset password 
-async function setPassword(req,res) {
- try {
-  const { newpassword,email } = req.body;
-  //updating new password
-  const data = await User.Users.updateOne({email : email },{password : newpassword});
-  res.redirect('/');
- } catch (error) {
-  console.log(error);
- }
+//reset password
+async function setPassword(req, res) {
+  try {
+    const { newpassword, email } = req.body;
+    //updating new password
+    const data = await User.Users.updateOne(
+      { email: email },
+      { password: newpassword }
+    );
+    res.redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // <--------------------------------------------Logout---------------------------------------------->
@@ -255,13 +313,11 @@ function logOut(req, res) {
   res.redirect("/");
 }
 //product list for user
-async function productList(req,res){
+async function productList(req, res) {
   const imgs = await User.productuploads.find();
   console.log(imgs);
-  res.render('user/product_list',{imgs});
-} 
-
-
+  res.render("user/product_list", { imgs });
+}
 
 module.exports = {
   host,
@@ -283,5 +339,6 @@ module.exports = {
   throwErrOne,
   throwErrTwo,
   throwErrThree,
-  productList
+  productList,
+  resendOtp,
 };

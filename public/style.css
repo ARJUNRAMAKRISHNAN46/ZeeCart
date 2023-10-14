@@ -267,7 +267,7 @@
 .main {
   width: 100vw;
   height: 100vh;
-  background-color: blue;
+  background-color: rgb(227, 227, 252);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -520,21 +520,6 @@ html {
   z-index: -1;
 }
 
-/* .table tr {
-  color: black;
-
-}
-.table .thed {
-  border: 1px solid rgb(123, 123, 123);
-}
-table tbody td {
-  border: 1px solid rgb(123, 123, 123);
-  height: 70px;
-}
-table .thead {
-  border: 1px solid rgb(123, 123, 123);
-} */
-
 .usertable {
   border: 1px solid #cfcfcf;
   height: 60px;
@@ -572,9 +557,29 @@ table .thead {
   color: #fff;
 }
 
+#blocked {
+  background-color: red;
+  padding: 5px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #fff;
+}
+
+#edit {
+  background-color: rgb(61, 61, 255);
+  padding: 5px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #fff;
+}
+
 .blockbtn:hover {
   color: #fff;
 }
 #Blockuser {
   text-align: center;
+}
+#error {
+  color: red;
+  font-size: large;
 }

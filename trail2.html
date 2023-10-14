@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        /* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label, input, textarea, select {
+    display: block;
+    margin-bottom: 20px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 150px;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    label, input, textarea, select {
+        margin-bottom: 15px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Product</h1>
+        <form action="your_server_endpoint_here" method="POST">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" required>
+            
+            <label for="productDescription">Product Description:</label>
+            <textarea id="productDescription" name="productDescription" required></textarea>
+            
+            <label for="spec1">Product Specification 1:</label>
+            <input type="text" id="spec1" name="spec1">
+            
+            <label for="spec2">Product Specification 2:</label>
+            <input type="text" id="spec2" name="spec2">
+            
+            <label for="spec3">Product Specification 3:</label>
+            <input type="text" id="spec3" name="spec3">
+            
+            <label for="spec4">Product Specification 4:</label>
+            <input type="text" id="spec4" name="spec4">
+            
+            <label for="basePrice">Base Price:</label>
+            <input type="number" id="basePrice" name="basePrice" step="0.01" required>
+            
+            <label for="discountAmount">Discount Amount:</label>
+            <input type="number" id="discountAmount" name="discountAmount" step="0.01">
+            
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            
+            <label for="category">Select Category:</label>
+            <select id="category" name="category">
+                <option value="category1">Category 1</option>
+                <option value="category2">Category 2</option>
+                <!-- Add more categories as needed -->
+            </select>
+            
+            <label for="brand">Select Brand:</label>
+            <select id="brand" name="brand">
+                <option value="brand1">Brand 1</option>
+                <option value="brand2">Brand 2</option>
+                <!-- Add more brands as needed -->
+            </select>
+            
+            <label for="tags">Tags (comma-separated):</label>
+            <input type="text" id="tags" name="tags">
+            
+            <button class="btn" type="submit">Add Product</button>
+        </form>
+    </div>
+</body>
+</html>

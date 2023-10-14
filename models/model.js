@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 //user schema
@@ -67,14 +67,14 @@ const productUploadSchema = new Schema({
   Category: {
     type: String,
     required: true,
+    unique :true
   },
   DiscountAmount: {
     type: Number,
   },
-  //   Status: {
-  //     type: String,
-  //     required: true
-  //   },
+  status :{
+    type : String
+  },
   UpdatedOn: {
     type: Date,
   },
@@ -94,6 +94,9 @@ const productUploadSchema = new Schema({
   Specification4: {
     type: String,
   },
+  status :{
+    type : String
+  }
 });
 
 const Users = mongoose.model("User", userschema);

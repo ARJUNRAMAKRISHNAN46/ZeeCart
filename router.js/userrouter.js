@@ -27,7 +27,9 @@ const {
   throwErrOne,
   throwErrTwo,
   throwErrThree,
-  productList
+  productList,
+  changeImgOne,
+  resendOtp
 } = require("../controllers/controller");
 
 router.get("/", host);
@@ -48,7 +50,8 @@ router.post('/setpassword',setPassword);
 router.get('/access-denied',throwErrOne);
 router.get('/invalid-user',throwErrTwo);
 router.get('/invalid-otp',throwErrThree);
-router.get('/homepage',getLogin)
+router.get('/homepage',getLogin);
+router.get('/resendOtp',resendOtp);
 
 router.get(
   "/google",

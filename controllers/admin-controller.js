@@ -4,69 +4,80 @@ const multer = require("multer");
 module.exports = {
   //<---------------------------------------------Brands------------------------------------------------------------->
   admin_brands: async (req, res) => {
-    //creating pagination
-    const pageNum = req.query.page;
-    const perPage = 10;
-    const brandz = await Brand.find()
-      .skip((pageNum - 1) * perPage)
-      .limit(perPage);
-    let i = (pageNum - 1) * perPage;
-    res.render("admin/brands", { title: "admin brands", brandz, i });
+    if (req.session.logged) {
+      res.redirect("/dashboard");
+    } else {
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 10;
+      const brandz = await Brand.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+      res.render("admin/brands", { title: "admin brands", brandz, i });
+    }
   },
   // <---------------------------------------------Users------------------------------------------------------------->
   admin_Users: async (req, res) => {
-    //creating pagination
-    const pageNum = req.query.page;
-    const perPage = 10;
-    const countData = await Users.find().count();
-    // console.log(countData);
-    const userData = await Users.find()
-      .skip((pageNum - 1) * perPage)
-      .limit(perPage);
-    let i = (pageNum - 1) * perPage;
-    res.render("admin/userList", { title: "admin-user list", userData, i });
+    if (req.session.logged) {
+      res.redirect("/dashboard");
+    } else {
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 10;
+      const countData = await Users.find().count();
+      // console.log(countData);
+      const userData = await Users.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+      res.render("admin/userList", { title: "admin-user list", userData, i });
+    }
   },
-  // <---------------------------------------------Catagory------------------------------------------------------------->
+
+  // <---------------------------------------------Catagory----------------------------------------------------------->
   admin_catagory: async (req, res) => {
-    //creating pagination
-    const pageNum = req.query.page;
-    const perPage = 10;
-    const catagoryz = await Catagory.find()
-      .skip((pageNum - 1) * perPage)
-      .limit(perPage);
-    let i = (pageNum - 1) * perPage;
-    res.render("admin/catagory", { catagoryz, i });
+    if (req.session.logged) {
+      res.redirect("/dashboard");
+    } else {
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 10;
+      const catagoryz = await Catagory.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+      res.render("admin/catagory", { catagoryz, i, err: "" });
+    }
   },
 
   // <---------------------------------------------Product------------------------------------------------------------->
   admin_product: async (req, res) => {
-    //creating pagination
-    const pageNum = req.query.page;
-    const perPage = 10;
-    const productDetails = await productuploads
-      .find()
-      .skip((pageNum - 1) * perPage)
-      .limit(perPage);
-    const i = (pageNum - 1) * perPage;
-    console.log(productDetails);
+    if (req.session.logged) {
+      res.redirect("/dashboard");
+    } else {
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 10;
+      const productDetails = await productuploads
+        .find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      const i = (pageNum - 1) * perPage;
+      console.log(productDetails);
 
-    res.render("admin/products", { productDetails, i });
+      res.render("admin/products", { productDetails, i });
+    }
   },
   // <---------------------------------------------------------------------------------------------------------->
   product_upload: async (req, res) => {
     res.render("admin/addProducts");
   },
-  // -----------------------------------------------Upload Product-----------------------------------------------------------
-
-  editProduct: async (req, res) => {
-    const product = await Product.find();
-    res.render("admin/admin-editProduct", { product: product[0] });
-  },
 
   // -----------------------------------------------Get addProduct-----------------------------------------------------------
 
   getAddProduct: (req, res) => {
-    res.render("admin/addproduct");
+    res.render("admin/new");
   },
 
   // -----------------------------------------------Post addProduct-----------------------------------------------------------
@@ -86,7 +97,7 @@ module.exports = {
         images: ret,
       });
       if (uploaded) {
-        res.redirect("/");
+        res.redirect("/products");
       }
     } catch (error) {
       console.log("An Error happened");
@@ -97,43 +108,34 @@ module.exports = {
   // -----------------------------------------------Post editProduct-----------------------------------------------------------
 
   editProduct: async (req, res) => {
-    const product = await Product.find();
-    res.render("admin/admin-editProduct", { product: product[0] });
+    const id = req.params.id;
+    const product = await productuploads.findOne({ _id: id });
+    res.render("admin/editproduct", { product });
   },
 
   // -----------------------------------------------Get editProduct-----------------------------------------------------------
 
   Edit_Product: async (req, res) => {
-    console.log(req.params.id);
-    console.log(req.body);
-    console.log(req.files);
+    const productDetails = req.body;
+    const id = req.params.id;
     try {
-      const id = req.params.id;
-      const productType = req.body.productType;
-
-      const variations = [];
-      console.log(req.body);
-      if (productType === "Tyre") {
-        const tyreSize = req.body.Tyre;
-
-        variations.push({ value: tyreSize });
-      } else if (productType === "Oil") {
-        console.log("inside oil");
-        const oilSize = req.body.Oil;
-        variations.push({ value: oilSize });
-      }
-      console.log(variations);
-      req.body.Variation = variations[0].value;
-      req.body.images = req.files.map((val) => val.filename);
-      req.body.Display = "Active";
-      req.body.Status = "in Stock";
-      req.body.updateOn = new Date();
-      const updatingProduct = await Product.findOneAndUpdate(
+      const files = req?.files;
+      let ret = [
+        files.main[0].filename,
+        files.image1[0].filename,
+        files.image2[0].filename,
+        files.image3[0].filename,
+      ];
+      const uploaded = await productuploads.updateOne(
         { _id: id },
-        req.body
+        {
+          ...productDetails,
+          images: ret,
+        }
       );
-
-      res.redirect("/");
+      if (uploaded) {
+        res.redirect("/products");
+      }
     } catch (error) {
       console.log("An Error happened");
       throw error;
@@ -149,10 +151,15 @@ module.exports = {
     };
     const { email, password } = req.body;
     //checking the entered email and password
-    if (email == credential.email && password == credential.password) {
-      res.redirect("/products?page=1");
+    if (req.session.logged) {
+      res.redirect("/dashboard");
     } else {
-      console.log("invalid username or password");
+      if (email == credential.email && password == credential.password) {
+        res.redirect("/dashboard");
+        req.session.logged = true;
+      } else {
+        console.log("invalid username or password");
+      }
     }
   },
   //admin login page
@@ -160,24 +167,39 @@ module.exports = {
     res.render("admin/login", { err: "" });
   },
 
-  user_Blocking: async (req, res) => {
-    //user control (user blocking and unblocking)
-    const id = req.params.id;
-    const blockData = await Users.findOne({ _id: id });
-    if (blockData.statuz == "Active") {
-      const blocked = await Users.updateOne({ _id: id }, { statuz: "Blocked" });
-    } else if (blockData.statuz == "Blocked") {
-      const blocked = await Users.updateOne({ _id: id }, { statuz: "Active" });
-    }
-    //setting pagination for admin-user controller page
-    const pageNum = req.query.page;
-    const perPage = 10;
-    const userData = await Users.find()
-      .skip((pageNum - 1) * perPage)
-      .limit(perPage);
-    let i = (pageNum - 1) * perPage;
+  adminLogOut: async (req, res) => {
+    req.session.destroy();
+    res.redirect("/adminpanel");
+  },
 
-    res.render("admin/userList", { title: "admin-user list", userData, i });
+  user_Blocking: async (req, res) => {
+    try {
+      //user control (user blocking and unblocking)
+      const id = req.params.id;
+      const blockData = await Users.findOne({ _id: id });
+      if (blockData.statuz == "Active") {
+        const blocked = await Users.updateOne(
+          { _id: id },
+          { statuz: "Blocked" }
+        );
+      } else if (blockData.statuz == "Blocked") {
+        const blocked = await Users.updateOne(
+          { _id: id },
+          { statuz: "Active" }
+        );
+      }
+      //setting pagination for admin-user controller page
+      const pageNum = req.query.page;
+      const perPage = 10;
+      const userData = await Users.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+
+      res.render("admin/userList", { title: "admin-user list", userData, i });
+    } catch (error) {
+      console.log("an error occured in userlist");
+    }
   },
 
   addBrand: async (req, res) => {
@@ -244,9 +266,25 @@ module.exports = {
   addCategory: async (req, res) => {
     try {
       const catagory = req.body.catagoryname;
-      //adding brand to database
-      await Catagory.create({ catagoryName: catagory });
-      res.redirect("/catagory");
+      const catagoryz = await Catagory.find();
+      console.log(catagoryz);
+      //   .skip((pageNum - 1) * perPage)
+      //   .limit(perPage);
+      // let i = (pageNum - 1) * perPage;
+      console.log('passed');
+
+      const prev = await Catagory.findOne({ catagoryName: catagory });
+      if (prev) {
+        res.render("admin/catagory", {
+          catagoryz,
+          i:1,
+          err: "catagory already exists"
+        });
+      } else {
+        //adding brand to database
+        await Catagory.create({ catagoryName: catagory });
+        res.redirect("/catagory");
+      }
     } catch (error) {
       console.log("here is some errors ");
     }
@@ -316,5 +354,23 @@ module.exports = {
 
   admin_payments: async (req, res) => {
     res.render("admin/payment");
+  },
+
+  product_Blocking: async (req, res) => {
+    //user control (product blocking and unblocking)
+    const id = req.params.id;
+    const blockData = await productuploads.findOne({ _id: id });
+    if (blockData.status == "Active") {
+      const blocked = await productuploads.updateOne(
+        { _id: id },
+        { status: "blocked" }
+      );
+    } else if (blockData.status == "blocked") {
+      const blocked = await productuploads.updateOne(
+        { _id: id },
+        { status: "Active" }
+      );
+    }
+    res.redirect("/products");
   },
 };

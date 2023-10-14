@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiple Image Previews</title>
+</head>
+
+<body>
+
+    <div style="display: flex;">
+        <div style="width: 200px;height: 30px;background-color: aqua;margin: 10px;">
+            <input type="file" id="imageInput1" accept="image/*">
+        </div>
+        <div style="width: 200px;height: 30px;background-color: aqua;margin: 10px;">
+            <input type="file" id="imageInput2" accept="image/*">
+        </div>
+        <div style="width: 200px;height: 30px;background-color: aqua;margin: 10px;">
+            <input type="file" id="imageInput3" accept="image/*">
+        </div>
+        <div style="width: 200px;height: 30px;background-color: aqua;margin: 10px;">
+            <input type="file" id="imageInput4" accept="image/*">
+        </div>
+    </div>
+
+    <br>
+
+    <div style="display: flex;">
+        <div style="width: 200px;height: 200px;background-color: aqua;margin: 10px;">
+            <img id="imagePreview1" src="" alt="Image Preview 1" style="max-width: 200px; max-height: 200px;">
+        </div>
+        <div style="width: 200px;height: 200px;background-color: aqua;margin: 10px;">
+            <img id="imagePreview2" src="" alt="Image Preview 2" style="max-width: 200px; max-height: 200px;">
+        </div>
+        <div style="width: 200px;height: 200px;background-color: aqua;margin: 10px;">
+            <img id="imagePreview3" src="" alt="Image Preview 3" style="max-width: 200px; max-height: 200px;">
+        </div>
+        <div style="width: 200px;height: 200px;background-color: aqua;margin: 10px;">
+            <img id="imagePreview4" src="" alt="Image Preview 4" style="max-width: 200px; max-height: 200px;">
+        </div>
+
+    </div>
+
+    <script>
+        // Function to handle image preview for a specific input and preview element
+        function handleImagePreview(input, preview) {
+            input.addEventListener('change', function () {
+                const file = input.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = "";
+                }
+            });
+        }
+
+        // Get references to the input and image elements for each image
+        const imageInput1 = document.getElementById('imageInput1');
+        const imageInput2 = document.getElementById('imageInput2');
+        const imageInput3 = document.getElementById('imageInput3');
+        const imageInput4 = document.getElementById('imageInput4');
+        const imagePreview1 = document.getElementById('imagePreview1');
+        const imagePreview2 = document.getElementById('imagePreview2');
+        const imagePreview3 = document.getElementById('imagePreview3');
+        const imagePreview4 = document.getElementById('imagePreview4');
+
+        // Handle image previews for each input
+        handleImagePreview(imageInput1, imagePreview1);
+        handleImagePreview(imageInput2, imagePreview2);
+        handleImagePreview(imageInput3, imagePreview3);
+        handleImagePreview(imageInput4, imagePreview4);
+    </script>
+</body>
+
+</html>
