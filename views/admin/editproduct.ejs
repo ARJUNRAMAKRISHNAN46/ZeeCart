@@ -1,103 +1,122 @@
 <%- include('../layout/header.ejs') %>
 
-    <body style="background-color: rgb(219, 219, 255);">
-        <main class="px-md-4 icons " style="margin-left: 18%;width: 80%; margin-top: 6%;">
-
-            <div class="row d-flex justify-content-between">
-                <div class="col-md-8">
-                    <h1 class="mt-5">Edit Product</h1>
-                    <br>
-                    <form action="/editedproduct/<%=product._id%>" method="post" enctype="multipart/form-data" class="bg-white" >
-                        <div class="form-group" style="background-color: rgb(219, 219, 255);">
-                            <label for="productName">Product Name : </label>
-                            <input type="text" name="ProductName" value="<%=product.ProductName%>" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                        </div>
-                        <div class="form-group" style="background-color: rgb(219, 219, 255);">
-                            <label for="productDescription">Product Description:</label>
-                            <input type="text" name="Discription" style="height: 100px;" value="<%=product.Description%>" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                        </div>
-                        <div class="form-group" style="background-color: rgb(219, 219, 255);">
-                            <label for="productSpecification">Product Specification1:</label>
-                            <input type="text" name="Specification4" style="height: 100px;" value="<%=product.Specification1%>" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                            <label for="productSpecification2">Product Specification2:</label>
-                            <input type="text" name="Specification2" style="height: 100px;" value="<%=product.Specification2%>" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                            <label for="productSpecification3">Product Specification3:</label>
-                            <input type="text" name="Specification3" style="height: 100px;" value="<%=product.Specification3%>" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                            <label for="productSpecification4">Product Specification4:</label>
-                            <input type="text" name="Specification4" style="height: 100px;" value="<%=product.Specification4%>" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                        </div>
-                        <p style="background-color: rgb(219, 219, 255);">Upload Images</p>
-                        <div>
-                            <input type="file" value="<%=product.images[0]%>" name="main" accept="image/*" style="width: 188px; height:188px;">
-                            <input type="file" value="<%=product.images[1]%>" name="image1" accept="image/*" style="width: 188px; height:188px;">
-                            <input type="file" value="<%=product.images[2]%>" name="image2" accept="image/*" style="width: 188px; height:188px;">
-                            <input type="file" value="<%=product.images[3]%>" name="image3" accept="image/*" style="width: 188px; height:188px;">
-                        </div>
-                        <div class="border p-3 mb-3" style="background-color: rgb(219, 219, 255);">
-                            <h2>Pricing</h2>
-                            <div class="form-group">
-                                <label for="basePrice">Base Price:</label>
-                                <input type="number" value="<%=product.Price%>" name="Price" class="form-control bg-light" id="basePrice"
-                                    placeholder="Enter base price" required />
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="discountAmount">Discount Amount:</label>
-                                <input type="number" value="<%=product.DiscountAmount%>" name="DiscountAmount" class="form-control bg-light"
-                                    id="discountAmount" placeholder="Enter discount amount" required />
-                            </div>
-                        <div class="border p-3 mb-3" style="background-color: rgb(219, 219, 255);">
-                            <h2>Stock</h2>
-                            <div class="form-group">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" value="<%=product.AvailableQuantity%>" name="AvailableQuantity" class="form-control bg-light"
-                                    id="quantity" placeholder="Enter quantity" required />
-                            </div>
-                        </div>
+    <form action="/editedproduct/<%=product._id%>" method="post" enctype="multipart/form-data">
+        <div class="row p-5 d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-6"
+                style="padding: 50px;border: 5px solid rgb(57, 144, 211);border-radius: 15px;background-color: rgb(224, 224, 255);">
+                <div class="d-flex justify-content-center align-items-center" style="background-color: rgb(40, 76, 255); border-radius: 10px 10px 0 0 ;">
+                    <h1 style="color: rgb(255, 255, 255);">Edit Product</h1>
                 </div>
-                <div class="col-md-4 my-5">
-                    <div class="bg-white p-3">
-                        <div class="form-group">
-                            <br>
-                            <label>Category:</label>
-                            <select class="form-select bg-light" id="category" name="Category" required>
-                                <option value="<%=product.Category%>" selected disabled><%=product.Category%></option>
-                                <option>BUDGET SMARTPHONES</option>
-                                <option>FLAGSHIP SMARTPHONES</option>
-                                <option>BEST SELLING SMARTPHONES</option>
-                                <option>IOS SMARTPHONES</option>
-                                <option>GAMING SMARTPHONES</option>
-                            </select>
-                        </div><br>
-                        <div class="form-group">
-                            <br>
-                            <label>Brand Name:</label>
-                            <select name="BrandName" class="form-select bg-light" id="brand" required>
-                                <option value="<%=product.BrandName%>" selected disabled><%=product.BrandName%></option>
-                                <option>SAMSUNG</option>
-                                <option>APPLE</option>
-                                <option>XIOMI</option>
-                                <option>REALME</option>
-                                <option>VIVO</option>
-                                <option>OPPO</option>
-                            </select>
-                        </div><br>
-                        <div class="form-group">
-                            <label for="tags">Tags:</label>
-                            <input type="text" class="form-control bg-light" value="<%=product. Tags%>" name="Tags" id="tags"
-                                placeholder="Enter tags" required />
-                        </div>
+                <div class="d-flex mt-4 justify-content-center align-items-center">
+                    <input type="text" name="ProductName" value="<%=product.ProductName%>" placeholder="ProductName"
+                        style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                </div><br>
+                <input type="hidden" name="status" value="Active">
+                <div class="d-flex justify-content-center align-items-center">
+                    <select class="" id="category" name="Category" required
+                        style="width:38%;height: 35px;border-radius: 5px;margin-right: 4%;">
+                        <option value="<%=product.Category%>" selected disabled>Select a category</option>
+                        <option>BUDGET SMARTPHONES</option>
+                        <option>FLAGSHIP SMARTPHONES</option>
+                        <option>BEST SELLING SMARTPHONES</option>
+                        <option>IOS SMARTPHONES</option>
+                        <option>GAMING SMARTPHONES</option>
+                    </select>
+                    <select name="BrandName" class="" id="brand" required
+                        style="width: 38%;height: 35px;border-radius: 5px;">
+                        <option value="<%=product.BrandName%>" selected disabled>Select a Brand</option>
+                        <option>SAMSUNG</option>
+                        <option>APPLE</option>
+                        <option>XIOMI</option>
+                        <option>REALME</option>
+                        <option>VIVO</option>
+                        <option>OPPO</option>
+                    </select>
+                </div>
+                <br>
+                <div class="d-flex">
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <textarea name="Specification1" placeholder="Specification1" value="<%=product.Specification1%>" id="spec1"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
+                    <textarea name="Specification2" placeholder="Specification2" value="<%=product.Specification2%>" id="spec2"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <textarea name="Specification3" placeholder="Specification3" value="<%=product.Specification3%>" id="spec3"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
+                    <textarea name="Specification4" placeholder="Specification4" value="<%=product.Specification4%>" id="spec4"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <textarea name="Description" placeholder="Description" value="<%=product.Description%>" id="desc"
+                        style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="number" name="Price" placeholder="Enter the price" value="<%=product.Price%>"
+                        style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
+                    <input type="number" name="DiscountAmount" placeholder="Discount Amount" value="<%=product.DiscountAmount%>"
+                        style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
+                    <input type="number" name="AvailableQuantity" placeholder="Stock" value="<%=product.AvailableQuantity%>"
+                        style="width: 20%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="file" name="main" id="imageInput1" accept="image/*" value="/product-images/<%=product.images[0]%>"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" >
+                    <input type="file" name="image1" id="imageInput2" accept="image/* " value="/product-images/<%=product.images[1]%>"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;">
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="file" name="image2" id="imageInput3" accept="image/*" value="/product-images/<%=product.images[2]%>"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;">
+                    <input type="file" name="image3" id="imageInput4" accept="image/*" value="/product-images/<%=product.images[3]%>"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" >
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div style="width: 100px;height: 100px;margin-right: 4%;margin-left: 4%;">
+                        <img id="imagePreview1" src="/product-images/<%=product.images[0]%>" alt="Image Preview 1"
+                            style="max-width: 100px; max-height: 100px;">
                     </div>
-                    <button type="submit" class="btn btn-primary ms-3">Add Product</button>
+                    <div style="width: 100px;height: 100px;margin-right: 4%;">
+                        <img id="imagePreview2" src="/product-images/<%=product.images[1]%>" alt="Image Preview 2"
+                            style="max-width: 100px; max-height: 100px;">
+                    </div>
+                    <div style="width: 100px;height: 100px;margin-right: 4%;">
+                        <img id="imagePreview3" src="/product-images/<%=product.images[2]%>" alt="Image Preview 3"
+                            style="max-width: 100px; max-height: 100px;">
+                    </div>
+                    <div style="width: 100px;height: 100px;">
+                        <img id="imagePreview4" src="/product-images/<%=product.images[3]%>" alt="Image Preview 4"
+                            style="max-width: 100px; max-height: 100px;">
+                    </div>
                 </div>
-                </form>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input name="tags" placeholder="Tags" required value="<%=product.Tags%>"
+                        style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn" style="background-color: rgb(36, 80, 255);color: white;">Edit Product</button>
+                </div>
             </div>
-        </main>
-
-        <%- include('../layout/footer.ejs') %>
+        </div>
+    </form>
+<script>
+    let spec1 = document.getElementById('spec1');
+    spec1.value = '<%=product.Specification1%>'
+    let spec2 = document.getElementById('spec2');
+    spec2.value = '<%=product.Specification2%>'
+    let spec3 = document.getElementById('spec3');
+    spec3.value = '<%=product.Specification3%>'
+    let spec4 = document.getElementById('spec4');
+    spec4.value = '<%=product.Specification4%>'
+    let desc = document.getElementById('desc');
+    desc.value = '<%=product.Description%>'
+</script>
+    <%- include('../layout/footer.ejs') %>

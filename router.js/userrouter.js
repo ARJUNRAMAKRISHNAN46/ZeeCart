@@ -1,72 +1,64 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const User = require("../models/model");
-const UserSchema = require("../models/model");
-const { render } = require("ejs");
 const passport = require("passport");
-const userOTPVerification = require("../models/otpverification");
-const nodemailer = require("nodemailer");
+const { verifySignup } = require("../middleware/session.js");
 const {
-  Logged,
+  productSpec,
+  productList,
+  Cart,
+  addToCart,
+} = require("../controllers/productController");
+const {
+  Profile,
+  getAddAddress,
+  addAddress,
+} = require("../controllers/addressController");
+const {
+  signupOtp,
+  getSignupOtp,
+  // resendOtp,
+  getLogin,
+  userLogin,
+  userSignup,
+  throwErrOne,
+  throwErrTwo,
+  throwErrThree,
+  logOut,
+} = require("../controllers/controller");
+const {
   host,
   wishList,
-  Profile,
   Orders,
-  Cart,
-  signUp,
-  sendOTPController,
-  productSpec,
-  getOpt,
-  getLogin,
-  logOut,
   forgotPassword,
   verifyEmail,
   comapareOtp,
   setPassword,
-  throwErrOne,
-  throwErrTwo,
-  throwErrThree,
-  productList,
-  changeImgOne,
-  resendOtp
-} = require("../controllers/controller");
+  search
+} = require("../controllers/userController");
 
-router.get("/", host);
-router.route("/home").get(getLogin).post(Logged);
-router.route("/send-otp").get(getOpt).post(sendOTPController);
-router.get("/wishlist", wishList);
-router.get("/profile", Profile);
-router.get("/productorders", Orders);
-router.get("/cart", Cart);
-router.get('/shop',productList)
-router.post("/signed", signUp);
-router.get("/productspecs/:id", productSpec);
-router.get("/logout", logOut);
-router.get("/forgotpass", forgotPassword);
-router.post("/verifyemail", verifyEmail);
-router.post("/verifyotp", comapareOtp);
-router.post('/setpassword',setPassword);
-router.get('/access-denied',throwErrOne);
-router.get('/invalid-user',throwErrTwo);
-router.get('/invalid-otp',throwErrThree);
-router.get('/homepage',getLogin);
-router.get('/resendOtp',resendOtp);
-
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  async (req, res) => {
-    console.log();
-    const imgs = await User.productuploads.find();
-    // const data = await User.Users.find();
-    const data = "user";
-    res.render("user/home", { imgs, data });
-  }
-);
+router.get("/", verifySignup, host);
+router.route("/home", verifySignup).get(getLogin).post(userLogin);
+router.route("/send-otp", verifySignup).get(getSignupOtp).post(signupOtp);
+router.post("/verifyemail", verifySignup, verifyEmail);
+router.post("/verifyotp", verifySignup, comapareOtp);
+router.post("/setpassword", verifySignup, setPassword);
+router.post("/signed", verifySignup, userSignup);
+router.post("/addAddress", verifySignup, addAddress);
+router.get("/wishlist", verifySignup, wishList);
+router.get("/profile", verifySignup, Profile);
+router.get("/getAddAddress", verifySignup, getAddAddress);
+router.get("/productorders", verifySignup, Orders);
+router.get("/cart", verifySignup, Cart);
+router.get("/shop", verifySignup, productList);
+router.get("/productspecs/:id", verifySignup, productSpec);
+router.get("/logout", verifySignup, logOut);
+router.get("/forgotpass", verifySignup, forgotPassword);
+router.get("/access-denied", verifySignup, throwErrOne);
+router.get("/invalid-user", verifySignup, throwErrTwo);
+router.get("/invalid-otp", verifySignup, throwErrThree);
+router.get("/homepage", verifySignup, getLogin);
+router.get("/resendOtp", verifySignup, resendOtp);
+router.post("/addToCart/:id", verifySignup, addToCart);
+router.post('/search',verifySignup,search);
 
 module.exports = router;

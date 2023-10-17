@@ -1,36 +1,22 @@
 <%-include('../layout/user/header.ejs')-%>
     <%- include('../layout/header.ejs') -%>
 
-        <div class="row wishmain">
-            <div class="wishtwo">
-                <div class="wishthree"></div>
-                <div class="wishfour">
-                    <form action="/profile">
-                        <button class="wishbutt0" style="background-color:#E0E9FF;">Profile</button>
-                    </form>
-                    <form action="/orders">
-                        <button class="wishbutt">My Orders</button>
-                    </form>
-                    <form action="wishlist">
-                        <button class="wishbutt">My Wishlist</button>
-                    </form>
-                    <form action="/cart">
-                        <button class="wishbutt">My Cart</button>
-                    </form>
-                    <form action="/logout">
-                        <button class="wishbutt" id="logbutt">Log Out</button>
-                    </form>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 1299px; height: 100vh;">
-                <div style="width: 1199px; height: 90vh;border: 1px solid black;">
-
+        <header>
+            <h1>User Profile</h1>
+        </header>
+        <div class="container">
+            <div class="profile-card">
+                
+                <div class="user-info">
+                    <h2><%=data.name%></h2>
+                    <p>Email: <%=data.email%></p>
+                    <p>Address: <%=data.address%>,<%=data.locality%>,<%=data.district%>,<%=data.state%>,<%=data.pincode%></p>
+                    <a style="padding: 8px 10px;text-decoration: none;background-color: blue;border-radius: 5px;color: white;" href="/getAddAddress">Add Address</a>
+                    <a style="padding: 8px 10px;text-decoration: none;background-color: blue;border-radius: 5px;color: white;" href="">Change Password</a>
                 </div>
             </div>
         </div>
-
-
-
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script> -->
+   
+    
 
         <%- include('../layout/user/footer.ejs') -%>

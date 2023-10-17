@@ -38,19 +38,25 @@
         <div class="col-12 d-flex justify-content-end" style="height: 80px;">
             <div class="col-md-3 col-6 d-flex justify-content-center align-items-center" style="height: 80px;">
                 <form action="/getcatagory">
-                    <button style="border-radius: 5px;width: 140px;height: 40px;color: white; background-color: rgb(57, 57, 255);">Add Catagory</button>
+                    <button
+                        style="border-radius: 5px;width: 140px;height: 40px;color: white; background-color: rgb(57, 57, 255);">Add
+                        Catagory</button>
                 </form>
             </div>
         </div>
 
-        <div class="col-12 d-flex justify-content-center"><p id="error"><%=err%></p></div>
+        <div class="col-12 d-flex justify-content-center">
+            <p id="error">
+                <%=err%>
+            </p>
+        </div>
         <div class="row d-flex align-items-center justify-content-center" style="width: 100vw;">
 
             <div class="col-2 col-md-3 col-lg-1 usertable">No</div>
             <div class="col-6 col-md-3 col-lg-2 usertable">Catagory Name</div>
             <div class="col-2 col-md-3 col-lg-1 usertable">Edit</div>
             <div class="col-2 col-md-3 col-lg-1 usertable">Delete</div>
-           
+
         </div>
         <div style="height: 11  0vh;">
             <%catagoryz.forEach((x)=>{ %>
@@ -63,33 +69,56 @@
                         <%=x.catagoryName%>
                     </div>
                     <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center align-items-center">
-                        <a style="padding: 2px 18px; background-color: green;border-radius: 5px;color: white;" href="/editcatagory/<%-x._id%>">Edit</a>
+                        <a style="padding: 2px 18px; background-color: green;border-radius: 5px;color: white;"
+                            href="/editcatagory/<%-x._id%>">Edit</a>
                     </div>
-                    
-                    <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center align-items-center">
+                    <div class="popup" id="popup">
+                        <h2>Alert</h2>
+                        <p>Are you sure you want to delete this Catagory</p>
+                        <div class="buttonClass">
+                            <form action="/deletecatagory/<%-x._id%>"><button id="button" type="submit"
+                                    onclick="closePopup()">Yes</button></form>
+                            <button id="button" type="button" onclick="closePopup()">No</button>
+                        </div>
+                    </div>
+                    <!-- <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center align-items-center">
                         <a style="padding: 2px 12px; background-color: red;border-radius: 5px;color: white;" href="/deletecatagory/<%-x._id%>">Delete</a>
+                    </div> -->
+                    <div class="col-2 col-md-3 col-lg-1 userlist d-flex justify-content-center align-items-center">
+                        <button class="delete-button" class="btn" onclick="openPopup()"
+                            style="padding: 2px 12px; background-color: red; border-radius: 5px; color: white;">Delete</button>
                     </div>
-                    
+
 
                 </div>
                 <%}) %>
         </div>
+
+
         <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;top: 650px;">
             <nav aria-label="page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>
-                    <li class="page-item"><a class="page-link" href="/customers?page=2">2</a></li>
-                    <li class="page-item"><a class="page-link" href="/customers?page=3">3</a></li>
-                    <li class="page-item"><a class="page-link" href="/customers?page=4">4</a></li>
-                    <li class="page-item"><a class="page-link" href="/customers?page=5">5</a></li>
-                    <li class="page-item"><a class="page-link" href="/customers?page=6">6</a></li>
+                    <li class="page-item"><a class="page-link" href="/category?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="/category?page=2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="/category?page=3">3</a></li>
+                    <li class="page-item"><a class="page-link" href="/category?page=4">4</a></li>
+                    <li class="page-item"><a class="page-link" href="/category?page=5">5</a></li>
+                    <li class="page-item"><a class="page-link" href="/category?page=6">6</a></li>
 
                 </ul>
             </nav>
         </div>
-
-
         <script>
+
+            let popup = document.getElementById('popup');
+            function openPopup() {
+                popup.classList.add('open-popup')
+            }
+            function closePopup() {
+                popup.classList.remove('open-popup')
+            }
+
+
             function openNav() {
                 document.getElementById("mySidenav").style.width = "200px";
             }

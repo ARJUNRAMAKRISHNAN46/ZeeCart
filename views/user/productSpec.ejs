@@ -1,70 +1,80 @@
 <%- include('../layout/user/header.ejs') -%>
 
 
-    <div class="row">
-        <div class="col-12 col-lg-5"
-            style="border-right: 1px solid rgb(141, 141, 141);border-bottom: 1px solid rgb(141, 141, 141); padding-top: 50px;">
-            <div class="col-lg-12 d-flex justify-content-center align-items-center">
-                <div id="img-show">
-                    <img class="productImage"src="/product-images/<%=prodSpec.images[0]%>"alt="Product imgae 1"></div>
-            </div>
-            <div class="col-lg-12 d-flex justify-content-center align-items-center" style="height: 140px;">
-                <div style="width: 80px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
-                        src="/product-images/<%=prodSpec.images[1]%>" alt="Product Image 1" alt=""></div>
-                <div style="width: 80px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
-                        src="/product-images/<%=prodSpec.images[2]%>" alt="Product Image 1" alt=""></div>
-                <div style="width: 80px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
-                        src="/product-images/<%=prodSpec.images[3]%>" alt="Product Image 1" alt=""></div>
-            </div>
-            <div class="d-flex mt-4">
-                <div class="col-6 d-flex justify-content-center"><a
-                        style="padding: 12px 16px; color: #fff; font-weight: 700; font-size: small; background-color: yellow; border-radius: 10px;">ADD
-                        TO CART</a></div>
-                <div class="col-6 d-flex justify-content-center"><a
-                        style="padding: 12px 25px; color: #fff; font-weight: 700; font-size: small; background-color: orangered; border-radius: 10px;">BUY
-                        NOW</a></div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-7" style="height: 700px;padding-left: 20px;">
-            <p></p>
-            <p class="paraCap">
-                <%=prodSpec.ProductName%>
-                    <%=prodSpec.Specification1%>|<%=prodSpec.Specification4%>
-            </p>
-            <p class="para"><i class="fa-solid fa-circle fa-2xs"></i> ₹<%=prodSpec.Price%>/-</p>
-            <!-- <p class="para"><i class="fa-solid fa-circle fa-2xs"></i> Stock : <%=prodSpec.AvailableQuantity%></p> -->
-            <div
-                style="width: 100px; height: 25px;font-weight: 500; font-size: small; background-color: green; padding-left: 8px;color: #fff; border-radius: 5px;">
-                Stock : <%=prodSpec.AvailableQuantity%>
-            </div>
-            <p class="paraCapz">SPECIFICATION</p>
-            <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                <%=prodSpec.Specification1%>
-            </p>
-            <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                <%=prodSpec.Specification2%>
-            </p>
-            <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                <%=prodSpec.Specification3%>
-            </p>
-            <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                <%=prodSpec.Specification4%>
-            </p>
-            <p class="paraCapz">DISCRIPTION : </p>
-            <p style="font-size: x-small;">
-                <%=prodSpec.Description%>
-            </p>
+    <form action="/addToCart/<%=prodSpec._id%>" method="post">
+        <div class="row">
+            <div class="col-12 col-lg-5"
+                style="border-right: 1px solid rgb(141, 141, 141);border-bottom: 1px solid rgb(141, 141, 141); padding-top: 50px;">
+                <div class="col-lg-12 d-flex justify-content-center align-items-center">
+                    <div id="img-show">
+                        <img class="productImage" src="/product-images/<%=prodSpec.images[i]%>" alt="Product imgae 1">
+                    </div>
+                </div>
+                <div class="col-lg-12 d-flex justify-content-center align-items-center" style="height: 140px;">
+                    <%prodSpec.images.forEach((x)=> {%>
+                        <div style="width: 100px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
+                                id="changeImage" onclick="changeImage('/product-images/<%=prodSpec.images[i++]%>0l;')"
+                                src="/product-images/<%=prodSpec.images[i++]%>" alt="Product Image 1" alt=""></div>
+                        <%})%>
 
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="col-6 d-flex justify-content-center"><button
+                            style="padding: 12px 16px; color: #fff; font-weight: 700; font-size: small; background-color: yellow; border-radius: 10px;">ADD
+                            TO CART</button></div>
+                    <div class="col-6 d-flex justify-content-center"><a
+                            style="padding: 12px 25px; color: #fff; font-weight: 700; font-size: small; background-color: orangered; border-radius: 10px;">BUY
+                            NOW</a></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-7" style="height: 700px;padding-left: 20px;">
+                <p></p>
+                <p class="paraCap">
+                    <%=prodSpec.ProductName%>
+                        <%=prodSpec.Specification1%>|<%=prodSpec.Specification4%>
+                </p>
+                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i> ₹<%=prodSpec.Price%>/-</p>
+                <div
+                    style="width: 100px; height: 25px;font-weight: 500; font-size: small; background-color: green; padding-left: 8px;color: #fff; border-radius: 5px;">
+                    Stock : <%=prodSpec.AvailableQuantity%>
+                </div>
+                <p class="paraCapz">SPECIFICATION</p>
+                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
+                    <%=prodSpec.Specification1%>
+                </p>
+                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
+                    <%=prodSpec.Specification2%>
+                </p>
+                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
+                    <%=prodSpec.Specification3%>
+                </p>
+                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
+                    <%=prodSpec.Specification4%>
+                </p>
+                <span class="nrandname">
+                    <%=prodSpec.BrandName%>
+                </span>
+                <p class="paraCapz mt-2">DISCRIPTION : </p>
+                <p style="font-size: x-small;">
+                    <%=prodSpec.Description%>
+                </p>
+
+            </div>
         </div>
-    </div>
+    </form>
 
     <script>
         var options = {
             width: 280,
-            zoomWidth: 200,
+            zoomWidth: 400,
             offset: { vertical: 50, horizontal: 90 }
         };
         new ImageZoom(document.getElementById("img-show"), options);
 
+
+        function changeImage() {
+            let main = document.getElementById('productImage');
+            main.style.src()
+        }
     </script>
     <%- include('../layout/user/footer.ejs') -%>

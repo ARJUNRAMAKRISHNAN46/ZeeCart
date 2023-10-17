@@ -1,344 +1,134 @@
-const express = require("express");
-const User = require("../models/model");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const { sendOTP } = require("../util/otp");
-const { generateOTP } = require("../util/generateOTP");
-const { use } = require("../router.js/userrouter");
+const User = require("../models/userModel");
 const OTP = require("../models/otpModel");
-const { Users, Brand, Catagory, productuploads } = require("../models/model");
+const Products = require("../models/productModel");
+const { sendOTP } = require("../util/otp");
 
-//<-----------------------------------Hosting--------------------------------------->
+var _email;
+var _name;
+var _statuz;
+var _password;
 
-async function host(req, res) {
-  const email = req.session.email;
-  const data = await User.Users.findOne({ email });
-  const imgs = await User.productuploads.find();
-  const arr = [];
-  imgs.forEach((x) => {
-    if (x.status == "Active") {
-      arr.push(x);
-    }
-  });
-  console.log(arr);
+module.exports = {
+  getLogin: async (req, res) => {
+    try {
+      res.render("user/login");
+    } catch (error) {}
+  },
+  userLogin: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      _email = email;
+      _password = password;
+      const userData = await User.findOne({ email });
+      const products = await Products.find();
 
-  if (req.session.email) {
-    res.render("user/home", { data, arr });
-  } else {
-    res.render("user/login", { title: "user login page", err: "" });
-  }
-}
-
-//<------------------------------------Get Login--------------------------------------->
-
-async function getLogin(req, res) {
-  const email = req.session.email;
-  const data = await User.Users.findOne({ email });
-  const imgs = await User.productuploads.find();
-  if (req.session.email) {
-    res.redirect("/");
-  } else {
-    res.render("user/login", { err: "" });
-  }
-}
-
-//<------------------------------------post Login---------------------------------------->
-
-async function Logged(req, res) {
-  try {
-    const { email, password } = req.body;
-    console.log(email, password);
-    const data = await User.Users.findOne({ email });
-    //fetching product images from database
-    const imgs = await User.productuploads.find();
-    if (req.session.emai) {
-      res.redirect("/");
-    } else {
-      //comparing passwords
-      // const pass = await bcrypt.compare(password, data.password);
-      //compare entered password,email and password,email in db
-      if (data.email == email && data.password == password) {
+      if (userData.email == email && userData.password == password) {
         if (data.statuz == "Active") {
+          req.session.logged = true;
           req.session.email = email;
-          console.log(req.session.email); //--------------------------------------------------------->
-          res.redirect("/");
+          res.redirect("/home");
         } else {
           res.redirect("/access-denied");
         }
       } else {
         res.redirect("/invalid-user");
       }
+    } catch (error) {
+      console.log("an error occured in line userlogin");
     }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// <-------------------------------------access denied------------------------------------>
-
-async function throwErrOne(req, res) {
-  res.render("user/login", { err: "your access is denied by the admin" }); //throwing an error when the user was blocked by admin
-}
-
-// <-------------------------------------invalid user------------------------------------>
-
-async function throwErrTwo(req, res) {
-  res.render("user/login", { err: "invalid username or password" });
-}
-
-// <-------------------------------------Get Send-otp------------------------------------>
-
-async function getOpt(req, res) {
-  const email = req.session.email;
-  const data = await User.Users.findOne({ email }); //searching for email if it is already registered or not
-  const imgs = await User.productuploads.find();
-  if (req.session.email) {
-    res.redirect("/");
-  } else {
-    res.render("user/signup", { err: "" });
-  }
-}
-
-// <-------------------------------------Post Send-otp------------------------------------>
-var e_mail;
-var n_ame;
-var s_tatuz;
-var p_assword;
-async function sendOTPController(req, res) {
-  try {
-    const { statuz, name, email, password } = req.body;
-    console.log(statuz, name, email, password); //fetching user data from database
-    const data = await User.Users.findOne({ email });
-    console.log(email);
-    if (req.session.emai) {
-      res.redirect("/");
-    } else {
+  },
+  throwErrOne: async (req, res) => {
+    //throwing an error when the user was blocked by admin
+    try {
+      res.render("user/login", { err: "your access is denied by the admin" });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  throwErrTwo: async (req, res) => {
+    try {
+      res.render("user/login", { err: "invalid username or password" });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  getSignupOtp: async (req, res) => {
+    try {
+      let email = _email;
+      const data = await User.findOne({ email }); //searching for email if it is already registered or not
+      const imgs = await Products.find();
+      res.render("user/signup", { err: "" });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  signupOtp: async (req, res) => {
+    try {
+      const { statuz, name, email, password } = req.body;
+      const data = await User.findOne({ email });
       if (data) {
-        res.render("user/signup", { err: "email already exists" });
+        res.redirect("user/invalid-email");
       } else {
-        //creating user details in database
-        // const usedata = await User.Users.create(req.body);
-        //sending otp to the entered email
-        e_mail = email;
-        n_ame = name;
-        s_tatuz = statuz;
-        p_assword = password
+        _email = email;
+        _name = name;
+        _statuz = statuz;
+        _password = password;
+
         await sendOTP(email);
+
         setTimeout(async () => {
-          console.log("ok");
           await OTP.deleteOne({ email: email });
         }, 30000);
-        res.render("user/otp", {
-          err: "",
-          email: email,
-          statuz,
-          name: name,
-          password,
-        });
+        req.redirect("/getOtp");
       }
+    } catch (error) {
+      console.log("an error occured in line signupotp");
     }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function resendOtp(req, res) {
-  const { statuz, name, email, password } = req.body;
-  console.log(statuz, name, e_mail, password); //fetching user data from database
-  const data = await User.Users.findOne({ email });
-
-  res.render("user/otp", {
-    err: "",
-    email: e_mail,
-    statuz : s_tatuz,
-    name: n_ame,
-    password : p_assword,
-  });
-  console.log("email" + e_mail);
-}
-
-// <------------------------------------Signup--------------------------------------->
-
-async function signUp(req, res) {
-  try {
-    const arr = [];
-    arr.push(req.body.num1);
-    arr.push(req.body.num2);
-    arr.push(req.body.num3);
-    arr.push(req.body.num4);
-    //taking the user entered otp
-    const otpNumber = arr.map(Number);
-    const finalotp = Number(arr.join(""));
-    console.log(finalotp + "ghj");
-    const { email, name, password, statuz } = req.body;
-
-    const userOTP = await OTP.find({ email });
-    console.log(userOTP[0].otp);
-
-    //comparing the entered otp and and sending otp
-    if (userOTP[0].otp == finalotp) {
-      req.session.email = email;
-      const usedata = await User.Users.create({
-        email: email,
-        statuz: statuz,
-        name: name,
-        password: password,
-      });
-
+  },
+  userSignup: async (req, res) => {
+    try {
+      const arr = [];
+      arr.push(req.body.num1);
+      arr.push(req.body.num2);
+      arr.push(req.body.num3);
+      arr.push(req.body.num4);
+      const otpNumber = arr.map(Number);
+      const finalotp = Number(arr.join(""));
+      const { email, name, password, statuz } = req.body;
+      const userOTP = await OTP.find({ email });
+      if (userOTP[0].otp == finalotp) {
+        req.session.logged = true;
+        req.session.email = email;
+        const usedata = await User.create({
+          email: email,
+          statuz: statuz,
+          name: name,
+          password: password,
+        });
+        res.redirect("/home");
+      } else {
+        res.redirect("/invalid-otp");
+      }
+    } catch (error) {
+      console.log("an error occured in line signup");
+    }
+  },
+  //------------------------Throwing an error--------------------------
+  throwErrThree: (req, res) => {
+    try {
+      const email = req.body.email;
+      res.render("user/otp", { err: "Email ID already exists", email });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  //------------------------ User logout--------------------------
+  logOut: async (req, res) => {
+    try {
+      req.session.destroy();
       res.redirect("/");
-    } else {
-      res.render("user/otp", {
-        err: "Invalid otp",
-        email,
-        name,
-        statuz,
-        password,
-      });
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// <-------------------------------------error otp--------------------------------------->
-
-async function throwErrThree(req, res) {
-  const email = req.body.email;
-  console.log(email);
-  res.render("user/otp", { err: "Email ID already exists", email });
-}
-
-// <-------------------------------------Wishlist--------------------------------------->
-
-async function Orders(req, res) {
-  const imgs = await User.productuploads.find();
-  console.log(imgs);
-  res.render("user/orders", { imgs });
-}
-
-// <-------------------------------------Profile------------------------------------->
-
-async function Profile(req, res) {
-  res.render("user/profile");
-}
-
-// <--------------------------------------Orders------------------------------------->
-
-async function wishList(req, res) {
-  res.render("user/wishlist");
-}
-
-// <---------------------------------------Cart-------------------------------------->
-
-async function Cart(req, res) {
-  res.render("user/cart");
-}
-
-// <---------------------------------------Cart-------------------------------------->
-
-async function productSpec(req, res) {
-  try {
-    const id = req.params.id;
-    //fetching product details
-    const prodSpec = await productuploads.findById(id);
-    let i = 0;
-    console.log(prodSpec, "product spec");
-    res.render("user/productSpec", { prodSpec, i });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// <---------------------------------------Forgot Password----------------------------------------->
-
-async function forgotPassword(req, res) {
-  res.render("user/forgot_pass");
-}
-
-// <---------------------------------------Email verification-------------------------------------->
-
-async function verifyEmail(req, res) {
-  try {
-    const { email } = req.body;
-    await sendOTP(email); //sending otp for entered otp
-
-    res.render("user/email_verify", { email });
-  } catch (error) {
-    console.log("an error occured in controller 191");
-  }
-}
-
-// <---------------------------------------OTP verification-------------------------------------->
-
-async function comapareOtp(req, res) {
-  try {
-    const otp = req.body.otp;
-    console.log(otp);
-    const email = req.body.email;
-    const userOTP = await OTP.find({ email });
-    console.log("uer" + userOTP[0].otp);
-    console.log("otp" + otp);
-    //comparing the user entered otp and sended otp
-    if (userOTP[0].otp == otp) {
-      res.render("user/newpassword", { email });
-    } else {
-      console.log("an error occured");
-    }
-  } catch (error) {
-    console.log("an error occured in controller 208");
-  }
-}
-
-// <--------------------------------------------Set password---------------------------------------------->
-//reset password
-async function setPassword(req, res) {
-  try {
-    const { newpassword, email } = req.body;
-    //updating new password
-    const data = await User.Users.updateOne(
-      { email: email },
-      { password: newpassword }
-    );
-    res.redirect("/");
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// <--------------------------------------------Logout---------------------------------------------->
-
-//log out section
-function logOut(req, res) {
-  req.session.destroy();
-  res.redirect("/");
-}
-//product list for user
-async function productList(req, res) {
-  const imgs = await User.productuploads.find();
-  console.log(imgs);
-  res.render("user/product_list", { imgs });
-}
-
-module.exports = {
-  host,
-  Logged,
-  wishList,
-  Profile,
-  Orders,
-  Cart,
-  signUp,
-  sendOTPController,
-  productSpec,
-  getOpt,
-  getLogin,
-  logOut,
-  forgotPassword,
-  verifyEmail,
-  comapareOtp,
-  setPassword,
-  throwErrOne,
-  throwErrTwo,
-  throwErrThree,
-  productList,
-  resendOtp,
+  },
 };
