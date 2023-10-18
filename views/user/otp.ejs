@@ -118,7 +118,7 @@
       <i class="bx bxs-check-shield"></i>
     </header>
     <h4>Enter OTP Code</h4>
-    <form action="/signed" method="post">
+    <form action="/signUp" method="post">
       <div class=" loginDiv d-flex justify-content-center">
         <span>
           <%=err%>
@@ -136,9 +136,6 @@
         <a style="text-decoration: none;" href="/resendOtp">Resend OTP</a>
       </div>
       <button>Verify OTP</button>
-      <input type="hidden" name="name" value="<%=password %>">
-      <input type="hidden" name="statuz" value="<%=statuz %>">
-      <input type="hidden" name="password" value="<%=password %>">
     </form>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,5 +1,8 @@
 const products = require("../models/productModel");
 const Cart = require("../models/cartModel");
+const User = require("../models/userModel");
+
+// const {ObjectId} = require("mongodb");
 
 module.exports = {
   admin_product: async (req, res) => {
@@ -107,8 +110,8 @@ module.exports = {
       throw error;
     }
   },
+  //user control (product blocking and unblocking)
   product_Blocking: async (req, res) => {
-    //user control (product blocking and unblocking)
     try {
       const id = req.params.id;
       const blockData = await products.findOne({ _id: id });
@@ -150,40 +153,116 @@ module.exports = {
   },
   Cart: async (req, res) => {
     try {
-      const data = await Cart.find();
-      console.log(data + "cart");
 
-      res.render("user/cart");
+      const data = await Cart.find();
+      const email = req.session.email;
+      console.log(email);
+      const user = await User.findOne({ email: email });
+      console.log("user" + user._id);
+      const userId = user._id;
+      console.log(data + "cart");
+      // const userId = req.session.email;
+      // const user = req.session.name; 
+      const cart = await Cart.findOne({ userId: userId }).populate(
+        "products.productId"
+      );
+      const cartData = cart.products;
+      console.log(cartData, "============================");
+      console.log(cartData[0].productId, "============================");
+      console.log(cartData);
+
+      res.render("user/cart", { user, cartData });
+      // res.render("user/cart");
     } catch (error) {
       console.log("error");
     }
   },
+  // addToCart: async (req, res) => {
+  //   try {
+  //     const email = req.session.email;
+  //     const id = req.params.id;
+  //     const user = await Cart.find({ email });
+  //     if (user) {
+  //       await Cart.updateOne({ userId: email }, { $push: { productId: id , quantity : 1}});
+  //       console.log("success ");
+  //       // await Cart.insert({email : email},{$push : {productId : id}});
+  //     } else {
+  //       const insert=await Cart.insert(
+  //         [
+  //             {
+  //               userId : email,
+  //                 products:[
+  //                     {
+  //                         productId:productId,
+  //                         quantity:1,
+  //                     }
+  //                 ]
+  //             }
+  //         ]
+  //     )
+  // await Cart.create({ email: email, productId: id });
+  // }
+  // const data = [
+  //   {
+  //     $lookup: {
+  //       from: "products",
+  //       localField: "_id",
+  //       foreignField: "productId",
+  //       as: "productInfo",
+  //     },
+  //   },
+  // ];
+  // const result = await Cart.aggregate(data);
+  // console.log('result'+result);
+  //   } catch (error) {
+  //     console.log("error in cart");
+  //   }
+  // },
   addToCart: async (req, res) => {
     try {
       const email = req.session.email;
-      const id = req.params.id;
-      const user = await Cart.find({ email });
-      if (user) {
-        await Cart.updateOne({ email: email }, { $push: { productId: id } });
-        console.log("success ");
-        // await Cart.insert({email : email},{$push : {productId : id}});
+      console.log(email);
+      const user = await User.findOne({ email: email });
+      console.log("user" + user._id);
+      const userId = user._id;
+      // console.log(req.session.userid);
+      const productId = req.params.id;
+      console.log(productId);
+      const userData = await Cart.findOne({ userId: userId });
+      console.log(userData);
+
+      if (userData !== null) {
+        console.log("if");
+
+        const existingCart = userData.products.find((item) =>
+          item.productId.equals(productId)
+        );
+        if (existingCart) {
+          existingCart.quantity += 1;
+        } else {
+          userData.products.push({ productId: productId, quantity: 1 });
+        }
+        await userData.save();
+        req.flash("msg", "Item added to the cart");
+        res.redirect("/cart");
       } else {
-        await Cart.create({ email: email, productId: id });
+        console.log("else");
+        const newCart = new Cart({
+          userId: userId,
+          products: [{ ProductId: productId, Quantity: 1 }],
+        });
+        console.log(newCart);
+        await newCart.save();
+        req.flash("msg", "Item added to the cart");
+        res.redirect("/cart");
       }
-      const data = [
-        {
-          $lookup: {
-            from: "products",
-            localField: "_id",
-            foreignField: "productId",
-            as: "productInfo",
-          },
-        },
-      ];
-      const result = await Cart.aggregate(data)
-      console.log('result'+result);
-    } catch (error) {
-      console.log("error in cart");
+    } catch (err) {
+      console.log(
+        err,
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      );
+      req.flash("errmsg", "sorry at this momment we can't reach");
+      res.redirect("/cart");
     }
   },
 };
@@ -206,3 +285,51 @@ module.exports = {
 //       }
 //     } catch (error) {
 //       console.log("error at line number 163");
+
+// const isExist = await CART.findOne({ "item.productId": productId })
+// console.log(isExist);
+// if(isExist){
+//     await CART.updateOne(
+//         {
+//             userId
+//         },
+//         {
+
+//                 products:{
+//                     productId:productId,
+//                     quantity:1
+//                 }
+
+//         }
+//     );
+// }
+// else{
+//     await CART.updateOne(
+//         {
+//             userId
+//         },
+//         {
+//             $push:{
+//                 products:{
+//                     productId:productId,
+//                     quantity:1
+//                 }
+//             }
+//         }
+//     );
+// }
+
+//
+
+//
+// const insert = await Cart.insertMany([
+//   {
+//     userId: userId,
+//     products: [
+//       {
+//         productId: productId,
+//         quantity: 1,
+//       },
+//     ],
+//   },
+// ]);

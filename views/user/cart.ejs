@@ -21,49 +21,52 @@
                     <div class="card border shadow-0">
                         <div class="m-4">
                             <h4 class="card-title mb-4">Your shopping cart</h4>
-                            <div class="row gy-3 mb-4">
-                                <div class="col-lg-5">
-                                    <div class="me-lg-5">
-                                        <div class="d-flex">
-                                            <img src="/product-images/<%=data[0].images[0] %>"
-                                                class="border rounded me-3" style="width: 96px; height: 96px;" />
-                                            <div class="">
-                                                <p style="color: black;font-weight: 600;font-size: larger;">
-                                                    <%=data[0].BrandName%>
-                                                </p>
-                                                <p style="color: black;font-weight: 600;" class="">
-                                                    <%=data[0].ProductName%>
-                                                </p>
+                            <%cartData.forEach((x)=> {%>
+                                <div class="row gy-3 mb-4">
+                                    <div class="col-lg-5">
+                                        <div class="me-lg-5">
+                                            <div class="d-flex">
+                                                <img src="/product-images/<%=x.productId.images[0] %>"
+                                                    class="border rounded me-3" style="width: 96px; height: 96px;" />
+                                                <div class="">
+                                                    <p style="color: black;font-weight: 600;font-size: larger;">
+                                                        <%=x.productId.ProductName%>
+                                                    </p>
+                                                    <p style="color: black;font-weight: 600;" class="">
+                                                        ₹<%=x.productId.Price%>/-
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div
-                                    class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
-                                    <div class="">
-                                        <select style="width: 100px;" class="form-select me-4">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                    <div
+                                        class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
+                                        <div class="">
+                                            <select style="width: 100px;" class="form-select me-4">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="">
+                                            <text class="h6"></text> <br />
+                                            <small class="text-muted text-nowrap">per item </small>
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <text class="h6">₹<%=data[0].Price%>/-</text> <br />
-                                        <small class="text-muted text-nowrap"> ₹<%=data[0].Price%>/- / per item </small>
+                                    <div
+                                        class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
+                                        <div class="float-md-end">
+                                            <a href="#!" class="btn btn-light border px-2 icon-hover-primary"><i
+                                                    class="fas fa-heart fa-lg px-1 text-secondary"></i></a>
+                                            <a href="#" class="btn btn-light border text-danger icon-hover-danger">
+                                                Remove</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
-                                    <div class="float-md-end">
-                                        <a href="#!" class="btn btn-light border px-2 icon-hover-primary"><i
-                                                class="fas fa-heart fa-lg px-1 text-secondary"></i></a>
-                                        <a href="#" class="btn btn-light border text-danger icon-hover-danger">
-                                            Remove</a>
-                                    </div>
-                                </div>
-                            </div>
+
+                                <%})%>
                         </div>
                         <div class="border-top pt-4 mx-4 mb-4">
                             <p><i class="fas fa-truck text-muted fa-lg"></i> Free Delivery within 1-2 weeks</p>

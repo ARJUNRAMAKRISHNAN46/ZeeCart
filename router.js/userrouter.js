@@ -14,12 +14,13 @@ const {
   addAddress,
 } = require("../controllers/addressController");
 const {
-  signupOtp,
   getSignupOtp,
+  postSignupOtp,
   // resendOtp,
   getLogin,
-  userLogin,
-  userSignup,
+  postLogin,
+  getSignup,
+  postSignup,
   throwErrOne,
   throwErrTwo,
   throwErrThree,
@@ -37,28 +38,30 @@ const {
 } = require("../controllers/userController");
 
 router.get("/", verifySignup, host);
-router.route("/home", verifySignup).get(getLogin).post(userLogin);
-router.route("/send-otp", verifySignup).get(getSignupOtp).post(signupOtp);
-router.post("/verifyemail", verifySignup, verifyEmail);
-router.post("/verifyotp", verifySignup, comapareOtp);
-router.post("/setpassword", verifySignup, setPassword);
-router.post("/signed", verifySignup, userSignup);
+
+router.route("/home", verifySignup).get(getLogin).post(postLogin);
+router.route("/send-otp", verifySignup).get(getSignupOtp).post(postSignupOtp);
+router.post("/signUp", postSignup);
+router.get("/logout", verifySignup, logOut);
+router.get('/getSignup',getSignup)
+// router.post("/verifyemail", verifySignup, verifyEmail);
+// router.post("/verifyOtp", verifySignup, comapareOtp);
+// router.post("/setPassword", verifySignup, setPassword);
 router.post("/addAddress", verifySignup, addAddress);
-router.get("/wishlist", verifySignup, wishList);
+// router.get("/wishlist", verifySignup, wishList);
 router.get("/profile", verifySignup, Profile);
 router.get("/getAddAddress", verifySignup, getAddAddress);
-router.get("/productorders", verifySignup, Orders);
+// router.get("/productorders", verifySignup, Orders);
 router.get("/cart", verifySignup, Cart);
 router.get("/shop", verifySignup, productList);
 router.get("/productspecs/:id", verifySignup, productSpec);
-router.get("/logout", verifySignup, logOut);
-router.get("/forgotpass", verifySignup, forgotPassword);
+// router.get("/forgotpass", verifySignup, forgotPassword);
 router.get("/access-denied", verifySignup, throwErrOne);
 router.get("/invalid-user", verifySignup, throwErrTwo);
 router.get("/invalid-otp", verifySignup, throwErrThree);
-router.get("/homepage", verifySignup, getLogin);
-router.get("/resendOtp", verifySignup, resendOtp);
+// router.get("/homepage", verifySignup, getLogin);
+// router.get("/resendOtp", verifySignup, resendOtp);
 router.post("/addToCart/:id", verifySignup, addToCart);
-router.post('/search',verifySignup,search);
+// router.post('/search',verifySignup,search);
 
 module.exports = router;

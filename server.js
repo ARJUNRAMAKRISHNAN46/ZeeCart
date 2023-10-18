@@ -10,7 +10,7 @@ const routers = require("./router.js/adminrouter");
 const { sendMail } = require("./util/mail");
 const OTP = require("./models/otpModel");
 const { sendOTP } = require("./util/otp");
-
+const flash = require('connect-flash');
 const app = express();
 
 app.use((req,res,next)=>{
@@ -33,7 +33,7 @@ app.use(
 );
 
 app.use(express.static("public"));
-
+app.use(flash());
 app.use("/", router);
 app.use("/", routers);
 

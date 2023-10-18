@@ -9,12 +9,14 @@ var _statuz;
 var _password;
 
 module.exports = {
+//get login
   getLogin: async (req, res) => {
     try {
-      res.render("user/login");
+      res.render("user/login",{err : ''});
     } catch (error) {}
   },
-  userLogin: async (req, res) => {
+//post login
+  postLogin: async (req, res) => {
     try {
       const { email, password } = req.body;
       _email = email;
@@ -23,10 +25,10 @@ module.exports = {
       const products = await Products.find();
 
       if (userData.email == email && userData.password == password) {
-        if (data.statuz == "Active") {
+        if (userData.statuz == "Active") {
           req.session.logged = true;
-          req.session.email = email;
-          res.redirect("/home");
+          req.session.email = _email;
+          res.redirect("/");
         } else {
           res.redirect("/access-denied");
         }
@@ -34,9 +36,10 @@ module.exports = {
         res.redirect("/invalid-user");
       }
     } catch (error) {
-      console.log("an error occured in line userlogin");
+    console.log(error);
     }
   },
+//throwing access denied error
   throwErrOne: async (req, res) => {
     //throwing an error when the user was blocked by admin
     try {
@@ -45,6 +48,7 @@ module.exports = {
       console.log(error);
     }
   },
+//throwing invalid user error
   throwErrTwo: async (req, res) => {
     try {
       res.render("user/login", { err: "invalid username or password" });
@@ -52,17 +56,16 @@ module.exports = {
       console.log(error);
     }
   },
+//get signup
   getSignupOtp: async (req, res) => {
     try {
-      let email = _email;
-      const data = await User.findOne({ email }); //searching for email if it is already registered or not
-      const imgs = await Products.find();
       res.render("user/signup", { err: "" });
     } catch (error) {
       console.log(error);
     }
   },
-  signupOtp: async (req, res) => {
+  //post signup
+  postSignupOtp: async (req, res) => {
     try {
       const { statuz, name, email, password } = req.body;
       const data = await User.findOne({ email });
@@ -74,18 +77,26 @@ module.exports = {
         _statuz = statuz;
         _password = password;
 
-        await sendOTP(email);
+        await sendOTP(_email);
 
         setTimeout(async () => {
           await OTP.deleteOne({ email: email });
         }, 30000);
-        req.redirect("/getOtp");
+        res.redirect("/getSignup");
       }
     } catch (error) {
-      console.log("an error occured in line signupotp");
+      console.log(error);
     }
   },
-  userSignup: async (req, res) => {
+  getSignup:async(req,res) => {
+    try {
+        let email = _email
+        res.render('user/otp',{err : '',email});
+    } catch (error) {
+        console.log(error);    
+    }
+  },
+  postSignup: async (req, res) => {
     try {
       const arr = [];
       arr.push(req.body.num1);
@@ -105,15 +116,15 @@ module.exports = {
           name: name,
           password: password,
         });
-        res.redirect("/home");
+        res.redirect("/");
       } else {
         res.redirect("/invalid-otp");
       }
     } catch (error) {
-      console.log("an error occured in line signup");
+      console.log(error);
     }
   },
-  //------------------------Throwing an error--------------------------
+  //Throwing an error
   throwErrThree: (req, res) => {
     try {
       const email = req.body.email;
@@ -122,7 +133,7 @@ module.exports = {
       console.log(error);
     }
   },
-  //------------------------ User logout--------------------------
+  //User logout
   logOut: async (req, res) => {
     try {
       req.session.destroy();
