@@ -66,23 +66,6 @@ module.exports = {
   //     console.log(error);
   //   }
   // },
-  resendOtp: async (req, res) => {
-    try {
-      const { statuz, name, email, password } = req.body;
-      const data = await User.findOne({ e_mail });
-      sendOTP(e_mail);
-
-      res.render("user/otp", {
-        err: "",
-        email: e_mail,
-        statuz: s_tatuz,
-        name: n_ame,
-        password: p_assword,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  },
   
   
   

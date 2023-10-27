@@ -1,129 +1,106 @@
 <%- include('../layout/header.ejs') %>
 
-    <body>
-        <main class="px-md-4 icons">
-
-            <div class="row d-flex justify-content-between">
-                <div class="col-md-8">
-                    <h1 class="mt-5">Add Product</h1>
-                    <br>
-                    <form action="" method="post" enctype="multipart/form-data" class="bg-white" >
-                        <div class="form-group" style="background-color: rgb(219, 219, 255);">
-                            <label for="productName">Product Name : </label>
-                            <input type="text" name="ProductName" class="form-control bg-light" id="productName"
-                                placeholder="Enter product name" required />
-                        </div>
-                        <input type="hidden" name="status" value="Active">
-                        <div class="form-group" style="background-color: rgb(219, 219, 255);">
-                            <label for="productDescription">Product Description:</label>
-                            <textarea class="form-control bg-light" name="Description" id="productDescription" rows="4"
-                                placeholder="Enter product description" required></textarea>
-                        </div>
-                        <div class="form-group" style="background-color: rgb(219, 219, 255);">
-                            <label for="productSpecification">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="Specification1" id="productSpecification1"
-                                placeholder="Enter product Specification" required></textarea>
-                            <label for="productSpecification2">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="Specification2" id="productSpecification"
-                                placeholder="Enter product Specification" required></textarea>
-                            <label for="productSpecification3">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="Specification3" id="productSpecification"
-                                placeholder="Enter product Specification" required></textarea>
-                            <label for="productSpecification4">Product Specification:</label>
-                            <textarea class="form-control bg-light" name="Specification4" id="productSpecification"
-                                placeholder="Enter product Specification" required></textarea>
-                        </div>
-                        <p style="background-color: rgb(219, 219, 255);">Upload Images</p>
-                        <div style="display: flex;">
-                            <div style="width: 200px;height: 30px;">
-                                <input type="file" name="main" id="imageInput1" accept="image/*">
-                            </div>
-                            <div style="width: 200px;height: 30px;">
-                                <input type="file" name="image1" id="imageInput2" accept="image/*">
-                            </div>
-                            <div style="width: 200px;height: 30px;">
-                                <input type="file" name="image2" id="imageInput3" accept="image/*">
-                            </div>
-                            <div style="width: 200px;height: 30px;">
-                                <input type="file" name="image3" id="imageInput4" accept="image/*">
-                            </div>
-                        </div>
-                    
-                        <br>
-                    
-                        <div style="display: flex;">
-                            <div style="width: 200px;height: 200px;">
-                                <img id="imagePreview1" src="" alt="Image Preview 1" style="max-width: 200px; max-height: 200px;">
-                            </div>
-                            <div style="width: 200px;height: 200px;">
-                                <img id="imagePreview2" src="" alt="Image Preview 2" style="max-width: 200px; max-height: 200px;">
-                            </div>
-                            <div style="width: 200px;height: 200px;">
-                                <img id="imagePreview3" src="" alt="Image Preview 3" style="max-width: 200px; max-height: 200px;">
-                            </div>
-                            <div style="width: 200px;height: 200px;">
-                                <img id="imagePreview4" src="" alt="Image Preview 4" style="max-width: 200px; max-height: 200px;">
-                            </div>
-                        </div>
-                        <div class="border p-3 mb-3" style="background-color: rgb(219, 219, 255);">
-                            <h2>Pricing</h2>
-                            <div class="form-group">
-                                <label for="basePrice">Base Price:</label>
-                                <input type="number" name="Price" class="form-control bg-light" id="basePrice"
-                                    placeholder="Enter base price" required />
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="discountAmount">Discount Amount:</label>
-                                <input type="number" name="DiscountAmount" class="form-control bg-light"
-                                    id="discountAmount" placeholder="Enter discount amount" required />
-                            </div>
-                        <div class="border p-3 mb-3" style="background-color: rgb(219, 219, 255);">
-                            <h2>Stock</h2>
-                            <div class="form-group">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" name="AvailableQuantity" class="form-control bg-light"
-                                    id="quantity" placeholder="Enter quantity" required />
-                            </div>
-                        </div>
+    <form action="/addProduct" method="post" enctype="multipart/form-data">
+        <div class="row p-5 d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-6"
+                style="padding: 50px;border: 5px solid rgb(57, 144, 211);border-radius: 15px;background-color: rgb(224, 224, 255);">
+                <div class="d-flex justify-content-center align-items-center" style="background-color: rgb(40, 76, 255); border-radius: 10px 10px 0 0 ;">
+                    <h1 style="color: rgb(255, 255, 255);">Add Product</h1>
                 </div>
-                <div class="col-md-4 my-5">
-                    <div class="bg-white p-3">
-                        <div class="form-group">
-                            <br>
-                            <label>Category:</label>
-                            <select class="form-select bg-light" id="category" name="Category" required>
-                                <option value="" selected disabled>Select a category</option>
-                                <option>BUDGET SMARTPHONES</option>
-                                <option>FLAGSHIP SMARTPHONES</option>
-                                <option>BEST SELLING SMARTPHONES</option>
-                                <option>IOS SMARTPHONES</option>
-                                <option>GAMING SMARTPHONES</option>
-                            </select>
-                        </div><br>
-                        <div class="form-group">
-                            <br>
-                            <label>Brand Name:</label>
-                            <select name="BrandName" class="form-select bg-light" id="brand" required>
-                                <option value="" selected disabled>Select a Brand</option>
-                                <option>SAMSUNG</option>
-                                <option>APPLE</option>
-                                <option>XIOMI</option>
-                                <option>REALME</option>
-                                <option>VIVO</option>
-                                <option>OPPO</option>
-                            </select>
-                        </div><br>
-                        <div class="form-group">
-                            <label for="tags">Tags:</label>
-                            <input type="text" class="form-control bg-light" name="Tags" id="tags"
-                                placeholder="Enter tags" required />
-                        </div>
+                <div class="d-flex mt-4 justify-content-center align-items-center">
+                    <input type="text" name="ProductName" placeholder="Product Name"
+                        style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                </div><br>
+                <input type="hidden" name="status" value="Active">
+                <div class="d-flex justify-content-center align-items-center">
+                    <select class="" id="category" name="Category" required
+                        style="width:38%;height: 35px;border-radius: 5px;margin-right: 4%;">
+                        <option value="" selected disabled>Select a category</option>
+                        <%category.forEach((x) => {%>
+                            <option><%=x.catagoryName%></option>
+                        <%})%>
+                    </select>
+                    <select name="BrandName" class="" id="brand" required
+                        style="width: 38%;height: 35px;border-radius: 5px;">
+                        <option value="" selected disabled>Select a Brand</option>
+                        <%brands.forEach((x) => {%>
+                            <option><%=x.brandName%></option>
+                        <%})%>
+                    </select>
+                </div>
+                <br>
+                <div class="d-flex">
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <textarea name="Specification1" placeholder="Specification1"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
+                    <textarea name="Specification2" placeholder="Specification2"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <textarea name="Specification3" placeholder="Specification3"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
+                    <textarea name="Specification4" placeholder="Specification4"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <textarea name="Description" placeholder="Description"
+                        style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="number" name="Price" placeholder="Enter the price"
+                        style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
+                    <input type="number" name="DiscountAmount" placeholder="Discount Amount"
+                        style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
+                    <input type="number" name="AvailableQuantity" placeholder="Stock"
+                        style="width: 20%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="file" name="main" id="imageInput1" accept="image/*"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
+                    <input type="file" name="image1" id="imageInput2" accept="image/* "
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"required>
+                </div>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="file" name="image2" id="imageInput3" accept="image/*"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
+                    <input type="file" name="image3" id="imageInput4" accept="image/*"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div style="width: 100px;height: 100px;margin-right: 4%;margin-left: 4%;">
+                        <img id="imagePreview1" src="" alt="Image Preview 1"
+                            style="max-width: 100px; max-height: 100px;">
                     </div>
-                    <button type="submit" class="btn btn-primary ms-3">Add Product</button>
+                    <div style="width: 100px;height: 100px;margin-right: 4%;">
+                        <img id="imagePreview2" src="" alt="Image Preview 2"
+                            style="max-width: 100px; max-height: 100px;">
+                    </div>
+                    <div style="width: 100px;height: 100px;margin-right: 4%;">
+                        <img id="imagePreview3" src="" alt="Image Preview 3"
+                            style="max-width: 100px; max-height: 100px;">
+                    </div>
+                    <div style="width: 100px;height: 100px;">
+                        <img id="imagePreview4" src="" alt="Image Preview 4"
+                            style="max-width: 100px; max-height: 100px;">
+                    </div>
                 </div>
-                </form>
+                <div class="d-flex justify-content-center align-items-center">
+                    <input name="tags" placeholder="Tags"
+                        style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn" style="background-color: rgb(36, 80, 255);color: white;">Add Product</button>
+                </div>
             </div>
-        </main>
+        </div>
+    </form>
 
-        <%- include('../layout/footer.ejs') %>
+    <%- include('../layout/footer.ejs') %>

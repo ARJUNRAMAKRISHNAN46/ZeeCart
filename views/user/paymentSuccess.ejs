@@ -62,12 +62,12 @@
 
     .popup h2 {
         font-size: 38px;
-        font-weight: 700;
+        font-weight: 500;
         margin: 30px 0 10px;
     }
 
     .popup button {
-        width: 40%;
+        width: 100%;
         margin-top: 50px;
         padding: 10px 0;
         background: #6fd649;
@@ -78,14 +78,7 @@
         border-radius: 4px;
         cursor: pointer;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        margin: 5%;
-    }
 
-    .buttonClass {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 </style>
 
@@ -93,12 +86,10 @@
     <div class="container">
         <button type="submit" class="btn" onclick="openPopup()">Submit</button>
         <div class="popup" id="popup">
-            <h2>Alert</h2>
-            <p>Are you sure you want to delete this Catagory</p>
-            <div class="buttonClass">
-                <button id="button1" type="button" onclick="closePopup()">Yes</button>
-                <button id="button2" type="button" onclick="closePopup()">No</button>
-            </div>
+            <img src="https://www.shutterstock.com/image-vector/flat-round-check-mark-green-260nw-652023034.jpg"
+                alt="ultra">
+            <h2>Payment Successful</h2>
+            <button type="button" onclick="closePopup()">Ok</button>
         </div>
     </div>
     <script>

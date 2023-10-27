@@ -60,7 +60,7 @@ routers.get("/blockproduct/:id", product_Blocking);
 routers.get("/editProduct/:id", getEditProduct);
 //<-----------------Users------------------>
 routers.get("/customers", admin_Users);
-routers.get("/block/:id", user_Blocking);
+routers.post("/block/:id", user_Blocking);
 routers.get("/adminpanel", adHost);
 routers.post("/adminlogin", admin_Login);
 routers.get("/dashboard", admin_dash);

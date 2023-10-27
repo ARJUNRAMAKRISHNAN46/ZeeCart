@@ -9,13 +9,13 @@ var _statuz;
 var _password;
 
 module.exports = {
-//get login
+  //get login
   getLogin: async (req, res) => {
     try {
-      res.render("user/login",{err : ''});
+      res.render("user/login", { err: "" });
     } catch (error) {}
   },
-//post login
+  //post login
   postLogin: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -36,10 +36,10 @@ module.exports = {
         res.redirect("/invalid-user");
       }
     } catch (error) {
-    console.log(error);
+      console.log(error);
     }
   },
-//throwing access denied error
+  //throwing access denied error
   throwErrOne: async (req, res) => {
     //throwing an error when the user was blocked by admin
     try {
@@ -48,7 +48,7 @@ module.exports = {
       console.log(error);
     }
   },
-//throwing invalid user error
+  //throwing invalid user error
   throwErrTwo: async (req, res) => {
     try {
       res.render("user/login", { err: "invalid username or password" });
@@ -56,7 +56,7 @@ module.exports = {
       console.log(error);
     }
   },
-//get signup
+  //get signup
   getSignupOtp: async (req, res) => {
     try {
       res.render("user/signup", { err: "" });
@@ -88,12 +88,12 @@ module.exports = {
       console.log(error);
     }
   },
-  getSignup:async(req,res) => {
+  getSignup: async (req, res) => {
     try {
-        let email = _email
-        res.render('user/otp',{err : '',email});
+      let email = _email;
+      res.render("user/otp", { err: "", email });
     } catch (error) {
-        console.log(error);    
+      console.log(error);
     }
   },
   postSignup: async (req, res) => {
@@ -105,7 +105,10 @@ module.exports = {
       arr.push(req.body.num4);
       const otpNumber = arr.map(Number);
       const finalotp = Number(arr.join(""));
-      const { email, name, password, statuz } = req.body;
+      const email = _email;
+      const name = _name;
+      const statuz = _statuz;
+      const password = _password;
       const userOTP = await OTP.find({ email });
       if (userOTP[0].otp == finalotp) {
         req.session.logged = true;
@@ -127,8 +130,25 @@ module.exports = {
   //Throwing an error
   throwErrThree: (req, res) => {
     try {
-      const email = req.body.email;
-      res.render("user/otp", { err: "Email ID already exists", email });
+      // const email = req.body.email;
+      res.render("user/otp", { err: "Invalid otp" });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  resendOtp: async (req, res) => {
+    try {
+      const { statuz, name, email, password } = req.body;
+      const data = await User.findOne({ _email });
+      sendOTP(_email);
+
+      res.render("user/otp", {
+        err: "",
+        email: _email,
+        statuz: _statuz,
+        name: _name,
+        password: _password,
+      });
     } catch (error) {
       console.log(error);
     }

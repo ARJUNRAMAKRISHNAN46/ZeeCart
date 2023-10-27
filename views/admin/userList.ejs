@@ -47,6 +47,8 @@
         </div>
         <div style="height: 11  0vh;">
             <%userData.forEach((x)=>{ %>
+                <form action="/block/<%-x._id%>" method="post">
+
                 <div class="row d-flex" style="width: 100vw;">
 
                     <div class="col-2 col-lg-1 userlist d-flex justify-content-center">
@@ -65,15 +67,12 @@
                         </p>
                         </a>
                     </div>
-                    <div class="col-6 col-lg-2 userlist" id="Blockuser"><a id="<%=x.statuz%>" class="blockbtn"
-                            href="/block/<%-x._id%>">
-                            <%=x.statuz%>
-                        </a></div>
-
+                        <div class="col-6 col-lg-2 userlist" id="Blockuser"><button onclick="return confirm('are you sure <%= x.name %> ?')" id="<%=x.statuz%>" class="blockbtn" type="submit"><%=x.statuz%></button></div>
                 </div>
+            </form>
                 <%}) %>
         </div>
-        <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;top: 650px;">
+        <div class="col-lg-12 d-flex justify-content-end" style="position: fixed;bottom: 0px;">
             <nav aria-label="page navigation example">
                 <ul class="pagination">
                     <li class="page-item"><a class="page-link" href="/customers?page=1">1</a></li>

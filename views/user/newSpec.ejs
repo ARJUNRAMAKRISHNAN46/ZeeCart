@@ -1,0 +1,97 @@
+<%- include('../layout/user/header.ejs') -%>
+
+<form action="/addToCart/<%=prodSpec._id%>" method="post">
+        <div class="main-wrapper">
+            <div class="container">
+                <div class="product-div">
+                    <div class="product-div-left">
+                        <div class="img-container" id="img-show">
+                            <img src="/product-images/<%=prodSpec.images[0]%>"
+                                alt="mobile">
+                        </div>
+                        <div class="hover-container">
+                            <div><img src="/product-images/<%=prodSpec.images[0]%>"></div>
+                            <div><img src="/product-images/<%=prodSpec.images[1]%>"></div>
+                            <div><img src="/product-images/<%=prodSpec.images[2]%>"></div>
+                            <div><img src="/product-images/<%=prodSpec.images[3]%>"></div>
+                        </div>
+                    </div>
+                    <div class="product-div-right">
+                        <span class="product-name">
+                            <%=prodSpec.ProductName%>
+                                <%=prodSpec.Specification1%>|<%=prodSpec.Specification4%>
+                        </span>
+                        <span class="product-price"> ₹<%=prodSpec.Price%>/-</span>
+                        <div class="product-rating">
+                            <span><a href="/addToWishlist/<%=prodSpec._id%>" id="wishbutton" style="border: 0;"><i class="fa-solid fa-heart fa-2xl" style="color: #b5b5b5;width: 4 0px;"></i></a></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star-half-alt"></i></span>
+                            <span>(350 ratings)</span>
+                        </div>
+                        <p class="product-spec">
+                            <i class="fa-solid fa-circle fa-2xs"></i>
+                            <%=prodSpec.Specification1%><br>
+                                <i class="fa-solid fa-circle fa-2xs"></i>
+                                <%=prodSpec.Specification2%><br>
+                                    <i class="fa-solid fa-circle fa-2xs"></i>
+                                    <%=prodSpec.Specification3%><br>
+                                        <i class="fa-solid fa-circle fa-2xs"></i>
+                                        <%=prodSpec.Specification4%>
+                        </p>
+                        <p class="product-description">
+                            <%=prodSpec.Description%>
+                        </p>
+                        <div class="btn-groups">
+                            <button type="submit" class="add-cart-btn"><i class="fas fa-shopping-cart"></i>add to
+                                cart</button>
+                            <button type="button" class="buy-now-btn"><i class="fas fa-wallet"></i>buy now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </form>
+
+    <script>
+
+
+        const allHoverImages = document.querySelectorAll(".hover-container div img");
+        const imgContainer = document.querySelector(".img-container");
+
+        window.addEventListener("DOMContentLoaded", () => {
+            allHoverImages[0].parentElement.classList.add("active");
+        });
+
+        allHoverImages.forEach((image) => {
+            image.addEventListener("mouseover", () => {
+                imgContainer.querySelector("img").src = image.src;
+                resetActiveImg();
+                image.parentElement.classList.add("active");
+            });
+        });
+
+        function resetActiveImg() {
+            allHoverImages.forEach((img) => {
+                img.parentElement.classList.remove("active");
+            });
+        }
+        var options = {
+            width: 280,
+            zoomWidth: 800,
+            offset: { vertical: 100, horizontal: 100 }
+        };
+        new ImageZoom(document.getElementById("img-show"), options);
+
+
+        function changeImage() {
+            let main = document.getElementById('productImage');
+            main.style.src()
+        }
+
+    </script>
+    </body>
+
+    </html>

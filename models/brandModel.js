@@ -6,6 +6,9 @@ const brandSchema = new Schema({
   brandName: {
     type: String,
   },
+  timeStamp: {
+    type: Date,
+  },
 });
 
 const Brand = mongoose.model("Brand", brandSchema);

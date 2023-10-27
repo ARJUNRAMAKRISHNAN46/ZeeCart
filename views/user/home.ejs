@@ -1,102 +1,112 @@
 <%- include('../layout/header.ejs') -%>
-<%-include('../layout/user/header.ejs')-%>
+    <%-include('../layout/user/header.ejs')-%>
 
-    <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
+        <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
 
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="assets/Banner_1.jpg" class="d-block w-100" alt="Banner1">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/Banner_2.jpg" class="d-block w-100" alt="Banner2">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/Banner_3.jpg" class="d-block w-100" alt="Banner3">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-    <!-----------------------------------------------------------Product List----------------------------------------------------------------------- -->
-
-    <div class="py-3 py-md-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 class="mb-4"><strong>BEST SELLING MOBILES</strong></h4>
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="assets/Banner_1.jpg" class="d-block w-100" alt="Banner1">
                 </div>
-                <%arr.forEach((x)=>{ %>
-
-                    <div class="card col-6 col-md-2">
-                        <img class="card-img-top" style="height: 220px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                        <div class="card-body">
-                          <h6 class="card-title"><%=x.ProductName%></h6>
-                          <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                          <a href="/productspecs/<%-x._id%>" class="btn btn-primary">view Details</a>
-                        </div>
-                      </div>
-
-                    <%}) %>
-            </div>
-        </div>
-    </div>
-
-    <!-----------------------------------------------------------------carousel------------------------------------------------------------- -->
-
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="assets/Banner_1.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/Banner_2.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/Banner_3.jpg" class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-    <!-- ------------------------------------------------------Product List---------------------------------------------------------------- -->
-
-    <div class="py-3 py-md-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 class="mb-4"><strong>FLAGSHIP MOBILES</strong></h4>
+                <div class="carousel-item">
+                    <img src="assets/Banner_2.jpg" class="d-block w-100" alt="Banner2">
                 </div>
-                <%arr.forEach((x)=>{ %>
+                <div class="carousel-item">
+                    <img src="assets/Banner_3.jpg" class="d-block w-100" alt="Banner3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
 
-                    <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2" style="text-decoration: none;">
-                        <img class="card-img-top" style="height: 220px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                        <div class="card-body">
-                          <h6 class="card-title"><%=x.ProductName%></h6>
-                          <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                          <!-- <a href="" class="btn btn-primary">view Details</a> -->
-                        </div>
-                    </a>
+        <!-----------------------------------------------------------Product List----------------------------------------------------------------------- -->
 
-                    <%}) %>
+        <div class="py-3 py-md-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mb-4"><strong>BEST SELLING MOBILES</strong></h4>
+                    </div>
+                    <%arr.forEach((x)=>{ %>
+                        <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
+                            <form action="/addToCart/<%=x._id%>" method="post">
+                                <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <%=x.ProductName%>
+                                    </h6>
+                                    <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
+                                    <button style="font-size: small;" type="submit" class="btn btn-secondary">Add To
+                                        Cart</button>
+                                </div>
+                            </form>
+                        </a>
+
+                        <%}) %>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- ----------------------------------------------------------------Footer---------------------------------------------------------------- -->
-    <%- include('../layout/user/footer.ejs') -%>
-    
+        <!-----------------------------------------------------------------carousel------------------------------------------------------------- -->
+
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="assets/Banner_1.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/Banner_2.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/Banner_3.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- ------------------------------------------------------Product List---------------------------------------------------------------- -->
+
+        <div class="py-3 py-md-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mb-4"><strong>FLAGSHIP MOBILES</strong></h4>
+                    </div>
+                    <%arr.forEach((x)=>{ %>
+                        <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
+                            <form action="/addToCart/<%=x._id%>" method="post">
+                                <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <%=x.ProductName%>
+                                    </h6>
+                                    <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
+                                    <button style="font-size: small;" type="submit" class="btn btn-secondary">Add To
+                                        Cart</button>
+                                </div>
+                            </form>
+                        </a>
+                        <%}) %>
+                </div>
+            </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------Footer---------------------------------------------------------------- -->
+        <%- include('../layout/user/footer.ejs') -%>

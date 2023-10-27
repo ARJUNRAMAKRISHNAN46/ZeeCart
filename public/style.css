@@ -210,7 +210,7 @@
 }
 
 .main-navbar .top-navbar {
-  background-color: #2874f0;
+  background-color: #3c3c3c;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -542,6 +542,9 @@ html {
   font-weight: 400;
 }
 #Active {
+  width: 100px;
+  height: 35px;
+  border-radius: 10px;
   background-color: green;
   padding: 5px 20px;
   border-radius: 6px;
@@ -550,6 +553,9 @@ html {
 }
 
 #Blocked {
+  width: 100px;
+  height: 35px;
+  border-radius: 10px;
   background-color: red;
   padding: 5px 20px;
   border-radius: 6px;
@@ -689,7 +695,7 @@ header {
   margin: 30px 0 10px;
 }
 
-.popup .buttonClass #button {
+.popup .buttonClass #buttonz {
   width: 60px;
   margin-top: 50px;
   padding: 10px 0;
