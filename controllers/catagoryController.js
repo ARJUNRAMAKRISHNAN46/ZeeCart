@@ -29,7 +29,7 @@ module.exports = {
       } else {
         //adding brand to database
         await Catagory.create({ catagoryName: catagory });
-        res.redirect("/catagory");
+        res.redirect("/catagory?page=1");
       }
     } catch (error) {
       console.log("here is some errors ");
@@ -52,9 +52,10 @@ module.exports = {
   deleteCatagory: async (req, res) => {
     try {
       //delete brand name
+
       const id = req.params.id;
       const catagory = await Catagory.deleteOne({ _id: id });
-      res.redirect("/catagory");
+      res.redirect("/catagory?page=1");
     } catch (error) {
       console.log("error occured while deleting catagory");
     }
@@ -72,25 +73,22 @@ module.exports = {
           },
         }
       );
-      res.redirect("/catagory");
+      res.redirect("/catagory?page=1");
     } catch (error) {
       console.log("error occured while uploading catagory");
     }
   },
   admin_catagory: async (req, res) => {
     try {
-      if (req.session.logged) {
-        res.redirect("/dashboard");
-      } else {
-        //creating pagination
-        const pageNum = req.query.page;
-        const perPage = 10;
-        const catagoryz = await Catagory.find()
-          .skip((pageNum - 1) * perPage)
-          .limit(perPage);
-        let i = (pageNum - 1) * perPage;
-        res.render("admin/catagory", { catagoryz, i, err: "" });
-      }
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 2;
+      const dataCount = await Catagory.find().count()
+      const catagoryz = await Catagory.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+      res.render("admin/catagory", { catagoryz, i, dataCount, err: "" });
     } catch (error) {
       console.log(error);
     }

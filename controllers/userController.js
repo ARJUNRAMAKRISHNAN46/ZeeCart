@@ -4,11 +4,39 @@ const bcrypt = require("bcrypt");
 const { sendOTP } = require("../util/otp");
 const OTP = require("../models/otpModel");
 const products = require("../models/productModel");
+const order = require("../models/ordersModel");
 const wishlist = require("../models/wishlistModel");
 const { Mongoose, ObjectId } = require("mongoose");
+const crypto = require('crypto');
+const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
+
 let userEmail;
 module.exports = {
   host: async (req, res) => {
+    try {
+      const searchQuery = req.body.search;
+
+      if (searchQuery) {
+        const productDetails = await products.find({});
+      } else {
+        const email = req.session.email;
+        const data = await User.findOne({ email });
+        const imgs = await products.find();
+        const arr = [];
+        imgs.forEach((x) => {
+          if (x.status == "Active") {
+            arr.push(x);
+          }
+        });
+        const BudgetMobiles = await products.find({ DiscountAmount : { $lt: 20000 } }).limit(8);
+        const FlagMobiles = await products.find({ Category : 'FLAGSHIP MOBILES' }).limit(8);
+        res.render("user/home", { data, arr, BudgetMobiles, FlagMobiles });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  guestPage: async (req, res) => {
     try {
       const email = req.session.email;
       const data = await User.findOne({ email });
@@ -19,8 +47,7 @@ module.exports = {
           arr.push(x);
         }
       });
-      // console.log(arr);
-      res.render("user/home", { data, arr });
+      res.render("user/guestHome", { data, arr });
     } catch (error) {
       console.log(error);
     }
@@ -129,9 +156,7 @@ module.exports = {
     try {
       const email = req.session.email;
       const userData = await User.find({ email: email });
-      console.log("userid" + userData[0]._id);
       const productId = req.params.id;
-      console.log("proid" + productId);
       await wishlist.updateOne(
         { userId: userData[0]._id },
         {
@@ -165,6 +190,110 @@ module.exports = {
       res.render("user/changePassword");
     } catch (error) {
       console.log(error);
+    }
+  },
+  admin_Users: async (req, res) => {
+    try {
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 5;
+      const dataCount = await User.find().count();
+      // console.log(countData);
+      const userData = await User.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+      res.render("admin/userList", {
+        title: "admin-user list",
+        userData,
+        i,
+        dataCount,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  user_Blocking: async (req, res) => {
+    try {
+      //user control (user blocking and unblocking)
+      const id = req.params.id;
+      const blockData = await User.findOne({ _id: id });
+      if (blockData.statuz == "Active") {
+        const blocked = await User.updateOne(
+          { _id: id },
+          { statuz: "Blocked" }
+        );
+      } else if (blockData.statuz == "Blocked") {
+        const blocked = await User.updateOne({ _id: id }, { statuz: "Active" });
+      }
+      //setting pagination for admin-user controller page
+      const pageNum = req.query.page;
+      const perPage = 10;
+      const userData = await User.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+
+      // res.render("admin/userList", { title: "admin-user list", userData, i,dataCount });
+      res.redirect("/customers");
+    } catch (error) {
+      console.log("an error occured in userlist");
+    }
+  },
+  downloadInvoice: async (req, res) => {
+    try {
+      const orderData = await order.findOne({
+        _id: req.body.orderId,
+      })
+        .populate("Address")
+        .populate("Items.ProductId");
+      console.log("order data ====", orderData);
+      const filePath = await invoice.order(orderData);
+      const orderId = orderData._id;
+      res.json({ orderId });
+    } catch (error) {
+      console.error("Error in downloadInvoice:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  downloadfile: async (req, res) => {
+    const id = req.params._id;
+    const filePath = `C:/Users/user/Desktop/Ticker/public/pdf/${id}.pdf`;
+    res.download(filePath, `invoice.pdf`);
+  },
+
+  verifyPayment: async (req, res) => {
+    console.log("it is the body", req.body);
+    let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_KEY);
+    console.log(
+      req.body.payment.razorpay_order_id +
+        "|" +
+        req.body.payment.razorpay_payment_id
+    );
+    hmac.update(
+      req.body.payment.razorpay_order_id +
+        "|" +
+        req.body.payment.razorpay_payment_id
+    );
+
+    hmac = hmac.digest("hex");
+    console.log(hmac,'hmacccccccccccccccccccccc------------------------------------------');
+    if (hmac === req.body.payment.razorpay_signature) {
+      const orderId = req.body.order.receipt
+      console.log(orderId,'orderIdddddddddddddddddddddddddd');
+      console.log("reciept", req.body.order.receipt);
+      console.log(req.body.orderId,'-------------------------------------------------------------------------------------------------------------------orderid');
+      const orderID = req.body.orderId;
+      const updateOrderDocument = await order.findByIdAndUpdate(orderID, {
+        PaymentStatus: "Paid",
+        paymentMethod: "Online",
+      });
+      console.log("hmac success");
+      res.json({ success: true });
+    } else {
+      console.log("hmac failed");
+      res.json({ failure: true });
     }
   },
 };

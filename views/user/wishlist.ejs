@@ -25,16 +25,23 @@
     </head>
 
     <body>
-        <form action="/placeOrder">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="card border shadow mt-5">
-                            <div class="m-4">
-                                <h4 class="card-title mb-4">Your Wishlist</h4>
-                                <% if(err){%>
-                                        <div class="bg-danger"><h1>Your Wishlist is Empty</h1></div>
-                                    <%}else{%>
+            <% if(!wishData[0]){%>
+                <div class="container m-5">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card border shadow mt-5 h-100">
+                                <h1 class="mx-5 my-5">Your Wishlist is Empty</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}else{%>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card border shadow mt-5 ">
+                                    <div class="m-4">
+                                        <h4 class="card-title mb-4">Your Wishlist</h4>
                                         <% wishData.forEach((data)=> { %>
                                             <div class="row d-flex gy-3 mb-4">
                                                 <div class="col-lg-5">
@@ -63,27 +70,28 @@
                                                             class="card-text text-center text-danger out-of-stock-message"
                                                             id="" style="display: none;"> </strong>
                                                         <form action="/addToCart/<%=data.productId._id%>" method="post">
-                                                            <button class="text-white btn-secondary" style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;" type="submit"
-                                                                >Add to
-                                                                Cart</button></form>
+                                                            <button class="text-white btn-secondary"
+                                                                style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
+                                                                type="submit">Add to
+                                                                Cart</button>
+                                                        </form>
                                                         <form action="/removeFromWishlist/<%=data.productId._id%>"
                                                             method="post"><button type="submit"
                                                                 class="btn btn-light border text-danger icon-hover-danger ml-2"
-                                                                onclick="removeFromCart('<%= data.productId._id %>')">Remove</button>
+                                                                onclick="return confirm('Are you sure to delete this item?')">Remove</button>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                             <% }); %>
                                                 <%} %>
-                            </div>
+                                    </div>
 
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            </div>
-        </form>
+                    </div>
         <br>
         <br>
 

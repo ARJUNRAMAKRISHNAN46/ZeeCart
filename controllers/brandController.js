@@ -8,12 +8,13 @@ module.exports = {
       } else {
         //creating pagination
         const pageNum = req.query.page;
-        const perPage = 10;
+        const perPage = 3;
+        const dataCount = await Brand.find().count()
         const brandz = await Brand.find()
           .skip((pageNum - 1) * perPage)
           .limit(perPage);
         let i = (pageNum - 1) * perPage;
-        res.render("admin/brands", { title: "admin brands", brandz, i });
+        res.render("admin/brands", { title: "admin brands", brandz, i ,dataCount});
       }
     } catch (error) {
       console.log(error);
@@ -21,7 +22,7 @@ module.exports = {
   },
   addBrand: async (req, res) => {
     try {
-      res.render("admin/addbrand");
+      res.render("admin/addbrand",{err : ''});
     } catch (error) {
       console.log(error);
     }
@@ -31,10 +32,17 @@ module.exports = {
     try {
       const brand = req.body.brandname;
       //adding brand to database
-      await Brand.create({ brandName: brand });
-      res.redirect("/brands");
+      const existBrand = await Brand.findOne({brandName : brand});
+      console.log(existBrand);
+      if(!existBrand) {
+        await Brand.create({ brandName: brand });
+        res.redirect("/brands?page=1");
+      }else{
+        console.log('here');
+        res.render('admin/addbrand',{err : 'brand already exists..!'})
+      }
     } catch (error) {
-      console.log("here is some errors ");
+      console.log(error);
     }
   },
 
@@ -56,7 +64,7 @@ module.exports = {
       //delete brand name
       const id = req.params.id;
       const brand = await Brand.deleteOne({ _id: id });
-      res.redirect("/brands");
+      res.redirect("/brands?page=1");
     } catch (error) {
       console.log("error occured while deleting brand ");
     }
@@ -74,7 +82,7 @@ module.exports = {
           },
         }
       );
-      res.redirect("/brands");
+      res.redirect("/brands?page=1");
     } catch (error) {
       console.log("error occured while uploading brand ");
     }

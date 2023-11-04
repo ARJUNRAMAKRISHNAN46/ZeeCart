@@ -6,20 +6,26 @@ const orderSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
   },
-   products: [{
-    productId: {
-      type: Schema.Types.ObjectId,ref : 'productUploads'
+  products: [
+    {
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: "productUploads",
+      },
+      quantity: Number,
     },
-    quantity:Number
-  }],
+  ],
   address: {
-    type : Schema.Types.ObjectId,ref : 'address'
+    type: Schema.Types.ObjectId,
+    ref: "address",
   },
-  orderDate:Date,
-  paymentMethod:String,
-  totalAmount:Number,
-  deliveryDate:Date,
-  orderStatus:String,
+  OrderDate: String,
+  ExpectedDeliveryDate: String,
+  paymentMethod: String,
+  PaymentStatus:String,
+  totalAmount: Number,
+  deliveryDate: Date,
+  orderStatus: String,
 });
 
 const orderModels = mongoose.model("order", orderSchema);

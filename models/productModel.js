@@ -33,7 +33,6 @@ const productSchema = new Schema({
   Category: {
     type: String,
     required: true,
-    unique: true,
   },
   DiscountAmount: {
     type: Number,

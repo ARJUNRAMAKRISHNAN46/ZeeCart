@@ -1,25 +1,28 @@
 const express = require("express");
 const routers = express.Router();
+const { verifyAdmin, adminExist } = require("../middleware/session");
+const { admin_coupon, addCoupon } = require("../controllers/couponController");
 const {
   adHost,
   admin_Login,
-  admin_Users,
-  user_Blocking,
   admin_dash,
   admin_admin,
   admin_banners,
-  admin_coupon,
-  admin_orders,
   admin_payments,
   adminLogOut,
 } = require("../controllers/admin-controller");
+const { admin_Users, user_Blocking } = require("../controllers/userController");
+const {
+  admin_orders,
+  updateOrderStatus,
+  viewDetails,
+} = require("../controllers/orderController");
 const {
   admin_catagory,
   getCategory,
   uploadCatagory,
   addCategory,
   editCatagory,
-  // uploadCatagory,
   deleteCatagory,
 } = require("../controllers/catagoryController");
 const {
@@ -28,47 +31,54 @@ const {
   brandAdded,
   deleteBrand,
   editBrand,
-  uploadBrand
+  uploadBrand,
 } = require("../controllers/brandController");
-const{
+const {
   admin_product,
   getAddProduct,
   product_Blocking,
   addProduct,
   editProduct,
-  getEditProduct
-} = require('../controllers/productController')
+  getEditProduct,
+} = require("../controllers/productController");
 const upload = require("../middleware/multer");
 //<--------------Catagory---------------->
-routers.get("/catagory", admin_catagory);
-routers.get("/getcatagory", getCategory);
-routers.post("/uploadcatagory", uploadCatagory);
-routers.post("/addcatagory", addCategory);
-routers.get("/editcatagory/:id", editCatagory);
-routers.get("/deletecatagory/:id", deleteCatagory);
+routers.get("/catagory", verifyAdmin, admin_catagory);
+routers.get("/getcatagory", verifyAdmin, getCategory);
+routers.post("/uploadcatagory", verifyAdmin, uploadCatagory);
+routers.post("/addcatagory", verifyAdmin, addCategory);
+routers.get("/editcatagory/:id", verifyAdmin, editCatagory);
+routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
 //<----------------Brand------------------>
-routers.get("/addbrand", addBrand);
-routers.get("/brands", admin_brands);
-routers.post("/brandadded", brandAdded);
-routers.get("/deletebrand/:id", deleteBrand);
-routers.get("/editbrand/:id", editBrand);
-routers.post("/uploadbrand", uploadBrand);
+routers.get("/addbrand", verifyAdmin, addBrand);
+routers.get("/brands", verifyAdmin, admin_brands);
+routers.post("/brandadded", verifyAdmin, brandAdded);
+routers.get("/deletebrand/:id", verifyAdmin, deleteBrand);
+routers.get("/editbrand/:id", verifyAdmin, editBrand);
+routers.post("/uploadbrand", verifyAdmin, uploadBrand);
 //<---------------Product----------------->
-routers.get("/products", admin_product);
-routers.get("/getproduct", getAddProduct);
-routers.get("/blockproduct/:id", product_Blocking);
-routers.get("/editProduct/:id", getEditProduct);
+routers.get("/products", verifyAdmin, admin_product);
+routers.get("/getproduct", verifyAdmin, getAddProduct);
+routers.get("/blockproduct/:id", verifyAdmin, product_Blocking);
+routers.get("/editProduct/:id", verifyAdmin, getEditProduct);
+//<-----------------Orders------------------>
+routers.get("/orders", verifyAdmin, admin_orders);
+routers.put("/updateOrderStatus/:id", verifyAdmin, updateOrderStatus);
+routers.get("/viewDetails/:id", verifyAdmin, viewDetails);
 //<-----------------Users------------------>
-routers.get("/customers", admin_Users);
-routers.post("/block/:id", user_Blocking);
-routers.get("/adminpanel", adHost);
-routers.post("/adminlogin", admin_Login);
-routers.get("/dashboard", admin_dash);
-routers.get("/banners", admin_banners);
-routers.get("/orders", admin_orders);
-routers.get("/payments", admin_payments);
-routers.get("/admin", admin_admin);
-routers.get("/coupon", admin_coupon);
+routers.get("/customers", verifyAdmin, admin_Users);
+routers.post("/block/:id", verifyAdmin, user_Blocking);
+
+routers.get("/adminpanel", adminExist, adHost);
+routers.post("/adminlogin", adminExist, admin_Login);
+routers.get("/dashboard", verifyAdmin, admin_dash);
+routers.get("/banners", verifyAdmin, admin_banners);
+routers.get("/payments", verifyAdmin, admin_payments);
+routers.get("/admin", verifyAdmin, admin_admin);
+
+routers.get("/coupon", verifyAdmin, admin_coupon);
+routers.post("/addCoupon", verifyAdmin, addCoupon);
+
 routers.get("/log-out", adminLogOut);
 
 // <-------------Image upload-------------->

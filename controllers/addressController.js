@@ -1,13 +1,20 @@
 const Address = require("../models/addressModel");
+const User = require("../models/userModel");
 
 module.exports = {
   //get user profile page
   Profile: async (req, res) => {
     try {
+      const pageNum = req.query.page;
+      const perPage = 2;
       let email = req.session.email;
-      let data = await Address.find({ email });
-      const i = 1;
-      res.render("user/profile", { data, i });
+      let dataCount = await Address.find({ email }).count();
+      let data = await Address.find({ email })
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+        let i = (pageNum - 1) * perPage;
+      let userId = await User.findOne({ email });
+      res.render("user/userProfile", { data, i, userId, dataCount });
     } catch (error) {
       console.log(error);
     }
@@ -15,7 +22,9 @@ module.exports = {
   //getting user address adding page
   getAddAddress: async (req, res) => {
     try {
-      res.render("user/addAddress");
+      const email = req.session.email;
+      const userId = await User.findOne({ email });
+      res.render("user/addAddress", { userId });
     } catch (error) {
       console.log(error);
     }
@@ -24,7 +33,15 @@ module.exports = {
   addAddress: async (req, res) => {
     try {
       await Address.create(req.body);
-      res.redirect("/profile");
+      res.redirect("/profile?page=1");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  addNewAddress: async (req, res) => {
+    try {
+      await Address.create(req.body);
+      res.redirect("/placeOrder");
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +57,7 @@ module.exports = {
     }
     await Address.updateOne();
   },
-  //post edit address 
+  //post edit address
   postEditAddress: async (req, res) => {
     try {
       const {
@@ -70,7 +87,7 @@ module.exports = {
           state: state,
         }
       );
-      res.redirect("/profile");
+      res.redirect("/profile?page=1");
     } catch (error) {}
   },
   //deleting address from user profile
@@ -78,37 +95,31 @@ module.exports = {
     try {
       const addressId = req.params.id;
       await Address.deleteOne({ _id: addressId });
-      res.redirect("/profile");
+      res.redirect("/profile?page=1");
     } catch (error) {
       console.log(error);
     }
   },
   //placing order
-  placeOrder : async (req,res) => {
+  placeOrder: async (req, res) => {
     try {
       let email = req.session.email;
       let address = await Address.find({ email });
-      res.render('user/selectAddress',{ address });
+      let userId = await User.findOne({ email });
+      res.render("user/selectAddress", { address, userId });
     } catch (error) {
       console.log(error);
     }
   },
   //confirm user address
-  confirmAddress:async(req,res) => {
-   try {
-    const addressId = req.body.id;
-    const address = await Address.find({_id : addressId});
-    res.render('user/paymentMethod',{ address });
-   } catch (error) {
-    console.log(error);
-   }
-  },
+  confirmAddress: async (req, res) => {
+    try {
+      const addressId = req.body.id;
+      const address = await Address.find({ _id: addressId });
 
-  // confirmPayment:async(req,res)=>{
-  //   try {
-  //     res.render('user/paymentSuccess');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+      res.render("user/paymentMethod", { address });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

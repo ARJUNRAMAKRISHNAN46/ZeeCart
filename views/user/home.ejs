@@ -1,6 +1,167 @@
 <%- include('../layout/header.ejs') -%>
     <%-include('../layout/user/header.ejs')-%>
 
+        <!-- <!doctype html>
+        <html lang="en">
+
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Ecommerce Navbar Design</title>
+
+            <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+                rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="style.css">
+        </head> -->
+        <style>
+            .product-card {
+                background-color: #fff;
+                border: 1px solid #ccc;
+                margin-bottom: 24px;
+            }
+
+            .product-card a {
+                text-decoration: none;
+            }
+
+            .product-card .stock {
+                color: #fff;
+                border-radius: 4px;
+                padding: 2px 12px;
+                margin: 8px;
+                font-size: 12px;
+            }
+
+            .product-card .product-card-img {
+                max-height: 400px;
+                overflow: hidden;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .product-card .product-card-img img {
+                width: 100%;
+            }
+
+            .product-card .product-card-body {
+                padding: 10px 10px;
+            }
+
+            .product-card .product-card-body .product-brand {
+                font-size: 14px;
+                font-weight: 400;
+                margin-bottom: 4px;
+                color: #937979;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .product-card .product-card-body .product-name {
+                font-size: 20px;
+                font-weight: 550;
+                color: #000;
+            }
+
+            .product-card .product-card-body .selling-price {
+                font-size: 16px;
+                color: #000;
+                font-weight: 650;
+                margin-right: 8px;
+            }
+
+            .product-card .product-card-body .original-price {
+                font-size: 14px;
+                color: #937979;
+                font-weight: 400;
+                text-decoration: line-through;
+            }
+
+            .product-card .product-card-body .btn1 {
+                border: 1px solid;
+                margin-right: 3px;
+                border-radius: 0px;
+                font-size: 12px;
+                margin-top: 10px;
+            }
+        </style>
+
+        <!-- <body>
+
+            <div class="py-3 py-md-5 bg-light">
+                <div class="container">
+                    <div class="row">
+                        <%arr.forEach((x)=>{ %>
+                            <div class="col-6 col-md-2">
+                                <div class="product-card">
+                                    <div style="height: 200px;" class="product-card-img p-3">
+                                        <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
+                                    </div>
+                                    <label class="stock bg-success">In Stock</label>
+                                    <div class="product-card-body">
+                                        <p class="product-brand"></p>
+                                        <h5 class="product-name"><%=x.ProductName%>
+                                        </h5>
+                                        <div>
+                                            <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                            <span class="original-price">₹<%=x.Price%>/-</span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <a href="" class="btn btn1">Add To Cart</a>
+                                            <a href="" class="btn btn1"> <i class="fa fa-heart"></i> </a>
+                                            <a href="" class="btn btn1"> View </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}) %>
+
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+
+        </html>
+
+        <div class="py-3 py-md-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mb-4">Our Categories</h4>
+                    </div>
+                    <%arr.forEach((x)=>{ %>
+                        <div class="col-6 col-sm-3 col-md-2">
+                            <div class="category-card">
+                                <a href="">
+                                    <div class="category-card-img">
+                                        <img src="/product-images/<%= x.images[0] %>" class="w-100" alt="Laptop">
+                                    </div>
+                                    <div class="category-card-body">
+                                        <h6>
+                                            <%=x.ProductName%>
+                                        </h6>
+                                    </div>
+                                </a>
+                                <div class="d-flex p-2">
+                                    <button class="btn btn-primary">Add to Cart</button>
+                                    <a href="" class="btn btn-light border px-2 icon-hover-primary"><i
+                                            class="fa-solid fa-heart" style="color: #000000;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <%}) %>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+
+        </html> -->
+
+
         <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
 
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -27,35 +188,115 @@
             </button>
         </div>
 
-        <!-----------------------------------------------------------Product List----------------------------------------------------------------------- -->
-
+        <!-- ---------------------------------------------------------Product List----------------------------------------------------------------------- -->
         <div class="py-3 py-md-5 bg-light">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4 class="mb-4"><strong>BEST SELLING MOBILES</strong></h4>
+                        <h3 class="mb-4"><b>Top Brands</b></h3>
                     </div>
-                    <%arr.forEach((x)=>{ %>
-                        <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
-                            <form action="/addToCart/<%=x._id%>" method="post">
+                    <div class="col-6 col-md-3">
+                        <div class="category-card">
+                            <a href="/categoryFilter?catData=SAMSUNG">
+                                <div class="category-card-img p-4">
+                                    <img src="/assets/s221.png" class="w-100" alt="Laptop">
+                                </div>
+                                <div class="category-card-body">
+                                    <h5>SAMSUNG</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="category-card">
+                            <a href="/categoryFilter?catData=APPLE">
+                                <div class="category-card-img">
+                                    <img src="/assets/x14-main.png" class="w-100" alt="Mobile Devices">
+                                </div>
+                                <div class="category-card-body">
+                                    <h5>APPLE</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="category-card">
+                            <a href="/categoryFilter?catData=XIOMI">
+                                <div class="category-card-img p-1">
+                                    <img src="/assets/x13-main.png" class="w-100" alt="Mens Fashion">
+                                </div>
+                                <div class="category-card-body">
+                                    <h5>XIOMI</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="category-card">
+                            <a href="/categoryFilter?catData=REALME">
+                                <div class="category-card-img p-4">
+                                    <img src="/assets/rm1.png" class="w-100" alt="Women Fashion">
+                                </div>
+                                <div class="category-card-body">
+                                    <h5>REALME</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 py-md-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mb-4"><strong>LOW BUDGET MOBILES</strong></h4>
+                    </div>
+                    <% BudgetMobiles.forEach((x)=>{ %>
+                        <div class="col-6 col-md-3">
+                            <div class="product-card">
+                                <div style="height: 300px;" class="product-card-img p-3">
+                                    <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
+                                </div>
+                                <label class="stock bg-success">In Stock</label>
+                                <div class="product-card-body">
+                                    <p class="product-brand"></p>
+                                    <h5 class="product-name">
+                                        <%=x.ProductName%>
+                                    </h5>
+                                    <div>
+                                        <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                        <span class="original-price">₹<%=x.Price%>/-</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To Cart</a>
+                                        <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i class="fa fa-heart"></i> </a>
+                                        <a href="/productspecs/<%=x._id%>" class="btn btn1"> View </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card col-6 col-md-2">
+                            <a href="/productspecs/<%-x._id%>" class="">
                                 <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
                                 <div class="card-body">
                                     <h6 class="card-title">
                                         <%=x.ProductName%>
                                     </h6>
                                     <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                                    <button style="font-size: small;" type="submit" class="btn btn-secondary">Add To
-                                        Cart</button>
                                 </div>
-                            </form>
-                        </a>
+                            </a>
+                            <button style="font-size: small;" type="button" onclick="addToCart('<%=x._id%>')"
+                                class="btn btn-secondary">Add To
+                                Cart</button>
+                        </div> -->
 
                         <%}) %>
                 </div>
             </div>
         </div>
 
-        <!-----------------------------------------------------------------carousel------------------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------carousel------------------------------------------------------------- -->
 
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -89,8 +330,31 @@
                     <div class="col-md-12">
                         <h4 class="mb-4"><strong>FLAGSHIP MOBILES</strong></h4>
                     </div>
-                    <%arr.forEach((x)=>{ %>
-                        <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
+                    <% FlagMobiles.forEach((x)=>{ %>
+                        <div class="col-6 col-md-3">
+                            <div class="product-card">
+                                <div style="height: 300px;" class="product-card-img p-3">
+                                    <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
+                                </div>
+                                <label class="stock bg-success">In Stock</label>
+                                <div class="product-card-body">
+                                    <p class="product-brand"></p>
+                                    <h5 class="product-name">
+                                        <%=x.ProductName%>
+                                    </h5>
+                                    <div>
+                                        <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                        <span class="original-price">₹<%=x.Price%>/-</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To Cart</a>
+                                        <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i class="fa fa-heart"></i> </a>
+                                        <a href="/productspecs/<%=x._id%>" class="btn btn1"> View </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
                             <form action="/addToCart/<%=x._id%>" method="post">
                                 <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
                                 <div class="card-body">
@@ -102,11 +366,68 @@
                                         Cart</button>
                                 </div>
                             </form>
-                        </a>
+                        </a> -->
                         <%}) %>
                 </div>
             </div>
         </div>
 
         <!-- ----------------------------------------------------------------Footer---------------------------------------------------------------- -->
+        <script>
+
+            function addToCart(productId) {
+
+                $.ajax({
+                    url: `/addToCart/${productId}`,
+                    method: 'POST',
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Item added to cart',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                // You can add a callback function here if needed
+                                console.log('Response from the server:', response);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, something went wrong!'
+                        });
+                    }
+                });
+            }
+
+
+            function searchProducts() {
+                const searchInput = document.getElementById("searchInput").value;
+                fetch(`/search?query=${searchInput}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displaySearchResults(data);
+                    });
+            }
+
+            function displaySearchResults(results) {
+                const searchResults = document.getElementById("searchResults");
+                searchResults.innerHTML = '';
+
+                if (results.length === 0) {
+                    searchResults.textContent = "No products found.";
+                } else {
+                    results.forEach(product => {
+                        const productElement = document.createElement("div");
+                        productElement.textContent = product.name;
+                        searchResults.appendChild(productElement);
+                    });
+                }
+            }
+
+        </script>
         <%- include('../layout/user/footer.ejs') -%>

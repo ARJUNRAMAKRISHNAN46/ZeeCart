@@ -1,55 +1,118 @@
 <%- include('../layout/header.ejs') -%>
     <%-include('../layout/user/header.ejs')-%>
+    <style>
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin-bottom: 24px;
+        }
 
+        .product-card a {
+            text-decoration: none;
+        }
+
+        .product-card .stock {
+            color: #fff;
+            border-radius: 4px;
+            padding: 2px 12px;
+            margin: 8px;
+            font-size: 12px;
+        }
+
+        .product-card .product-card-img {
+            max-height: 400px;
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .product-card .product-card-img img {
+            width: 100%;
+        }
+
+        .product-card .product-card-body {
+            padding: 10px 10px;
+        }
+
+        .product-card .product-card-body .product-brand {
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 4px;
+            color: #937979;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .product-card .product-card-body .product-name {
+            font-size: 20px;
+            font-weight: 550;
+            color: #000;
+        }
+
+        .product-card .product-card-body .selling-price {
+            font-size: 16px;
+            color: #000;
+            font-weight: 650;
+            margin-right: 8px;
+        }
+
+        .product-card .product-card-body .original-price {
+            font-size: 14px;
+            color: #937979;
+            font-weight: 400;
+            text-decoration: line-through;
+        }
+
+        .product-card .product-card-body .btn1 {
+            border: 1px solid;
+            margin-right: 3px;
+            border-radius: 0px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
         <section>
-            <div class="main-navbar shadow-sm sticky-top" style="width: 100vw;">
+            <div class="main-navbar shadow-sm sticky-top" style="width: 100vw">
                 <ul style="list-style: none;">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             </i><strong>Filter</strong>
                         </a>
-                        <ul class="dropdown-menu" style="line-height: 10px;" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="">
+                        <ul class="dropdown-menu p-4" style="line-height: 10px;" aria-labelledby="navbarDropdown">
+                            <li>
                                     <h6><strong>RAM</strong></h6>
+                               </li>
+                            <li><a class="dropdown-item" href="/memoryFilter?ram=12 GB RAM">
+                                    <p>6 GB </p></a>
+                            </li>
+                            <li><a class="dropdown-item" href="/memoryFilter?ram=12 GB RAM">
+                                <p>8 GB </p>
+                                </a>
+                            </li>
+                            <li>
+                                <h6><strong>ROM</strong></h6>
+                            </li>
+                            <li><a class="dropdown-item" href="/memoryFilter?ram=128 GB ROM">
+                                    <p>128 GB</p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>6 GB <input type="checkbox" checked="checked"></p>
+                            <li><a class="dropdown-item" href="/memoryFilter?ram=256 GB ROM">
+                                    <p>256 GB </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>8 GB <input type="checkbox" checked="checked"></p>
+                            <li><h6><strong>BRAND</strong></h6>
+                                </li>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=SAMSUNG">
+                                    <p>SAMSUNG </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <h6><strong>ROM</strong></h6>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=APPLE">
+                                    <p>APPLE </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>128 GB <input type="checkbox" checked="checked"></p>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=REALME">
+                                    <p>REALME </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>256 GB <input type="checkbox" checked="checked"></p>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=XIOMI">
+                                    <p>XIOMI </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <h6><strong>BRAND</strong></h6>
-                                </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>SAMSUNG <input type="checkbox" checked="checked"></p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>APPLE <input type="checkbox" checked="checked"></p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>REALME <input type="checkbox" checked="checked"></p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>XIOMI <input type="checkbox" checked="checked"></p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>OPPO <input type="checkbox" checked="checked"></p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="">
-                                    <p>VIVO <input type="checkbox" checked="checked"></p>
-                                </a></li>
-
                         </ul>
                     </li>
                 </ul>
@@ -58,21 +121,94 @@
 
         <div class="py-3 py-md-5 bg-light">
             <div class="container">
-                <div class="row">
-                    <%imgs.forEach((x)=>{ %>
-    
-                        <div class="card col-6 col-md-2">
-                            <img class="card-img-top" style="height: 220px; padding: 18px;" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                            <div class="card-body">
-                              <h6 class="card-title"><%=x.ProductName%></h6>
-                              <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                              <a href="/productspecs/<%-x._id%>" class="btn btn-primary">view Details</a>
+                <div class="row min-vh-100">
+                    <%if(imgs[0]) {%>
+                        <% imgs .forEach((x)=>{ %>
+                            <div class="col-6 col-md-3">
+                                <div class="product-card">
+                                    <div style="height: 300px;" class="product-card-img p-3">
+                                        <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
+                                    </div>
+                                    <label class="stock bg-success">In Stock</label>
+                                    <div class="product-card-body">
+                                        <p class="product-brand"></p>
+                                        <h5 class="product-name">
+                                            <%=x.ProductName%>
+                                        </h5>
+                                        <div>
+                                            <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                            <span class="original-price">₹<%=x.Price%>/-</span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To Cart</a>
+                                            <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i class="fa fa-heart"></i> </a>
+                                            <a href="/productspecs/<%=x._id%>" class="btn btn1"> View </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-    
-                        <%}) %>
+                            <%}) %>
+                        <%}else{%>
+                            <h1>No Mobiles Available in this Brand</h1>
+                            <%}%>
                 </div>
             </div>
         </div>
+        <script>
 
-                <%- include('../layout/user/footer.ejs') -%>
+            function addToCart(productId) {
+
+                $.ajax({
+                    url: `/addToCart/${productId}`,
+                    method: 'POST',
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Item added to cart',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                // You can add a callback function here if needed
+                                console.log('Response from the server:', response);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, something went wrong!'
+                        });
+                    }
+                });
+            }
+
+
+            function searchProducts() {
+                const searchInput = document.getElementById("searchInput").value;
+                fetch(`/search?query=${searchInput}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displaySearchResults(data);
+                    });
+            }
+
+            function displaySearchResults(results) {
+                const searchResults = document.getElementById("searchResults");
+                searchResults.innerHTML = '';
+
+                if (results.length === 0) {
+                    searchResults.textContent = "No products found.";
+                } else {
+                    results.forEach(product => {
+                        const productElement = document.createElement("div");
+                        productElement.textContent = product.name;
+                        searchResults.appendChild(productElement);
+                    });
+                }
+            }
+
+        </script>
+        <%- include('../layout/user/footer.ejs') -%>

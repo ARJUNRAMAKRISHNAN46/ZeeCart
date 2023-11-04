@@ -1,52 +1,293 @@
-<%-include('../layout/user/header.ejs')-%>
+<%- include('../layout/header.ejs') -%>
 
+    <style>
+        body {
+            color: #000;
+            overflow-x: hidden;
+            height: 100%;
+            background-color: #8C9EFF;
+            background-repeat: no-repeat;
+        }
 
-    <div class="row d-flex" style="width: 100vw;">
+        .card {
+            z-index: 0;
+            background-color: #ECEFF1;
+            padding-bottom: 20px;
+            margin-top: 90px;
+            margin-bottom: 90px;
+            border-radius: 10px;
+        }
 
-        <div class="col-2 col-lg-1 usertable d-flex align-items-center">No</div>
-        <div class="col-2 col-lg-1 usertable d-flex align-items-center">Image</div>
-        <div class="col-2 col-lg-2 usertable d-flex align-items-center">Name</div>
-        <div class="col-2 col-lg-1 usertable d-flex align-items-center">Purchaseed on</div>
-        <div class="col-2 col-lg-1 usertable d-flex align-items-center">Total Price</div>
-        <div class="col-2 col-lg-1 usertable d-flex align-items-center">Payment Method</div>
-        <div class="col-2 col-lg-1 usertable d-flex align-items-center">Status</div>
+        .top {
+            padding-top: 40px;
+            padding-left: 13% !important;
+            padding-right: 13% !important;
+        }
 
-    </div>
-    <div style="border: 1px solid rgb(255, 159, 159);">
-        <%orders.forEach((x)=>{ %>
-            <form action="/block/<%-x._id%>" method="post">
+        /*Icon progressbar*/
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: #455A64;
+            padding-left: 0px;
+            margin-top: 30px;
+        }
 
-                <div class="row d-flex" style="width: 100vw;border: 1px solid rgb(255, 162, 162);">
+        #progressbar li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+        }
 
-                    <div class="col-2 col-lg-1 userlist d-flex justify-content-center align-items-center">
-                        <%=i++%>
-                    </div>
-                    <div class="col-10 col-lg-1 userlist d-flex align-items-center">
-                        <img width="50px" src="/product-images/<%=x.productId.images[0] %>" alt="">
-                    </div>
-                    <div class="col-10 col-lg-2 userlist d-flex align-items-center">
-                        <%=x.productId.BrandName%>
-                            <%=x.productId.ProductName%>
-                    </div>
-                    <div class="col-2 col-lg-1 userlist d-flex align-items-center">12/10/2023</div>
-                    <div class="col-6 col-lg-1 userlist d-flex align-items-center" id="Blockstatus">
-                        <p>
-                            ₹<%=orderDetails[0].totalAmount%>/-
-                        </p>
-                        </a>
-                    </div>
-                    <div class="col-6 col-lg-1 userlist d-flex align-items-center" id="Blockuser">
-                        <%=orderDetails[0].paymentMethod%>
-                    </div>
-                    <div class="col-6 col-lg-1 userlist d-flex align-items-center">
-                        <%=orderDetails[0].orderStatus%>
-                    </div>
-                    <div class="col-6 col-lg-1 userlist d-flex align-items-center">
-                        <a class="btn btn-success" href="/viewdetails/<%=orderDetails[0].id%>">View</a>
+        #progressbar .step0:before {
+            font-family: FontAwesome;
+            content: "\f10c";
+            color: #fff;
+        }
+
+        #progressbar li:before {
+            width: 40px;
+            height: 40px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            background: #C5CAE9;
+            border-radius: 50%;
+            margin: auto;
+            padding: 0px;
+        }
+
+        /*ProgressBar connectors*/
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 12px;
+            background: #C5CAE9;
+            position: absolute;
+            left: 0;
+            top: 16px;
+            z-index: -1;
+        }
+
+        #progressbar li:last-child:after {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: absolute;
+            left: -50%;
+        }
+
+        #progressbar li:nth-child(2):after,
+        #progressbar li:nth-child(3):after {
+            left: -50%;
+        }
+
+        #progressbar li:first-child:after {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            position: absolute;
+            left: 50%;
+        }
+
+        #progressbar li:last-child:after {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        #progressbar li:first-child:after {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        /*Color number of the step and the connector before it*/
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            /* background: #651FFF; */
+            background: orangered;
+        }
+
+        #progressbar li.active:before {
+            font-family: FontAwesome;
+            content: "\f00c";
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        .icon-content {
+            padding-bottom: 20px;
+        }
+
+        @media screen and (max-width: 992px) {
+            .icon-content {
+                width: 50%;
+            }
+        }
+    </style>
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+        <%orderDetails.forEach((x)=> {%>
+            <div class="card">
+                <div class="row d-flex justify-content-between px-3 top">
+                    <% if(x.orderStatus=='Order Arrived' ) {%>
+                        <div class="d-flex justify-content-end">
+                            <form action="/downloadInvoice/<%=x._id%>" method="post">
+                                <button class="btn btn-success">Download Invoice</button>
+                            </form>
+                        </div>
+                        <%} %>
+                            <div class="d-flex">
+                                <h5>Order ID <span class="text-primary font-weight-bold">#<%=x._id%></span></h5>
+                            </div>
+
+                            <div class="d-flex">
+                                <ul>
+                                    <% x.products.forEach((item)=> { %>
+                                        <img width="50px" src="/product-images/<%= item.productId.images[0] %>"
+                                            alt="<%= item.productId.images[0]%>">
+                                        <li>
+                                            <b>
+                                                <%= item.productId.ProductName %>
+                                            </b>
+                                            <br> Quantity: <%= item.quantity %>
+                                        </li>
+                                        <%}) %>
+                                </ul>
+                            </div>
+                            <div class="d-flex">
+                                <h5><span class="font-weight-bold"> Total Amount : ₹<%=x.totalAmount%>/-</span></h5>
+                            </div>
+                            <div class="d-flex flex-column text-sm-right">
+                                <p class="mb-0"><strong>Order Date : <span>
+                                            <%=x.OrderDate%>
+                                        </span></strong></p>
+                                <p class="mb-0"><strong>Expected Delivery : <span>
+                                            <%=x.ExpectedDeliveryDate%>
+                                        </span></strong></p><br>
+
+                                <%if(addressDetails[0]){%>
+                                    <p><span class="font-weight-bold"><b>Delivery Address</b> :
+                                        <%= addressDetails[0].address %>,<%= addressDetails[0].locality
+                                                %>, <br>
+                                                <%= addressDetails[0].city %> , <%=
+                                                        addressDetails[0].district %> , <%=
+                                                            addressDetails[0].state %> , <br>
+                                                            PIN : <%= addressDetails[0].pincode %>
+                                    </span></p>
+                                    <%}%>
+                            </div>
+                </div>
+                <!-- Add class 'active' to progress -->
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12">
+                        <ul id="progressbar" class="text-center">
+
+                            <% if (x.orderStatus=='Order Processed' ) { %>
+                                <% for (let i=0; i < 1; i++) { %>
+                                    <li class="<%= active %>"></li>
+                                    <% } %>
+                                        <%}%>
+                                            <% if (x.orderStatus=='Shipped' ) { %>
+                                                <% for (let i=0; i < 2; i++) { %>
+                                                    <li class="<%= active %>"></li>
+                                                    <% } %>
+                                                        <%}%>
+                                                            <% if (x.orderStatus=='Order in Route' ) { %>
+                                                                <% for (let i=0; i < 3; i++) { %>
+                                                                    <li class="<%= active %>"></li>
+                                                                    <% } %>
+                                                                        <%}%>
+                                                                            <% if (x.orderStatus=='Order Arrived' ) { %>
+                                                                                <% for (let i=0; i < 4; i++) { %>
+                                                                                    <li class="<%= active %>"></li>
+                                                                                    <% } %>
+                                                                                        <%}%>
+                                                                                            <% if
+                                                                                                (x.orderStatus=='Rejected'
+                                                                                                ) { %>
+                                                                                                <h3 class="text-danger">
+                                                                                                    Order Cancelled by
+                                                                                                    Admin</h3>
+                                                                                                <%}%>
+                                                                                                    <% if
+                                                                                                        (x.orderStatus=='Cancelled'
+                                                                                                        ) { %>
+                                                                                                        <h2
+                                                                                                            class="text-danger">
+                                                                                                            Order
+                                                                                                            Cancelled
+                                                                                                        </h2>
+                                                                                                        <%}%>
+
+                        </ul>
                     </div>
                 </div>
-            </form>
-            <%}) %>
+                <div class="row d-flex top">
+                    <div class="col-3 d-flex icon-content">
+                        <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>Processed</p>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex icon-content justify-content-center">
+                        <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>Shipped</p>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex icon-content justify-content-end">
+                        <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>En Route</p>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex icon-content justify-content-end">
+                        <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>Arrived</p>
+                        </div>
+                    </div>
+                </div>
+                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='Rejected' ) {%>
+                    <div class="d-flex justify-content-between p-4">
+                        <a class="btn  btn-danger" id="cancelBtn"
+                            onclick="return confirm('Are you sure to delete this item?')"
+                            onclick="updateOrderStatus('<%= x._id %>' )" href="">Cancel Order</a>
+                        <a class="btn  btn-primary" id="cancelBtn"
+                            onclick="return confirm('Are you sure to delete this item?')"
+                            onclick="updateOrderStatus('<%= x._id %>' )" href="">Return Order</a>
+                    </div>
+                    <%} %>
+            </div>
+            <%})%>
     </div>
 
+    <script>
+        function updateOrderStatus(orderId, newStatus) {
+
+            fetch(`/deleteOrderStatus/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        // document.getElementById('cancelBtn').style.visibility="hidden";
+                        alert('Order status deleted successfully!');
+                    } else {
+                        alert('Failed to update order status.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
     <%- include('../layout/user/footer.ejs') -%>

@@ -25,174 +25,192 @@
 
   <body>
     <form action="/placeOrder">
-      <div class="container">
-        <div class="row">
-
-
-          <div class="col-md-8">
-            <div class="card border shadow mt-5">
-
-              <div class="m-4">
-                <h4 class="card-title mb-4">Your shopping cart</h4>
-                <%if(Array.isArray(product)){%>
-                  <% let subtotal=0; %>
-                    <% product.forEach((data)=> { %>
-
-                      <div class="row d-flex gy-3 mb-4">
-                        <div class="col-lg-5">
-                          <div class="me-lg-5">
-                            <div class="d-flex">
-
-                              <img src="/product-images/<%=data.productId.images[0] %>"
-                                alt="<%= product[0].ProductName %>" class="border rounded me-3"
-                                style="width: 80px; height: 96px" />
-
-
-                              <div class="">
-                                <a href="#" class="nav-link"
-                                  style="text-decoration: none; color: #000000; font-weight: 500;">
-                                  <%= data.productId.ProductName %>
-                                    <br>
-
-                                    <div class="text-primary"><b> Rs. <%= data.productId.Price %></b></div>
-                                </a>
-                              </div>
-                            </div>
-
-                          </div>
-
-
-                        </div>
-                        <div class="col-lg col-sm-3">
-                          <button class="btn btn-light border px-2 icon-hover-primary" type="button"
-                            onclick="quantityChanger('<%= data.productId._id %>',-1,'<%= cart._id %>')"><i
-                              class="fa-solid fa-minus" style="color: #000000;"></i></button>
-                          <span id="quantity_<%= data.productId._id %>">
-                            <%= data.quantity %>
-                          </span>
-                          <button class="btn btn-light border px-2 icon-hover-primary" type="button"
-                            onclick="quantityChanger('<%= data.productId._id %>',1,'<%= cart._id %>')"><i
-                              class="fa-solid fa-plus" style="color: #000000;"></i></button>
-
-
-                        </div>
-                        <div
-                          class="col-lg col-sm-3 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
-                          <div class="float-md-end">
-                            <strong class="card-text text-center text-danger out-of-stock-message" id=""
-                              style="display: none;"> </strong>
-                            <a href="/addToWishlist/<%= data.productId._id %>" class="btn btn-light border px-2 icon-hover-primary"><i
-                                class="fa-solid fa-heart" style="color: #000000;"></i></a>
-                            <a href="#" class="btn btn-light border text-danger icon-hover-danger"
-                              onclick="removeFromCart('<%= data.productId._id %>','<%= cart._id %>')">Remove</a>
-                          </div>
-                        </div>
-                      </div>
-                      <% subtotal +=data.quantity * data.productId.descountedPrice; %>
-                        <% }); %>
-                          <% } else { %>
-                            <h2>cart is empty</h2>
-                            <% } %>
-
-              </div>
-
-              <div class="border-top pt-4 mx-4 mb-4">
-                <p>
-                  <i class="fas fa-truck text-muted fa-lg"></i> Free Delivery
-                  with in 1 week
-                </p>
-                <p class="text-muted"></p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card border shadow mt-5">
-              <div class="card-body">
-                <h5 class="card-title">Have You coupon ?</h5>
-                <div class="input-group mb-3">
-                  <input type="email" class="form-control border" placeholder="Coupon Code" aria-label="Email"
-                    aria-describedby="button-addon2" />
-                  <button class="btn btn-light border shadow-0" type="button" id="button-addon2"
-                    data-mdb-ripple-color="dark">
-                    Apply
-                  </button>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="card shadow border mt-3">
-              <div class="card-body">
-                <div id="subtotal" class="d-flex justify-content-between">
-                  <p class="mb-2">Sub Total :</p>
-                  <b>
-                    <p>Rs. <span id="subtotalAmount">
-                        <%= subtotal.toFixed(2) %>
-                      </span></p>
-                  </b>
-                </div>
-
-                <div class="d-flex justify-content-between">
-                  <p class="mb-2">Coupon :</p>
-
-                  <% if (coupon) { %>
-
-                    <%= coupon %>
-                      <% } else { %>
-                        <b>
-                          <p class="mb-2">No Coupon</p>
-                        </b>
-
-                        <% } %>
-
-                </div>
-
-
-                <div class="d-flex justify-content-between">
-                  <p class="mb-2">GST(12%) :</p>
-                  <b>
-                    <p><span id="gstAmount">Rs.<%= gstAmount %></span></p>
-                  </b>
-                </div>
-
-                <div id="totalQuantity" class="d-flex justify-content-between">
-                  <p class="mb-2">Total Quantity :</p>
-                  <b>
-                    <p><span id="totalQuantityValue">
-                        <%= totalQuantity %>
-                      </span></p>
-                  </b>
-                </div>
-                <hr />
-                <div class="d-flex justify-content-between">
-                  <p class="mb-2">Total price :</p>
-                  <b>
-                    <h5 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">
-                        <%= total.toFixed(2) %>
-                      </span></h5>
-                  </b>
-                </div>
-
-                <div class="mt-3">
-                  <button type="submit" class="btn btn-dark w-100 shadow-0 mb-2">
-
-                    Place Order
-                  </button>
-                  <a href="/shop" class="btn btn-light w-100 border mt-2">
-                    Back to shop
-                  </a>
-                </div>
+      <% if(!product[0]) {%>
+        <div class="container m-5">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card border shadow mt-5 h-100">
+                <h1 class="mx-5 my-5">Your Shopping Cart is Empty</h1>
               </div>
             </div>
           </div>
         </div>
+        <%}else {%>
+          <div class="container">
+            <div class="row">
 
 
-      </div>
+              <div class="col-md-8">
+                <div class="card border shadow mt-5">
 
-      </div>
+                  <div class="m-4">
+                    <h4 class="card-title mb-4">Your shopping cart</h4>
+                    <%if(Array.isArray(product)){%>
+                      <% let subtotal=0; %>
+                        <% product.forEach((data)=> { %>
+
+                          <div class="row d-flex gy-3 mb-4">
+                            <div class="col-lg-5">
+                              <div class="me-lg-5">
+                                <div class="d-flex">
+
+                                  <img src="/product-images/<%=data.productId.images[0] %>"
+                                    alt="<%= product[0].ProductName %>" class="border rounded me-3"
+                                    style="width: 80px; height: 96px" />
+
+
+                                  <div class="">
+                                    <a href="#" class="nav-link"
+                                      style="text-decoration: none; color: #000000; font-weight: 500;">
+                                      <%= data.productId.ProductName %>
+                                        <br>
+
+                                        <div class="text-primary"><b> Rs. <%= data.productId.Price %></b></div>
+                                    </a>
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+                            </div>
+                            <div class="col-lg col-sm-3">
+                              <button class="btn btn-light border px-2 icon-hover-primary" type="button"
+                                onclick="quantityChanger('<%= data.productId._id %>',-1,'<%= cart._id %>')"><i
+                                  class="fa-solid fa-minus" style="color: #000000;"></i></button>
+                              <span id="quantity_<%= data.productId._id %>">
+                                <%= data.quantity %>
+                              </span>
+                              <button class="btn btn-light border px-2 icon-hover-primary" type="button"
+                                onclick="quantityChanger('<%= data.productId._id %>',1,'<%= cart._id %>')"><i
+                                  class="fa-solid fa-plus" style="color: #000000;"></i></button>
+
+
+                            </div>
+                            <div
+                              class="col-lg col-sm-3 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
+                              <div class="float-md-end">
+                                <strong class="card-text text-center text-danger out-of-stock-message" id=""
+                                  style="display: none;"> </strong>
+                                <a href="/addToWishlist/<%= data.productId._id %>"
+                                  class="btn btn-light border px-2 icon-hover-primary"><i class="fa-solid fa-heart"
+                                    style="color: #000000;"></i></a>
+                                <a href="#" class="btn btn-light border text-danger icon-hover-danger"
+                                  onclick="removeFromCart('<%= data.productId._id %>','<%= cart._id %>')">Remove</a>
+                              </div>
+                            </div>
+                          </div>
+                          <% subtotal +=data.quantity * data.productId.descountedPrice; %>
+                            <% }); %>
+                              <% } else { %>
+                                <h2>cart is empty</h2>
+                                <% } %>
+
+                  </div>
+
+                  <div class="border-top pt-4 mx-4 mb-4">
+                    <p>
+                      <i class="fas fa-truck text-muted fa-lg"></i> Free Delivery
+                      with in 1 week
+                    </p>
+                    <p class="text-muted"></p>
+
+                  </div>
+                </div>
+              </div>
+              <% let couponAmount%>
+              <div class="col-md-4">
+                <div class="card border shadow mt-5">
+                  <div class="card-body">
+                    <h5 class="card-title">Have You coupon ?</h5>
+                    <span class="alert-danger" id="errrorShow"></span>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon" id="coupon"
+                        aria-describedby="button-addon2" />
+                      <button class="btn btn-light border shadow-0" onclick="checkCoupon()" type="button" id="button-addon2"
+                        data-mdb-ripple-color="dark">
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="card shadow border mt-3">
+                  <div class="card-body">
+                    <div id="subtotal" class="d-flex justify-content-between">
+                      <p class="mb-2">Sub Total :</p>
+                      <b>
+                        <p>Rs. <span id="subtotalAmount">
+                            <%= subtotal.toFixed(2) %>
+                          </span></p>
+                      </b>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Coupon :</p>
+                      <b>
+                        <p>Rs. <span id="discountAmount">
+                            <%= couponAmount %>
+                          </span></p>
+                      </b>
+                      <!-- <% if (coupon) { %>
+
+                        <%= coupon %>
+                          <% } else { %>
+                            <b>
+                              <p class="mb-2">No Coupon</p>
+                            </b>
+
+                            <% } %> -->
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">GST(12%) :</p>
+                      <b>
+                        <p><span id="gstAmount">Rs.<%= gstAmount %></span></p>
+                      </b>
+                    </div>
+
+                    <div id="totalQuantity" class="d-flex justify-content-between">
+                      <p class="mb-2">Total Quantity :</p>
+                      <b>
+                        <p><span id="totalQuantityValue">
+                            <%= totalQuantity %>
+                          </span></p>
+                      </b>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Total price :</p>
+                      <b>
+                        <h5 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">
+                            <%= total.toFixed(2) %>
+                          </span></h5>
+                      </b>
+                    </div>
+
+                    <div class="mt-3">
+                      <button type="submit" class="btn btn-dark w-100 shadow-0 mb-2">
+
+                        Place Order
+                      </button>
+                      <a href="/shop" class="btn btn-light w-100 border mt-2">
+                        Back to shop
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          </div>
+          <%} %>
     </form>
     <br>
     <br>
@@ -203,7 +221,8 @@
       function quantityChanger(productId, count, cartId) {
         var quantityElement = document.getElementById("quantity_" + productId);
         var currentQuantity = parseInt(quantityElement.innerText, 10)
-
+        var coupon = document.getElementById('discountAmount');
+        console.log(coupon,'------------------');
         if (count === 1) {
 
           currentQuantity += 1;
@@ -216,6 +235,7 @@
         }
 
 
+        console.log('-------------------------------------------------->');
         $.ajax({
           url: '/updatequantity',
           method: 'POST',
@@ -223,6 +243,7 @@
             productId: productId,
             quantity: currentQuantity,
             cartId: cartId,
+            coupon: coupon.value
           },
           success: function (response) {
             console.log("Response from the server:", response);
@@ -260,7 +281,33 @@
         }
       }
 
-
+      function checkCoupon() {
+        let coupon = document.getElementById('coupon').value;
+        $.ajax({
+            url: '/checkCoupon',
+            method: 'POST',
+            data: {
+              coupon
+            },
+            success: function (response) {
+              console.log("Response from the server:", response);
+              if(response.success) {
+                console.log(response.couponAmount);
+                $('#discountAmount').text(response.couponAmount);
+                
+              }else{
+                $('#errrorShow').text(response.err);
+                setTimeout(() => {
+                  $('#errrorShow').text('');
+                }, 2500);
+                $('#discountAmount').text('0');
+              }
+            },
+            error: function (error) {
+              console.error('error in coupon', error);
+            }
+          });
+      }
 
     </script>
 

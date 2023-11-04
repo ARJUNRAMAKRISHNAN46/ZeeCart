@@ -2,102 +2,76 @@ const Users = require("../models/userModel");
 const multer = require("multer");
 
 module.exports = {
-  admin_Users: async (req, res) => {
-    if (req.session.logged) {
-      res.redirect("/dashboard"); 
-    } else {
-      //creating pagination
-      const pageNum = req.query.page;
-      const perPage = 10;
-      const countData = await Users.find().count();
-      // console.log(countData);
-      const userData = await Users.find()
-        .skip((pageNum - 1) * perPage)
-        .limit(perPage);
-      let i = (pageNum - 1) * perPage;
-      res.render("admin/userList", { title: "admin-user list", userData, i });
-    }
-  },
+  
   //admin validation
   admin_Login: async (req, res) => {
-    const credential = {
-      //setting credential for admin
-      email: "abcd@gmail.com",
-      password: 123,
-    };
-    const { email, password } = req.body;
-    //checking the entered email and password
-    if (req.session.logged) {
-      res.redirect("/dashboard");
-    } else {
-      if (email == credential.email && password == credential.password) {
-        res.redirect("/dashboard");
-        req.session.logged = true;
-      } else {
-        console.log("invalid username or password");
-      }
+    try {
+      const credential = {
+        //setting credential for admin
+        email: "admin@gmail.com",
+        password: 12345678,
+      };
+      const { email, password } = req.body;
+      //checking the entered email and password
+        if (email == credential.email && password == credential.password) {
+          req.session.adLogged = true;
+          res.redirect("/dashboard");
+        } else {
+          res.render("admin/login", { err: "invalid username or password" });
+          console.log("invalid username or password");
+        }
+    } catch (error) {
+      console.log(error);
     }
   },
   //admin login page
   adHost: async (req, res) => {
-    res.render("admin/login", { err: "" });
+    try {
+      res.render("admin/login", { err: "" });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   adminLogOut: async (req, res) => {
-    req.session.destroy();
-    res.redirect("/adminpanel");
-  },
-
-  user_Blocking: async (req, res) => {
     try {
-      //user control (user blocking and unblocking)
-      const id = req.params.id;
-      const blockData = await Users.findOne({ _id: id });
-      if (blockData.statuz == "Active") {
-        const blocked = await Users.updateOne(
-          { _id: id },
-          { statuz: "Blocked" }
-        );
-      } else if (blockData.statuz == "Blocked") {
-        const blocked = await Users.updateOne(
-          { _id: id },
-          { statuz: "Active" }
-        );
-      }
-      //setting pagination for admin-user controller page
-      const pageNum = req.query.page;
-      const perPage = 10;
-      const userData = await Users.find()
-        .skip((pageNum - 1) * perPage)
-        .limit(perPage);
-      let i = (pageNum - 1) * perPage;
-
-      res.render("admin/userList", { title: "admin-user list", userData, i });
+      req.session.destroy();
+      res.redirect("/adminpanel");
     } catch (error) {
-      console.log("an error occured in userlist");
+      console.log(error);
     }
   },
+
+  
   admin_dash: async (req, res) => {
-    res.render("admin/dashboard");
+    try {
+      res.render("admin/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   admin_admin: async (req, res) => {
-    res.render("admin/admin");
+    try {
+      res.render("admin/admin");
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   admin_banners: async (req, res) => {
-    res.render("admin/banners");
-  },
-
-  admin_coupon: async (req, res) => {
-    res.render("admin/coupon");
-  },
-
-  admin_orders: async (req, res) => {
-    res.render("admin/orders");
+    try {
+      res.render("admin/banners");
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   admin_payments: async (req, res) => {
+   try {
     res.render("admin/payment");
+   } catch (error) {
+    console.log(error);
+   }
   },
 };

@@ -153,6 +153,17 @@ module.exports = {
       console.log(error);
     }
   },
+  updateProfile: async (req, res) => {
+    try {
+      const email = req.session.email;
+      const { name} = req.body;
+      await User.updateMany({email:email},{ name: name});
+      // req.session.email = email;
+      res.redirect('/profile');
+    } catch (error) {
+      console.log(error);
+    }
+  },
   //User logout
   logOut: async (req, res) => {
     try {

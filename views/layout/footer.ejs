@@ -39,6 +39,23 @@
     handleImagePreview(imageInput2, imagePreview2);
     handleImagePreview(imageInput3, imagePreview3);
     handleImagePreview(imageInput4, imagePreview4);
+
+    function validateoupenode() {
+        var couponCodePattern = /^[A-Z0-9#]{6}$/;
+;
+        var code = document.getElementById("couponCode").value;
+        var err = document.getElementById("err1");
+        var addCoupon = document.getElementById("addCoupon");
+
+        if (couponCodePattern.test(code)) {
+            err.innerHTML = "";
+            addCoupon.disabled = false; // Enable the button
+        } else {
+            err.innerHTML = "Coupon code must be 6 characters and only  Uppercase letters and Numbers";
+            addCoupon.disabled = true; // Disable the button
+        }
+    }
+
 </script>
 </body>
 

@@ -669,7 +669,7 @@ header {
 
 /* -------------------------------alert-------------------------------- */
 
-.popup{
+.popup {
   width: 400px;
   background: #ababab;
   border-radius: 6px;
@@ -715,4 +715,50 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* ------------------------------admin orders---------------------------------- */
+/* 
+html {
+  padding: 50px;
+} */
+
+/* SHOW SORTABLE ICON ON HOVER OF TH */
+table.dataTable thead th.sorting:hover:after {
+  opacity: 1;
+  transform: translate(0);
+}
+
+/* OVERRIDES FOR SORT ICON FROM DATABLES */
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+  font-family: FontAwesome;
+  position: relative !important;
+  display: inline-block !important;
+  font-size: 14px !important;
+  top: unset !important;
+  right: unset !important;
+  content: "\f062" !important;
+  transform-origin: center center;
+  transition: 200ms ease-out;
+  padding-top: 0 !important;
+}
+
+/* DEFAULT SORT ICON COLOR AND PLACEMENT */
+table.dataTable thead th.sorting:after {
+  transform: translateY(5px);
+  opacity: 0;
+  color: #b0bec5 !important;
+}
+
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+  margin-left: 10px;
+}
+
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+  color: #4285f4;
 }

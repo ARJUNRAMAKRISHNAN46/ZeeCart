@@ -1,5 +1,5 @@
 <%-include('../layout/user/partials/header.ejs')-%>
-
+<body style="background-image: radial-gradient(circle at center, rgb(255, 45, 203) 0, rgb(50, 50, 254), rgb(234, 0, 255) 100%);">
     <div class="container">
         <div class="wrapper">
             <div class="title"><span>Login Form</span></div>
@@ -31,13 +31,11 @@
                 <div class="row button">
                     <input type="submit" value="Sign Up" class="btn solid" id="signupButton" disabled>
                 </div>
-                <div class="social-media" style="width: 100%;text-align: center;">
-                    <a href="/google" class="social-icon"
-                        style=" text-decoration: none;color: rgb(58, 0, 216);">Continue with Google</a>
-                </div>
+                
                 <div class="signup-link">Already a member? <a href="/login">Login now</a></div>
             </form>
         </div>
     </div>
-
+</body>
+    
     <%-include('../layout/user/partials/footer.ejs')-%>

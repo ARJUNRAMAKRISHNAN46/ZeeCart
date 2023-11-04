@@ -1,69 +1,200 @@
-<%- include('../layout/user/header.ejs') -%>
+<%- include('../layout/header.ejs') -%>
+
+    <style>
+        body {
+            color: #000;
+            overflow-x: hidden;
+            /* height: 100%; */
+            background-color: #8C9EFF;
+            background-repeat: no-repeat;
+        }
+
+        .card {
+            z-index: 0;
+            background-color: #ECEFF1;
+            padding-bottom: 20px;
+            margin-top: 90px;
+            margin-bottom: 90px;
+            border-radius: 10px;
+        }
+
+        .top {
+            padding-top: 40px;
+            padding-left: 13% !important;
+            padding-right: 13% !important;
+        }
+
+        /*Icon progressbar*/
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: #455A64;
+            padding-left: 0px;
+            margin-top: 30px;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+        }
+
+        #progressbar .step0:before {
+            font-family: FontAwesome;
+            content: "\f10c";
+            color: #fff;
+        }
+
+        #progressbar li:before {
+            width: 40px;
+            height: 40px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            background: #C5CAE9;
+            border-radius: 50%;
+            margin: auto;
+            padding: 0px;
+        }
+
+        /*ProgressBar connectors*/
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 12px;
+            background: #C5CAE9;
+            position: absolute;
+            left: 0;
+            top: 16px;
+            z-index: -1;
+        }
+
+        #progressbar li:last-child:after {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: absolute;
+            left: -50%;
+        }
+
+        #progressbar li:nth-child(2):after,
+        #progressbar li:nth-child(3):after {
+            left: -50%;
+        }
+
+        #progressbar li:first-child:after {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            position: absolute;
+            left: 50%;
+        }
+
+        #progressbar li:last-child:after {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        #progressbar li:first-child:after {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        /*Color number of the step and the connector before it*/
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            /* background: #651FFF; */
+            background: orangered;
+        }
+
+        #progressbar li.active:before {
+            font-family: FontAwesome;
+            content: "\f00c";
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        .icon-content {
+            padding-bottom: 20px;
+        }
+
+        @media screen and (max-width: 992px) {
+            .icon-content {
+                width: 50%;
+            }
+        }
+    </style>
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+            <div class="card">
+                <div class="row d-flex justify-content-between px-3 top">
+                    <div class="d-flex">
+                        <h5>Order ID <span class="text-primary font-weight-bold">#<%=orderDetails._id%></span></h5>
+                    </div>
+
+                    <div class="d-flex">
+                        <ul>
+                            <% orderDetails.forEach((item)=> { %>
+                                <img width="140px" src="/product-images/<%= item.productId.images[0] %>"
+                                    alt="<%= item.productId.images[0]%>">
+                                <li>
+                                    <b>
+                                        <%= item.productId.ProductName %>
+                                    </b>
+                                    <br> Quantity: <%= item.quantity %>
+                                </li>
+                                <%}) %>
+                        </ul>
+                    </div>
+                    <div class="d-flex">
+                        <h5><span class="font-weight-bold"> Total Amount : ₹<%=orderDetails.totalAmount%>/-</span></h5>
+                    </div>
+                    <div class="d-flex flex-column text-sm-right">
+                        <p class="mb-0"><strong>Order Date : <span>
+                                    <%=orderDetails.OrderDate%>
+                                </span></strong></p>
+                        <p class="mb-0"><strong>Expected Delivery : <span>
+                                    <%=orderDetails.ExpectedDeliveryDate%>
+                                </span></strong></p><br>
+
+                        <p><span class="font-weight-bold"><b>Address</b> : <%=addressDetails[0].address.address%>,
+                                    <%=addressDetails[0].address.locality%>,<br>
+                                        <%=addressDetails[0].address.city%>,<%=addressDetails[0].address.district%>,
+                                                <%=addressDetails[0].address.state%>,<br>
+                                                    <%=addressDetails[0].address.pincode%>
+                            </span></p>
 
 
-    <form action="/addToCart/<%=orders._id%>" method="post">
-        <div class="row">
-            <div class="col-12 col-lg-5"
-                style="border-right: 1px solid rgb(141, 141, 141);border-bottom: 1px solid rgb(141, 141, 141); padding-top: 50px;">
-                <div class="col-lg-12 d-flex justify-content-center align-items-center">
-                    <div id="img-show">
-                        <img class="productImage" src="/product-images/<%=orders.images[i]%>" alt="Product imgae 1">
                     </div>
                 </div>
-                <div class="col-lg-12 d-flex justify-content-center align-items-center" style="height: 140px;">
-                    <%orders.images.forEach((x)=> {%>
-                        <div style="width: 100px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
-                                id="changeImage" onclick="changeImage('/product-images/<%=prodSpec.images[0]%>0l;')"
-                                src="/product-images/<%=orders.images[0]%>" alt="Product Image 1" alt=""></div>
-                        <%})%>
-
-                </div>
-                <div class="d-flex mt-4">
-                    <div class="col-6 d-flex justify-content-center"><button
-                            style="padding: 12px 16px; color: #fff; font-weight: 700; font-size: small; background-color: yellow; border-radius: 10px;">ADD
-                            TO CART</button></div>
-                    <div class="col-6 d-flex justify-content-center"><a
-                            style="padding: 12px 25px; color: #fff; font-weight: 700; font-size: small; background-color: orangered; border-radius: 10px;">BUY
-                            NOW</a></div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-7" style="height: 700px;padding-left: 20px;">
-                <p></p>
-                <p class="paraCap">
-                    <%=orders.ProductName%>
-                        <%=orders.Specification1%>|<%=orders.Specification4%>
-                </p>
-                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i> ₹<%=orders.Price%>/-</p>
-                <div
-                    style="width: 100px; height: 25px;font-weight: 500; font-size: small; background-color: green; padding-left: 8px;color: #fff; border-radius: 5px;">
-                    Stock : <%=orders.AvailableQuantity%>
-                </div>
-                <p class="paraCapz">SPECIFICATION</p>
-                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                    <%=orders.Specification1%>
-                </p>
-                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                    <%=orders.Specification2%>
-                </p>
-                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                    <%=orders.Specification3%>
-                </p>
-                <p class="para"><i class="fa-solid fa-circle fa-2xs"></i>
-                    <%=orders.Specification4%>
-                </p>
-                <span class="nrandname">
-                    <%=prodSpec.BrandName%>
-                </span>
-                <p class="paraCapz mt-2">DISCRIPTION : </p>
-                <p style="font-size: x-small;">
-                    <%=orders.Description%>
-                </p>
-
-            </div>
-        </div>
-    </form>
+                
+    </div>
 
     <script>
-       
+        function updateOrderStatus(orderId, newStatus) {
+            
+            fetch(`/deleteOrderStatus/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        // document.getElementById('cancelBtn').style.visibility="hidden";
+                        alert('Order status deleted successfully!');
+                    } else {
+                        alert('Failed to update order status.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
-    <%- include('../layout/user/footer.ejs') -%>

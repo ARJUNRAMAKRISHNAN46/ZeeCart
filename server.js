@@ -1,17 +1,12 @@
 const express = require("express");
-const path = require("path");
 require("dotenv").config();
 const session = require("express-session");
 const router = require("./router.js/userrouter");
 const mongoose = require("mongoose");
-const morgan = require("morgan");
-const passport = require("passport");
 const routers = require("./router.js/adminrouter");
-const { sendMail } = require("./util/mail");
-const OTP = require("./models/otpModel");
-const { sendOTP } = require("./util/otp");
 const flash = require('connect-flash');
 const app = express();
+
 
 app.use((req,res,next)=>{
   res.set("Cache-Control","no-store")
@@ -19,9 +14,7 @@ app.use((req,res,next)=>{
 });
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
-
 app.set("view engine", "ejs");
 
 app.use(
@@ -36,10 +29,6 @@ app.use(express.static("public"));
 app.use(flash());
 app.use("/", router);
 app.use("/", routers);
-
-app.use(passport.initialize());
-
-require("./authenticate");
 
 mongoose.connect(process.env.MONGO_URI).then(() =>
   app.listen(4000, () => {

@@ -12,9 +12,11 @@
     <link rel="stylesheet" href="/userstyle.css">
     <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body style="overflow-x: hidden;">
@@ -29,7 +31,8 @@
                     <div class="col-md-5 my-auto">
                         <form role="search" action="/search" method="post">
                             <div class="input-group">
-                                <input name="value" type="search" placeholder="Search your product" class="form-control" />
+                                <input name="search" type="search" placeholder="Search your product"
+                                    class="form-control" />
                                 <button class="btn bg-white" type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -62,12 +65,13 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-user"></i>
-                                    user
+                                    ARJUN P
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="/profile"><i class="fa fa-user"></i> Profile</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="/productorders"><i class="fa fa-list"></i> My Orders</a>
+                                    <li><a class="dropdown-item" href="/productorders"><i class="fa fa-list"></i> My
+                                            Orders</a>
                                     </li>
                                     <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out"></i>
                                             Logout</a></li>
