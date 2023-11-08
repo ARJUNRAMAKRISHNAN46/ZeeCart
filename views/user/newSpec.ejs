@@ -21,9 +21,22 @@
                             <%=prodSpec.ProductName%>
                                 <%=prodSpec.Specification1%>|<%=prodSpec.Specification4%>
                         </span>
+                        <%if(prodSpec.AvailableQuantity==0) {%>
+                            <label class="stock bg-danger">Out of Stock</label>
+                            <%}else if(prodSpec.AvailableQuantity <=10) {%>
+                                <label class="stock bg-danger">Only <%=prodSpec.AvailableQuantity%> left</label>
+                                <%}else {%>
+                                    <label class="stock bg-success">In Stock</label>
+                                    <%} %>
                         <span class="product-price"> ₹<%=prodSpec.Price%>/-</span>
                         <div class="product-rating">
-                            <span><a href="/addToWishlist/<%=prodSpec._id%>" id="wishbutton" style="border: 0;"><i class="fa-solid fa-heart fa-2xl" style="color: #b5b5b5;width: 4 0px;"></i></a></span>
+                            <span><a href="/addToWishlist/<%=prodSpec._id%>?page=" id="wishbutton" style="border: 0;">
+                                <%if(status){%>
+                                    <i class="fa-solid fa-heart fa-2xl text-danger" style="color: #b5b5b5;width: 4 0px;"></i>
+                                    <%}else{%>
+                                        <i class="fa-solid fa-heart fa-2xl" style="color: #b5b5b5;width: 4 0px;"></i>
+                                        <%}%>
+                                </a></span>
                             <span><i class="fas fa-star"></i></span>
                             <span><i class="fas fa-star"></i></span>
                             <span><i class="fas fa-star"></i></span>
@@ -44,11 +57,19 @@
                         <p class="product-description">
                             <%=prodSpec.Description%>
                         </p>
-                        <div class="btn-groups">
-                            <button type="submit" class="add-cart-btn"><i class="fas fa-shopping-cart"></i>add to
-                                cart</button>
-                            <button type="button" class="buy-now-btn"><i class="fas fa-wallet"></i>buy now</button>
-                        </div>
+                        <%if(prodSpec.AvailableQuantity==0) {%>
+                            <div class="btn-groups">
+                                <button type="button" class="add-cart-btn"></i>Notify Me
+                                    </button>
+                            </div>
+                            <%}else {%>
+                                <div class="btn-groups">
+                                    <button type="submit" class="add-cart-btn"><i class="fas fa-shopping-cart"></i>add to
+                                        cart</button>
+                                    <button type="button" class="buy-now-btn"><i class="fas fa-wallet"></i>buy now</button>
+                                </div>
+                                    <%} %>
+                        
                     </div>
                 </div>
             </div>

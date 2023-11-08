@@ -37,5 +37,12 @@ module.exports = {
         console.log(error);
     }
   },
-  
-};6
+  userCoupons:async (req,res) => {
+    try {
+      const coupons = await coupon.find();
+      res.render('user/coupons',{ coupons });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};

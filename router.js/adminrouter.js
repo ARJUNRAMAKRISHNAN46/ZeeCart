@@ -73,7 +73,7 @@ routers.get("/adminpanel", adminExist, adHost);
 routers.post("/adminlogin", adminExist, admin_Login);
 routers.get("/dashboard", verifyAdmin, admin_dash);
 routers.get("/banners", verifyAdmin, admin_banners);
-routers.get("/payments", verifyAdmin, admin_payments);
+routers.get("/offers", verifyAdmin, admin_payments);
 routers.get("/admin", verifyAdmin, admin_admin);
 
 routers.get("/coupon", verifyAdmin, admin_coupon);

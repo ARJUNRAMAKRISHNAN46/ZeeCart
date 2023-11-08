@@ -2,21 +2,26 @@ const Cart = require("../models/cartModel");
 const User = require("../models/userModel");
 const coupons = require("../models/couponModel");
 const { ObjectId } = require("mongodb");
+const products = require("../models/productModel");
 
 //getting cart page
 module.exports = {
   checkCoupon: async (req, res) => {
     try {
       const { coupon } = req.body;
-     
       const couponData = await coupons.findOne({ couponCode: coupon });
-      
+
       if (couponData) {
-        couponAmount = couponData.discountAmount;
-        console.log("success------------>>>");
+        const couponAmount = couponData.discountAmount;
+        const total = req.session.totalPrice;
+        req.session.grandTotal = total - couponAmount;
+        const grandTotal = req.session.grandTotal;
+        req.session.couponCode = coupon;
+        req.session.coupon = couponAmount;
         res.json({
           success: true,
           couponAmount,
+          grandTotal
         });
       } else {
         res.json({
@@ -39,105 +44,88 @@ module.exports = {
         "products.productId"
       );
 
-      const cartData = cart.products;
+      if (cart !== null) {
+        let itemPrice = 0;
+        let totalQuantity = 0;
+        let total = 0;
 
-      let subtotal = 0;
-      let totalQuantity = 0;
-      let coupon = 0;
+        cart.products.forEach((item) => {
+          total += item.quantity * item.productId.Price;
+          itemPrice += item.productId.Price;
+          totalQuantity += item.quantity;
+        });
 
-      cart.products.forEach((item) => {
-        subtotal += 1 * item.productId.Price;
-        totalQuantity += item.quantity;
-      });
+        req.session.totalPrice = total;
+        req.session.grandTotal = total
 
-      const gstRate = 0.12;
-      const gstAmount = subtotal * gstRate;
-      let total = subtotal + gstAmount;
-
-      if (coupon) {
-        let couponValue = coupon;
-        total -= couponValue;
+        res.render("user/cart", {
+          user,
+          product: cart.products,
+          cart,
+          totalQuantity: totalQuantity,
+          total: total,
+          itemPrice: itemPrice,
+        });
+      } else {
+        res.render("user/cart", {
+          user,
+          product: "",
+          cart: "",
+          totalQuantity: "",
+          total: "",
+        });
       }
-      grandTotal = total;
-      coupon = "";
-      res.render("user/cart", {
-        user,
-        product: cart.products,
-        cart,
-        subtotal: subtotal,
-        gstAmount: gstAmount.toFixed(2),
-        totalQuantity: totalQuantity,
-        coupon: coupon,
-        total: total,
-      });
     } catch (error) {
       console.log(error);
     }
   },
-  //adding item to cart
   addToCart: async (req, res) => {
     try {
       const email = req.session.email;
       const user = await User.findOne({ email: email });
       const userId = user._id;
       const productId = req.params.id;
-      const userData = await Cart.findOne({ userId: userId });
 
-      if (userData !== null) {
-        const existingCart = userData.products.find((item) => {
-          console.log(item.productId);
-          item.productId.equals(productId);
-        });
-        if (existingCart) {
-          existingCart.quantity += 1;
+      const cart = await Cart.findOne({ userId: userId });
+      if (cart) {
+        const productInCart = cart.products.find(
+          (product) => product.productId.toString() === productId
+        );
+
+        if (productInCart) {
+          const quantity = productInCart.quantity;
+
+          await Cart.updateOne(
+            {
+              userId: userId,
+              "products.productId": productId,
+            },
+            {
+              $set: {
+                "products.$.quantity": quantity + 1,
+              },
+            }
+          );
         } else {
-          userData.products.push({ productId: productId, quantity: 1 });
+          const cartData = await Cart.updateOne(
+            { userId: userId },
+            {
+              $push: {
+                products: {
+                  productId: productId,
+                  quantity: 1,
+                },
+              },
+            }
+          );
         }
-        await userData.save();
-        req.flash("msg", "Item added to the cart");
-        res.redirect("/cart");
       } else {
-        const newCart = new Cart({
-          userId: userId,
-          products: [{ ProductId: productId, Quantity: 1 }],
-        });
-        await newCart.save();
-        req.flash("msg", "Item added to the cart");
-        res.redirect("/cart");
-      }
-    } catch (err) {
-      console.log(err);
-      req.flash("errmsg", "sorry at this momment we can't reach");
-      res.redirect("/cart");
-    }
-  },
-  demo: async (req, res) => {
-    try {
-      const email = req.session.email;
-      const user = await User.findOne({ email: email });
-      const userId = user._id;
-      const productId = req.params.id;
-      const data = await Cart.findOne({ userId: userId });
-      if (data == null) {
         const wishData = await Cart.create({
           userId: userId,
           products: [{ productId: productId, quantity: 1 }],
         });
-      } else {
-        await Cart.updateOne(
-          { userId: userId },
-          {
-            $addToSet: {
-              products: {
-                productId: [productId],
-                quantity: 1,
-              },
-            },
-          }
-        );
       }
       res.json({ success: true });
-      // res.redirect("/cart");
     } catch (error) {
       console.log(error);
     }
@@ -149,7 +137,7 @@ module.exports = {
       const cart = await Cart.findById(cartId);
       if (!cart) {
         return res
-          .status(404)
+        .status(404)
           .json({ success: false, error: "Cart not found" });
       }
       cart.products = cart.products.filter(
@@ -169,62 +157,63 @@ module.exports = {
   //update quantity
   updateQuantity: async (req, res) => {
     try {
-      const { productId, quantity, cartId,coupon } = req.body;
-      console.log(coupon,'hereeeeeeeeeeeeeeeeeeeeeee');
-      const cart = await Cart.findOne({ _id: cartId }).populate(
+      const { productId, quantity, cartId } = req.body;
+      const email = req.session.email;
+      const user = await User.findOne({ email: email });
+      const userId = user._id;
+      const carts = await Cart.findOne({ userId: userId }).populate(
         "products.productId"
-        );
-        
-        if (!cart) {
+      );
+      const cart = await Cart.findOne({ userId: userId });
+      if (!cart) {
         return res
           .status(404)
           .json({ success: false, error: "Cart not found" });
       }
-      const productInCart = cart.products.find((item) =>
-        item.productId.equals(productId)
+      const productInCart = cart.products.find(
+        (product) => product.productId.toString() === productId
       );
-
       if (!productInCart) {
         return res
           .status(404)
           .json({ success: false, error: "Product not found in the cart" });
       }
-      productInCart.quantity = quantity;
 
-      await cart.save();
+      await Cart.updateOne(
+        {
+          userId: userId,
+          "products.productId": productId,
+        },
+        {
+          $set: {
+            "products.$.quantity": quantity,
+          },
+        }
+      );
 
-      let subtotal = 0;
+      let itemPrice = 0;
       let totalQuantity = 0;
-      cart.products.forEach((item) => {
-        subtotal += item.quantity * item.productId.Price;
+      let total = 0;
+      const cartz = await Cart.findOne({ userId: userId }).populate(
+        "products.productId"
+      );
+      cartz.products.forEach((item) => {
+        total += item.quantity * item.productId.Price;
+        itemPrice += item.productId.Price;
         totalQuantity += item.quantity;
       });
-      
-      const gstRate = 0.12;
-      const gstAmount = subtotal * gstRate;
-      // const coupon = "";
-      let total = subtotal + gstAmount;
-      
-      if (coupon) {
-        const couponValue = 50;
-        total -= couponValue;
-      }
 
       req.session.totalPrice = total;
+      req.session.grandTotal = total
 
       res.json({
         success: true,
-        subtotal: subtotal,
-        gstAmount: gstAmount,
         totalQuantity: totalQuantity,
-        coupon: coupon,
         total: total,
+        itemPrice: itemPrice,
       });
     } catch (error) {
-      console.error("Error updating stock quantity:", error);
-      res
-        .status(500)
-        .json({ success: false, error: "Failed to  update stock quantity" });
+      console.log(error);
     }
   },
 };

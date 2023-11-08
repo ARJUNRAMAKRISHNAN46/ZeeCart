@@ -171,13 +171,11 @@
 
                                 <%if(addressDetails[0]){%>
                                     <p><span class="font-weight-bold"><b>Delivery Address</b> :
-                                        <%= addressDetails[0].address %>,<%= addressDetails[0].locality
-                                                %>, <br>
-                                                <%= addressDetails[0].city %> , <%=
-                                                        addressDetails[0].district %> , <%=
-                                                            addressDetails[0].state %> , <br>
-                                                            PIN : <%= addressDetails[0].pincode %>
-                                    </span></p>
+                                            <%= addressDetails[0].address %>,<%= addressDetails[0].locality %>, <br>
+                                                    <%= addressDetails[0].city %> , <%= addressDetails[0].district %> ,
+                                                            <%= addressDetails[0].state %> , <br>
+                                                                PIN : <%= addressDetails[0].pincode %>
+                                        </span></p>
                                     <%}%>
                             </div>
                 </div>
@@ -207,7 +205,7 @@
                                                                                     <% } %>
                                                                                         <%}%>
                                                                                             <% if
-                                                                                                (x.orderStatus=='Rejected'
+                                                                                                (x.orderStatus=='Rejected' 
                                                                                                 ) { %>
                                                                                                 <h3 class="text-danger">
                                                                                                     Order Cancelled by
@@ -222,6 +220,15 @@
                                                                                                             Cancelled
                                                                                                         </h2>
                                                                                                         <%}%>
+                                                                                                            <% if
+                                                                                                                (x.orderStatus=='Return Order'
+                                                                                                                ) { %>
+                                                                                                                <h2
+                                                                                                                    class=" alert alert-danger">
+                                                                                                                    Order
+                                                                                                                    Returned
+                                                                                                                </h2>
+                                                                                                                <%}%>
 
                         </ul>
                     </div>
@@ -252,42 +259,46 @@
                         </div>
                     </div>
                 </div>
-                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='Rejected' ) {%>
-                    <div class="d-flex justify-content-between p-4">
-                        <a class="btn  btn-danger" id="cancelBtn"
-                            onclick="return confirm('Are you sure to delete this item?')"
-                            onclick="updateOrderStatus('<%= x._id %>' )" href="">Cancel Order</a>
-                        <a class="btn  btn-primary" id="cancelBtn"
-                            onclick="return confirm('Are you sure to delete this item?')"
-                            onclick="updateOrderStatus('<%= x._id %>' )" href="">Return Order</a>
+                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='Rejected' && x.orderStatus !=='Return Order' && x.orderStatus !=='Order Arrived' )
+                    {%>
+                    <div class="d-flex justify-content-end">
+                        <a class="btn  btn-danger mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Cancelled' )"
+                            href="">Cancel Order</a>
+
                     </div>
-                    <%} %>
+                    <%}else if(x.orderStatus=='Order Arrived' ) {%>
+                        <div class="d-flex justify-content-end">
+                            <a class="btn  btn-primary mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Return Order' )"
+                                href="">Return Order</a>
+                        </div>
+                        <%} %>
             </div>
             <%})%>
     </div>
 
     <script>
-        function updateOrderStatus(orderId, newStatus) {
 
-            fetch(`/deleteOrderStatus/${orderId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ status: newStatus }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        // document.getElementById('cancelBtn').style.visibility="hidden";
-                        alert('Order status deleted successfully!');
-                    } else {
-                        alert('Failed to update order status.');
-                    }
+        function updateOrderStatus(orderId, newStatus) {
+            if (confirm('Are you sure to cancel this order?')) {
+                fetch(`/deleteOrderStatus/${orderId}?status=${newStatus}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // body: JSON.stringify({ status: newStatus }),
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            alert('Order status deleted successfully!');
+                        } else {
+                            alert('Failed to update order status.');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
         }
     </script>
     <%- include('../layout/user/footer.ejs') -%>

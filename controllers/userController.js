@@ -5,9 +5,9 @@ const { sendOTP } = require("../util/otp");
 const OTP = require("../models/otpModel");
 const products = require("../models/productModel");
 const order = require("../models/ordersModel");
-const wishlist = require("../models/wishlistModel");
 const { Mongoose, ObjectId } = require("mongoose");
-const crypto = require('crypto');
+const crypto = require("crypto");
+const { log } = require("console");
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
 let userEmail;
@@ -28,8 +28,12 @@ module.exports = {
             arr.push(x);
           }
         });
-        const BudgetMobiles = await products.find({ DiscountAmount : { $lt: 20000 } }).limit(8);
-        const FlagMobiles = await products.find({ Category : 'FLAGSHIP MOBILES' }).limit(8);
+        const BudgetMobiles = await products
+          .find({ DiscountAmount: { $lt: 20000 } })
+          .limit(8);
+        const FlagMobiles = await products
+          .find({ Category: "FLAGSHIP MOBILES" })
+          .limit(8);
         res.render("user/home", { data, arr, BudgetMobiles, FlagMobiles });
       }
     } catch (error) {
@@ -103,82 +107,17 @@ module.exports = {
       console.log(error);
     }
   },
-
-  wishList: async (req, res) => {
-    try {
-      const email = req.session.email;
-      const user = await User.findOne({ email: email });
-      const userId = user._id;
-      let err = "";
-      const Wishlist = await wishlist
-        .find({ userId: userId })
-        .populate("products.productId");
-      if (Wishlist) {
-        wishData = Wishlist[0].products;
-      } else {
-        err = "No Items in wishlist..!";
-      }
-      res.render("user/wishlist", { wishData, err });
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  addToWishlist: async (req, res) => {
-    try {
-      const email = req.session.email;
-      const user = await User.findOne({ email: email });
-      const userId = user._id;
-      const productId = req.params.id;
-      const data = await wishlist.findOne({ userId: userId });
-      if (data == null) {
-        const wishData = await wishlist.create({
-          userId: userId,
-          products: [{ productId: productId }],
-        });
-      } else {
-        await wishlist.updateOne(
-          { userId: userId },
-          {
-            $addToSet: {
-              products: {
-                productId: [productId],
-              },
-            },
-          }
-        );
-      }
-      res.redirect("/wishlist");
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  removeFromWishlist: async (req, res) => {
-    try {
-      const email = req.session.email;
-      const userData = await User.find({ email: email });
-      const productId = req.params.id;
-      await wishlist.updateOne(
-        { userId: userData[0]._id },
-        {
-          $pull: {
-            products: {
-              productId: productId,
-            },
-          },
-        }
-      );
-      res.redirect("/wishlist");
-    } catch (error) {
-      console.log(error);
-    }
-  },
   search: async (req, res) => {
     try {
-      const value = req.body.value;
-      const productDetails = await products.find({
-        $or: [{ Brand: "value" }, { Category: "value" }],
+      const data = req.body.search;
+      const imgs = await products.find({
+        $or: [
+          { BrandName: { $regex: "^" + data, $options: "i" } },
+          { Category: { $regex: "^" + data, $options: "i" } },
+          { ProductName: { $regex: "^" + data, $options: "i" } },
+        ],
       });
-      console.log("Search results:", productDetails);
+      res.render("user/shop", { imgs });
     } catch (error) {
       console.log(error);
     }
@@ -242,9 +181,10 @@ module.exports = {
   },
   downloadInvoice: async (req, res) => {
     try {
-      const orderData = await order.findOne({
-        _id: req.body.orderId,
-      })
+      const orderData = await order
+        .findOne({
+          _id: req.body.orderId,
+        })
         .populate("Address")
         .populate("Items.ProductId");
       console.log("order data ====", orderData);
@@ -278,12 +218,18 @@ module.exports = {
     );
 
     hmac = hmac.digest("hex");
-    console.log(hmac,'hmacccccccccccccccccccccc------------------------------------------');
+    console.log(
+      hmac,
+      "hmacccccccccccccccccccccc------------------------------------------"
+    );
     if (hmac === req.body.payment.razorpay_signature) {
-      const orderId = req.body.order.receipt
-      console.log(orderId,'orderIdddddddddddddddddddddddddd');
+      const orderId = req.body.order.receipt;
+      console.log(orderId, "orderIdddddddddddddddddddddddddd");
       console.log("reciept", req.body.order.receipt);
-      console.log(req.body.orderId,'-------------------------------------------------------------------------------------------------------------------orderid');
+      console.log(
+        req.body.orderId,
+        "-------------------------------------------------------------------------------------------------------------------orderid"
+      );
       const orderID = req.body.orderId;
       const updateOrderDocument = await order.findByIdAndUpdate(orderID, {
         PaymentStatus: "Paid",

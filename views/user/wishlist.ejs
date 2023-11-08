@@ -11,7 +11,8 @@
             integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
         <style>
             .row {
                 display: flex;
@@ -25,74 +26,132 @@
     </head>
 
     <body>
-            <% if(!wishData[0]){%>
-                <div class="container m-5">
+        <% if(!wishData[0]){%>
+            <div class="container m-5">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border shadow mt-5 h-100">
+                            <h1 class="mx-5 my-5">Your Wishlist is Empty</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%}else{%>
+                <div class="container">
                     <div class="row">
                         <div class="col-md-8">
-                            <div class="card border shadow mt-5 h-100">
-                                <h1 class="mx-5 my-5">Your Wishlist is Empty</h1>
+                            <div class="card border shadow mt-5 ">
+                                <div class="m-4">
+                                    <h4 class="card-title mb-4">Your Wishlist</h4>
+                                    <% wishData.forEach((data)=> { %>
+                                        <div class="row d-flex gy-3 mb-4">
+                                            <div class="col-lg-5">
+                                                <div class="me-lg-5">
+                                                    <div class="d-flex">
+                                                        <img src="/product-images/<%=data.productId.images[0] %>"
+                                                            alt="<%= data.productId.ProductName %>"
+                                                            class="border rounded me-3"
+                                                            style="width: 80px; height: 96px" />
+                                                        <div class="">
+                                                            <a href="#" class="nav-link"
+                                                                style="text-decoration: none; color: #000000; font-weight: 500;">
+                                                                <%= data.productId.ProductName %>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg col-sm-2">
+                                                <div class="text-primary"><b> Rs. <%= data.productId.Price %></b>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg col-sm-4 d-flex">
+                                                <div class="float-md-end d-flex">
+
+                                                    <button class="text-white btn-secondary"
+                                                        onclick="addToCart('<%=data.productId._id%>')"
+                                                        style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Add
+                                                        to
+                                                        Cart</button>
+
+                                                    <button
+                                                        class="btn btn-light border text-danger icon-hover-danger ml-2"
+                                                        onclick="removeFromWish('<%=data.productId._id%>')"
+                                                        style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <%} %>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <%}else{%>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="card border shadow mt-5 ">
-                                    <div class="m-4">
-                                        <h4 class="card-title mb-4">Your Wishlist</h4>
-                                        <% wishData.forEach((data)=> { %>
-                                            <div class="row d-flex gy-3 mb-4">
-                                                <div class="col-lg-5">
-                                                    <div class="me-lg-5">
-                                                        <div class="d-flex">
-                                                            <img src="/product-images/<%=data.productId.images[0] %>"
-                                                                alt="<%= data.productId.ProductName %>"
-                                                                class="border rounded me-3"
-                                                                style="width: 80px; height: 96px" />
-                                                            <div class="">
-                                                                <a href="#" class="nav-link"
-                                                                    style="text-decoration: none; color: #000000; font-weight: 500;">
-                                                                    <%= data.productId.ProductName %>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg col-sm-2">
-                                                    <div class="text-primary"><b> Rs. <%= data.productId.Price %></b>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg col-sm-4 d-flex">
-                                                    <div class="float-md-end d-flex">
-                                                        <strong
-                                                            class="card-text text-center text-danger out-of-stock-message"
-                                                            id="" style="display: none;"> </strong>
-                                                        <form action="/addToCart/<%=data.productId._id%>" method="post">
-                                                            <button class="text-white btn-secondary"
-                                                                style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
-                                                                type="submit">Add to
-                                                                Cart</button>
-                                                        </form>
-                                                        <form action="/removeFromWishlist/<%=data.productId._id%>"
-                                                            method="post"><button type="submit"
-                                                                class="btn btn-light border text-danger icon-hover-danger ml-2"
-                                                                onclick="return confirm('Are you sure to delete this item?')">Remove</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }); %>
-                                                <%} %>
-                                    </div>
+                </div>
+                <br>
+                <br>
+                <script>
+                     function removeFromWish(productId) {
+                        if(confirm('Are you sure to delete this item?')) {
+                            $.ajax({
+                                url: `/removeFromWishlist/${productId}`,
+                                method: 'POST',
+                                success: function (response) {
+                                    console.log(response);
+                                    if (response.success) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Item removed from wishlist',
+                                            showConfirmButton: false,
+                                            timer: 1500,
+                                        }).then(function () {
+                                            location.reload();
+                                            console.log('Response from the server:', response);
+                                        });
+                                        return
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops, something went wrong!'
+                                    });
+                                }
+                            });
+                        }
+                    }
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-        <br>
-        <br>
+                    function addToCart(productId) {
 
-        <%- include('../layout/user/footer.ejs') -%>
+                        $.ajax({
+                            url: `/addToCart/${productId}`,
+                            method: 'POST',
+                            success: function (response) {
+                                console.log(response);
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Item added to cart',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(function () {
+                                        // You can add a callback function here if needed
+                                        console.log('Response from the server:', response);
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops, something went wrong!'
+                                });
+                            }
+                        });
+                    }
+                </script>
+                <%- include('../layout/user/footer.ejs') -%>

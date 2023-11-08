@@ -101,17 +101,31 @@
                                 </a></li>
                             <li><h6><strong>BRAND</strong></h6>
                                 </li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=SAMSUNG">
+                            <li><a class="dropdown-item" href="/brandFilter?brandData=SAMSUNG">
                                     <p>SAMSUNG </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=APPLE">
+                            <li><a class="dropdown-item" href="/brandFilter?brandData=APPLE">
                                     <p>APPLE </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=REALME">
+                            <li><a class="dropdown-item" href="/brandFilter?brandData=REALME">
                                     <p>REALME </p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=XIOMI">
+                            <li><a class="dropdown-item" href="/brandFilter?brandData=XIOMI">
                                     <p>XIOMI </p>
+                                </a></li>
+                            <li><h6><strong>CATEGORY</strong></h6>
+                                </li>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=FLAGSHIP MOBILES">
+                                    <p>FLAGSHIP MOBILES </p>
+                                </a></li>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=MOST SELLING MOBILES">
+                                    <p>MOST SELLING MOBILES </p>
+                                </a></li>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=IOS MOBILES">
+                                    <p>IOS MOBILES </p>
+                                </a></li>
+                            <li><a class="dropdown-item" href="/categoryFilter?catData=BUDGET SMARTPHONES">
+                                    <p>BUDGET SMARTPHONES </p>
                                 </a></li>
                         </ul>
                     </li>
@@ -129,7 +143,13 @@
                                     <div style="height: 300px;" class="product-card-img p-3">
                                         <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
                                     </div>
-                                    <label class="stock bg-success">In Stock</label>
+                                    <%if(x.AvailableQuantity==0) {%>
+                                        <label class="stock bg-danger">Out of Stock</label>
+                                        <%}else if(x.AvailableQuantity <=10) {%>
+                                            <label class="stock bg-danger">Only <%=x.AvailableQuantity%> left</label>
+                                            <%}else {%>
+                                                <label class="stock bg-success">In Stock</label>
+                                                <%} %>
                                     <div class="product-card-body">
                                         <p class="product-brand"></p>
                                         <h5 class="product-name">

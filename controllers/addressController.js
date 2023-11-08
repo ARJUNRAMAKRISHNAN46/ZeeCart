@@ -1,5 +1,7 @@
 const Address = require("../models/addressModel");
 const User = require("../models/userModel");
+const Wallet = require("../models/walletModel");
+const Cart = require("../models/cartModel");
 
 module.exports = {
   //get user profile page
@@ -8,13 +10,22 @@ module.exports = {
       const pageNum = req.query.page;
       const perPage = 2;
       let email = req.session.email;
+      let userData = await User.findOne({ email: email });
+      const userId = userData._id;
+      const wallet = await Wallet.findOne({ userId: userId });
+      // console.log(Wallet.userId,'----------------',userId);
+      if (wallet) {
+        
+      }else{
+        await Wallet.create({ userId: userId, wallet: "0" });
+      }
+      const walData = await Wallet.findOne({ userId: userId });
       let dataCount = await Address.find({ email }).count();
       let data = await Address.find({ email })
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
-        let i = (pageNum - 1) * perPage;
-      let userId = await User.findOne({ email });
-      res.render("user/userProfile", { data, i, userId, dataCount });
+      let i = (pageNum - 1) * perPage;
+      res.render("user/userProfile", { data, i, userData, dataCount, walData });
     } catch (error) {
       console.log(error);
     }
@@ -106,7 +117,23 @@ module.exports = {
       let email = req.session.email;
       let address = await Address.find({ email });
       let userId = await User.findOne({ email });
-      res.render("user/selectAddress", { address, userId });
+      const coupon = req.session.coupon;
+      const couponCode = req.session.couponCode;
+      const cart = await Cart.findOne({ userId: userId._id }).populate(
+        "products.productId"
+        );
+        console.log(cart,'_________________________>');
+      if(cart !== null){
+        if(cart.products[0]) {
+        const total = req.session.totalPrice;
+        const grandTotal = req.session.grandTotal;
+        res.render("user/selectAddress", { address, userId, total, grandTotal,coupon,couponCode });
+        }else{
+          res.redirect('/');
+        }
+      }else{
+        res.redirect('/');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -114,10 +141,14 @@ module.exports = {
   //confirm user address
   confirmAddress: async (req, res) => {
     try {
-      const addressId = req.body.id;
-      const address = await Address.find({ _id: addressId });
-
-      res.render("user/paymentMethod", { address });
+      // const addressId = req.body.id;
+      // const address = await Address.findOne({ _id: addressId });
+      // console.log(address);
+      // res.render("user/paymentMethod", { address });
+      const email = req.session.email;
+      const userData = await User.findOne({ email });
+      const total = req.session.grandTotal;
+      res.render("user/paymentSuccess",{ total,userData });
     } catch (error) {
       console.log(error);
     }

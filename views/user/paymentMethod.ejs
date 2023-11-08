@@ -68,11 +68,7 @@
                             </div>
                             <div>
                                 <p style="font-size: x-small;">
-                                    <%=address[0].name%>
-                                        <%=address[0].mobile%> <br>
-                                            <%=address[0].address%>,<%=address[0].locality%>,
-                                                    <%=address[0].district%>,<%=address[0].state%>,
-                                                            <%=address[0].pincode%>
+                                    
                                 </p>
                             </div>
                             <div class="bg-secondary">
@@ -94,7 +90,7 @@
                             </div>
                             <input type="hidden" value="" id="order_id">
                             <div class="d-flex justify-content-center mt-3">
-                                <button onclick="createOrder('<%=address[0]._id%>')" type="button" id="rzp-button1"
+                                <button onclick="createOrder()" type="button" id="rzp-button1"
                                     class="btn btn-secondary">Continue</button>
                             </div>
 

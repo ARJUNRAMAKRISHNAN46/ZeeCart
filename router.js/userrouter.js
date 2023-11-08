@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const { verifyUser, userExist } = require("../middleware/session.js");
-const {errorMiddleware} = require('../middleware/error');
+const { errorMiddleware } = require("../middleware/error");
+const { userCoupons } = require('../controllers/couponController.js');
 //requiring functions from productcontroller---------------------->
 const {
   productSpec,
   productList,
-  categoryList,
-  memoryFilter
+  brandFilter,
+  categoryFilter,
+  memoryFilter,
 } = require("../controllers/productController");
 //requiring functions from ordercontroller----------------------->
 const {
@@ -16,7 +18,7 @@ const {
   addToOrders,
   viewDetails,
   deleteOrderStatus,
-  downloadInvoice
+  downloadInvoice,
 } = require("../controllers/orderController.js");
 //requiring functions from addresscontroller----------------------->
 const {
@@ -50,35 +52,33 @@ const {
 const {
   Cart,
   addToCart,
-  demo,
   removeFromCart,
   updateQuantity,
-  checkCoupon
+  checkCoupon,
 } = require("../controllers/cartController.js");
+const {
+  wishList,
+  addToWishlist,
+  removeFromWishlist,
+} = require("../controllers/wishlistController.js");
 //requiring functions from usercontroller-------------------------->
 const {
   host,
-  wishList,
   forgotPassword,
   verifyEmail,
   comapareOtp,
   setPassword,
   search,
-  addToWishlist,
   changePassword,
-  removeFromWishlist,
   guestPage,
-  verifyPayment
+  verifyPayment,
 } = require("../controllers/userController");
-const {
-  createOrder,
-} = require('../controllers/paymentController.js');
-const {
-} = require('../controllers/couponController.js');
+const { createOrder } = require("../controllers/paymentController.js");
+const {} = require("../controllers/couponController.js");
 const upload = require("../middleware/multer");
 
 //home route------------------------------------------------------->
-router.get("/guest",userExist, guestPage);
+router.get("/guest", userExist, guestPage);
 router.get("/", verifyUser, host);
 //login routes----------------------------------------------------->
 router.get("/login", userExist, getLogin);
@@ -90,55 +90,57 @@ router.post("/send-otp", postSignupOtp);
 router.get("/getSignup", userExist, getSignup);
 router.post("/signUp", postSignup);
 //address routes--------------------------------------------------->
-router.get("/getAddAddress", verifyUser, getAddAddress,errorMiddleware);
-router.post("/addAddress", verifyUser,addAddress);
-router.get("/geteditAddress/:id", verifyUser, getEditAddress,errorMiddleware);
-router.post("/postEditAddress", verifyUser, postEditAddress,errorMiddleware);
-router.get("/deleteAddress/:id", verifyUser, deleteAddress,errorMiddleware);
-router.get('/addAddress',verifyUser,addAddress)
-router.post('/addNewAddress',verifyUser,addNewAddress)
+router.get("/getAddAddress", verifyUser, getAddAddress);
+router.post("/addAddress", verifyUser, addAddress);
+router.get("/geteditAddress/:id", verifyUser, getEditAddress);
+router.post("/postEditAddress", verifyUser, postEditAddress);
+router.get("/deleteAddress/:id", verifyUser, deleteAddress);
+router.get("/addAddress", verifyUser, addAddress);
+router.post("/addNewAddress", verifyUser, addNewAddress);
 //profile routes--------------------------------------------------->
-router.get("/profile", verifyUser, Profile,errorMiddleware);
-router.post('/updateProfile',verifyUser,updateProfile)
+router.get("/profile", verifyUser, Profile);
+router.post("/updateProfile", verifyUser, updateProfile);
+router.get('/myCoupons',verifyUser,userCoupons);
 //cart routes------------------------------------------------------>
-router.get("/cart", verifyUser, Cart,errorMiddleware);
-router.post("/removefromcart", verifyUser, removeFromCart,errorMiddleware);
-router.post("/addToCart/:id", verifyUser, demo,errorMiddleware);
-router.post("/updatequantity", verifyUser, updateQuantity,errorMiddleware);
-router.get("/placeOrder", verifyUser, placeOrder,errorMiddleware);
-router.post("/confirmAddress", verifyUser, confirmAddress,errorMiddleware);
-router.post('/makePayment/:id',createOrder)
+router.get("/cart", verifyUser, Cart);
+router.post("/removefromcart", verifyUser, removeFromCart);
+router.post("/addToCart/:id", verifyUser, addToCart);
+router.post("/updatequantity", verifyUser, updateQuantity);
+router.get("/placeOrder", verifyUser, placeOrder);
+router.get("/confirmAddress", verifyUser, confirmAddress);
+router.post("/makePayment/:id",verifyUser, createOrder);
 // router.post('/confirmPayment',verifyUser,confirmPayment)
 //shop route------------------------------------------------------->
-router.get("/shop", verifyUser, productList,errorMiddleware);
-router.get('/categoryFilter',verifyUser,categoryList);
-router.get('/memoryFilter',verifyUser,memoryFilter)
+router.get("/shop", verifyUser, productList);
+router.get("/brandFilter", verifyUser, brandFilter);
+router.get("/categoryFilter", verifyUser, categoryFilter);
+router.get("/memoryFilter", verifyUser, memoryFilter);
 //error routes----------------------------------------------------->
 router.get("/access-denied", userExist, throwErrOne);
 router.get("/invalid-user", userExist, throwErrTwo);
 router.get("/invalid-otp", userExist, throwErrThree);
 //product routes--------------------------------------------------->
-router.get("/productspecs/:id", verifyUser, productSpec,errorMiddleware);
-router.get("/productorders", verifyUser, Orders,errorMiddleware);
-router.post("/addToOrders/:id", verifyUser, addToOrders,errorMiddleware);
-router.put('/deleteOrderStatus/:id',verifyUser,deleteOrderStatus)
-router.post('/downloadInvoice/:id',verifyUser,downloadInvoice)
-router.post('/verify-payment',verifyPayment)
+router.get("/productspecs/:id", verifyUser, productSpec);
+router.get("/productorders", verifyUser, Orders);
+router.post("/addToOrders/:id", verifyUser, addToOrders);
+router.put("/deleteOrderStatus/:id", verifyUser, deleteOrderStatus);
+router.post("/downloadInvoice/:id", verifyUser, downloadInvoice);
+router.post("/verify-payment", verifyPayment);
 //wishlist route--------------------------------------------------->
-router.get("/wishlist", verifyUser, wishList,errorMiddleware);
-router.get("/addToWishlist/:id", verifyUser, addToWishlist,errorMiddleware);
-router.post("/removeFromWishlist/:id", verifyUser, removeFromWishlist,errorMiddleware);
+router.get("/wishlist", verifyUser, wishList);
+router.get("/addToWishlist/:id", verifyUser, addToWishlist);
+router.post("/removeFromWishlist/:id", verifyUser, removeFromWishlist);
 //forgot password route-------------------------------------------->
-router.post("/verifyemail", verifyEmail,errorMiddleware);
-router.post("/verifyOtp", comapareOtp,errorMiddleware);
-router.post("/setPassword", setPassword,errorMiddleware);
-router.get("/forgotpass", forgotPassword,errorMiddleware);
-router.get("/resendOtp", userExist, resendOtp,errorMiddleware);
-router.post("/search", verifyUser, search,errorMiddleware);
+router.post("/verifyemail", verifyEmail);
+router.post("/verifyOtp", comapareOtp);
+router.post("/setPassword", setPassword);
+router.get("/forgotpass", forgotPassword);
+router.get("/resendOtp", userExist, resendOtp);
+router.post("/search", verifyUser, search);
 //coupon routes-------------------------------------------------->
-router.post('/checkCoupon',verifyUser,checkCoupon);
+router.post("/checkCoupon", verifyUser, checkCoupon);
 //password routes-------------------------------------------------->
-router.get("/changePassword", verifyUser, changePassword,errorMiddleware);
+router.get("/changePassword", verifyUser, changePassword);
 //logout route----------------------------------------------------->
 router.get("/logout", verifyUser, logOut);
 

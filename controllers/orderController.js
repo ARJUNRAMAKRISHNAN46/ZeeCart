@@ -4,6 +4,7 @@ const Address = require("../models/addressModel");
 const Cart = require("../models/cartModel");
 const moment = require("moment");
 const { invoiceDownload } = require("../util/invoice");
+const Wallet = require("../models/walletModel");
 // const { default: orders } = require("razorpay/dist/types/orders");
 module.exports = {
   //getting order page
@@ -17,6 +18,12 @@ module.exports = {
       const orderDetails = await order
         .find({ userId: userId })
         .populate("products.productId");
+        console.log(orderDetails[0],'...............................');
+        if(orderDetails[0] == undefined) {
+          console.log('true');
+        }else{
+          console.log('false');
+        }
       const addressId = orderDetails[0].address;
       const addressDetails = await Address.find({ _id: addressId }).populate(
         "address"
@@ -43,7 +50,7 @@ module.exports = {
         totalAmount: grandTotal,
         orderStatus: "Order Processed",
       });
-      await Cart.findOneAndDelete({ userId: orderData.userId });
+      // await Cart.findOneAndDelete({ userId: orderData.userId });
       const orderId = Order._id;
       res.json({
         success: true,
@@ -65,7 +72,6 @@ module.exports = {
         "address"
       );
       const orderData = orderDetails[0].products;
-      console.log("address", addressDetails);
       res.render("admin/viewDetails", {
         orderDetails,
         orderData,
@@ -105,8 +111,11 @@ module.exports = {
   },
   deleteOrderStatus: async (req, res) => {
     try {
+      const email = req.session.email;
+      const user = await User.findOne({ email: email });
+      const userId = user._id;
       const orderId = req.params.id;
-      const newStatus = "Cancelled";
+      const newStatus = req.query.status;
       await order.findByIdAndUpdate(orderId, { orderStatus: newStatus });
     } catch (error) {
       console.error("Error updating order status:", error);

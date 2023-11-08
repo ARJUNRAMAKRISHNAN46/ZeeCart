@@ -19,7 +19,7 @@
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/brands?page=1">Brand</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="/payments?page=1">Payments</a></span></div>
+                        href="/offers?page=1">Offers</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/admin?page=1">Admins</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
@@ -117,9 +117,12 @@
                                                 >Rejected</option>
                                         </select>
 
-                                        <% } else { %>
+                                        <% } else if(x.orderStatus =='Cancelled' ) { %>
                                             Cancelled
-                                            <% } %>
+                                            <% }
+                                            else{ %>
+                                                Returned
+                                                <%} %>
                             </td>
                             <td>
                                 <a class="btn btn-primary" href="/viewDetails/<%= x._id%>?id=<%= x.address%>">View</a>

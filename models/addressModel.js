@@ -29,7 +29,7 @@ const addressSchema = new Schema({
     },
     state : {
         type : String
-    }
+    },
 })
 
 const Address = mongoose.model('address',addressSchema);

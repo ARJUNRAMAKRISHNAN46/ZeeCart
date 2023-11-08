@@ -1,167 +1,6 @@
 <%- include('../layout/header.ejs') -%>
     <%-include('../layout/user/header.ejs')-%>
 
-        <!-- <!doctype html>
-        <html lang="en">
-
-        <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Ecommerce Navbar Design</title>
-
-            <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-                rel="stylesheet">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="style.css">
-        </head> -->
-        <style>
-            .product-card {
-                background-color: #fff;
-                border: 1px solid #ccc;
-                margin-bottom: 24px;
-            }
-
-            .product-card a {
-                text-decoration: none;
-            }
-
-            .product-card .stock {
-                color: #fff;
-                border-radius: 4px;
-                padding: 2px 12px;
-                margin: 8px;
-                font-size: 12px;
-            }
-
-            .product-card .product-card-img {
-                max-height: 400px;
-                overflow: hidden;
-                border-bottom: 1px solid #ccc;
-            }
-
-            .product-card .product-card-img img {
-                width: 100%;
-            }
-
-            .product-card .product-card-body {
-                padding: 10px 10px;
-            }
-
-            .product-card .product-card-body .product-brand {
-                font-size: 14px;
-                font-weight: 400;
-                margin-bottom: 4px;
-                color: #937979;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-
-            .product-card .product-card-body .product-name {
-                font-size: 20px;
-                font-weight: 550;
-                color: #000;
-            }
-
-            .product-card .product-card-body .selling-price {
-                font-size: 16px;
-                color: #000;
-                font-weight: 650;
-                margin-right: 8px;
-            }
-
-            .product-card .product-card-body .original-price {
-                font-size: 14px;
-                color: #937979;
-                font-weight: 400;
-                text-decoration: line-through;
-            }
-
-            .product-card .product-card-body .btn1 {
-                border: 1px solid;
-                margin-right: 3px;
-                border-radius: 0px;
-                font-size: 12px;
-                margin-top: 10px;
-            }
-        </style>
-
-        <!-- <body>
-
-            <div class="py-3 py-md-5 bg-light">
-                <div class="container">
-                    <div class="row">
-                        <%arr.forEach((x)=>{ %>
-                            <div class="col-6 col-md-2">
-                                <div class="product-card">
-                                    <div style="height: 200px;" class="product-card-img p-3">
-                                        <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
-                                    </div>
-                                    <label class="stock bg-success">In Stock</label>
-                                    <div class="product-card-body">
-                                        <p class="product-brand"></p>
-                                        <h5 class="product-name"><%=x.ProductName%>
-                                        </h5>
-                                        <div>
-                                            <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
-                                            <span class="original-price">₹<%=x.Price%>/-</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <a href="" class="btn btn1">Add To Cart</a>
-                                            <a href="" class="btn btn1"> <i class="fa fa-heart"></i> </a>
-                                            <a href="" class="btn btn1"> View </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <%}) %>
-
-                    </div>
-                </div>
-            </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-        </body>
-
-        </html>
-
-        <div class="py-3 py-md-5 bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="mb-4">Our Categories</h4>
-                    </div>
-                    <%arr.forEach((x)=>{ %>
-                        <div class="col-6 col-sm-3 col-md-2">
-                            <div class="category-card">
-                                <a href="">
-                                    <div class="category-card-img">
-                                        <img src="/product-images/<%= x.images[0] %>" class="w-100" alt="Laptop">
-                                    </div>
-                                    <div class="category-card-body">
-                                        <h6>
-                                            <%=x.ProductName%>
-                                        </h6>
-                                    </div>
-                                </a>
-                                <div class="d-flex p-2">
-                                    <button class="btn btn-primary">Add to Cart</button>
-                                    <a href="" class="btn btn-light border px-2 icon-hover-primary"><i
-                                            class="fa-solid fa-heart" style="color: #000000;"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <%}) %>
-                </div>
-            </div>
-        </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-        </body>
-
-        </html> -->
-
-
         <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
 
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -258,7 +97,7 @@
                                 <div style="height: 300px;" class="product-card-img p-3">
                                     <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
                                 </div>
-                                <label class="stock bg-success">In Stock</label>
+                                <label class="stock bg-success">In Stock<%=x.AvailableQuantity%></label>
                                 <div class="product-card-body">
                                     <p class="product-brand"></p>
                                     <h5 class="product-name">
@@ -270,26 +109,14 @@
                                     </div>
                                     <div class="mt-2">
                                         <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To Cart</a>
-                                        <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i class="fa fa-heart"></i> </a>
+                                        <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i
+                                                class="fa fa-heart"></i> </a>
                                         <a href="/productspecs/<%=x._id%>" class="btn btn1"> View </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="card col-6 col-md-2">
-                            <a href="/productspecs/<%-x._id%>" class="">
-                                <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <%=x.ProductName%>
-                                    </h6>
-                                    <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                                </div>
-                            </a>
-                            <button style="font-size: small;" type="button" onclick="addToCart('<%=x._id%>')"
-                                class="btn btn-secondary">Add To
-                                Cart</button>
-                        </div> -->
+
 
                         <%}) %>
                 </div>
@@ -336,37 +163,42 @@
                                 <div style="height: 300px;" class="product-card-img p-3">
                                     <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
                                 </div>
-                                <label class="stock bg-success">In Stock</label>
-                                <div class="product-card-body">
-                                    <p class="product-brand"></p>
-                                    <h5 class="product-name">
-                                        <%=x.ProductName%>
-                                    </h5>
-                                    <div>
-                                        <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
-                                        <span class="original-price">₹<%=x.Price%>/-</span>
-                                    </div>
-                                    <div class="mt-2">
-                                        <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To Cart</a>
-                                        <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i class="fa fa-heart"></i> </a>
-                                        <a href="/productspecs/<%=x._id%>" class="btn btn1"> View </a>
-                                    </div>
-                                </div>
+                                <%if(x.AvailableQuantity==0) {%>
+                                    <label class="stock bg-danger">Out of Stock</label>
+                                    <%}else if(x.AvailableQuantity <=10) {%>
+                                        <label class="stock bg-danger">Only <%=x.AvailableQuantity%> left</label>
+                                        <%}else {%>
+                                            <label class="stock bg-success">In Stock</label>
+                                            <%} %>
+                                                <div class="product-card-body">
+                                                    <p class="product-brand"></p>
+                                                    <h5 class="product-name">
+                                                        <%=x.ProductName%>
+                                                    </h5>
+                                                    <div>
+                                                        <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                                        <span class="original-price">₹<%=x.Price%>/-</span>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
+                                                            Cart</a>
+                                                        <% if(x.inWish) {%>
+                                                            <a onclick="removeFromWish('<%=x._id%>')"
+                                                                class="btn btn1"> <i
+                                                                    class="fa fa-heart text-danger"></i> </a>
+                                                            <%}else {%>
+                                                                <a onclick="addToWishlist('<%=x._id%>')"
+                                                                    class="btn btn1"> <i class="fa fa-heart"></i>
+                                                                </a>
+                                                                <%}%>
+                                                                    <a href="/productspecs/<%=x._id%>" class="btn btn1">
+                                                                        View </a>
+                                                                    </frm>
+                                                    </div>
+                                                </div>
                             </div>
                         </div>
-                        <!-- <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
-                            <form action="/addToCart/<%=x._id%>" method="post">
-                                <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <%=x.ProductName%>
-                                    </h6>
-                                    <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                                    <button style="font-size: small;" type="submit" class="btn btn-secondary">Add To
-                                        Cart</button>
-                                </div>
-                            </form>
-                        </a> -->
+
                         <%}) %>
                 </div>
             </div>
@@ -404,6 +236,66 @@
                 });
             }
 
+            function addToWishlist(productId) {
+
+                $.ajax({
+                    url: `/addToWishlist/${productId}`,
+                    method: 'GET',
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Item added to wishlist',
+                                showConfirmButton: false,
+                                timer: 1500
+                                
+                            }).then(function () {
+                                location.reload();
+                                console.log('Response from the server:', response);
+                            });
+                           
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, something went wrong!'
+                        });
+                    }
+                });
+            }
+
+
+            function removeFromWish(productId) {
+
+                $.ajax({
+                    url: `/removeFromWishlist/${productId}`,
+                    method: 'POST',
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Item removed from wishlist',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                location.reload();
+                                console.log('Response from the server:', response);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, something went wrong!'
+                        });
+                    }
+                });
+            }
 
             function searchProducts() {
                 const searchInput = document.getElementById("searchInput").value;

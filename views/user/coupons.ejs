@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .coupon-card {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        max-width: 200px;
+    }
+
+    .coupon-code {
+        font-size: 1.2rem;
+        font-weight: bold;
+        /* margin: 10px 0; */
+    }
+
+    .copy-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+
+    <div class="container mt-5">
+        <% coupons.forEach((x)=> {%>
+            <div class="coupon-card border shadow rounded" style="background: #ffe5ae;">
+                <img src="/assets/diwali.png" width="150" alt="Coupon Image">
+                <!-- <p class="discription"><%=x.description%></p> -->
+                <h4><%=x.description%></h4>
+                <p class="coupon-code"><%=x.couponCode%></p>
+                <p class="expiredate"><%=x.expiryDate%></p>
+                <button class="copy-button">Copy</button>
+            </div>
+            <%}) %>
+    </div>
+
+            <script>
+                document.querySelector(".copy-button").addEventListener("click", function () {
+                    const couponCode = document.querySelector(".coupon-code");
+                    const textArea = document.createElement("textarea");
+                    textArea.value = couponCode.innerText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                    alert("Coupon code copied to clipboard: " + couponCode.innerText);
+                });
+            </script>
+
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+</body>
+
+</html>

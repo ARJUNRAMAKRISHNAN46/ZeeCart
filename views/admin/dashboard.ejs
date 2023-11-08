@@ -19,7 +19,7 @@
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/brands?page=1">Brand</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="/payments?page=1">Payments</a></span></div>
+                        href="/offers?page=1">Offers</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/admin?page=1">Admins</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
@@ -36,17 +36,72 @@
 
         </div>
 
-<div class="d-flex align-items-center justify-content-center" style="width: 100vw;height: 100vh;background-color: rgb(165, 213, 255);">
-    <h1>Admin Dashboard</h1>
-</div>
-<script>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "200px";
-    }
+        <!DOCTYPE html>
+        <html>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
-</script>
+        <body>
+            d
+            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+            <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
 
-<%- include('../layout/footer.ejs') %>
+            <script>
+                const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+                new Chart("myChart", {
+                    type: "line",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                            borderColor: "red",
+                            fill: false
+                        }, {
+                            data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                            borderColor: "green",
+                            fill: false
+                        }, {
+                            data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                            borderColor: "blue",
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        legend: { display: false }
+                    }
+                });
+                const zValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+                const yValues = [55, 49, 44, 24, 15];
+                const barColors = ["red", "green", "blue", "orange", "brown"];
+
+                new Chart("myChart1", {
+                    type: "bar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "Sales in this Year"
+                        }
+                    }
+                });
+            </script>
+            <script>
+                function openNav() {
+                    document.getElementById("mySidenav").style.width = "200px";
+                }
+
+                function closeNav() {
+                    document.getElementById("mySidenav").style.width = "0";
+                }
+
+
+            </script>
+
+            <%- include('../layout/footer.ejs') %>

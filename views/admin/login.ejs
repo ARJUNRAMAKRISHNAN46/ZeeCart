@@ -1,27 +1,32 @@
 <%-include('../layout/user/partials/header.ejs')-%>
 
-
-<div class="container">
-    <div class="wrapper">
-        <div class="title"><span>Sign in</span></div>
-        <form action="/adminlogin" method="post">
-            <div class=" loginDiv d-flex justify-content-center">
-                <span><%=err%></span>
+<body style=" background: linear-gradient(to right, #b92b27, #1565c0)">
+    
+    <div class="container">
+        <div class="wrapper">
+            <div class="title">
+                <h4>ADMIN LOGIN</h4>
             </div>
-            <div class="row">
-                <i class="fa-solid fa-envelope" style="color: #ffffff;"></i>
-                <input class="headz" type="email" placeholder="email" name="email" />
-            </div>
-            <div class="row">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Password" name="password" id="password"/>
-            </div>
-            <div class="row button">
-                <input type="submit" id="btnuslog" value="Login">
-            </div>
-        </form>
+            <form action="/adminlogin" method="post">
+                <div class=" loginDiv d-flex justify-content-center">
+                    <span><%=err%></span>
+                </div>
+                <div class="row">
+                    <i class="fa-solid fa-envelope" style="color: #ffffff;"></i>
+                    <input class="headz" type="email" placeholder="email" name="email" />
+                </div>
+                <div class="row">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" name="password" id="password"/>
+                </div>
+                <div class="row button">
+                    <input type="submit" id="btnuslog" value="Login">
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+    
+</body>
  
 
 

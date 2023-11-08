@@ -5,6 +5,8 @@ const Brand = require("../models/brandModel");
 const Category = require("../models/catagoryModel");
 const Order = require("../models/ordersModel");
 const { ObjectId } = require("mongodb");
+const wishlist = require("../models/wishlistModel");
+
 let grandTotal;
 module.exports = {
   admin_product: async (req, res) => {
@@ -50,7 +52,6 @@ module.exports = {
   addProduct: async (req, res) => {
     try {
       const productDetails = req.body;
-      console.log(productDetails);
       const files = req?.files;
       let ret = [
         files.main[0].filename,
@@ -149,11 +150,24 @@ module.exports = {
 
   productSpec: async (req, res) => {
     try {
-      const id = req.params.id;
+      const prodId = req.params.id;
+      const email = req.session.email;
+      const userData = await User.findOne({ email: email });
+      const userId = userData._id;
+      const wishData = await wishlist.findOne({
+        products: { $elemMatch: { productId: prodId } },
+      });
+      let status;
+      if (wishData) {
+        status = true;
+      } else {
+        status = false;
+      }
+      console.log(wishData, "--------------------->>");
       //fetching product details
-      const prodSpec = await products.findById(id);
+      const prodSpec = await products.findById(prodId);
       let i = 0;
-      res.render("user/newSpec", { prodSpec, i });
+      res.render("user/newSpec", { prodSpec, i, status });
     } catch (error) {
       console.log(error);
     }
@@ -167,12 +181,19 @@ module.exports = {
       console.log(error);
     }
   },
-  categoryList: async (req, res) => {
+  brandFilter: async (req, res) => {
+    try {
+      const brandData = req.query.brandData;
+      const imgs = await products.find({ BrandName: brandData });
+      res.render("user/shop", { imgs });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  categoryFilter: async (req, res) => {
     try {
       const catData = req.query.catData;
-      console.log(catData);
-      const imgs = await products.find({ BrandName: catData });
-      console.log(imgs);
+      const imgs = await products.find({ Category: catData });
       res.render("user/shop", { imgs });
     } catch (error) {
       console.log(error);
@@ -180,7 +201,6 @@ module.exports = {
   },
   memoryFilter: async (req, res) => {
     try {
-      
     } catch (error) {
       console.log(error);
     }

@@ -58,6 +58,9 @@ const productSchema = new Schema({
   status: {
     type: String,
   },
+  inWish: {
+    type:Boolean,
+  }
 });
 
 const products = mongoose.model("productUploads", productSchema);

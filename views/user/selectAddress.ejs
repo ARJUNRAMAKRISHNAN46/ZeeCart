@@ -1,77 +1,229 @@
 <%-include('../layout/user/header.ejs')-%>
-  <!DOCTYPE html>
-  <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <style>
-      .row {
-        display: flex;
-        justify-content: space-between;
-      }
+  <div class="container">
+    <form action="/confirmAddress" method="post">
+      <div class="row d-flex">
+        <div class="col-12 col-md-8">
+          <div class="card border shadow mt-5">
 
-      body {
-        background-color: #ffffff
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <form action="/confirmAddress" method="post">
-          <div class="col-md-8">
-            <div class="card border shadow mt-5">
-
-              <div class="m-4">
-                <div class="col-12 d-flex justify-content-center"
-                  style="background-color: rgb(91, 91, 91);color: white;">
-                  <h4 class="card-title mb-4 mt-2">Select Address</h4>
-                </div>
-                <%address.forEach((x)=> {%>
-                  <br>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="id" value='<%=x._id%>' id="flexRadioDefault1" checked>
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        <%=x.name%>
-                          <%=x.mobile%> <br>
-                        <%=x.address%>,<%=x.locality%>,
-                        <%=x.district%>,<%=x.state%>,<br>
-                        <%=x.pincode%>
-                      <x/p>
-                    </label>
-                  </div>
-                  <br>
-                  <%})%>
+            <div class="m-4">
+              <div class="col-12 d-flex justify-content-center bg-success text-white">
+                <h4 class="card-title mb-4 mt-4">Select Address</h4>
               </div>
-              <div class="d-flex justify-content-end"><a class="btn btn-primary m-3" href="/getAddAddress">Add Address</a></div>
+              <%address.forEach((x)=> {%>
+                <br>
+                <div class="form-check border shadow px-5 py-3">
+                  <input class="form-check-input" type="radio" name="id" value='<%=x._id%>' id="flexRadioDefault1"
+                    checked>
+                  <label class="form-check-label text-success" for="flexRadioDefault1" style="font-size: small;">
+                    <%=x.name%>
+                      <%=x.mobile%> <br>
+                        <%=x.address%>,<%=x.locality%>,
+                            <%=x.district%>,<%=x.state%>,<br>
+                                <%=x.pincode%>
+                  </label>
+                </div>
+                <%})%>
             </div>
-            <div class="d-flex justify-content-center"><button class="btn btn-secondary mt-4" type="submit">DELIVER
-                HERE</button></div>
+            <div class="d-flex justify-content-end"><a class="btn btn-primary m-3" href="/getAddAddress">Add
+                Address</a></div>
           </div>
-        </form>
-      </div>
-    </div>
-    </div>
-    <br>
-    <br>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card border shadow mt-5">
+            <div class="card-body">
+              <h5 class="card-title">Have You coupon ?</h5>
+              <span class="alert-danger" id="errrorShow"></span>
+              <div class="input-group mb-3">
+                <% if(couponCode){%>
+                  <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon"
+                    id="coupon" aria-describedby="button-addon2" value="<%=couponCode%>" />
+                  <%}else{%>
+                    <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon"
+                      id="coupon" aria-describedby="button-addon2" />
+                    <%} %>
+                      <button class="btn btn-primary border shadow-0" onclick="checkCoupon()" type="button"
+                        id="button-addon2" data-mdb-ripple-color="dark">
+                        Apply
+                      </button>
+              </div>
+            </div>
+          </div>
+          <div class="card shadow border mt-3">
+            <div class="card-body">
+              <div id="subtotal" class="d-flex justify-content-between">
+                <p class="mb-2"><b>Subtotal :</b></p>
+                <b>
+                  <p>Rs. <%=total%><span id="subtotalAmount">
+                      </span></p>
+                </b>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="mb-2"><b>Coupon(Discount) :</b></p>
+                <% if(coupon) {%>
+                  <b>
+                    <p>Rs. <span id="discountAmount">
+                        <%=coupon%>
+                      </span></p>
+                  </b>
+                  <%}else{%>
+                    <b>
+                      <p>Rs. <span id="discountAmount">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-      crossorigin="anonymous"></script>
+                        </span></p>
+                    </b>
+                    <%} %>
+              </div>
+              <hr />
+              <div class="d-flex justify-content-between">
+                <p class="mb-2"><b>Total price :</p>
+                <h5 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">
+                    <% if(grandTotal==undefined) {%>
+                      Rs. <%=total%>
+                        <%} else {%>
+                          Rs. <%=grandTotal%>
+                  </span></h5>
+                <%}%>
+
+                  </b>
+              </div>
+            </div>
+          </div>
+          <div class="card shadow border mt-3 p-3">
+            <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
+            <a onclick="createOrder('<%=address[0]._id%>')" type="button" id="rzp-button1"
+              style="background: rgb(255, 254, 207);" class="btn btn-success text-dark"><b>Online Payment</b></a>
+            <a class="btn border-success mt-2" style="background: rgb(213, 233, 255);" href="/confirmAddress"><b>Cash On
+                Delivery</b></a>
+          </div>
+
+        </div>
+      </div>
+  </div>
+  </form>
+  </div>
+  <br>
+  <br>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+
+    var orderId;
+    function createOrder(addressId) {
+      console.log('heree', addressId);
+      $.ajax({
+        url: `/addToOrders/${addressId}`,
+        method: 'POST',
+        success: function (response) {
+          orderId = response.orderId
+          makePayment(orderId);
+          console.log("Response from the server:", response);
+          console.error('sdfghjkdfghjkdfghjk', response.orderId);
+        }
+      });
+    }
+
+    function makePayment(orderId) {
+      $.ajax({
+        url: `/makePayment/${orderId}`,
+        type: 'POST',
+        contentType: 'application/json',
+        success: function (response) {
+          const order = response.order
+          console.log(order, 'orderrrrr');
+          console.log(response);
+          var options = {
+            key: 'rzp_test_idoVEAKqeG0jwu',
+            amount: 105000,
+            currency: 'INR',
+            name: 'ZeeCart',
+            description: 'Test Transaction',
+            image: '/assets/zeecart.png',
+            order_id: orderId,
+            handler: function (response) {
+
+              alert(response.razorpay_payment_id);
+              alert(response.razorpay_order_id);
+              console.log(response)
+              verifyPayment(response, order)
+            },
+            theme: {
+              color: '#3c3c3c'
+            }
+          }
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+        },
+        error: function (xhr, status, error) {
+          console.error(error);
+          alert('Error creating order. Please try again.');
+        }
+      });
+
+    }
+    function verifyPayment(payment, order) {
+      console.log('now in verifyPayment')
+      $.ajax({
+        url: '/verify-payment',
+        data: {
+          payment,
+          order,
+          orderId
+        },
+        method: 'post',
+        success: (response) => {
+          if (response.success) {
+            makePayment()
+            console.log('response got')
+            location.href = '/'
+          } else {
+            console.log('response not get');
+            location.href = '/'
+          }
+        }
+      })
+    }
+
+    function checkCoupon() {
+      let coupon = document.getElementById('coupon').value;
+      $.ajax({
+        url: '/checkCoupon',
+        method: 'POST',
+        data: {
+          coupon
+        },
+        success: function (response) {
+          console.log("Response from the server:", response);
+          if (response.success) {
+            console.log(response.couponAmount);
+            $('#discountAmount').text(response.couponAmount);
+            $('#totalPrice').text(response.grandTotal);
+
+          } else {
+            $('#errrorShow').text(response.err);
+            setTimeout(() => {
+              $('#errrorShow').text('');
+            }, 2500);
+            $('#discountAmount').text('0');
+          }
+        },
+        error: function (error) {
+          console.error('error in coupon', error);
+        }
+      });
+    }
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
 
   </body>
 
