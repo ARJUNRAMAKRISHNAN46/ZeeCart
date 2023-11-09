@@ -199,10 +199,40 @@ module.exports = {
       console.log(error);
     }
   },
-  memoryFilter: async (req, res) => {
+  priceSort: async (req, res) => {
     try {
+      const sort = req.query.sort;
+      let imgs = [];
+      if (sort == "minus") {
+        imgs = await products.find().sort({ DiscountAmount: 1 });
+      } else {
+        imgs = await products.find().sort({ DiscountAmount: -1 });
+      }
+      res.render("user/shop", { imgs });
     } catch (error) {
       console.log(error);
     }
   },
+  priceUnder: async (req, res) => {
+    try {
+      const level = req.query.type;
+      let imgs = [];
+      if (level == "ascending") {
+        imgs = await products.find({ DiscountAmount: { $lte: 40000 } }).sort({ DiscountAmount: 1 });
+      } else {
+        imgs = await products.find({ DiscountAmount: { $gte: 40000 } }).sort({ DiscountAmount: 1 });
+      }
+      res.render("user/shop", { imgs });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  addOffer:async(req,res) => {
+    try {
+      const data = req.body;
+      console.log(data,'---------------------------->');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };

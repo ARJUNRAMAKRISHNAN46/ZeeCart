@@ -1,5 +1,6 @@
 const Users = require("../models/userModel");
 const multer = require("multer");
+const Catagory = require("../models/catagoryModel");
 
 module.exports = {
   
@@ -69,7 +70,9 @@ module.exports = {
 
   admin_payments: async (req, res) => {
    try {
-    res.render("admin/payment");
+    const catData = await Catagory.find();
+    console.log(catData);
+    res.render("admin/offerManagement",{ catData });
    } catch (error) {
     console.log(error);
    }

@@ -10,7 +10,8 @@ const {
   productList,
   brandFilter,
   categoryFilter,
-  memoryFilter,
+  priceSort,
+  priceUnder,
 } = require("../controllers/productController");
 //requiring functions from ordercontroller----------------------->
 const {
@@ -114,7 +115,8 @@ router.post("/makePayment/:id",verifyUser, createOrder);
 router.get("/shop", verifyUser, productList);
 router.get("/brandFilter", verifyUser, brandFilter);
 router.get("/categoryFilter", verifyUser, categoryFilter);
-router.get("/memoryFilter", verifyUser, memoryFilter);
+router.get("/priceSort", verifyUser, priceSort);
+router.get("/priceAboveFourty", verifyUser, priceUnder);
 //error routes----------------------------------------------------->
 router.get("/access-denied", userExist, throwErrOne);
 router.get("/invalid-user", userExist, throwErrTwo);

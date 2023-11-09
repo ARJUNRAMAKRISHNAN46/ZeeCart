@@ -3,26 +3,27 @@ const Brand = require("../models/brandModel");
 module.exports = {
   admin_brands: async (req, res) => {
     try {
-      if (req.session.logged) {
-        res.redirect("/dashboard");
-      } else {
-        //creating pagination
-        const pageNum = req.query.page;
-        const perPage = 3;
-        const dataCount = await Brand.find().count()
-        const brandz = await Brand.find()
-          .skip((pageNum - 1) * perPage)
-          .limit(perPage);
-        let i = (pageNum - 1) * perPage;
-        res.render("admin/brands", { title: "admin brands", brandz, i ,dataCount});
-      }
+      //creating pagination
+      const pageNum = req.query.page;
+      const perPage = 3;
+      const dataCount = await Brand.find().count();
+      const brandz = await Brand.find()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage);
+      let i = (pageNum - 1) * perPage;
+      res.render("admin/brands", {
+        title: "admin brands",
+        brandz,
+        i,
+        dataCount,
+      });
     } catch (error) {
       console.log(error);
     }
   },
   addBrand: async (req, res) => {
     try {
-      res.render("admin/addbrand",{err : ''});
+      res.render("admin/addbrand", { err: "" });
     } catch (error) {
       console.log(error);
     }
@@ -32,14 +33,14 @@ module.exports = {
     try {
       const brand = req.body.brandname;
       //adding brand to database
-      const existBrand = await Brand.findOne({brandName : brand});
+      const existBrand = await Brand.findOne({ brandName: brand });
       console.log(existBrand);
-      if(!existBrand) {
+      if (!existBrand) {
         await Brand.create({ brandName: brand });
         res.redirect("/brands?page=1");
-      }else{
-        console.log('here');
-        res.render('admin/addbrand',{err : 'brand already exists..!'})
+      } else {
+        console.log("here");
+        res.render("admin/addbrand", { err: "brand already exists..!" });
       }
     } catch (error) {
       console.log(error);

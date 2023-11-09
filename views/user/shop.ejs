@@ -1,78 +1,121 @@
 <%- include('../layout/header.ejs') -%>
     <%-include('../layout/user/header.ejs')-%>
-    <style>
-        .product-card {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            margin-bottom: 24px;
-        }
+        <style>
+            .product-card {
+                background-color: #fff;
+                border: 1px solid #ccc;
+                margin-bottom: 24px;
+            }
 
-        .product-card a {
-            text-decoration: none;
-        }
+            .product-card a {
+                text-decoration: none;
+            }
 
-        .product-card .stock {
-            color: #fff;
-            border-radius: 4px;
-            padding: 2px 12px;
-            margin: 8px;
-            font-size: 12px;
-        }
+            .product-card .stock {
+                color: #fff;
+                border-radius: 4px;
+                padding: 2px 12px;
+                margin: 8px;
+                font-size: 12px;
+            }
 
-        .product-card .product-card-img {
-            max-height: 400px;
-            overflow: hidden;
-            border-bottom: 1px solid #ccc;
-        }
+            .product-card .product-card-img {
+                max-height: 400px;
+                overflow: hidden;
+                border-bottom: 1px solid #ccc;
+            }
 
-        .product-card .product-card-img img {
-            width: 100%;
-        }
+            .product-card .product-card-img img {
+                width: 100%;
+            }
 
-        .product-card .product-card-body {
-            padding: 10px 10px;
-        }
+            .product-card .product-card-body {
+                padding: 10px 10px;
+            }
 
-        .product-card .product-card-body .product-brand {
-            font-size: 14px;
-            font-weight: 400;
-            margin-bottom: 4px;
-            color: #937979;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
+            .product-card .product-card-body .product-brand {
+                font-size: 14px;
+                font-weight: 400;
+                margin-bottom: 4px;
+                color: #937979;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
 
-        .product-card .product-card-body .product-name {
-            font-size: 20px;
-            font-weight: 550;
-            color: #000;
-        }
+            .product-card .product-card-body .product-name {
+                font-size: 20px;
+                font-weight: 550;
+                color: #000;
+            }
 
-        .product-card .product-card-body .selling-price {
-            font-size: 16px;
-            color: #000;
-            font-weight: 650;
-            margin-right: 8px;
-        }
+            .product-card .product-card-body .selling-price {
+                font-size: 16px;
+                color: #000;
+                font-weight: 650;
+                margin-right: 8px;
+            }
 
-        .product-card .product-card-body .original-price {
-            font-size: 14px;
-            color: #937979;
-            font-weight: 400;
-            text-decoration: line-through;
-        }
+            .product-card .product-card-body .original-price {
+                font-size: 14px;
+                color: #937979;
+                font-weight: 400;
+                text-decoration: line-through;
+            }
 
-        .product-card .product-card-body .btn1 {
-            border: 1px solid;
-            margin-right: 3px;
-            border-radius: 0px;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-    </style>
+            .product-card .product-card-body .btn1 {
+                border: 1px solid;
+                margin-right: 3px;
+                border-radius: 0px;
+                font-size: 12px;
+                margin-top: 10px;
+            }
+
+            @media (max-width: 550px) {
+                .product-card .product-card-img {
+                    max-height: 130px;
+                }
+
+                .product-card .product-card-body .product-name {
+                    font-size: 10px;
+                    font-weight: 550;
+                    color: #000;
+                }
+
+                .product-card .product-card-body .selling-price {
+                    font-size: 10px;
+                    color: #000;
+                    font-weight: 650;
+                    margin-right: 8px;
+                }
+
+                .product-card .product-card-body .original-price {
+                    font-size: 8px;
+                    color: #937979;
+                    font-weight: 400;
+                    text-decoration: line-through;
+                }
+
+                .product-card .product-card-body .btn1 {
+                    border: 1px solid;
+                    margin-right: 1px;
+                    border-radius: 0px;
+                    font-size: 6px;
+                    /* margin-top: 10px; */
+                }
+
+                .product-card .stock {
+                    color: #fff;
+                    border-radius: 1px;
+                    padding: 1px 8px;
+                    margin: 6px;
+                    font-size: 8px;
+                }
+
+            }
+        </style>
         <section>
-            <div class="main-navbar shadow-sm sticky-top" style="width: 100vw">
+            <div class="main-navbar shadow-sm sticky-top" style="width: 100vw;">
                 <ul style="list-style: none;">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -81,26 +124,28 @@
                         </a>
                         <ul class="dropdown-menu p-4" style="line-height: 10px;" aria-labelledby="navbarDropdown">
                             <li>
-                                    <h6><strong>RAM</strong></h6>
-                               </li>
-                            <li><a class="dropdown-item" href="/memoryFilter?ram=12 GB RAM">
-                                    <p>6 GB </p></a>
+                                <h6><strong>PRICE</strong></h6>
                             </li>
-                            <li><a class="dropdown-item" href="/memoryFilter?ram=12 GB RAM">
-                                <p>8 GB </p>
+                            <li><a class="dropdown-item" href="/priceSort?sort=minus">
+                                    <p>LOW TO HIGH</p>
+                                </a>
+                            </li>
+                            <li><a class="dropdown-item" href="/priceSort?sort=plus">
+                                    <p>HIGH TO LOW</p>
                                 </a>
                             </li>
                             <li>
-                                <h6><strong>ROM</strong></h6>
+                                <h6><strong>PRICE RANGE</strong></h6>
                             </li>
-                            <li><a class="dropdown-item" href="/memoryFilter?ram=128 GB ROM">
-                                    <p>128 GB</p>
+                            <li><a class="dropdown-item" href="/priceAboveFourty?type=ascending">
+                                    <p>UNDER 40000</p>
                                 </a></li>
-                            <li><a class="dropdown-item" href="/memoryFilter?ram=256 GB ROM">
-                                    <p>256 GB </p>
+                            <li><a class="dropdown-item" href="/priceAboveFourty?type=descending">
+                                    <p>ABOVE 40000</p>
                                 </a></li>
-                            <li><h6><strong>BRAND</strong></h6>
-                                </li>
+                            <li>
+                                <h6><strong>BRAND</strong></h6>
+                            </li>
                             <li><a class="dropdown-item" href="/brandFilter?brandData=SAMSUNG">
                                     <p>SAMSUNG </p>
                                 </a></li>
@@ -113,8 +158,9 @@
                             <li><a class="dropdown-item" href="/brandFilter?brandData=XIOMI">
                                     <p>XIOMI </p>
                                 </a></li>
-                            <li><h6><strong>CATEGORY</strong></h6>
-                                </li>
+                            <li>
+                                <h6><strong>CATEGORY</strong></h6>
+                            </li>
                             <li><a class="dropdown-item" href="/categoryFilter?catData=FLAGSHIP MOBILES">
                                     <p>FLAGSHIP MOBILES </p>
                                 </a></li>
@@ -122,7 +168,7 @@
                                     <p>MOST SELLING MOBILES </p>
                                 </a></li>
                             <li><a class="dropdown-item" href="/categoryFilter?catData=IOS MOBILES">
-                                    <p>IOS MOBILES </p>
+                                    <p>IOS MOBILES</p>
                                 </a></li>
                             <li><a class="dropdown-item" href="/categoryFilter?catData=BUDGET SMARTPHONES">
                                     <p>BUDGET SMARTPHONES </p>
@@ -150,27 +196,30 @@
                                             <%}else {%>
                                                 <label class="stock bg-success">In Stock</label>
                                                 <%} %>
-                                    <div class="product-card-body">
-                                        <p class="product-brand"></p>
-                                        <h5 class="product-name">
-                                            <%=x.ProductName%>
-                                        </h5>
-                                        <div>
-                                            <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
-                                            <span class="original-price">₹<%=x.Price%>/-</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To Cart</a>
-                                            <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i class="fa fa-heart"></i> </a>
-                                            <a href="/productspecs/<%=x._id%>" class="btn btn1"> View </a>
-                                        </div>
-                                    </div>
+                                                    <div class="product-card-body">
+                                                        <p class="product-brand"></p>
+                                                        <h5 class="product-name">
+                                                            <%=x.ProductName%>
+                                                        </h5>
+                                                        <div>
+                                                            <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                                            <span class="original-price">₹<%=x.Price%>/-</span>
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
+                                                                Cart</a>
+                                                            <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i
+                                                                    class="fa fa-heart"></i> </a>
+                                                            <a href="/productspecs/<%=x._id%>" class="btn btn1"> View
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                 </div>
                             </div>
                             <%}) %>
-                        <%}else{%>
-                            <h1>No Mobiles Available in this Brand</h1>
-                            <%}%>
+                                <%}else{%>
+                                    <h1>No Mobiles Available in this Brand</h1>
+                                    <%}%>
                 </div>
             </div>
         </div>

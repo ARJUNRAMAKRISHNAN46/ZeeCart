@@ -1,6 +1,6 @@
 const express = require("express");
 const routers = express.Router();
-const { verifyAdmin, adminExist } = require("../middleware/session");
+const { verifyAdmin, adminExist, verifyUser } = require("../middleware/session");
 const { admin_coupon, addCoupon } = require("../controllers/couponController");
 const {
   adHost,
@@ -40,6 +40,7 @@ const {
   addProduct,
   editProduct,
   getEditProduct,
+  addOffer,
 } = require("../controllers/productController");
 const upload = require("../middleware/multer");
 //<--------------Catagory---------------->
@@ -49,6 +50,8 @@ routers.post("/uploadcatagory", verifyAdmin, uploadCatagory);
 routers.post("/addcatagory", verifyAdmin, addCategory);
 routers.get("/editcatagory/:id", verifyAdmin, editCatagory);
 routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
+//<----------------Offer------------------>
+routers.post('/addOffer',verifyAdmin,addOffer);
 //<----------------Brand------------------>
 routers.get("/addbrand", verifyAdmin, addBrand);
 routers.get("/brands", verifyAdmin, admin_brands);

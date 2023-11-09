@@ -100,9 +100,9 @@
                                 <%= x.totalAmount %>
                             </td>
                             <td>
-                                <% if (x.orderStatus !=='Cancelled' ) { %>
+                                <% if (x.orderStatus !=='Cancelled' && x.orderStatus !== 'Return Order' ) { %>
                                     <% const currentStatus=x.orderStatus || 'Order Placed' ; %>
-                                        <select class="form-select" id="statusSelect<%= i %>"
+                                        <select class="form-select text-success" id="statusSelect<%= i %>"
                                             onchange="updateOrderStatus('<%= x._id %>', this.value)">
                                             <option value="Order Processed" <%=currentStatus==='Order Processed'
                                                 ? 'selected' : '' %>>Order Processed</option>
@@ -118,10 +118,10 @@
                                         </select>
 
                                         <% } else if(x.orderStatus =='Cancelled' ) { %>
-                                            Cancelled
+                                            <h6 class="text-danger bg-warning p-1 d-flex justify-content-center"><b> Cancelled</b></h6>
                                             <% }
-                                            else{ %>
-                                                Returned
+                                            else if(x.orderStatus == 'Return Order'){ %>
+                                                <h6 class="text-warning bg-danger p-1 d-flex justify-content-center"><b>Returned</b></h6>
                                                 <%} %>
                             </td>
                             <td>

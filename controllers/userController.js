@@ -28,12 +28,24 @@ module.exports = {
             arr.push(x);
           }
         });
-        const BudgetMobiles = await products
-          .find({ DiscountAmount: { $lt: 20000 } })
+        const BudgetMob = await products
+          .find({ Category: "MOST SELLING MOBILES" })
           .limit(8);
-        const FlagMobiles = await products
+        let BudgetMobiles = [];
+        BudgetMob.forEach((x) => {
+          if (x.status == "Active") {
+            BudgetMobiles.push(x);
+          }
+        });
+        const FlagMob = await products
           .find({ Category: "FLAGSHIP MOBILES" })
           .limit(8);
+        let FlagMobiles = [];
+        FlagMob.forEach((x) => {
+          if (x.status == "Active") {
+            FlagMobiles.push(x);
+          }
+        });
         res.render("user/home", { data, arr, BudgetMobiles, FlagMobiles });
       }
     } catch (error) {
