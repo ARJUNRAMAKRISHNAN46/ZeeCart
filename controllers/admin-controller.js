@@ -71,7 +71,6 @@ module.exports = {
   admin_payments: async (req, res) => {
    try {
     const catData = await Catagory.find();
-    console.log(catData);
     res.render("admin/offerManagement",{ catData });
    } catch (error) {
     console.log(error);

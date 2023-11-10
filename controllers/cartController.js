@@ -4,29 +4,60 @@ const coupons = require("../models/couponModel");
 const { ObjectId } = require("mongodb");
 const products = require("../models/productModel");
 
-//getting cart page
 module.exports = {
   checkCoupon: async (req, res) => {
     try {
       const { coupon } = req.body;
       const couponData = await coupons.findOne({ couponCode: coupon });
-
+      console.log(couponData, "------------------------coupon");
       if (couponData) {
-        const couponAmount = couponData.discountAmount;
-        const total = req.session.totalPrice;
-        req.session.grandTotal = total - couponAmount;
-        const grandTotal = req.session.grandTotal;
-        req.session.couponCode = coupon;
-        req.session.coupon = couponAmount;
-        res.json({
-          success: true,
-          couponAmount,
-          grandTotal
-        });
+        const expiryDateString = couponData.expiryDate;
+        const expiryDate = new Date(
+          parseInt(expiryDateString.split("-")[2], 10),
+          parseInt(expiryDateString.split("-")[1], 10) - 1,
+          parseInt(expiryDateString.split("-")[0], 10)
+        );
+        console.log(expiryDate, "---------------------");
+        const currentDate = new Date();
+        console.log(currentDate, "-------------cd");
+
+        console.log(
+          req.session.totalPrice,
+          "-------------------------------------------->total price"
+        );
+
+        if (expiryDate < currentDate) {
+          if (couponData.maxPurchasetAmount <= req.session.totalPrice) {
+            console.log("The coupon is still valid.");
+            const couponAmount = couponData.discountAmount;
+            const total = req.session.totalPrice;
+            req.session.grandTotal = total - couponAmount;
+            const grandTotal = req.session.grandTotal;
+            req.session.couponCode = coupon;
+            req.session.coupon = couponAmount;
+            res.json({
+              success: true,
+              couponAmount,
+              grandTotal,
+            });
+          } else {
+            console.log("minimum purchase amount is 100000");
+            res.json({
+              success: false,
+              err: " minimum purchase amount is 100000 ",
+            });
+          }
+        } else {
+          console.log("The expiry date has passed. The coupon is expired.");
+          res.json({
+            success: false,
+            err: " coupon expired ",
+          });
+        }
       } else {
         res.json({
           success: false,
-          err: "invalid coupon",
+          err: " invalid coupon ",
         });
       }
     } catch (error) {
@@ -56,7 +87,7 @@ module.exports = {
         });
 
         req.session.totalPrice = total;
-        req.session.grandTotal = total
+        req.session.grandTotal = total;
 
         res.render("user/cart", {
           user,
@@ -137,7 +168,7 @@ module.exports = {
       const cart = await Cart.findById(cartId);
       if (!cart) {
         return res
-        .status(404)
+          .status(404)
           .json({ success: false, error: "Cart not found" });
       }
       cart.products = cart.products.filter(
@@ -153,7 +184,7 @@ module.exports = {
       });
     }
   },
-  
+
   //update quantity
   updateQuantity: async (req, res) => {
     try {
@@ -173,45 +204,54 @@ module.exports = {
       const productInCart = cart.products.find(
         (product) => product.productId.toString() === productId
       );
+      const prodData = await products.findOne({ _id: productInCart.productId });
+      console.log(prodData.AvailableQuantity, "................***********");
       if (!productInCart) {
         return res
           .status(404)
           .json({ success: false, error: "Product not found in the cart" });
       }
-
-      await Cart.updateOne(
-        {
-          userId: userId,
-          "products.productId": productId,
-        },
-        {
-          $set: {
-            "products.$.quantity": quantity,
+      if (prodData.AvailableQuantity >= quantity) {
+        await Cart.updateOne(
+          {
+            userId: userId,
+            "products.productId": productId,
           },
-        }
-      );
+          {
+            $set: {
+              "products.$.quantity": quantity,
+            },
+          }
+        );
 
-      let itemPrice = 0;
-      let totalQuantity = 0;
-      let total = 0;
-      const cartz = await Cart.findOne({ userId: userId }).populate(
-        "products.productId"
-      );
-      cartz.products.forEach((item) => {
-        total += item.quantity * item.productId.Price;
-        itemPrice += item.productId.Price;
-        totalQuantity += item.quantity;
-      });
+        let itemPrice = 0;
+        let totalQuantity = 0;
+        let total = 0;
+        const cartz = await Cart.findOne({ userId: userId }).populate(
+          "products.productId"
+        );
+        cartz.products.forEach((item) => {
+          total += item.quantity * item.productId.Price;
+          itemPrice += item.productId.Price;
+          totalQuantity += item.quantity;
+        });
 
-      req.session.totalPrice = total;
-      req.session.grandTotal = total
+        req.session.totalPrice = total;
+        req.session.grandTotal = total;
 
-      res.json({
-        success: true,
-        totalQuantity: totalQuantity,
-        total: total,
-        itemPrice: itemPrice,
-      });
+        res.json({
+          success: true,
+          totalQuantity: totalQuantity,
+          total: total,
+          itemPrice: itemPrice,
+        });
+      } else {
+        console.log("out of stock");
+        res.json({
+          success: false,
+          err: "out of stock",
+        });
+      }
     } catch (error) {
       console.log(error);
     }

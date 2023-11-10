@@ -6,6 +6,7 @@ const Category = require("../models/catagoryModel");
 const Order = require("../models/ordersModel");
 const { ObjectId } = require("mongodb");
 const wishlist = require("../models/wishlistModel");
+const offer = require('../models/offerModel');
 
 let grandTotal;
 module.exports = {
@@ -126,7 +127,7 @@ module.exports = {
     }
   },
 
-  //user control (product blocking and unblocking)
+  //-----------------------------------------user control (product blocking and unblocking)------------------------------------------
   product_Blocking: async (req, res) => {
     try {
       const id = req.params.id;
@@ -147,7 +148,7 @@ module.exports = {
       console.log(error);
     }
   },
-
+//------------------------------------------------product details page--------------------------------------------------------
   productSpec: async (req, res) => {
     try {
       const prodId = req.params.id;
@@ -172,7 +173,7 @@ module.exports = {
       console.log(error);
     }
   },
-  //product list for user
+  //-----------------------------------------------product list for user------------------------------------------------------------
   productList: async (req, res) => {
     try {
       const imgs = await products.find();
@@ -181,6 +182,7 @@ module.exports = {
       console.log(error);
     }
   },
+  //-------------------------------------------------brand filtering------------------------------------------------------------------
   brandFilter: async (req, res) => {
     try {
       const brandData = req.query.brandData;
@@ -190,6 +192,7 @@ module.exports = {
       console.log(error);
     }
   },
+  //-------------------------------------------------category filter------------------------------------------------------------------
   categoryFilter: async (req, res) => {
     try {
       const catData = req.query.catData;
@@ -199,6 +202,7 @@ module.exports = {
       console.log(error);
     }
   },
+  //-------------------------------------------------price sorting------------------------------------------------------------------
   priceSort: async (req, res) => {
     try {
       const sort = req.query.sort;
@@ -213,26 +217,43 @@ module.exports = {
       console.log(error);
     }
   },
+  //-------------------------------------------------price filtering----------------------------------------------------------------
   priceUnder: async (req, res) => {
     try {
       const level = req.query.type;
       let imgs = [];
       if (level == "ascending") {
-        imgs = await products.find({ DiscountAmount: { $lte: 40000 } }).sort({ DiscountAmount: 1 });
+        imgs = await products
+          .find({ DiscountAmount: { $lte: 40000 } })
+          .sort({ DiscountAmount: 1 });
       } else {
-        imgs = await products.find({ DiscountAmount: { $gte: 40000 } }).sort({ DiscountAmount: 1 });
+        imgs = await products
+          .find({ DiscountAmount: { $gte: 40000 } })
+          .sort({ DiscountAmount: 1 });
       }
       res.render("user/shop", { imgs });
     } catch (error) {
       console.log(error);
     }
   },
-  addOffer:async(req,res) => {
+  //--------------------------------------------------offer management-------------------------------------------------------------
+  addOffer: async (req, res) => {
     try {
       const data = req.body;
-      console.log(data,'---------------------------->');
+      const catagory = data.Catagory;
+      const discount = data.discount;
+
+      const proData = await products.updateMany(
+        { Category: catagory },
+        {
+          $mul: { DiscountAmount: (100 - discount) / 100 }
+        }
+        );
+      const offers = await offer.create(req.body);
+      
+      res.redirect("/offers");
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 };

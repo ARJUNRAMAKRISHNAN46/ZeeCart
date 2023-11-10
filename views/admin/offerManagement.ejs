@@ -106,16 +106,15 @@
             <main>
                 <form action="/addOffer" method="post">
                     <label for="category">Select Category:</label>
-                    <select id="category" name="category">
-                        <%catData.forEach((x)=> {%>
-                            <option value="<%=x.catagoryNam%>">
-                                <%=x.catagoryName%>
-                            </option>
-                            <%})%>
+                    <select class="" id="category" name="Catagory" required>
+                        <option value="" selected disabled>Select a category</option>
+                        <%catData.forEach((x) => {%>
+                            <option><%=x.catagoryName%></option>
+                        <%})%>
                     </select>
 
-                    <label for="discount">Discount Amount/Percentage:</label>
-                    <input type="text" id="discount" name="discount" placeholder="Enter discount amount or percentage">
+                    <label for="discount">Discount Percentage:</label>
+                    <input type="text" id="discount" name="discount" placeholder="Enter discount percentage">
 
                     <label for="expiryDate">Expiry Date:</label>
                     <input type="date" id="expiryDate" name="expiryDate">

@@ -34,7 +34,7 @@
           <div class="card border shadow mt-5">
             <div class="card-body">
               <h5 class="card-title">Have You coupon ?</h5>
-              <span class="alert-danger" id="errrorShow"></span>
+              <span  class="bg-danger text-white" role="alert" id="errrorShow"></span>
               <div class="input-group mb-3">
                 <% if(couponCode){%>
                   <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon"
@@ -203,8 +203,8 @@
             $('#errrorShow').text(response.err);
             setTimeout(() => {
               $('#errrorShow').text('');
-            }, 2500);
-            $('#discountAmount').text('0');
+            }, 3000);
+            $('#discountAmount').text('');
           }
         },
         error: function (error) {

@@ -51,6 +51,7 @@ routers.post("/addcatagory", verifyAdmin, addCategory);
 routers.get("/editcatagory/:id", verifyAdmin, editCatagory);
 routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
 //<----------------Offer------------------>
+routers.get("/offers", verifyAdmin, admin_payments);
 routers.post('/addOffer',verifyAdmin,addOffer);
 //<----------------Brand------------------>
 routers.get("/addbrand", verifyAdmin, addBrand);
@@ -71,19 +72,18 @@ routers.get("/viewDetails/:id", verifyAdmin, viewDetails);
 //<-----------------Users------------------>
 routers.get("/customers", verifyAdmin, admin_Users);
 routers.post("/block/:id", verifyAdmin, user_Blocking);
-
+//<-----------------Users------------------>
 routers.get("/adminpanel", adminExist, adHost);
 routers.post("/adminlogin", adminExist, admin_Login);
+//<-----------------dashboard------------------>
 routers.get("/dashboard", verifyAdmin, admin_dash);
 routers.get("/banners", verifyAdmin, admin_banners);
-routers.get("/offers", verifyAdmin, admin_payments);
 routers.get("/admin", verifyAdmin, admin_admin);
-
+//<-----------------Offers------------------>
 routers.get("/coupon", verifyAdmin, admin_coupon);
 routers.post("/addCoupon", verifyAdmin, addCoupon);
-
+//<-----------------Logout------------------>
 routers.get("/log-out", adminLogOut);
-
 // <-------------Image upload-------------->
 const uploadFields = [
   { name: "main", maxCount: 1 },

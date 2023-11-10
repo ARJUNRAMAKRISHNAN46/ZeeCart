@@ -202,7 +202,7 @@
                                                             <%=x.ProductName%>
                                                         </h5>
                                                         <div>
-                                                            <span class="selling-price">₹<%=x.DiscountAmount%>/-</span>
+                                                            <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>/-</span>
                                                             <span class="original-price">₹<%=x.Price%>/-</span>
                                                         </div>
                                                         <div class="mt-2">

@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const routers = require("./router.js/adminrouter");
 const flash = require('connect-flash');
 const app = express();
+const { checkOffer } = require('./util/crownjob');
 
 
 app.use((req,res,next)=>{
