@@ -11,6 +11,7 @@ module.exports = {
       const perPage = 2;
       let email = req.session.email;
       let userData = await User.findOne({ email: email });
+      console.log(userData,'userdata...............');
       const userId = userData._id;
       const wallet = await Wallet.findOne({ userId: userId });
       // console.log(Wallet.userId,'----------------',userId);

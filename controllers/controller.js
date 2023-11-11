@@ -70,7 +70,8 @@ module.exports = {
       const { statuz, name, email, password } = req.body;
       const data = await User.findOne({ email });
       if (data) {
-        res.redirect("user/invalid-email");
+        // res.redirect("user/invalid-email");
+        res.render("user/signup", { err: "email already exists" });
       } else {
         _email = email;
         _name = name;

@@ -9,10 +9,12 @@ module.exports = {
       const user = await User.findOne({ email: email });
       const userId = user._id;
       let err = "";
+      let wishData = [];
       const Wishlist = await wishlist
         .find({ userId: userId })
         .populate("products.productId");
-      if (Wishlist) {
+        console.log(Wishlist,'wishlists..................');
+      if (Wishlist.length > 0) {
         wishData = Wishlist[0].products;
       } else {
         err = "No Items in wishlist..!";

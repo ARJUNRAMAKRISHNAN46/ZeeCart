@@ -8,7 +8,7 @@ const {
   admin_dash,
   admin_admin,
   admin_banners,
-  admin_payments,
+  admin_offers,
   adminLogOut,
 } = require("../controllers/admin-controller");
 const { admin_Users, user_Blocking } = require("../controllers/userController");
@@ -51,7 +51,7 @@ routers.post("/addcatagory", verifyAdmin, addCategory);
 routers.get("/editcatagory/:id", verifyAdmin, editCatagory);
 routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
 //<----------------Offer------------------>
-routers.get("/offers", verifyAdmin, admin_payments);
+routers.get("/offers", verifyAdmin, admin_offers);
 routers.post('/addOffer',verifyAdmin,addOffer);
 //<----------------Brand------------------>
 routers.get("/addbrand", verifyAdmin, addBrand);

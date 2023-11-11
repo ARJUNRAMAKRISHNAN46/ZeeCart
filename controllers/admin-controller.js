@@ -1,6 +1,7 @@
 const Users = require("../models/userModel");
 const multer = require("multer");
 const Catagory = require("../models/catagoryModel");
+const offer = require("../models/offerModel");
 
 module.exports = {
   
@@ -68,10 +69,11 @@ module.exports = {
     }
   },
 
-  admin_payments: async (req, res) => {
+  admin_offers: async (req, res) => {
    try {
     const catData = await Catagory.find();
-    res.render("admin/offerManagement",{ catData });
+    const offers = await offer.find();
+    res.render("admin/offerManagement",{ catData,offers,err : '' });
    } catch (error) {
     console.log(error);
    }

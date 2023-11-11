@@ -1,73 +1,51 @@
 <%- include('../layout/header.ejs') %>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8;
-            color: #333;
+     
+        .modal-body {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 70%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
 
-        header {
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-        }
-
-        main {
+        .modal-body form {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 20px;
         }
 
-        form {
-            max-width: 400px;
+        .modal-body label {
+            margin-top: 10px;
+        }
+
+        .modal-body select,
+        .modal-body input[type="text"],
+        .modal-body input[type="date"] {
             width: 100%;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        select,
-        input,
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #007bff;
-            color: #fff;
+        .modal-body button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
         }
 
-        @media (max-width: 600px) {
-            form {
-                max-width: none;
-            }
-        }
     </style>
 
-    <body>
+    <body style="background: rgb(204, 204, 255);">
         <span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
         <div id="mySidenav" class="sidenav">
             <div class="d-flex align-items-center justify-content-end"><a href="javascript:void(0)" class="closebtn"
                     onclick="closeNav()"><i class="fa-solid fa-arrow-left"></i></i></a></div>
-            <!-- &times; -->
             <div class="zeediv d-flex align-items-center justify-content-center">
                 <h3 class="zeecart">Zee<span href="" id="zeecart">C</span>art</h3>
             </div>
@@ -81,49 +59,92 @@
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/brands?page=1">Brand</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="/offers?page=1">offers</a></span></div>
+                        href="/offers?page=1">Offers</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/admin?page=1">Admins</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/customers?page=1">Customers</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="/orders?page=1">Orders</a></span></div>
+                        href="/coupon?page=1">Orders</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href="/coupon?page=1">Coupen</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
-                        href="/banners?page=1">Banner</a></span></div>
+                        href="/banner?page=1">Banner</a></span></div>
             <div class="btnz d-flex align-items-center justify-content-center"><span><a class="a-tag"
                         href=""></a></span></div>
-
-
         </div>
 
-        <div style="width: 100vw;height: 100vh;background-color: rgb(21, 252, 125);">
-            <header>
-                <h1>Offer Management</h1>
-            </header>
-
-            <main>
-                <form action="/addOffer" method="post">
-                    <label for="category">Select Category:</label>
-                    <select class="" id="category" name="Catagory" required>
-                        <option value="" selected disabled>Select a category</option>
-                        <%catData.forEach((x) => {%>
-                            <option><%=x.catagoryName%></option>
-                        <%})%>
-                    </select>
-
-                    <label for="discount">Discount Percentage:</label>
-                    <input type="text" id="discount" name="discount" placeholder="Enter discount percentage">
-
-                    <label for="expiryDate">Expiry Date:</label>
-                    <input type="date" id="expiryDate" name="expiryDate">
-
-                    <button type="submit">Submit Offer</button>
-                </form>
-            </main>
+        <div class="container mt-5">
+            <h1>Category Offer Management</h1>
+            <span class="text-danger">
+                <%=err%>
+            </span>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addCouponModal">Add Offer</button>
         </div>
-        
+        <div class="modal fade" id="addCouponModal" tabindex="-1" role="dialog" aria-labelledby="addCouponModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog bg-primary" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCouponModalLabel">Add Offer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/addOffer" method="post">
+                            <span class="msg" id="err1"></span>
+                            <label for="category">Select Category:</label>
+                            <select class="" id="category" name="Catagory" required>
+                                <option value="" selected disabled>Select a category</option>
+                                <%catData.forEach((x)=> {%>
+                                    <option>
+                                        <%=x.catagoryName%>
+                                    </option>
+                                    <%})%>
+                            </select>
+
+                            <label for="discount">Discount Percentage:</label>
+                            <input type="text" id="discount" name="discount" placeholder="Enter discount percentage">
+
+                            <label for="expiryDate">Expiry Date:</label>
+                            <input type="date" id="expiryDate" name="expiryDate">
+
+                            <button type="submit">Submit Offer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="row">
+                <% offers.forEach((x)=> {%>
+                    <div class="card border rounded" style="width: 18rem;background: #ff9090;">
+                        <ul class="list-group list-group-flush"><br>
+                            <li class="list-group-item "><b>
+                                    <span class="mx-3">CATEGORY OFFER</span><a class="ms-5" href="/deleteOffer/<%=x._id%>"><i class="fa-solid fa-trash-can"></i></a>
+                                </b>
+                            </li>
+                            <li class="list-group-item"><b>Category : </b>
+                                <%= x.Catagory %>
+                            </li>
+                            <li class="list-group-item"><b>Discount Amount : </b>
+                                <%= x.discount %>%
+                            </li>
+                            <li class="list-group-item"><b>Expiry Date : </b>
+                                <%= x.expiryDate %>
+                            </li>
+                            <br>
+                        </ul>
+                    </div>
+                    <%}) %>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
             function openNav() {
                 document.getElementById("mySidenav").style.width = "200px";
@@ -133,5 +154,30 @@
                 document.getElementById("mySidenav").style.width = "0";
             }
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener("click", function (event) {
+                const copyButton = event.target.closest(".copy-button");
+
+                if (copyButton) {
+                    const couponCard = copyButton.closest(".coupon-card");
+                    const couponCode = couponCard.querySelector(".coupon-code");
+
+                    const textArea = document.createElement("textarea");
+                    textArea.value = couponCode.innerText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Coupon Copied!',
+                        text: `Coupon code ${couponCode.innerText} has been copied to the clipboard.`,
+                    });
+                }
+            });
+        </script>
+
 
         <%- include('../layout/footer.ejs') %>

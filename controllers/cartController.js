@@ -17,14 +17,7 @@ module.exports = {
           parseInt(expiryDateString.split("-")[1], 10) - 1,
           parseInt(expiryDateString.split("-")[0], 10)
         );
-        console.log(expiryDate, "---------------------");
         const currentDate = new Date();
-        console.log(currentDate, "-------------cd");
-
-        console.log(
-          req.session.totalPrice,
-          "-------------------------------------------->total price"
-        );
 
         if (expiryDate < currentDate) {
           if (couponData.maxPurchasetAmount <= req.session.totalPrice) {

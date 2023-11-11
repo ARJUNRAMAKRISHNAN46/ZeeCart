@@ -13,21 +13,17 @@ module.exports = {
     try {
       const catagory = req.body.catagoryname;
       const catagoryz = await Catagory.find();
-      console.log(catagoryz);
-      //   .skip((pageNum - 1) * perPage)
-      //   .limit(perPage);
-      // let i = (pageNum - 1) * perPage;
-      console.log("passed");
-
+      const dataCount = await Catagory.find().count()
       const prev = await Catagory.findOne({ catagoryName: catagory });
       if (prev) {
         res.render("admin/catagory", {
           catagoryz,
           i: 1,
+          dataCount,
           err: "catagory already exists",
         });
       } else {
-        //adding brand to database
+        //adding category to database
         await Catagory.create({ catagoryName: catagory });
         res.redirect("/catagory?page=1");
       }
@@ -52,9 +48,10 @@ module.exports = {
   deleteCatagory: async (req, res) => {
     try {
       //delete brand name
-
       const id = req.params.id;
+      console.log(id,'...............id');
       const catagory = await Catagory.deleteOne({ _id: id });
+      console.log(catagory,'_________________________');
       res.redirect("/catagory?page=1");
     } catch (error) {
       console.log("error occured while deleting catagory");
