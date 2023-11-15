@@ -114,8 +114,12 @@
                                                         <span class="original-price">₹<%=x.Price%>/-</span>
                                                     </div>
                                                     <div class="mt-2">
-                                                        <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
-                                                            Cart</a>
+                                                        <%if(x.AvailableQuantity == 0) {%>
+                                                            <a class="btn btn1" href="#">Notify Me</a>
+                                                            <%}else {%>
+                                                                <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
+                                                                    Cart</a>
+                                                                <%} %>
                                                         <% if(x.inWish) {%>
                                                             <a onclick="removeFromWish('<%=x._id%>')"
                                                                 class="btn btn1"> <i

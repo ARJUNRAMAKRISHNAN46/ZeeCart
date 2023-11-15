@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const { verifyUser, userExist } = require("../middleware/session.js");
 const { errorMiddleware } = require("../middleware/error");
-const { userCoupons } = require('../controllers/couponController.js');
+const { userCoupons } = require("../controllers/couponController.js");
 //requiring functions from productcontroller---------------------->
 const {
   productSpec,
@@ -12,6 +12,7 @@ const {
   categoryFilter,
   priceSort,
   priceUnder,
+  returnProduct,
 } = require("../controllers/productController");
 //requiring functions from ordercontroller----------------------->
 const {
@@ -20,6 +21,7 @@ const {
   viewDetails,
   deleteOrderStatus,
   downloadInvoice,
+  cashOnDelivery,
 } = require("../controllers/orderController.js");
 //requiring functions from addresscontroller----------------------->
 const {
@@ -30,7 +32,6 @@ const {
   postEditAddress,
   deleteAddress,
   placeOrder,
-  confirmAddress,
   addNewAddress,
   // confirmPayment
 } = require("../controllers/addressController");
@@ -101,15 +102,15 @@ router.post("/addNewAddress", verifyUser, addNewAddress);
 //profile routes--------------------------------------------------->
 router.get("/profile", verifyUser, Profile);
 router.post("/updateProfile", verifyUser, updateProfile);
-router.get('/myCoupons',verifyUser,userCoupons);
+router.get("/myCoupons", verifyUser, userCoupons);
 //cart routes------------------------------------------------------>
 router.get("/cart", verifyUser, Cart);
 router.post("/removefromcart", verifyUser, removeFromCart);
 router.post("/addToCart/:id", verifyUser, addToCart);
 router.post("/updatequantity", verifyUser, updateQuantity);
 router.get("/placeOrder", verifyUser, placeOrder);
-router.get("/confirmAddress", verifyUser, confirmAddress);
-router.post("/makePayment/:id",verifyUser, createOrder);
+router.post("/confirmAddress", verifyUser, cashOnDelivery);
+router.post("/makePayment/:id", verifyUser, createOrder);
 // router.post('/confirmPayment',verifyUser,confirmPayment)
 //shop route------------------------------------------------------->
 router.get("/shop", verifyUser, productList);
@@ -127,7 +128,8 @@ router.get("/productorders", verifyUser, Orders);
 router.post("/addToOrders/:id", verifyUser, addToOrders);
 router.put("/deleteOrderStatus/:id", verifyUser, deleteOrderStatus);
 router.post("/downloadInvoice/:id", verifyUser, downloadInvoice);
-router.post("/verify-payment", verifyPayment);
+router.post("/verify-payment", verifyUser, verifyPayment);
+router.post('/returnItem/:id',verifyUser,returnProduct);
 //wishlist route--------------------------------------------------->
 router.get("/wishlist", verifyUser, wishList);
 router.get("/addToWishlist/:id", verifyUser, addToWishlist);

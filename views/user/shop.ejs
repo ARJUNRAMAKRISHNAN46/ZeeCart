@@ -206,8 +206,12 @@
                                                             <span class="original-price">₹<%=x.Price%>/-</span>
                                                         </div>
                                                         <div class="mt-2">
-                                                            <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
-                                                                Cart</a>
+                                                            <%if(x.AvailableQuantity == 0) {%>
+                                                            <a class="btn btn1">Notify Me</a>
+                                                                <%}else {%>
+                                                                    <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
+                                                                        Cart</a>
+                                                                    <%} %> 
                                                             <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i
                                                                     class="fa fa-heart"></i> </a>
                                                             <a href="/productspecs/<%=x._id%>" class="btn btn1"> View
@@ -218,7 +222,7 @@
                             </div>
                             <%}) %>
                                 <%}else{%>
-                                    <h1>No Mobiles Available in this Brand</h1>
+                                    <h1>No Mobiles Available </h1>
                                     <%}%>
                 </div>
             </div>

@@ -65,7 +65,7 @@
                                       <%= data.productId?.ProductName %>
                                         <br>
 
-                                        <div class="text-primary"><b> Rs. <%= data.productId?.Price %></b></div>
+                                        <div class="text-primary"><b id="basePrice"> Rs. <%= data.productId?.Price %></b></div>
                                     </a>
                                   </div>
                                 </div>
@@ -84,8 +84,8 @@
                               <button id="<%= data.productId._id %>" class="btn btn-light border px-2 icon-hover-primary" type="button"
                                 onclick="quantityChanger('<%= data.productId?._id %>',1,'<%= cart._id %>')"><i
                                   class="fa-solid fa-plus" style="color: #000000;"></i></button>
-
-
+                                <!-- <input type="text" id="subvalue<%= data.productId?._id %>" value="<%= data.productId?.Price * data.quantity %>"> -->
+                                <span id="subvalue<%= data.productId?._id %>"><%= data.productId?.Price * data.quantity %></span>
                             </div>
                             <div
                               class="col-lg col-sm-3 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
@@ -151,8 +151,8 @@
                       <div class="d-flex justify-content-between">
                         <p class="mb-2"><b>Total price :</b></p>
                         <b>
-                          <h5 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">
-                              Rs.<%= total.toFixed(2) %>
+                          <h5 class="mb-2" style="color: rgb(47, 129, 207);">Rs.<span id="totalPrice">
+                              <%= total.toFixed(2) %>
                             </span></h5>
                         </b>
                       </div>
@@ -181,20 +181,33 @@
 
       function quantityChanger(productId, count, cartId) {
         var quantityElement = document.getElementById("quantity_" + productId);
-        var currentQuantity = parseInt(quantityElement.innerText, 10)
+        var currentQuantity = parseInt(quantityElement.innerText, 10);
+        var total = document.getElementById('totalPrice');
+        var tot = parseInt(total.innerText);
+        var subTotal = document.getElementById('subtotalAmount').innerText;
+        var totalQuantityValue = document.getElementById('totalQuantityValue');
+        var subvalue = document.getElementById('subvalue'+productId);
+        var sub = parseInt(subvalue.innerText);
+        console.log(sub);
+
         if (count === 1 && currentQuantity < 4) {
           currentQuantity += 1;
           quantityElement.innerText = currentQuantity;
-          console.log("count increased...")
+          tot = currentQuantity*subTotal;
+          total.innerText = tot.toFixed(2);
+          totalQuantityValue.innerText = currentQuantity;
+          sub += sub;
+          subvalue.innerText = sub;
         } else if (count === -1 && currentQuantity > 1) {
           currentQuantity -= 1;
           quantityElement.innerText = currentQuantity;
-          console.log("count decreased...")
+          tot = currentQuantity*subTotal;
+          total.innerText = tot.toFixed(2);
+          totalQuantityValue.innerText = currentQuantity;
         }else{
           Swal.fire('You have reached the limit..!');
         }
   
-          console.log('-------------------------------------------------->');
           $.ajax({
             url: '/updatequantity',
             method: 'POST',
@@ -208,9 +221,9 @@
 
                 console.log("Response from the server:", response);
   
-                $('#subtotalAmount').text(response.itemPrice.toFixed(2));
-                $('#totalQuantityValue').text(response.totalQuantity);
-                $('#totalPrice').text('Rs.' + response.total.toFixed(2));
+                // $('#subtotalAmount').text(response.itemPrice.toFixed(2));
+                // $('#totalQuantityValue').text(response.totalQuantity);
+                // $('#totalPrice').text('Rs.' + response.total.toFixed(2));
               }else{
                 Swal.fire('Out of Stock..!');
                 quantityElement.innerText = currentQuantity-1;

@@ -8,8 +8,9 @@ var instance = new Razorpay({
 
 const createOrder = async (req, res) => {
   try {
+    const total = req.session.grandTotal;
     var options = {
-      amount: 50000,
+      amount: total,
       currency: "INR",
       receipt: "order_rcptid_11",
     };

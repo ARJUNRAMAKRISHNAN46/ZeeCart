@@ -7,17 +7,17 @@ async function checkOffer() {
     .find({ Catagory: "FLAGSHIP MOBILES" })
     .maxTimeMS(30000);
 
-  if (offers.length === 0) {
+  if (offers?.length === 0) {
     console.log("No offers found.");
     return;
   } else {
-    const expiryDateString = offers[0].expiryDate;
+    const expiryDateString = offers[0]?.expiryDate;
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split("T")[0];
-    const value = Number(100 - offers.discount);
-    const offerId = offers[0]._id;
+    const value = Number(100 - offers?.discount);
+    const offerId = offers[0]?._id;
 
-    const category = offers[0].Catagory;
+    const category = offers[0]?.Catagory;
     if (expiryDateString > formattedDate) {
       console.log("offer exists");
     } else {

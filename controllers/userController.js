@@ -37,6 +37,7 @@ module.exports = {
             BudgetMobiles.push(x);
           }
         });
+        
         const FlagMob = await products
           .find({ Category: "FLAGSHIP MOBILES" })
           .limit(8);

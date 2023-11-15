@@ -41,6 +41,7 @@ const {
   editProduct,
   getEditProduct,
   addOffer,
+  deleteOffer,
 } = require("../controllers/productController");
 const upload = require("../middleware/multer");
 //<--------------Catagory---------------->
@@ -53,6 +54,7 @@ routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
 //<----------------Offer------------------>
 routers.get("/offers", verifyAdmin, admin_offers);
 routers.post('/addOffer',verifyAdmin,addOffer);
+routers.get('/deleteOffer/:id',verifyAdmin,deleteOffer)
 //<----------------Brand------------------>
 routers.get("/addbrand", verifyAdmin, addBrand);
 routers.get("/brands", verifyAdmin, admin_brands);
@@ -72,7 +74,7 @@ routers.get("/viewDetails/:id", verifyAdmin, viewDetails);
 //<-----------------Users------------------>
 routers.get("/customers", verifyAdmin, admin_Users);
 routers.post("/block/:id", verifyAdmin, user_Blocking);
-//<-----------------Users------------------>
+//<-----------------Admin------------------>
 routers.get("/adminpanel", adminExist, adHost);
 routers.post("/adminlogin", adminExist, admin_Login);
 //<-----------------dashboard------------------>

@@ -5,7 +5,7 @@ const Cart = require("../models/cartModel");
 const moment = require("moment");
 const { invoiceDownload } = require("../util/invoice");
 const Wallet = require("../models/walletModel");
-// const { default: orders } = require("razorpay/dist/types/orders");
+const products = require("../models/productModel");
 module.exports = {
   //getting order page
   Orders: async (req, res) => {
@@ -18,12 +18,11 @@ module.exports = {
       const orderDetails = await order
         .find({ userId: userId })
         .populate("products.productId");
-        console.log(orderDetails[0],'...............................');
-        if(orderDetails[0] == undefined) {
-          console.log('true');
-        }else{
-          console.log('false');
-        }
+      if (orderDetails[0] == undefined) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
       const addressId = orderDetails[0].address;
       const addressDetails = await Address.find({ _id: addressId }).populate(
         "address"
@@ -45,12 +44,26 @@ module.exports = {
         address: addressId,
         OrderDate: moment(new Date()).format("llll"),
         ExpectedDeliveryDate: moment().add(4, "days").format("llll"),
-        paymentMethod: "COD",
+        paymentMethod: "online",
         PaymentStatus: "Pending",
         totalAmount: grandTotal,
         orderStatus: "Order Processed",
       });
-      // await Cart.findOneAndDelete({ userId: orderData.userId });
+      const prodId = orderData.products;
+      prodId.forEach(async (x) => {
+        const quantity = x.quantity;
+        const id = x.productId;
+        const proData = await products.findOne({ _id: id });
+        const stock = proData.AvailableQuantity;
+        const newQuantity = stock - quantity;
+        const product = await products.updateOne(
+          { _id: id },
+          {
+            $set: { AvailableQuantity: newQuantity },
+          }
+        );
+      });
+      await Cart.findOneAndDelete({ userId: orderData.userId });
       const orderId = Order._id;
       res.json({
         success: true,
@@ -93,7 +106,6 @@ module.exports = {
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
       let i = (pageNum - 1) * perPage;
-      // console.log(orderDetails);
       res.render("admin/orders", { orderDetails, i, dataCount });
     } catch (error) {
       console.log(error);
@@ -137,5 +149,45 @@ module.exports = {
     const id = req.params._id;
     const filePath = `C:/Users/user/Desktop/Ticker/public/pdf/${id}.pdf`;
     res.download(filePath, `invoice.pdf`);
+  },
+  cashOnDelivery: async (req, res) => {
+    try {
+      const grandTotal = req.session.totalPrice;
+      const addressId = req.body.id;
+      const orderData = await Cart.findOne();
+      const Order = await order.create({
+        userId: orderData.userId,
+        products: orderData.products,
+        address: addressId,
+        OrderDate: moment(new Date()).format("llll"),
+        ExpectedDeliveryDate: moment().add(4, "days").format("llll"),
+        paymentMethod: "COD",
+        PaymentStatus: "Pending",
+        totalAmount: grandTotal,
+        orderStatus: "Order Processed",
+      });
+      const prodId = orderData.products;
+      prodId.forEach(async (x) => {
+        const quantity = x.quantity;
+        const id = x.productId;
+        const proData = await products.findOne({ _id: id });
+        const stock = proData.AvailableQuantity;
+        const newQuantity = stock - quantity;
+        const product = await products.updateOne(
+          { _id: id },
+          {
+            $set: { AvailableQuantity: newQuantity },
+          }
+        );
+      });
+      await Cart.findOneAndDelete({ userId: orderData.userId });
+      const orderId = Order._id;
+      const email = req.session.email;
+      const userData = await User.findOne({ email });
+      const total = req.session.grandTotal;
+      res.render("user/paymentSuccess", { total, userData });
+    } catch (error) {
+      console.log(error);
+    }
   },
 };

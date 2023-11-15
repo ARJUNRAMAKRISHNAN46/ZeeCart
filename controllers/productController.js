@@ -6,7 +6,9 @@ const Category = require("../models/catagoryModel");
 const Order = require("../models/ordersModel");
 const { ObjectId } = require("mongodb");
 const wishlist = require("../models/wishlistModel");
-const offer = require('../models/offerModel');
+const offer = require("../models/offerModel");
+const returnItem = require("../models/retunModel");
+const Wallet = require("../models/walletModel");
 
 let grandTotal;
 module.exports = {
@@ -99,7 +101,7 @@ module.exports = {
       for (i = 0; i < 4; i++) {
         const fieldname = `image${i + 1}`;
         if (req.files[fieldname] && req.files[fieldname][0]) {
-          images[i] = req.files[fieldname][0];
+          images[i] = req.files[fieldname][0]?.filename
         }
       }
       req.body.image = images;
@@ -148,7 +150,7 @@ module.exports = {
       console.log(error);
     }
   },
-//------------------------------------------------product details page--------------------------------------------------------
+  //------------------------------------------------product details page--------------------------------------------------------
   productSpec: async (req, res) => {
     try {
       const prodId = req.params.id;
@@ -246,11 +248,55 @@ module.exports = {
       const proData = await products.updateMany(
         { Category: catagory },
         {
-          $mul: { DiscountAmount: (100 - discount) / 100 }
+          $mul: { DiscountAmount: (100 - discount) / 100 },
         }
-        );
+      );
       const offers = await offer.create(req.body);
-      
+
+      res.redirect("/offers");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  returnProduct: async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      const email = req.session.email;
+      const reason = req.body.returnReason;
+      const description = req.body.description;
+      const userData = await User.findOne({ email });
+      const userId = userData._id;
+      const orderData = await Order.findOne({ _id: orderId });
+
+      console.log(orderData.totalAmount, "order_________________");
+      const amount = orderData.totalAmount;
+      const retn = await returnItem.create({
+        userId: userId,
+        orderId: orderId,
+        returnReason: reason,
+        description: description,
+      });
+      const refund = await Wallet.findOne({ userId: userId });
+      if (refund) {
+        const updateAmount = amount + refund.wallet;
+        await Wallet.updateOne({ userId: userId, wallet: updateAmount });
+      } else {
+        await Wallet.create({ userId: userId, wallet: amount });
+      }
+      const newStatus = "Return Order";
+      const data = await Order.findByIdAndUpdate(orderId, {
+        orderStatus: newStatus,
+      });
+      console.log(data, "data--------------");
+      res.redirect("/productorders");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteOffer: async (req, res) => {
+    try {
+      const couponId = req.params.id;
+      const couponData = await offer.findByIdAndDelete(couponId);
       res.redirect("/offers");
     } catch (error) {
       console.log(error);

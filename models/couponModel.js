@@ -7,7 +7,7 @@ const couponSchema = {
   },
   couponCode: String,
   description: String,
-  maxPurchasetAmount: String,
+  minPurchasetAmount: String,
   discountAmount: String,
   startDate : String,
   expiryDate: String,

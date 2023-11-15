@@ -205,7 +205,7 @@
                                                                                     <% } %>
                                                                                         <%}%>
                                                                                             <% if
-                                                                                                (x.orderStatus=='Rejected' 
+                                                                                                (x.orderStatus=='Rejected'
                                                                                                 ) { %>
                                                                                                 <h3 class="text-danger">
                                                                                                     Order Cancelled by
@@ -259,17 +259,44 @@
                         </div>
                     </div>
                 </div>
-                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='Rejected' && x.orderStatus !=='Return Order' && x.orderStatus !=='Order Arrived' )
-                    {%>
+                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='Rejected' && x.orderStatus !=='Return Order' &&
+                    x.orderStatus !=='Order Arrived' ) {%>
                     <div class="d-flex justify-content-end">
-                        <a class="btn  btn-danger mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Cancelled' )"
-                            href="">Cancel Order</a>
+                        <a class="btn  btn-danger mx-3" id="cancelBtn"
+                            onclick="updateOrderStatus('<%= x._id %>','Cancelled' )" href="">Cancel Order</a>
 
                     </div>
                     <%}else if(x.orderStatus=='Order Arrived' ) {%>
                         <div class="d-flex justify-content-end">
-                            <a class="btn  btn-primary mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Return Order' )"
-                                href="">Return Order</a>
+                            <!-- <a class="btn  btn-primary mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Return Order' )"
+                                href="">Return Order</a> -->
+                            <button class="btn btn-primary mx-3 " id="openModal">Return Order</button>
+                        </div>
+                        <div id="myModal" class="modal">
+                            <form action="/returnItem/<%=x._id%>" method="post">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-12 col-md-4 my-5"
+                                        style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
+                                        <br>
+                                        <h4 class="bg-primary d-flex justify-content-center py-2 text-white">Return Product</h4>
+                                        <label for="returnReason">Reason for Return:</label>
+                                        <select id="returnReason" name="returnReason">
+                                            <option value="defective">Defective</option>
+                                            <option value="wrong-model">Wrong Model</option>
+                                            <option value="changed-mind">Changed Mind</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <textarea name="description" id="" placeholder="description"
+                                            style="width: 100%;"></textarea>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-secondary" onclick="return('are you sure you want to return this order')" style="color: white;">Request</button>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <%} %>
             </div>
@@ -300,5 +327,12 @@
                     });
             }
         }
+
+        $(document).ready(function () {
+            $("#profileModalOpener").click(function () {
+                $("#profileModal").modal('show');
+            });
+        });
+
     </script>
     <%- include('../layout/user/footer.ejs') -%>

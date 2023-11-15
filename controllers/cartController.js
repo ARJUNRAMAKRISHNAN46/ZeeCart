@@ -9,19 +9,20 @@ module.exports = {
     try {
       const { coupon } = req.body;
       const couponData = await coupons.findOne({ couponCode: coupon });
-      console.log(couponData, "------------------------coupon");
       if (couponData) {
         const expiryDateString = couponData.expiryDate;
         const expiryDate = new Date(
           parseInt(expiryDateString.split("-")[2], 10),
           parseInt(expiryDateString.split("-")[1], 10) - 1,
           parseInt(expiryDateString.split("-")[0], 10)
-        );
-        const currentDate = new Date();
-
-        if (expiryDate < currentDate) {
-          if (couponData.maxPurchasetAmount <= req.session.totalPrice) {
-            console.log("The coupon is still valid.");
+          );
+          const currentDate = new Date();
+          
+          if (expiryDate < currentDate) {
+          console.log(couponData);
+          console.log(couponData.minPurchasetAmount);
+          console.log(req.session.totalPrice);
+          if (couponData.minPurchasetAmount <= req.session.totalPrice) {
             const couponAmount = couponData.discountAmount;
             const total = req.session.totalPrice;
             req.session.grandTotal = total - couponAmount;
@@ -34,14 +35,12 @@ module.exports = {
               grandTotal,
             });
           } else {
-            console.log("minimum purchase amount is 100000");
             res.json({
               success: false,
               err: " minimum purchase amount is 100000 ",
             });
           }
         } else {
-          console.log("The expiry date has passed. The coupon is expired.");
           res.json({
             success: false,
             err: " coupon expired ",
@@ -198,7 +197,6 @@ module.exports = {
         (product) => product.productId.toString() === productId
       );
       const prodData = await products.findOne({ _id: productInCart.productId });
-      console.log(prodData.AvailableQuantity, "................***********");
       if (!productInCart) {
         return res
           .status(404)
@@ -215,7 +213,7 @@ module.exports = {
               "products.$.quantity": quantity,
             },
           }
-        );
+        ) ;
 
         let itemPrice = 0;
         let totalQuantity = 0;

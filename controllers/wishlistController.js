@@ -13,7 +13,7 @@ module.exports = {
       const Wishlist = await wishlist
         .find({ userId: userId })
         .populate("products.productId");
-        console.log(Wishlist,'wishlists..................');
+      console.log(Wishlist, "wishlists..................");
       if (Wishlist.length > 0) {
         wishData = Wishlist[0].products;
       } else {
@@ -31,29 +31,32 @@ module.exports = {
       const user = await User.findOne({ email: email });
       const userId = user._id;
       const productId = req.params.id;
-      console.log(productId);
       const wishData = await products.updateOne(
         { _id: productId },
         { $set: { inWish: "true" } }
       );
-      console.log(wishData);
       const data = await wishlist.findOne({ userId: userId });
+      console.log(data);
       if (data == null) {
         const wishData = await wishlist.create({
           userId: userId,
           products: [{ productId: productId }],
         });
       } else {
-        await wishlist.updateOne(
-          { userId: userId },
-          {
-            $addToSet: {
-              products: {
-                productId: [productId],
-              },
-            },
-          }
+        const productInWish = data.find(
+          (product) => product.productId.toString() === productId
         );
+        console.log(productInWish);
+        // await wishlist.updateOne(
+        //   { userId: userId },
+        //   {
+        //     $addToSet: {
+        //       products: {
+        //         productId: [productId],
+        //       },
+        //     },
+        //   }
+        // );
       }
       res.json({
         success: true,
@@ -85,9 +88,9 @@ module.exports = {
         success: true,
       });
     } catch (error) {
-        res.json({
-            success: false,
-          });
+      res.json({
+        success: false,
+      });
     }
   },
 };

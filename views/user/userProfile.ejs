@@ -77,7 +77,11 @@
                         </div>
                         <div class="card mb-4 mb-lg-0 bg-warning">
                             <div class="card-body p-0 d-flex justify-content-between p-3">
-                                <h5><b>Wallet : <%=walData.wallet%></b></h5>
+                                <% if(wallet) {%>
+                                    <h5><b>Wallet : ₹<%=wallet?.wallet%>/-</b></h5>
+                                    <%}else{%>
+                                    <h5><b>Wallet : ₹0/-</b></h5>
+                                        <%}%>
                                 <a class="btn btn-secondary text-white" href="/myCoupons">My Coupons</a>
                             </div>
                         </div>

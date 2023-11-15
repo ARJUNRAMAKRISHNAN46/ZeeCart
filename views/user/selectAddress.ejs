@@ -94,8 +94,8 @@
             <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
             <a onclick="createOrder('<%=address[0]._id%>')" type="button" id="rzp-button1"
               style="background: rgb(255, 254, 207);" class="btn btn-success text-dark"><b>Online Payment</b></a>
-            <a class="btn border-success mt-2" style="background: rgb(213, 233, 255);" href="/confirmAddress"><b>Cash On
-                Delivery</b></a>
+            <button class="btn border-success mt-2" type="submit" style="background: rgb(213, 233, 255);" href="/confirmAddress"><b>Cash On
+                Delivery</b></button>
           </div>
 
         </div>
@@ -131,20 +131,22 @@
         success: function (response) {
           const order = response.order
           console.log(order, 'orderrrrr');
-          console.log(response);
+          console.log(order.id);
+          const  id = order.id;
+          const total = order.amount.toFixed(2);
+          console.log(total,'total...........');
           var options = {
             key: 'rzp_test_idoVEAKqeG0jwu',
-            amount: 105000,
+            amount: total,
             currency: 'INR',
             name: 'ZeeCart',
             description: 'Test Transaction',
             image: '/assets/zeecart.png',
-            // order_id: orderId,
+            order_id: id,
             handler: function (response) {
 
               alert(response.razorpay_payment_id);
               alert(response.razorpay_order_id);
-              console.log(response)
               verifyPayment(response, order)
             },
             theme: {
@@ -173,7 +175,7 @@
         method: 'post',
         success: (response) => {
           if (response.success) {
-            makePayment()
+            // makePayment()
             console.log('response got')
             location.href = '/'
           } else {

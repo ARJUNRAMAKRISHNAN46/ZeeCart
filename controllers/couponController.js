@@ -4,7 +4,6 @@ module.exports = {
   admin_coupon: async (req, res) => {
     try {
       const coupons = await coupon.find();
-      console.log(coupons,'hhhhhhhhhhhhhhhhhh');
       res.render("admin/coupon",{ coupons,err : '' });
     } catch (error) {
       console.log(error);
@@ -21,9 +20,7 @@ module.exports = {
               ],
         })
         console.log(existCoupon);
-        console.log( req.body.couponCode,
-           req.body.description,
-            req.body.expiryDate,);
+        console.log( req.body);
         if(!existCoupon[0]) {
             await coupon.create(
                 req.body      
