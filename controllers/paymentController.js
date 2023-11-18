@@ -10,7 +10,7 @@ const createOrder = async (req, res) => {
   try {
     const total = req.session.grandTotal;
     var options = {
-      amount: total,
+      amount: total*100,
       currency: "INR",
       receipt: "order_rcptid_11",
     };
@@ -19,7 +19,7 @@ const createOrder = async (req, res) => {
         console.error(err);
         res.status(500).send("Error in creating order");
       } else {
-        console.log(order,'orderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+        // console.log(order,'orderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
         res.json({success:true, order});
       }
     });

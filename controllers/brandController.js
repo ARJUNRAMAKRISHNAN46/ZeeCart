@@ -34,12 +34,10 @@ module.exports = {
       const brand = req.body.brandname;
       //adding brand to database
       const existBrand = await Brand.findOne({ brandName: brand });
-      console.log(existBrand);
       if (!existBrand) {
         await Brand.create({ brandName: brand });
         res.redirect("/brands?page=1");
       } else {
-        console.log("here");
         res.render("admin/addbrand", { err: "brand already exists..!" });
       }
     } catch (error) {
@@ -51,7 +49,6 @@ module.exports = {
     try {
       //edit brand name
       const id = req.params.id;
-      console.log(id);
 
       const brand = await Brand.findOne({ _id: id });
       res.render("admin/editBrand", { brand, id });

@@ -17,11 +17,8 @@ module.exports = {
           parseInt(expiryDateString.split("-")[0], 10)
           );
           const currentDate = new Date();
-          
+
           if (expiryDate < currentDate) {
-          console.log(couponData);
-          console.log(couponData.minPurchasetAmount);
-          console.log(req.session.totalPrice);
           if (couponData.minPurchasetAmount <= req.session.totalPrice) {
             const couponAmount = couponData.discountAmount;
             const total = req.session.totalPrice;
@@ -73,8 +70,8 @@ module.exports = {
         let total = 0;
 
         cart.products.forEach((item) => {
-          total += item.quantity * item.productId.Price;
-          itemPrice += item.productId.Price;
+          total += item.quantity * item.productId.DiscountAmount;
+          itemPrice += item.productId.DiscountAmount;
           totalQuantity += item.quantity;
         });
 
@@ -222,8 +219,8 @@ module.exports = {
           "products.productId"
         );
         cartz.products.forEach((item) => {
-          total += item.quantity * item.productId.Price;
-          itemPrice += item.productId.Price;
+          total += item.quantity * item.productId.DiscountAmount;
+          itemPrice += item.productId.DiscountAmount;
           totalQuantity += item.quantity;
         });
 

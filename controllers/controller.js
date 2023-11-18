@@ -2,12 +2,13 @@ const User = require("../models/userModel");
 const OTP = require("../models/otpModel");
 const Products = require("../models/productModel");
 const { sendOTP } = require("../util/otp");
+const Wallet = require("../models/walletModel");
 
 var _email;
 var _name;
 var _statuz;
 var _password;
-
+var _referal;
 module.exports = {
   //get login
   getLogin: async (req, res) => {
@@ -59,7 +60,8 @@ module.exports = {
   //get signup
   getSignupOtp: async (req, res) => {
     try {
-      res.render("user/signup", { err: "" });
+      const referal = req.query.ref;
+      res.render("user/signup", { err: "", referal });
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +69,7 @@ module.exports = {
   //post signup
   postSignupOtp: async (req, res) => {
     try {
-      const { statuz, name, email, password } = req.body;
+      const { statuz, name, email, password, referal } = req.body;
       const data = await User.findOne({ email });
       if (data) {
         // res.redirect("user/invalid-email");
@@ -77,8 +79,10 @@ module.exports = {
         _name = name;
         _statuz = statuz;
         _password = password;
+        _referal = referal;
 
         await sendOTP(_email);
+        // const referal = req.body.referal;
 
         setTimeout(async () => {
           await OTP.deleteOne({ email: email });
@@ -114,12 +118,23 @@ module.exports = {
       if (userOTP[0].otp == finalotp) {
         req.session.logged = true;
         req.session.email = email;
+        let referal = _referal;
         const usedata = await User.create({
           email: email,
           statuz: statuz,
           name: name,
           password: password,
         });
+        const userData = await Wallet.findOne({ userId: referal });
+
+        if (userData !== null) {
+          const waldata = await Wallet.updateOne(
+            { userId: referal },
+            { $inc: { wallet: 100 } }
+          );
+        } else {
+          await Wallet.create({ userId: referal, wallet: 100 });
+        }
         res.redirect("/");
       } else {
         res.redirect("/invalid-otp");
@@ -131,7 +146,6 @@ module.exports = {
   //Throwing an error
   throwErrThree: (req, res) => {
     try {
-      // const email = req.body.email;
       res.render("user/otp", { err: "Invalid otp" });
     } catch (error) {
       console.log(error);
@@ -157,10 +171,9 @@ module.exports = {
   updateProfile: async (req, res) => {
     try {
       const email = req.session.email;
-      const { name} = req.body;
-      await User.updateMany({email:email},{ name: name});
-      // req.session.email = email;
-      res.redirect('/profile');
+      const { name } = req.body;
+      await User.updateMany({ email: email }, { name: name });
+      res.redirect("/profile");
     } catch (error) {
       console.log(error);
     }

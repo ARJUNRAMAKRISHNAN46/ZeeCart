@@ -4,7 +4,8 @@
         <div class="row p-5 d-flex justify-content-center align-items-center">
             <div class="col-12 col-md-6"
                 style="padding: 50px;border: 5px solid rgb(57, 144, 211);border-radius: 15px;background-color: rgb(224, 224, 255);">
-                <div class="d-flex justify-content-center align-items-center" style="background-color: rgb(40, 76, 255); border-radius: 10px 10px 0 0 ;">
+                <div class="d-flex justify-content-center align-items-center"
+                    style="background-color: rgb(40, 76, 255); border-radius: 10px 10px 0 0 ;">
                     <h1 style="color: rgb(255, 255, 255);">Edit Product</h1>
                 </div>
                 <div class="d-flex mt-4 justify-content-center align-items-center">
@@ -39,17 +40,23 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <textarea name="Specification1" placeholder="Specification1" value="<%=product.Specification1%>" id="spec1"
-                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
-                    <textarea name="Specification2" placeholder="Specification2" value="<%=product.Specification2%>" id="spec2"
-                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                    <textarea name="Specification1" placeholder="Specification1" value="<%=product.Specification1%>"
+                        id="spec1"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                        required></textarea>
+                    <textarea name="Specification2" placeholder="Specification2" value="<%=product.Specification2%>"
+                        id="spec2" style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"
+                        required></textarea>
                 </div>
                 <br>
                 <div class="d-flex justify-content-center">
-                    <textarea name="Specification3" placeholder="Specification3" value="<%=product.Specification3%>" id="spec3"
-                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
-                    <textarea name="Specification4" placeholder="Specification4" value="<%=product.Specification4%>" id="spec4"
-                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                    <textarea name="Specification3" placeholder="Specification3" value="<%=product.Specification3%>"
+                        id="spec3"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                        required></textarea>
+                    <textarea name="Specification4" placeholder="Specification4" value="<%=product.Specification4%>"
+                        id="spec4" style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"
+                        required></textarea>
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center">
@@ -58,26 +65,34 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center">
+                    <span class="alert-danger" id="err1"></span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
                     <input type="number" name="Price" placeholder="Enter the price" value="<%=product.Price%>"
                         style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
                     <input type="number" name="DiscountAmount" placeholder="Discount Amount" value="<%=product.DiscountAmount%>"
                         style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
-                    <input type="number" name="AvailableQuantity" placeholder="Stock" value="<%=product.AvailableQuantity%>"
+                    <input type="number" name="AvailableQuantity" placeholder="Stock" id="quantity"
+                        value="<%=product.AvailableQuantity%>"
                         style="width: 20%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center">
-                    <input type="file" name="image1" id="imageInput1" accept="image/*" value="/product-images/<%=product?.images[0]?.filename%>"
-                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" >
-                    <input type="file" name="image2" id="imageInput2" accept="image/* " value="/product-images/<%=product?.images[1]?.filename%>"
+                    <input type="file" name="image1" id="imageInput1" accept="image/*"
+                        value="/product-images/<%=product?.images[0]?.filename%>"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;">
+                    <input type="file" name="image2" id="imageInput2" accept="image/* "
+                        value="/product-images/<%=product?.images[1]?.filename%>"
                         style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;">
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center">
-                    <input type="file" name="image3" id="imageInput3" accept="image/*" value="/product-images/<%=product?.images[2]?.filename%>"
+                    <input type="file" name="image3" id="imageInput3" accept="image/*"
+                        value="/product-images/<%=product?.images[2]?.filename%>"
                         style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;">
-                    <input type="file" name="image4" id="imageInput4" accept="image/*" value="/product-images/<%=product?.images[3]?.filename %>"
-                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" >
+                    <input type="file" name="image4" id="imageInput4" accept="image/*"
+                        value="/product-images/<%=product?.images[3]?.filename %>"
+                        style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;">
                 </div>
                 <div class="d-flex justify-content-center">
                     <div style="width: 100px;height: 100px;margin-right: 4%;margin-left: 4%;">
@@ -102,21 +117,51 @@
                         style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-                    <button type="submit" class="btn" style="background-color: rgb(36, 80, 255);color: white;">Edit Product</button>
+                    <button type="submit" class="btn" style="background-color: rgb(36, 80, 255);color: white;">Edit
+                        Product</button>
                 </div>
             </div>
         </div>
     </form>
-<script>
-    let spec1 = document.getElementById('spec1');
-    spec1.value = '<%=product.Specification1%>'
-    let spec2 = document.getElementById('spec2');
-    spec2.value = '<%=product.Specification2%>'
-    let spec3 = document.getElementById('spec3');
-    spec3.value = '<%=product.Specification3%>'
-    let spec4 = document.getElementById('spec4');
-    spec4.value = '<%=product.Specification4%>'
-    let desc = document.getElementById('desc');
-    desc.value = '<%=product.Description%>'
-</script>
+    <script>
+        let spec1 = document.getElementById('spec1');
+        spec1.value = '<%=product.Specification1%>'
+        let spec2 = document.getElementById('spec2');
+        spec2.value = '<%=product.Specification2%>'
+        let spec3 = document.getElementById('spec3');
+        spec3.value = '<%=product.Specification3%>'
+        let spec4 = document.getElementById('spec4');
+        spec4.value = '<%=product.Specification4%>'
+        let desc = document.getElementById('desc');
+        desc.value = '<%=product.Description%>'
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+    const priceInput = document.querySelector('input[name="Price"]');
+    const discountInput = document.querySelector('input[name="DiscountAmount"]');
+    const quantityInput = document.querySelector('input[name="AvailableQuantity"]');
+    const errMessage = document.getElementById('err1');
+
+    priceInput.addEventListener('input', updateDiscountValidation);
+    discountInput.addEventListener('input', updateDiscountValidation);
+    quantityInput.addEventListener('input', updateDiscountValidation);
+
+    function updateDiscountValidation() {
+        const priceValue = parseFloat(priceInput.value) || 0;
+        const discountValue = parseFloat(discountInput.value) || 0;
+        const quantityValue = parseFloat(quantityInput.value) || 0;
+
+        if (discountValue > priceValue) {
+            errMessage.textContent = 'Discount cannot be greater than the price.';
+        } else if (discountValue < 0) {
+            errMessage.textContent = 'Discount cannot be a negative value.';
+        } else if (quantityValue < 0) {
+            errMessage.textContent = 'Quantity cannot be a negative value.';
+        } else {
+            errMessage.textContent = '';
+        }
+    }
+});
+
+    </script>
     <%- include('../layout/footer.ejs') %>

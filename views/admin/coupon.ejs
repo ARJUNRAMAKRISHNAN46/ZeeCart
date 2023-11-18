@@ -1,26 +1,27 @@
 <%- include('../layout/header.ejs') %>
-<style>
-    .coupon-card {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: center;
-        /* max-width: 200px; */
-    }
+    <style>
+        .coupon-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            /* max-width: 200px; */
+        }
 
-    .coupon-code {
-        font-size: 1.2rem;
-        font-weight: bold;
-        /* margin: 10px 0; */
-    }
+        .coupon-code {
+            font-size: 1.2rem;
+            font-weight: bold;
+            /* margin: 10px 0; */
+        }
 
-    .copy-button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-    }
-</style>    
+        .copy-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+
     <body>
         <span style="font-size:30px;cursor:pointer" class="openNav" onclick="openNav()">&#9776;</span>
         <div id="mySidenav" class="sidenav">
@@ -76,8 +77,7 @@
                             <span class="msg" id="err1"></span>
                             <div class="form-group">
                                 <label for="couponCode">Coupon Code</label>
-                                <input type="text" class="form-control" id="couponCode" name="couponCode"
-                                    onchange="validateoupenode()" required>
+                                <input type="text" class="form-control" id="couponCode" name="couponCode" required>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
@@ -122,7 +122,9 @@
                             <%=x.couponCode%>
                         </p>
                         <p class="expiredate">
-                            <b><%=x.expiryDate%></b>
+                            <b>
+                                <%=x.expiryDate%>
+                            </b>
                         </p>
                         <button class="copy-button mb-3">Copy</button>
                     </div>
@@ -142,31 +144,55 @@
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const minPurchasetAmountInput = document.querySelector('input[name="minPurchasetAmount"]');
+                const discountAmountInput = document.querySelector('input[name="discountAmount"]');
+                const errMessage = document.getElementById('err1');
+
+                minPurchasetAmountInput.addEventListener('input', updateDiscountValidation);
+                discountAmountInput.addEventListener('input', updateDiscountValidation);
+
+                function updateDiscountValidation() {
+                    const minPurchasetAmount = parseFloat(minPurchasetAmountInput.value) || 0;
+                    const discountAmount = parseFloat(discountAmountInput.value) || 0;
+
+                    if (discountAmount >= minPurchasetAmount) {
+                        errMessage.textContent = 'Discount cannot be greater than the minimum purchase amount';
+                    } else if (discountAmount < 0) {
+                        errMessage.textContent = 'Discount cannot be a negative value';
+                    } else {
+                        errMessage.textContent = '';
+                    }
+                }
+            });
+
+
         </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-        document.addEventListener("click", function (event) {
-            const copyButton = event.target.closest(".copy-button");
-        
-            if (copyButton) {
-                const couponCard = copyButton.closest(".coupon-card");
-                const couponCode = couponCard.querySelector(".coupon-code");
-        
-                const textArea = document.createElement("textarea");
-                textArea.value = couponCode.innerText;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textArea);
-        
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Coupon Copied!',
-                    text: `Coupon code ${couponCode.innerText} has been copied to the clipboard.`,
-                });
-            }
-        });
+            document.addEventListener("click", function (event) {
+                const copyButton = event.target.closest(".copy-button");
+
+                if (copyButton) {
+                    const couponCard = copyButton.closest(".coupon-card");
+                    const couponCode = couponCard.querySelector(".coupon-code");
+
+                    const textArea = document.createElement("textarea");
+                    textArea.value = couponCode.innerText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Coupon Copied!',
+                        text: `Coupon code ${couponCode.innerText} has been copied to the clipboard.`,
+                    });
+                }
+            });
         </script>
-        
-            
+
+
         <%- include('../layout/footer.ejs') %>

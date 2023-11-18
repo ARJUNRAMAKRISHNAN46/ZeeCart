@@ -1,0 +1,164 @@
+<%-include('../layout/user/header.ejs')-%>
+    <%- include('../layout/header.ejs') -%>
+
+        <body class="bg-secondary">
+            <form action="/addNewAddress" method="post">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-12 col-md-6 my-5"
+                        style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
+                        <br>
+                        <div class="d-flex justify-content-center align-items-center bg-secondary"
+                            style=" border-radius: 10px 10px 0 0 ;">
+                            <h1 style="color: rgb(255, 255, 255);">Add Address</h1>
+                        </div>
+                        <br>
+                        <b><span id="nameError" class="error alert-danger m-2"></span></b>
+                        <!-- <input type="hidden" value="0" name="wallet"> -->
+                        <input type="hidden" value="<%=userId.id%>">
+                        <div class="d-flex justify-content-center">
+                            <input type="text" name="name" placeholder="Name"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                required></input>
+                            <b><span id="mobileError" class="error alert-danger m-2"></span></b>
+                            <input type="number" name="mobile" placeholder="Mobile"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                        </div>
+                        <br>
+                        <b><span id="emailError" class="error alert-danger m-2"></span></b>
+                        <div class="d-flex justify-content-center">
+                            <input type="text" name="email" placeholder="Email"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                required></input>
+                            <b><span id="pincodeError" class="error alert-danger m-2"></span></b>
+                            <input type="number" name="pincode" placeholder="Pincode" id="pincode"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                        </div>
+                        <br>
+                        <b><span id="addressError" class="error alert-danger m-2"></span></b>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <input name="address" placeholder="Address"
+                                style="width: 100%;height: 100px;border-radius: 5px;padding-left: 5px;"
+                                required></input>
+                        </div>
+                        <br>
+                        <b><span id="localityError" class="error alert-danger m-2"></span></b>
+                        <div class="d-flex justify-content-center">
+                            <input type="text" name="locality" placeholder="Locality"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                required></input>
+                            <b><span id="cityError" class="error alert-danger m-2"></span></b>
+                            <input type="text" name="city" placeholder="City"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                        </div>
+                        <br>
+                        <b><span id="districtError" class="error alert-danger m-2"></span></b>
+                        <div class="d-flex justify-content-center">
+                            <input type="text" name="district" placeholder="District"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                required></input>
+                            <b><span id="stateError" class="error alert-danger m-2"></span></b>
+                            <input type="text" name="state" placeholder="State"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-secondary" style="color: white;"
+                                onclick="onSubmit()">Add
+                                Address</button>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </form>
+
+            <script>
+                function onSubmit() {
+                    const nameInput = document.querySelector('input[name="name"]');
+                    const nameError = document.getElementById('nameError');
+                    const mobileInput = document.querySelector('input[name="mobile"]');
+                    const emailInput = document.querySelector('input[name="email"]');
+                    const pincodeInput = document.querySelector('input[name="pincode"]');
+                    const addressInput = document.querySelector('input[name="address"]');
+                    const localityInput = document.querySelector('input[name="locality"]');
+                    const cityInput = document.querySelector('input[name="city"]');
+                    const districtInput = document.querySelector('input[name="district"]');
+                    const stateInput = document.querySelector('input[name="state"]');
+
+                    const name = nameInput.value.trim();
+                    if (!name) {
+                        nameError.textContent = 'Please enter a valid name.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const mobile = mobileInput.value.trim();
+                    if (!/^\d{10}$/.test(mobile)) {
+                        nameError.textContent = 'Please enter a valid 10-digit mobile number.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const email = emailInput.value.trim();
+                    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                        nameError.textContent = 'Please enter a valid email address.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const pincode = pincodeInput.value.trim();
+                    if (!/^\d{6}$/.test(pincode)) {
+                        nameError.textContent = 'Please enter a valid 6-digit pincode.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const address = addressInput.value.trim();
+                    if (!address) {
+                        nameError.textContent = 'Please enter a valid address.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const locality = localityInput.value.trim();
+                    if (!locality) {
+                        nameError.textContent = 'Please enter a valid locality.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const city = cityInput.value.trim();
+                    if (!city) {
+                        nameError.textContent = 'Please enter a valid city.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const district = districtInput.value.trim();
+                    if (!district) {
+                        nameError.textContent = 'Please enter a valid district.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    const state = stateInput.value.trim();
+                    if (!state) {
+                        nameError.textContent = 'Please enter a valid state.';
+                        return;
+                    } else {
+                        nameError.textContent = '';
+                    }
+
+                    document.forms[0].submit();
+                }
+            </script>
+
+
+            <%- include('../layout/user/footer.ejs') -%>

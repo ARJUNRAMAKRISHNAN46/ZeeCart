@@ -19,9 +19,7 @@ module.exports = {
         .find({ userId: userId })
         .populate("products.productId");
       if (orderDetails[0] == undefined) {
-        console.log("true");
       } else {
-        console.log("false");
       }
       const addressId = orderDetails[0].address;
       const addressDetails = await Address.find({ _id: addressId }).populate(
@@ -38,17 +36,21 @@ module.exports = {
       const grandTotal = req.session.totalPrice;
       const addressId = req.params.id;
       const orderData = await Cart.findOne();
+      const currentDate = new Date();
+      const fourDaysLater = new Date(currentDate);
+      fourDaysLater.setDate(currentDate.getDate() + 4);
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
         address: addressId,
-        OrderDate: moment(new Date()).format("llll"),
-        ExpectedDeliveryDate: moment().add(4, "days").format("llll"),
+        OrderDate: currentDate.toDateString(),
+        ExpectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "online",
         PaymentStatus: "Pending",
         totalAmount: grandTotal,
         orderStatus: "Order Processed",
       });
+
       const prodId = orderData.products;
       prodId.forEach(async (x) => {
         const quantity = x.quantity;
@@ -155,12 +157,15 @@ module.exports = {
       const grandTotal = req.session.totalPrice;
       const addressId = req.body.id;
       const orderData = await Cart.findOne();
+      const currentDate = new Date();
+      const fourDaysLater = new Date(currentDate);
+      fourDaysLater.setDate(currentDate.getDate() + 4);
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
         address: addressId,
-        OrderDate: moment(new Date()).format("llll"),
-        ExpectedDeliveryDate: moment().add(4, "days").format("llll"),
+        OrderDate: currentDate.toDateString(),
+        ExpectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "COD",
         PaymentStatus: "Pending",
         totalAmount: grandTotal,

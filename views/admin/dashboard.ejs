@@ -36,72 +36,383 @@
 
         </div>
 
-        <!DOCTYPE html>
-        <html>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
-        <body>
-            d
-            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-            <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
-
-            <script>
-                const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: { display: false }
-                    }
-                });
-                const zValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-                const yValues = [55, 49, 44, 24, 15];
-                const barColors = ["red", "green", "blue", "orange", "brown"];
-
-                new Chart("myChart1", {
-                    type: "bar",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        legend: { display: false },
-                        title: {
-                            display: true,
-                            text: "Sales in this Year"
+        <!-- <div class="container">
+        </div> -->
+        
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Select Date Range</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="salesReport" method="post" action="/admin/download-sales-report">
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" name="startDate" id="startDate" required>
+                            <label for="endDate">End Date:</label>
+                            <input type="date" name="endDate" id="endDate" required>
+                            
+                            <div class="row mt-5">
+                                <div class="col-sm-6"> 
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="downloadFormat" value="pdf" id="pdfCheckbox" checked>
+                                        <label class="form-check-label" for="pdfCheckbox">
+                                            PDF
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6"> 
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="downloadFormat" value="excel" id="excelCheckbox">
+                                        <label class="form-check-label" for="excelCheckbox">
+                                            Excel
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                        </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark" id="generateReportBtn">Generate Report</button>
+                </div>
+                
+            </form>
+        
+        </div>
+    </div>
+          </div>
+        
+                    
+                    <div class="details">
+                        <div class="recentOrders">
+                            <div class="cardHeader">
+                                <h1>Dashboard</h1>
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-dark">Download Sales Report</button>
+        
+                            </div>
+        
+                            <div class="container mt-4">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                      <div class="card mb-4 shadow" style="background-color: #fff;">
+                                        <h2 class="card-header">Sales Analysis</h2>
+                                        <div class="card-body">
+                                          <div class="row">
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="timeIntervalDropdown"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        By Day
+                                                    </a>
+                                            
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" id="byDayOption">Day</a>
+                                                        <a class="dropdown-item" id="byMonthOption">Month</a>
+                                                        <a class="dropdown-item" id="byYearOption">year</a>
+                                                    </div>
+                                                </div>
+                                            <div class="col-lg-12">
+                                              <canvas id="salesGraphAmount"></canvas>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <canvas id="salesGraphCount"></canvas>
+                                               
+                                              </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                  <div class="col-lg-12">
+                                      <div class="card mb-4 shadow" style="background-color: #fff;">
+                                          <h2 class="card-header">Latest Orders</h2>
+                                          <div class="card-body ">
+                                              <div class="table-responsive">
+                                                  <table class="table table-borderless">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Order ID</th>
+                                                              <th>Date</th>
+                                                              <th>Total</th>
+                                                              <th>Payment</th>
+                                                              <th>Status</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody id="latestOrdersTable">
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              
+                                  <div class="col-lg-12">
+                                      <div class="card shadow" style="background-color: #fff;">
+                                          <h2 class="card-header">Best Sellers</h2>
+                                          <div class="card-body">
+                                              <div class="table-responsive">
+                                                  <table class="table table-borderless">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Product Image</th>
+                                                              <th>Product</th>
+                                                              <th>Product Name</th>
+                                                              <th>Price</th>
+                                                              <th>Status</th>
+                                                              <th>Sold</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody id="bestSellersTable">
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+        
+                        </div> 
+                        
+                    </div>
+        
+                    <style>
+                        .header {
+                        background-color: #000000;
+                        color: #fff;
+                        padding: 20px;
+                        text-align: center;
+                        min-height: 80px; 
+                      }
+                      
+                        .container {
+                          display: flex;
+                          flex-wrap: wrap;
+                          justify-content: space-between;
+                          padding: 20px;
                         }
+                      
+                        .card {
+                          background-color: #fff;
+                          padding: 20px;
+                          border-radius: 8px;
+                          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                          margin-bottom: 20px;
+                          flex: 1;
+                        }
+                      
+                        .graph {
+                          margin-right: 0;
+                        }
+                      
+                        .table-responsive {
+                          overflow-x: auto;
+                        }
+                      </style>
+                      
+                    
+        
+        
+                </div>
+            </div>
+        
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                      
+        <script>
+        
+            updateSalesGraph("day");
+        document.getElementById("byDayOption").addEventListener("click", function() {
+            document.getElementById("timeIntervalDropdown").textContent = "By Day";
+            updateSalesGraph("day");
+        });
+        
+        
+        document.getElementById("byMonthOption").addEventListener("click", function() {
+            console.log('herrrrrrrrr');
+            document.getElementById("timeIntervalDropdown").textContent = "By Month";
+            updateSalesGraph("month");
+        });
+        
+        document.getElementById("byYearOption").addEventListener("click", function() {
+            document.getElementById("timeIntervalDropdown").textContent = "By Year";
+            updateSalesGraph("year");
+        });
+        
+        
+        async function fetchSalesData(timeInterval) {
+            try {
+                let response;
+                if (timeInterval === "day") {
+                    response = await fetch('/count-orders-by-day');
+                } else if (timeInterval === "month") {
+                    console.log("monthsss");
+                    response = await fetch(`/count-orders-by-${timeInterval}`);
+                } else if (timeInterval === "year") {
+                    console.log("yearssss");
+                    response = await fetch(`/count-orders-by-${timeInterval}`);
+                } else {
+                    return false;
+                }
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+              
+                const data = await response.json();
+               
+                
+                return data;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+        
+        
+        
+        async function fetchOrdersAndSales() {
+            try {
+        
+              const response = await fetch("/latestOrders");
+              if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+              return data;
+            } catch (error) {
+              console.log("Error fetching data", error);
+            }
+        }
+        
+        
+        
+        
+        async function updateSalesGraph(timeInterval) {
+            const salesData = await fetchSalesData(timeInterval);
+            const Amount = document.getElementById("salesGraphAmount").getContext("2d");
+            const Count = document.getElementById("salesGraphCount").getContext("2d");
+            
+            if (window.myChart1) {
+                window.myChart1.destroy();
+            }
+            if (window.myChart2) {
+                window.myChart2.destroy();
+            }
+        
+            window.myChart1 = new Chart(Amount, {
+                type: "line",
+                data: {
+                    labels: salesData.labelsByCount,
+                    datasets: [{ 
+                        label: "Sales by orders",
+                        data: salesData.dataByCount,
+                        borderColor: "green",
+                        fill: false
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                }
+            });
+            
+            const barColors = ["red", "green","blue","orange","brown"];
+            window.myChart2 = new Chart(Count, {
+                type: "bar",
+                data: {
+                    labels: salesData.labelsByAmount,
+                    datasets: [
+                        {
+                            label: "Sales by Amount",
+                            data: salesData.dataByAmount,
+                            backgroundColor: barColors,
+                            borderColor: "white",
+                            borderWidth: 3,
+                        },
+                    ],
+                },
+                options: {
+                    scales: {
+                        x: [{
+                            grid: {
+                                display: true
+                            }
+                        }],
+                        y: [{
+                            beginAtZero: true,
+                            maxTicksLimit: 5
+                        }]
                     }
-                });
-            </script>
-            <script>
-                function openNav() {
-                    document.getElementById("mySidenav").style.width = "200px";
-                }
+                },
+            });
+        
+        }
+        
+        
+        
+        async function updateLatestOrdersAndBestSellers() {
+            const data = await fetchOrdersAndSales();
+            const latestOrdersTable = document.getElementById("latestOrdersTable");
+            const bestSellersTable = document.getElementById("bestSellersTable");
+            const ordersData = data.latestOrders;
+            const bestSellersData = data.bestSeller;
+        
+            console.log(bestSellersData);
+            ordersData.forEach((order) => {
+                const row = latestOrdersTable.insertRow();
+                const orderIdCell = row.insertCell(0);
+                const dateCell = row.insertCell(1);
+                const totalCell = row.insertCell(2);
+                const paymentCell = row.insertCell(3);
+                const statusCell = row.insertCell(4);
+        
+                orderIdCell.textContent = order._id;
+                dateCell.textContent = order.OrderDate; 
+                totalCell.textContent = order.totalAmount; 
+                paymentCell.textContent = order.paymentMethod; 
+                statusCell.textContent = order.PaymentStatus; 
+            });
+        
+            bestSellersData.forEach((seller) => {
+                const row = bestSellersTable.insertRow();
+                const productImageCell = row.insertCell(0);
+                const productCell = row.insertCell(1);
+                const productNameCell = row.insertCell(2);
+                const priceCell = row.insertCell(3);
+                const statusCell = row.insertCell(4);
+                const salesCell = row.insertCell(5);
+                
+                const imgElement = document.createElement("img");
+                const imageUrl = "/product-images/" + seller.productDetails[0]?.images[0];
+                console.log(seller.productDetails[0]._id,'--------------------');
+                imgElement.src = imageUrl;
+                imgElement.style.maxWidth = "50px";
+                productImageCell.appendChild(imgElement);
+                productCell.textContent = seller.productDetails[0]._id; 
+                productNameCell.textContent = seller.productDetails[0].ProductName; 
+                priceCell.textContent = seller.productDetails[0].DiscountAmount; 
+                statusCell.textContent = seller.productDetails[0].AvailableQuantity === 0 ? "Out of Stock" : "In Stock";
+                salesCell.textContent = seller.totalCount;
+            });
+        }
+        
+        updateSalesGraph();
+        updateLatestOrdersAndBestSellers();
+ 
+        </script>
 
-                function closeNav() {
-                    document.getElementById("mySidenav").style.width = "0";
-                }
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
 
 
-            </script>
+        </script>
 
-            <%- include('../layout/footer.ejs') %>
+        <%- include('../layout/footer.ejs') %>

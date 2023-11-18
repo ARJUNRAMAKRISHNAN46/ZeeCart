@@ -20,7 +20,7 @@
                             <div class="card-body text-center">
                                 <div class="d-flex justify-content-center">
                                     <img src="/assets/it's me croped.png" alt="avatar" class="rounded-circle img-fluid"
-                                    style="width: 150px;">
+                                        style="width: 150px;">
                                 </div>
                                 <h5 class="my-3">
                                     <%=userData.name%>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <%if(data[0]) {%>
-                                <div id="profileModal"class="modal" style="width: 800px;">
+                                <div id="profileModal" class="modal" style="width: 800px;">
                                     <form action="/updateProfile" method="post">
                                         <div class="row d-flex justify-content-center align-items-center">
                                             <div class="col-12 col-md-6 my-5"
@@ -50,48 +50,53 @@
                                                 <br>
                                                 <div class="d-flex justify-content-center">
                                                     <input type="text" name="name" value="<%=data[0].name%>"
-                                                        style="width: 100%;height: 35px;border-radius: 5px;padding-left: 10px;"
-                                                        ></input>
+                                                        style="width: 100%;height: 35px;border-radius: 5px;padding-left: 10px;"></input>
                                                 </div>
                                                 <br>
                                                 <div class="d-flex justify-content-center">
                                                     <input type="text" name="mobile" value="<%=data[0].mobile%>"
-                                                        style="width: 100%;height: 35px;border-radius: 5px;padding-left: 10px;"
-                                                       ></input>
+                                                        style="width: 100%;height: 35px;border-radius: 5px;padding-left: 10px;"></input>
                                                 </div>
                                                 <br>
                                                 <div class="d-flex justify-content-center align-items-center">
                                                     <input name="email" value="<%=data[0].email%>"
-                                                        style="width: 100%;height: 35px;border-radius: 5px;padding-left: 5px;"
-                                                       ></input>
+                                                        style="width: 100%;height: 35px;border-radius: 5px;padding-left: 5px;"></input>
                                                 </div>
                                                 <br>
                                                 <div class="d-flex justify-content-center">
-                                                        <button class="btn btn-primary">Update</button>
+                                                    <button class="btn btn-primary">Update</button>
                                                 </div>
                                                 <br>
                                             </div>
                                         </div>
                                     </form>
-                                </div><%}%>
+                                </div>
+                                <%}%>
                         </div>
-                        <div class="card mb-4 mb-lg-0 bg-warning">
-                            <div class="card-body p-0 d-flex justify-content-between p-3">
+                        <div class="card mb-4 mb-lg-0 bg-success text-white">
+                            <div class="p-2 pt-3 d-flex justify-content-center">
                                 <% if(wallet) {%>
                                     <h5><b>Wallet : ₹<%=wallet?.wallet%>/-</b></h5>
                                     <%}else{%>
-                                    <h5><b>Wallet : ₹0/-</b></h5>
+                                        <h5><b>Wallet : ₹0/-</b></h5>
                                         <%}%>
-                                <a class="btn btn-secondary text-white" href="/myCoupons">My Coupons</a>
                             </div>
                         </div>
-                        <div class="card mb-4 mb-lg-0 mt-4">
-                            <div class="card-body p-0 d-flex justify-content-between p-3">
-                                <button class="btn btn-success " id="openModal">Add Address</button>
-                                <form action="/forgotpass" method="get"><button type="submit"
-                                        class="btn btn-primary">Change Password</button></form>
+                        <br>
+                        <form action="/forgotpass" method="get">
+                            <div class="card mb-4 mb-lg-0">
+                                <a href="/myCoupons" class="btn border border-danger rounded-3 mt-1">coupons</a>
+                                <a href="/getAddUserAddress" class="btn border border-danger rounded-3 mt-1" type="button"
+                                    id="openModal"><b>Add
+                                        Address</b></a>
+                                <button type="submit" class="btn border border-danger rounded-3 mt-1"><b>Change
+                                        Password</b></button>
+                                <button type="button" id="copyReferralLink"
+                                    class="btn border border-danger mt-1 text-danger"><b>Invite
+                                        Friends</b><br>Click Here For Copy Referral Link
+                                </button>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
                     <div class="col-lg-8">
@@ -125,9 +130,9 @@
                                             </p>
                                         </div>
                                         <div class="d-flex justify-content-end"><a
-                                                class="btn btn-primary text-white mb-2"
+                                                class="btn border-2 border-warning mb-2"
                                                 href="/geteditAddress/<%=x._id%>">Edit Address</a></div>
-                                        <div class="d-flex justify-content-end"><a class="btn btn-danger text-white"
+                                        <div class="d-flex justify-content-end"><a class="btn border-2 border-danger"
                                                 onclick="return confirm('Are you sure to delete this item?')"
                                                 href="/deleteAddress/<%=x._id%>">Delete Address</a></div>
                                     </div>
@@ -139,7 +144,9 @@
                             <nav aria-label="page navigation example">
                                 <ul class="pagination">
                                     <% for(i=1; i < (dataCount/2)+1; i++) {%>
-                                        <li class="page-item"><a class="page-link" href="/profile?page=<%=i%>"><%=i%></a></li>
+                                        <li class="page-item"><a class="page-link" href="/profile?page=<%=i%>">
+                                                <%=i%>
+                                            </a></li>
                                         <%} %>
                                 </ul>
                             </nav>
@@ -156,6 +163,7 @@
                                             <h1 style="color: rgb(255, 255, 255);">Add Address</h1>
                                         </div>
                                         <br>
+                                        <span id="nameError"></span>
                                         <input type="hidden" value="<%=userData.id%>">
                                         <div class="d-flex justify-content-center">
                                             <input type="text" name="name" placeholder="Name"
@@ -220,5 +228,155 @@
                 });
             });
         </script>
+
+        <script>
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            document.getElementById('copyReferralLink').addEventListener('click', function () {
+                const referralLink = 'http://localhost:4000/send-otp?ref=<%=userData._id%>';
+                copyToClipboard(referralLink);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Referral link copied to clipboard!',
+                    showConfirmButton: false,
+                    timer: 1500, // You can adjust the timer as needed
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const closeModalButton = document.getElementById('closeModal');
+                const form = document.querySelector('form');
+                const nameInput = document.querySelector('input[name="name"]');
+                const mobileInput = document.querySelector('input[name="mobile"]');
+                const emailInput = document.querySelector('input[name="email"]');
+                const pincodeInput = document.querySelector('input[name="pincode"]');
+                const addressInput = document.querySelector('input[name="address"]');
+                const localityInput = document.querySelector('input[name="locality"]');
+                const cityInput = document.querySelector('input[name="city"]');
+                const districtInput = document.querySelector('input[name="district"]');
+                const stateInput = document.querySelector('input[name="state"]');
+        
+                const nameError = document.getElementById('nameError');
+                const mobileError = document.getElementById('mobileError');
+                const emailError = document.getElementById('emailError');
+                const pincodeError = document.getElementById('pincodeError');
+                const addressError = document.getElementById('addressError');
+                const localityError = document.getElementById('localityError');
+                const cityError = document.getElementById('cityError');
+                const districtError = document.getElementById('districtError');
+                const stateError = document.getElementById('stateError');
+        
+                form.addEventListener('submit', function (event) {
+                    // Prevent form submission to check validations first
+                    event.preventDefault();
+                    
+                    // Validate name (not only spaces)
+                    const name = nameInput.value.trim();
+                    if (!name) {
+                        console.log('true');
+                        nameError.textContent = 'Please enter a valid name.';
+                    } else {
+                        console.log('false');
+                        nameError.textContent = '';
+                    }
+        
+                    // Validate mobile number
+                    const mobile = mobileInput.value.trim();
+                    if (!/^\d{10}$/.test(mobile)) {
+                        mobileError.textContent = 'Please enter a valid 10-digit mobile number.';
+                    } else {
+                        mobileError.textContent = '';
+                    }
+        
+                    // Validate email
+                    const email = emailInput.value.trim();
+                    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                        emailError.textContent = 'Please enter a valid email address.';
+                    } else {
+                        emailError.textContent = '';
+                    }
+        
+                    // Validate pincode (6 digits)
+                    const pincode = pincodeInput.value.trim();
+                    if (!/^\d{6}$/.test(pincode)) {
+                        pincodeError.textContent = 'Please enter a valid 6-digit pincode.';
+                    } else {
+                        pincodeError.textContent = '';
+                    }
+        
+                    // Validate address
+                    const address = addressInput.value.trim();
+                    if (!address) {
+                        addressError.textContent = 'Please enter a valid address.';
+                    } else {
+                        addressError.textContent = '';
+                    }
+        
+                    // Validate locality
+                    const locality = localityInput.value.trim();
+                    if (!locality) {
+                        localityError.textContent = 'Please enter a valid locality.';
+                    } else {
+                        localityError.textContent = '';
+                    }
+        
+                    // Validate city
+                    const city = cityInput.value.trim();
+                    if (!city) {
+                        cityError.textContent = 'Please enter a valid city.';
+                    } else {
+                        cityError.textContent = '';
+                    }
+        
+                    // Validate district
+                    const district = districtInput.value.trim();
+                    if (!district) {
+                        districtError.textContent = 'Please enter a valid district.';
+                    } else {
+                        districtError.textContent = '';
+                    }
+        
+                    // Validate state
+                    const state = stateInput.value.trim();
+                    if (!state) {
+                        stateError.textContent = 'Please enter a valid state.';
+                    } else {
+                        stateError.textContent = '';
+                    }
+        
+                    // If any error messages exist, stop form submission
+                    if (nameError.textContent || mobileError.textContent || emailError.textContent ||
+                        pincodeError.textContent || addressError.textContent || localityError.textContent ||
+                        cityError.textContent || districtError.textContent || stateError.textContent) {
+                        return;
+                    }
+        
+                    // If all validations pass, submit the form
+                    form.submit();
+                });
+        
+                closeModalButton.addEventListener('click', function () {
+                    // Clear all error messages when closing the modal
+                    nameError.textContent = '';
+                    mobileError.textContent = '';
+                    emailError.textContent = '';
+                    pincodeError.textContent = '';
+                    addressError.textContent = '';
+                    localityError.textContent = '';
+                    cityError.textContent = '';
+                    districtError.textContent = '';
+                    stateError.textContent = '';
+                });
+            });
+        </script>
+        
+
 
         <%- include('../layout/user/footer.ejs') -%>

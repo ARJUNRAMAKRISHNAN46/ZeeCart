@@ -33,31 +33,35 @@ module.exports = {
       const productId = req.params.id;
       const wishData = await products.updateOne(
         { _id: productId },
-        { $set: { inWish: "true" } }
+        { $set: { inWish: true } }
       );
+
       const data = await wishlist.findOne({ userId: userId });
-      console.log(data);
+
       if (data == null) {
         const wishData = await wishlist.create({
           userId: userId,
           products: [{ productId: productId }],
         });
       } else {
-        const productInWish = data.find(
+        const productInWish = data.products.find(
           (product) => product.productId.toString() === productId
         );
-        console.log(productInWish);
-        // await wishlist.updateOne(
-        //   { userId: userId },
-        //   {
-        //     $addToSet: {
-        //       products: {
-        //         productId: [productId],
-        //       },
-        //     },
-        //   }
-        // );
+
+        if (!productInWish) {
+          await wishlist.updateOne(
+            { userId: userId },
+            {
+              $addToSet: {
+                products: {
+                  productId: productId,
+                },
+              },
+            }
+          );
+        }
       }
+
       res.json({
         success: true,
       });
@@ -65,6 +69,7 @@ module.exports = {
       console.log(error);
     }
   },
+
   removeFromWishlist: async (req, res) => {
     try {
       const email = req.session.email;

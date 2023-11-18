@@ -92,7 +92,7 @@
           </div>
           <div class="card shadow border mt-3 p-3">
             <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
-            <a onclick="createOrder('<%=address[0]._id%>')" type="button" id="rzp-button1"
+            <a onclick="makePayment('<%=address[0]._id%>')" type="button" id="rzp-button1"
               style="background: rgb(255, 254, 207);" class="btn btn-success text-dark"><b>Online Payment</b></a>
             <button class="btn border-success mt-2" type="submit" style="background: rgb(213, 233, 255);" href="/confirmAddress"><b>Cash On
                 Delivery</b></button>
@@ -109,6 +109,7 @@
   <script>
 
     var orderId;
+    var addressId;
     function createOrder(addressId) {
       console.log('heree', addressId);
       $.ajax({
@@ -116,25 +117,25 @@
         method: 'POST',
         success: function (response) {
           orderId = response.orderId
-          makePayment(orderId);
+          makePayment();
           console.log("Response from the server:", response);
           console.error('sdfghjkdfghjkdfghjk', response.orderId);
         }
       });
     }
 
-    function makePayment(orderId) {
+    // function makePayment(orderId) {
+    function makePayment(AddressId) {
+      addressId = AddressId;
       $.ajax({
-        url: `/makePayment/${orderId}`,
+        // url: `/makePayment/${orderId}`,
+        url: `/makePayment`,
         type: 'POST',
         contentType: 'application/json',
         success: function (response) {
           const order = response.order
-          console.log(order, 'orderrrrr');
-          console.log(order.id);
           const  id = order.id;
-          const total = order.amount.toFixed(2);
-          console.log(total,'total...........');
+          const total = order.amount;
           var options = {
             key: 'rzp_test_idoVEAKqeG0jwu',
             amount: total,
@@ -164,7 +165,7 @@
 
     }
     function verifyPayment(payment, order) {
-      console.log('now in verifyPayment')
+      console.log('now in verifyPayment ',payment)
       $.ajax({
         url: '/verify-payment',
         data: {
@@ -175,7 +176,7 @@
         method: 'post',
         success: (response) => {
           if (response.success) {
-            // makePayment()
+            createOrder(addressId);
             console.log('response got')
             location.href = '/'
           } else {

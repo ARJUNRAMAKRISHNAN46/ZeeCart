@@ -1,6 +1,5 @@
 <%- include('../layout/header.ejs') %>
     <style>
-     
         .modal-body {
             background-color: #fff;
             padding: 20px;
@@ -38,7 +37,6 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
     </style>
 
     <body style="background: rgb(204, 204, 255);">
@@ -103,12 +101,12 @@
                                     </option>
                                     <%})%>
                             </select>
-
                             <label for="discount">Discount Percentage:</label>
-                            <input type="text" id="discount" name="discount" placeholder="Enter discount percentage">
+                            <input type="text" id="discount" name="discount" placeholder="Enter discount percentage"
+                                required>
 
                             <label for="expiryDate">Expiry Date:</label>
-                            <input type="date" id="expiryDate" name="expiryDate">
+                            <input type="date" id="expiryDate" name="expiryDate" required>
 
                             <button type="submit">Submit Offer</button>
                         </form>
@@ -119,23 +117,38 @@
         <div class="container mt-5">
             <div class="row">
                 <% offers.forEach((x)=> {%>
-                    <div class="card border rounded" style="width: 18rem;background: #ff9090;">
-                        <ul class="list-group list-group-flush"><br>
-                            <li class="list-group-item "><b>
-                                    <span class="mx-3">CATEGORY OFFER</span><a class="ms-5" href="/deleteOffer/<%=x._id%>"><i class="fa-solid fa-trash-can"></i></a>
-                                </b>
-                            </li>
-                            <li class="list-group-item"><b>Category : </b>
-                                <%= x.Catagory %>
-                            </li>
-                            <li class="list-group-item"><b>Discount Amount : </b>
-                                <%= x.discount %>%
-                            </li>
-                            <li class="list-group-item"><b>Expiry Date : </b>
-                                <%= x.expiryDate %>
-                            </li>
-                            <br>
-                        </ul>
+                    <div class="card m-1" style="width: 25rem;background: #262726;border-radius: 10px;">
+                        <div class="d-flex justify-content-center mt-2">
+                            <img height="300" src="/assets/offer.jpg" alt="">
+                        </div>
+                        <% if(formattedDate> x.expiryDate) {%>
+                            <h3 class="alert alert-danger mt-2 text-center">Offer Expired</h3>
+                            <%}else{%>
+                                <h3 class="alert alert-success mt-2 text-center">Offer Exists</h3>
+                                <%} %>
+                                    <div class="d-flex justify-content-center">
+                                        <span class="text-white h3"><b>
+                                                <%= x.Catagory %>
+                                            </b></span>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <span class="text-white h5"><b>Discount Percentage : </b>
+                                            <%= x.discount %>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <span class="text-white h5"><b>Category : </b>
+                                            <%= x.expiryDate %>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex justify-content-between p-3">
+                                        <a class="ms-5 btn btn-success text-white" href="/editOffer/<%=x._id%>">Edit
+                                            Offer</a>
+                                        <a class="btn btn-danger"
+                                            onclick="return alert('are you sure you want to delete this offer')"
+                                            href="/deleteOffer/<%=x._id%>">Delete Offer</a>
+                                    </div>
+                                    <br>
                     </div>
                     <%}) %>
             </div>
@@ -177,7 +190,47 @@
                     });
                 }
             });
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const discountInput = document.getElementById('discount');
+                const errMessage = document.getElementById('err1');
+
+                discountInput.addEventListener('input', function () {
+                    const discountValue = parseInt(discountInput.value, 10);
+
+                    if (isNaN(discountValue) || discountValue < 0 || discountValue > 99) {
+                        errMessage.textContent = 'Discount should be a number between 0 and 99';
+                    } else {
+                        errMessage.textContent = '';
+                    }
+                });
+            });
+
         </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('form');
+                const discountInput = document.getElementById('discount');
+                const expiryDateInput = document.getElementById('expiryDate');
+                const errorMessage = document.getElementById('err1');
+
+                form.addEventListener('submit', function (event) {
+                    const formattedDate = new Date().toISOString().split('T')[0];
+                    console.log(formattedDate,'------------------->');
+                    const expiryDate = expiryDateInput.value;
+
+                    if (expiryDate < formattedDate) {
+                        event.preventDefault(); // Prevent form submission
+                        errorMessage.textContent = 'Expiry date must be greater than or equal to the current date.';
+                    } else {
+                        errorMessage.textContent = ''; // Clear error message
+                    }
+                });
+            });
+        </script>
+
 
 
         <%- include('../layout/footer.ejs') %>

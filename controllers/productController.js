@@ -101,7 +101,7 @@ module.exports = {
       for (i = 0; i < 4; i++) {
         const fieldname = `image${i + 1}`;
         if (req.files[fieldname] && req.files[fieldname][0]) {
-          images[i] = req.files[fieldname][0]?.filename
+          images[i] = req.files[fieldname][0]?.filename;
         }
       }
       req.body.image = images;
@@ -244,13 +244,28 @@ module.exports = {
       const data = req.body;
       const catagory = data.Catagory;
       const discount = data.discount;
-
-      const proData = await products.updateMany(
-        { Category: catagory },
-        {
-          $mul: { DiscountAmount: (100 - discount) / 100 },
-        }
+      const expiryDate = req.body.expiryDate;
+      console.log(
+        req.body.expiryDate,
+        "---------------------------------------------------->"
       );
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+      console.log(formattedDate, "_______________________!");
+
+      if (expiryDate > formattedDate) {
+        const proData = await products.updateMany(
+          { Category: catagory },
+          {
+            $mul: { DiscountAmount: (100 - discount) / 100 },
+          }
+        );
+      }
+
       const offers = await offer.create(req.body);
 
       res.redirect("/offers");
@@ -297,6 +312,30 @@ module.exports = {
     try {
       const couponId = req.params.id;
       const couponData = await offer.findByIdAndDelete(couponId);
+      res.redirect("/offers");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  editOffer: async (req, res) => {
+    try {
+      let couponId = req.params.id;
+      const couponData = await offer.findOne({ _id: couponId });
+      const catData = await Category.find();
+      res.render("admin/editOffer", { couponData, catData });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  postEditOffer: async (req, res) => {
+    try {
+      console.log(req.body);
+      const offerData = await offer.updateOne({
+        Catagory: req.body.Catagory,
+        discount: req.body.discount,
+        expiryDate: req.body.expiryDate,
+      });
+      console.log(offerData, "-------od");
       res.redirect("/offers");
     } catch (error) {
       console.log(error);

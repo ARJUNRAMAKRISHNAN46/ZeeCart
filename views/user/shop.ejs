@@ -1,119 +1,6 @@
 <%- include('../layout/header.ejs') -%>
     <%-include('../layout/user/header.ejs')-%>
-        <style>
-            .product-card {
-                background-color: #fff;
-                border: 1px solid #ccc;
-                margin-bottom: 24px;
-            }
 
-            .product-card a {
-                text-decoration: none;
-            }
-
-            .product-card .stock {
-                color: #fff;
-                border-radius: 4px;
-                padding: 2px 12px;
-                margin: 8px;
-                font-size: 12px;
-            }
-
-            .product-card .product-card-img {
-                max-height: 400px;
-                overflow: hidden;
-                border-bottom: 1px solid #ccc;
-            }
-
-            .product-card .product-card-img img {
-                width: 100%;
-            }
-
-            .product-card .product-card-body {
-                padding: 10px 10px;
-            }
-
-            .product-card .product-card-body .product-brand {
-                font-size: 14px;
-                font-weight: 400;
-                margin-bottom: 4px;
-                color: #937979;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-
-            .product-card .product-card-body .product-name {
-                font-size: 20px;
-                font-weight: 550;
-                color: #000;
-            }
-
-            .product-card .product-card-body .selling-price {
-                font-size: 16px;
-                color: #000;
-                font-weight: 650;
-                margin-right: 8px;
-            }
-
-            .product-card .product-card-body .original-price {
-                font-size: 14px;
-                color: #937979;
-                font-weight: 400;
-                text-decoration: line-through;
-            }
-
-            .product-card .product-card-body .btn1 {
-                border: 1px solid;
-                margin-right: 3px;
-                border-radius: 0px;
-                font-size: 12px;
-                margin-top: 10px;
-            }
-
-            @media (max-width: 550px) {
-                .product-card .product-card-img {
-                    max-height: 130px;
-                }
-
-                .product-card .product-card-body .product-name {
-                    font-size: 10px;
-                    font-weight: 550;
-                    color: #000;
-                }
-
-                .product-card .product-card-body .selling-price {
-                    font-size: 10px;
-                    color: #000;
-                    font-weight: 650;
-                    margin-right: 8px;
-                }
-
-                .product-card .product-card-body .original-price {
-                    font-size: 8px;
-                    color: #937979;
-                    font-weight: 400;
-                    text-decoration: line-through;
-                }
-
-                .product-card .product-card-body .btn1 {
-                    border: 1px solid;
-                    margin-right: 1px;
-                    border-radius: 0px;
-                    font-size: 6px;
-                    /* margin-top: 10px; */
-                }
-
-                .product-card .stock {
-                    color: #fff;
-                    border-radius: 1px;
-                    padding: 1px 8px;
-                    margin: 6px;
-                    font-size: 8px;
-                }
-
-            }
-        </style>
         <section>
             <div class="main-navbar shadow-sm sticky-top" style="width: 100vw;">
                 <ul style="list-style: none;">
@@ -202,20 +89,33 @@
                                                             <%=x.ProductName%>
                                                         </h5>
                                                         <div>
-                                                            <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>/-</span>
+                                                            <span class="selling-price">₹
+                                                                <%=Math.trunc(x.DiscountAmount)%>/-
+                                                            </span>
                                                             <span class="original-price">₹<%=x.Price%>/-</span>
                                                         </div>
                                                         <div class="mt-2">
-                                                            <%if(x.AvailableQuantity == 0) {%>
-                                                            <a class="btn btn1">Notify Me</a>
+                                                            <%if(x.AvailableQuantity==0) {%>
+                                                                <a class="btn btn1">Notify Me</a>
                                                                 <%}else {%>
-                                                                    <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
+                                                                    <a class="btn btn1"
+                                                                        onclick="addToCart('<%=x._id%>')">Add To
                                                                         Cart</a>
-                                                                    <%} %> 
-                                                            <a href="/addToWishlist/<%=x._id%>" class="btn btn1"> <i
-                                                                    class="fa fa-heart"></i> </a>
-                                                            <a href="/productspecs/<%=x._id%>" class="btn btn1"> View
-                                                            </a>
+                                                                    <%} %>
+                                                                        <% if(x.inWish) {%>
+                                                                            <a onclick="removeFromWish('<%=x._id%>')"
+                                                                                class="btn btn1"> <i
+                                                                                    class="fa fa-heart text-danger"></i>
+                                                                            </a>
+                                                                            <%}else {%>
+                                                                                <a onclick="addToWishlist('<%=x._id%>')"
+                                                                                    class="btn btn1"> <i
+                                                                                        class="fa fa-heart"></i>
+                                                                                </a>
+                                                                                <%}%>
+                                                                                    <a href="/productspecs/<%=x._id%>"
+                                                                                        class="btn btn1"> View
+                                                                                    </a>
                                                         </div>
                                                     </div>
                                 </div>
@@ -258,6 +158,66 @@
                 });
             }
 
+            function addToWishlist(productId) {
+
+                $.ajax({
+                    url: `/addToWishlist/${productId}`,
+                    method: 'GET',
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Item added to wishlist',
+                                showConfirmButton: false,
+                                timer: 1500
+
+                            }).then(function () {
+                                location.reload();
+                                console.log('Response from the server:', response);
+                            });
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, something went wrong!'
+                        });
+                    }
+                });
+            }
+
+
+            function removeFromWish(productId) {
+
+                $.ajax({
+                    url: `/removeFromWishlist/${productId}`,
+                    method: 'POST',
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Item removed from wishlist',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                location.reload();
+                                console.log('Response from the server:', response);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, something went wrong!'
+                        });
+                    }
+                });
+            }
 
             function searchProducts() {
                 const searchInput = document.getElementById("searchInput").value;

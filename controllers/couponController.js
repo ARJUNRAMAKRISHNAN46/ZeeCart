@@ -11,7 +11,6 @@ module.exports = {
   },
   addCoupon:async(req,res) => {
     try {
-        console.log(req.body,'-----------------------------------------');
         const existCoupon = await coupon.find({
             coupons: [
                 {
@@ -19,8 +18,6 @@ module.exports = {
                 },
               ],
         })
-        console.log(existCoupon);
-        console.log( req.body);
         if(!existCoupon[0]) {
             await coupon.create(
                 req.body      

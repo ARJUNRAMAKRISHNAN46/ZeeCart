@@ -137,6 +137,15 @@ module.exports = {
       console.log(error);
     }
   },
+  getAddUserAddress:async (req,res) => {
+    try {
+      const email = req.session.email;
+      const userId = await User.findOne({ email });
+      res.render('user/addUserAddress',{ userId });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   //confirm user address
   
 };

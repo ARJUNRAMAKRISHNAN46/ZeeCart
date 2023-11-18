@@ -3,9 +3,13 @@ const routers = express.Router();
 const { verifyAdmin, adminExist, verifyUser } = require("../middleware/session");
 const { admin_coupon, addCoupon } = require("../controllers/couponController");
 const {
+  admin_dash,
+  getCount,
+  getSalesOrder,
+} = require('../controllers/dashboardController');
+const {
   adHost,
   admin_Login,
-  admin_dash,
   admin_admin,
   admin_banners,
   admin_offers,
@@ -42,6 +46,8 @@ const {
   getEditProduct,
   addOffer,
   deleteOffer,
+  editOffer,
+  postEditOffer,
 } = require("../controllers/productController");
 const upload = require("../middleware/multer");
 //<--------------Catagory---------------->
@@ -54,7 +60,9 @@ routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
 //<----------------Offer------------------>
 routers.get("/offers", verifyAdmin, admin_offers);
 routers.post('/addOffer',verifyAdmin,addOffer);
-routers.get('/deleteOffer/:id',verifyAdmin,deleteOffer)
+routers.get('/deleteOffer/:id',verifyAdmin,deleteOffer);
+routers.get('/editOffer/:id',verifyAdmin,editOffer);
+routers.post('/postEditOffer',verifyAdmin,postEditOffer);
 //<----------------Brand------------------>
 routers.get("/addbrand", verifyAdmin, addBrand);
 routers.get("/brands", verifyAdmin, admin_brands);
@@ -79,6 +87,11 @@ routers.get("/adminpanel", adminExist, adHost);
 routers.post("/adminlogin", adminExist, admin_Login);
 //<-----------------dashboard------------------>
 routers.get("/dashboard", verifyAdmin, admin_dash);
+routers.get('/count-orders-by-day',verifyAdmin,getCount);
+routers.get('/count-orders-by-month',verifyAdmin,getCount);
+routers.get('/count-orders-by-year',verifyAdmin,getCount);
+routers.get('/latestOrders',verifyAdmin,getSalesOrder);
+//<-----------------banner------------------>
 routers.get("/banners", verifyAdmin, admin_banners);
 routers.get("/admin", verifyAdmin, admin_admin);
 //<-----------------Offers------------------>

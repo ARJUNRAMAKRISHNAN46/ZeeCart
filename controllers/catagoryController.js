@@ -36,7 +36,6 @@ module.exports = {
     try {
       //edit brand name
       const id = req.params.id;
-      console.log(id);
 
       const catagory = await Catagory.findOne({ _id: id });
       res.render("admin/editcatagory", { catagory, id });
@@ -49,9 +48,7 @@ module.exports = {
     try {
       //delete brand name
       const id = req.params.id;
-      console.log(id,'...............id');
       const catagory = await Catagory.deleteOne({ _id: id });
-      console.log(catagory,'_________________________');
       res.redirect("/catagory?page=1");
     } catch (error) {
       console.log("error occured while deleting catagory");

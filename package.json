@@ -34,6 +34,7 @@
     "passport-google-oauth": "^2.0.0",
     "puppeteer": "^21.4.1",
     "razorpay": "^2.9.2",
+    "sharp": "^0.32.6",
     "sweetalert2": "^11.9.0",
     "uuid": "^9.0.1"
   }

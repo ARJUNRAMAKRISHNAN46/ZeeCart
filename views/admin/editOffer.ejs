@@ -1,0 +1,111 @@
+<%- include('../layout/header.ejs') %>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgb(204, 204, 255);
+        }
+
+        .container {
+            width: 400px;
+            border: 1px solid black;
+            /* background: #cfcfcf; */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="container">
+        <div class="modal-body">
+            <form action="/postEditOffer" method="post">
+                <span class="msg" id="err1"></span>
+                <label for="category">Select Category:</label>
+                <select class="" id="category" name="Catagory" required>
+                    <option disabled>Select a category</option>
+                    <% catData.forEach((x)=> { %>
+                        <option <%=x.catagoryName===couponData.Catagory ? 'selected' : '' %>
+                            <%= x.catagoryName %>
+                        </option>
+                        <% }) %>
+                </select>
+
+                <label for="discount">Discount Percentage:</label>
+                <input type="text" id="discount" value="<%=couponData.discount%>" name="discount"
+                    placeholder="Enter discount percentage" required>
+
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="date" value="<%=couponData.expiryDate%>" id="expiryDate" name="expiryDate" required>
+
+                <button type="submit">Make Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const discountInput = document.getElementById('discount');
+            const expiryDateInput = document.getElementById('expiryDate');
+            const errorMessage = document.getElementById('err1');
+
+            form.addEventListener('submit', function (event) {
+                const formattedDate = new Date().toISOString().split('T')[0];
+                console.log(formattedDate, '------------------->');
+                const expiryDate = expiryDateInput.value;
+
+                if (expiryDate < formattedDate) {
+                    event.preventDefault(); // Prevent form submission
+                    errorMessage.textContent = 'Expiry date must be greater than or equal to the current date.';
+                } else {
+                    errorMessage.textContent = ''; // Clear error message
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const discountInput = document.getElementById('discount');
+            const errMessage = document.getElementById('err1');
+
+            discountInput.addEventListener('input', function () {
+                const discountValue = parseInt(discountInput.value, 10);
+
+                if (isNaN(discountValue) || discountValue < 0 || discountValue > 99) {
+                    errMessage.textContent = 'Discount should be a number between 0 and 99';
+                } else {
+                    errMessage.textContent = '';
+                }
+            });
+        });
+    </script>
+
+    <%- include('../layout/footer.ejs') %>
