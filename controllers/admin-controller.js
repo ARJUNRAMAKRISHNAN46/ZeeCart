@@ -51,14 +51,6 @@ module.exports = {
     }
   },
 
-  admin_banners: async (req, res) => {
-    try {
-      res.render("admin/banners");
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
   admin_offers: async (req, res) => {
     try {
       const catData = await Catagory.find();

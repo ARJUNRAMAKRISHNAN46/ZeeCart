@@ -15,7 +15,7 @@ const addressSchema = new Schema({
     pincode : {
         type : String
     },
-    address : {
+    houseName : {
         type : String
     },
     locality : {

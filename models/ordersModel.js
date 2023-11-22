@@ -15,12 +15,13 @@ const orderSchema = new Schema({
       quantity: Number,
     },
   ],
-  address: {
-    type: Schema.Types.ObjectId,
-    ref: "address",
+  
+  address:Array,
+  OrderDate: {
+    type:Date,
+    required : true,
   },
-  OrderDate: String,
-  ExpectedDeliveryDate: String,
+  ExpectedDeliveryDate: Date,
   paymentMethod: String,
   PaymentStatus:String,
   totalAmount: Number,

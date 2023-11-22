@@ -22,6 +22,7 @@ module.exports = {
           if (couponData.minPurchasetAmount <= req.session.totalPrice) {
             const couponAmount = couponData.discountAmount;
             const total = req.session.totalPrice;
+            
             req.session.grandTotal = total - couponAmount;
             const grandTotal = req.session.grandTotal;
             req.session.couponCode = coupon;

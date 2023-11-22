@@ -9,154 +9,165 @@
                         <br>
                         <div class="d-flex justify-content-center align-items-center bg-secondary"
                             style=" border-radius: 10px 10px 0 0 ;">
-                            <h1 style="color: rgb(255, 255, 255);">Add Address</h1>
+                            <h1 style="color: rgb(255, 255, 255);">Add address</h1>
                         </div>
                         <br>
-                        <b><span id="nameError" class="error alert-danger m-2"></span></b>
-                        <!-- <input type="hidden" value="0" name="wallet"> -->
-                        <input type="hidden" value="<%=userId.id%>">
+                        <input type="hidden" value="<%=userId.id%>" name="userId">
                         <div class="d-flex justify-content-center">
-                            <input type="text" name="name" placeholder="Name"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
-                                required></input>
-                            <b><span id="mobileError" class="error alert-danger m-2"></span></b>
-                            <input type="number" name="mobile" placeholder="Mobile"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                            <span class="alert-danger" id="error"></span>
                         </div>
                         <br>
-                        <b><span id="emailError" class="error alert-danger m-2"></span></b>
                         <div class="d-flex justify-content-center">
-                            <input type="text" name="email" placeholder="Email"
+                            <input type="text" name="name" placeholder="Name" id="name"
                                 style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                onchange="validateName()" required></input>
+                            <input type="number" name="mobile" placeholder="Mobile" onchange="validateMobile()"
+                                id="mobile" style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;"
                                 required></input>
-                            <b><span id="pincodeError" class="error alert-danger m-2"></span></b>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <input type="text" name="email" placeholder="Email" id="email"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                onchange="validateEmail()" required></input>
                             <input type="number" name="pincode" placeholder="Pincode" id="pincode"
+                                onchange="validatePincode()" 
                                 style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
                         </div>
                         <br>
-                        <b><span id="addressError" class="error alert-danger m-2"></span></b>
                         <div class="d-flex justify-content-center align-items-center">
-                            <input name="address" placeholder="Address"
+                            <input name="houseName" placeholder="House Name" onchange="validateAddress()" id="address"
                                 style="width: 100%;height: 100px;border-radius: 5px;padding-left: 5px;"
                                 required></input>
                         </div>
                         <br>
-                        <b><span id="localityError" class="error alert-danger m-2"></span></b>
                         <div class="d-flex justify-content-center">
-                            <input type="text" name="locality" placeholder="Locality"
+                            <input type="text" name="locality" placeholder="Locality" onchange="validateLocality()" id="locality"
                                 style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
                                 required></input>
-                            <b><span id="cityError" class="error alert-danger m-2"></span></b>
-                            <input type="text" name="city" placeholder="City"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
-                        </div>
-                        <br>
-                        <b><span id="districtError" class="error alert-danger m-2"></span></b>
-                        <div class="d-flex justify-content-center">
-                            <input type="text" name="district" placeholder="District"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
-                                required></input>
-                            <b><span id="stateError" class="error alert-danger m-2"></span></b>
-                            <input type="text" name="state" placeholder="State"
+                            <input type="text" name="city" placeholder="City" onchange="validateCity()" id="city"
                                 style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-secondary" style="color: white;"
-                                onclick="onSubmit()">Add
-                                Address</button>
+                            <input type="text" name="district" placeholder="District" onchange="validateDistrict()" id="district"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                required></input>
+                            <input type="text" name="state" placeholder="State" onchange="validateState()" id="state"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <!-- <button type="submit" class="btn btn-secondary" style="color: white;"
+                                onclick="onSubmit(event)">Add
+                                Address</button> -->
+                            <button class="btn btn-primary" type="submit" id="addBtn">Add Address</button>
                         </div>
                         <br>
                     </div>
                 </div>
             </form>
-
             <script>
-                function onSubmit() {
-                    const nameInput = document.querySelector('input[name="name"]');
-                    const nameError = document.getElementById('nameError');
-                    const mobileInput = document.querySelector('input[name="mobile"]');
-                    const emailInput = document.querySelector('input[name="email"]');
-                    const pincodeInput = document.querySelector('input[name="pincode"]');
-                    const addressInput = document.querySelector('input[name="address"]');
-                    const localityInput = document.querySelector('input[name="locality"]');
-                    const cityInput = document.querySelector('input[name="city"]');
-                    const districtInput = document.querySelector('input[name="district"]');
-                    const stateInput = document.querySelector('input[name="state"]');
-
-                    const name = nameInput.value.trim();
-                    if (!name) {
-                        nameError.textContent = 'Please enter a valid name.';
-                        return;
+                var error = document.getElementById('error');
+                var addBtn = document.getElementById('addBtn');
+                function validateName() {
+                    var usernamePattern = /^[a-zA-Z0-9_.\s]{3,16}$/
+                    var name = document.getElementById('name').value.trim();
+                    if (usernamePattern.test(name)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false; // Enable the button
                     } else {
-                        nameError.textContent = '';
+                        error.innerHTML = "Username must be 3-20 characters";
+                        addBtn.disabled = true; // Disable the button
                     }
-
-                    const mobile = mobileInput.value.trim();
-                    if (!/^\d{10}$/.test(mobile)) {
-                        nameError.textContent = 'Please enter a valid 10-digit mobile number.';
-                        return;
+                }
+                function validateMobile() {
+                    var mobile = document.getElementById('mobile').value.trim();
+                    var mobileRegex = /^\d{10}$/;
+                    if (mobileRegex.test(mobile)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
                     } else {
-                        nameError.textContent = '';
+                        error.innerHTML = "Please enter a valid 10 digit mobile number";
+                        addBtn.disabled = true;
                     }
-
-                    const email = emailInput.value.trim();
-                    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-                        nameError.textContent = 'Please enter a valid email address.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validateEmail() {
+                    var email = document.getElementById('email').value.trim();
+                    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                    if(emailPattern.test(email)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid email";
+                        addBtn.disabled = true;
                     }
-
-                    const pincode = pincodeInput.value.trim();
-                    if (!/^\d{6}$/.test(pincode)) {
-                        nameError.textContent = 'Please enter a valid 6-digit pincode.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validatePincode() {
+                    var pincode = document.getElementById('pincode').value.trim();
+                    var pincodeRegex = /^\d{6}$/;
+                    if(pincodeRegex.test(pincode)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid 6 digit pincode";
+                        addBtn.disabled = true;
                     }
-
-                    const address = addressInput.value.trim();
-                    if (!address) {
-                        nameError.textContent = 'Please enter a valid address.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validateAddress(){
+                    var address = document.getElementById('address').value.trim();
+                    var addressPattern = /^[a-zA-Z0-9_.\s]{3,40}$/
+                    if(addressPattern.test(address)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid house name";
+                        addBtn.disabled = true;
                     }
-
-                    const locality = localityInput.value.trim();
-                    if (!locality) {
-                        nameError.textContent = 'Please enter a valid locality.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validateLocality(){
+                    var locality = document.getElementById('locality').value.trim();
+                    var localityPattern = /^[a-zA-Z0-9_.\s]{3,40}$/
+                    if(localityPattern.test(locality)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid locality name";
+                        addBtn.disabled = true;
                     }
-
-                    const city = cityInput.value.trim();
-                    if (!city) {
-                        nameError.textContent = 'Please enter a valid city.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validateCity(){
+                    var city = document.getElementById('city').value.trim();
+                    var cityPattern = /^[a-zA-Z0-9_.\s]{3,40}$/
+                    if(cityPattern.test(city)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid city name";
+                        addBtn.disabled = true;
                     }
-
-                    const district = districtInput.value.trim();
-                    if (!district) {
-                        nameError.textContent = 'Please enter a valid district.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validateDistrict(){
+                    var district = document.getElementById('district').value.trim();
+                    var districtPattern = /^[a-zA-Z0-9_.\s]{3,40}$/
+                    if(districtPattern.test(district)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid district name";
+                        addBtn.disabled = true;
                     }
-
-                    const state = stateInput.value.trim();
-                    if (!state) {
-                        nameError.textContent = 'Please enter a valid state.';
-                        return;
-                    } else {
-                        nameError.textContent = '';
+                }
+                function validateState(){
+                    var state = document.getElementById('state').value.trim();
+                    var statePattern = /^[a-zA-Z0-9_.\s]{3,40}$/
+                    if(statePattern.test(state)) {
+                        error.innerHTML = "";
+                        addBtn.disabled = false;
+                    }else{
+                        error.innerHTML = "Please enter a valid state name";
+                        addBtn.disabled = true;
                     }
-
-                    document.forms[0].submit();
                 }
             </script>
 

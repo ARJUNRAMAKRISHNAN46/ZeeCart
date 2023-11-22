@@ -10,6 +10,9 @@ const retutnItemSchema = new Schema({
   description: {
     type: String,
   },
+  status : {
+    type : String,
+  }
 });
 
 const returnItem = mongoose.model("returnItem", retutnItemSchema);

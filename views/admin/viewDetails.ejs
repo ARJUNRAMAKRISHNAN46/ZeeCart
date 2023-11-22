@@ -160,16 +160,16 @@
                     <p class="mb-0"><strong>Expected Delivery : <span>
                                 <%=orderDetails[0].ExpectedDeliveryDate%>
                             </span></strong></p><br>
-                    <p class="mb-0"><strong>Name : <%=addressDetails[0].name%>
+                    <p class="mb-0"><strong>Name : <%=user.name%>
                             </strong></p>
-                    <p class="mb-0"><strong>Mobile : <%=addressDetails[0].mobile%>
+                    <p class="mb-0"><strong>Email : <%=user.email%>
                             </strong></p>
 
-                    <p><span class="font-weight-bold"><b>Address</b> : <%=addressDetails[0].address%>,
-                                <%=addressDetails[0].locality%>,<br>
-                                    <%=addressDetails[0].city%>,<%=addressDetails[0].district%>,
-                                            <%=addressDetails[0].state%>,<br>
-                                                <%=addressDetails[0].pincode%>
+                    <p><span class="font-weight-bold"><b>Address</b> : <%=orderDetails[0].address[0]%>,
+                                <%=orderDetails[0].address[1]%>,<br>
+                                    <%=orderDetails[0].address[2]%>,<%=orderDetails[0].address[3]%>,
+                                            <%=orderDetails[0].address[4]%>,<br>
+                                                <%=orderDetails[0].address[5]%>
                         </span></p>
 
                 </div>

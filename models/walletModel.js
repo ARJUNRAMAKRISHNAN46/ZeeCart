@@ -6,6 +6,7 @@ const walletSchema = new Schema({
   wallet: {
     type: Number,
   },
+  invited: Array,
 });
 
 const wallet = mongoose.model("wallet", walletSchema);

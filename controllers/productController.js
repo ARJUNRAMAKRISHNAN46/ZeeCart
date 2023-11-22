@@ -9,6 +9,7 @@ const wishlist = require("../models/wishlistModel");
 const offer = require("../models/offerModel");
 const returnItem = require("../models/retunModel");
 const Wallet = require("../models/walletModel");
+const catPrice = require("../models/categoryPriceModel");
 
 let grandTotal;
 module.exports = {
@@ -245,19 +246,16 @@ module.exports = {
       const catagory = data.Catagory;
       const discount = data.discount;
       const expiryDate = req.body.expiryDate;
-      console.log(
-        req.body.expiryDate,
-        "---------------------------------------------------->"
-      );
+
       const date = new Date();
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
 
       const formattedDate = `${year}-${month}-${day}`;
-      console.log(formattedDate, "_______________________!");
 
       if (expiryDate > formattedDate) {
+        
         const proData = await products.updateMany(
           { Category: catagory },
           {
@@ -283,7 +281,6 @@ module.exports = {
       const userId = userData._id;
       const orderData = await Order.findOne({ _id: orderId });
 
-      console.log(orderData.totalAmount, "order_________________");
       const amount = orderData.totalAmount;
       const retn = await returnItem.create({
         userId: userId,
@@ -291,18 +288,11 @@ module.exports = {
         returnReason: reason,
         description: description,
       });
-      const refund = await Wallet.findOne({ userId: userId });
-      if (refund) {
-        const updateAmount = amount + refund.wallet;
-        await Wallet.updateOne({ userId: userId, wallet: updateAmount });
-      } else {
-        await Wallet.create({ userId: userId, wallet: amount });
-      }
-      const newStatus = "Return Order";
+
+      const newStatus = "Requested";
       const data = await Order.findByIdAndUpdate(orderId, {
         orderStatus: newStatus,
       });
-      console.log(data, "data--------------");
       res.redirect("/productorders");
     } catch (error) {
       console.log(error);

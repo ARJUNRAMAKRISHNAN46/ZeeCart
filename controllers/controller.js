@@ -118,22 +118,28 @@ module.exports = {
       if (userOTP[0].otp == finalotp) {
         req.session.logged = true;
         req.session.email = email;
-        let referal = _referal;
+        const referal = _referal;
         const usedata = await User.create({
           email: email,
           statuz: statuz,
           name: name,
           password: password,
+          refferedBy : referal,
         });
+        const preUserId = usedata._id;
         const userData = await Wallet.findOne({ userId: referal });
 
         if (userData !== null) {
           const waldata = await Wallet.updateOne(
             { userId: referal },
-            { $inc: { wallet: 100 } }
+            {
+              $inc: { wallet: 100 },
+              $push: { invited: preUserId }
+            }
           );
+          
         } else {
-          await Wallet.create({ userId: referal, wallet: 100 });
+          await Wallet.create({ userId: referal, wallet: 100, invited: [preUserId] });
         }
         res.redirect("/");
       } else {

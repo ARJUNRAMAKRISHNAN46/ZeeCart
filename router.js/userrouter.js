@@ -93,18 +93,17 @@ router.post("/send-otp", postSignupOtp);
 router.get("/getSignup", userExist, getSignup);
 router.post("/signUp", postSignup);
 //address routes--------------------------------------------------->
-router.get("/getAddAddress", verifyUser, getAddAddress);
-router.post("/addAddress", verifyUser, addAddress);
 router.get("/geteditAddress/:id", verifyUser, getEditAddress);
 router.post("/postEditAddress", verifyUser, postEditAddress);
 router.get("/deleteAddress/:id", verifyUser, deleteAddress);
-router.get("/addAddress", verifyUser, addAddress);
+router.get("/addAddress", verifyUser, getAddAddress);
+router.post("/addAddress", verifyUser, addAddress);
 router.post("/addNewAddress", verifyUser, addNewAddress);
+router.get('/getAddUserAddress',verifyUser,getAddUserAddress);
 //profile routes--------------------------------------------------->
 router.get("/profile", verifyUser, Profile);
 router.post("/updateProfile", verifyUser, updateProfile);
 router.get("/myCoupons", verifyUser, userCoupons);
-router.get('/getAddUserAddress',verifyUser,getAddUserAddress);
 //cart routes------------------------------------------------------>
 router.get("/cart", verifyUser, Cart);
 router.post("/removefromcart", verifyUser, removeFromCart);

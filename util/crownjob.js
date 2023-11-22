@@ -4,7 +4,7 @@ const cron = require("node-cron");
 
 async function checkOffer() {
   const offers = await offer
-    .find({ Catagory: "FLAGSHIP MOBILES" })
+    .find({ Catagory: "IOS MOBILES" })
     .maxTimeMS(30000);
 
   if (offers?.length === 0) {
@@ -36,7 +36,7 @@ cron.schedule("*/10 * * * * *", async () => {
   try {
     await checkOffer();
   } catch (error) {
-    console.error("Error in cron job:", error);
+    console.error("Error in cron job:");
   }
 });
 module.exports = { checkOffer };

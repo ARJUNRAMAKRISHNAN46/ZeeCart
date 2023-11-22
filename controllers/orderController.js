@@ -6,6 +6,9 @@ const moment = require("moment");
 const { invoiceDownload } = require("../util/invoice");
 const Wallet = require("../models/walletModel");
 const products = require("../models/productModel");
+const pdf = require("../util/salesReportPDF");
+const returnItem = require("../models/retunModel");
+
 module.exports = {
   //getting order page
   Orders: async (req, res) => {
@@ -18,14 +21,11 @@ module.exports = {
       const orderDetails = await order
         .find({ userId: userId })
         .populate("products.productId");
+      console.log(orderDetails, "odrsf");
       if (orderDetails[0] == undefined) {
       } else {
       }
-      const addressId = orderDetails[0].address;
-      const addressDetails = await Address.find({ _id: addressId }).populate(
-        "address"
-      );
-      res.render("user/orders", { orderDetails, active, addressDetails });
+      res.render("user/orders", { orderDetails, active });
     } catch (error) {
       console.log(error);
     }
@@ -35,6 +35,7 @@ module.exports = {
     try {
       const grandTotal = req.session.totalPrice;
       const addressId = req.params.id;
+      const curAdd = await Address.findOne({ _id: addressId });
       const orderData = await Cart.findOne();
       const currentDate = new Date();
       const fourDaysLater = new Date(currentDate);
@@ -42,11 +43,18 @@ module.exports = {
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
-        address: addressId,
+        address: [
+          curAdd.address,
+          curAdd.locality,
+          curAdd.city,
+          curAdd.district,
+          curAdd.state,
+          curAdd.pincode,
+        ],
         OrderDate: currentDate.toDateString(),
         ExpectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "online",
-        PaymentStatus: "Pending",
+        PaymentStatus: "Paid",
         totalAmount: grandTotal,
         orderStatus: "Order Processed",
       });
@@ -83,15 +91,13 @@ module.exports = {
       const orderDetails = await order
         .find({ _id: orderId })
         .populate("products.productId");
-      const addressDetails = await Address.find({ _id: addressId }).populate(
-        "address"
-      );
+      const user = await User.findOne({ _id: orderDetails[0].userId });
       const orderData = orderDetails[0].products;
       res.render("admin/viewDetails", {
         orderDetails,
         orderData,
-        addressDetails,
         orderId,
+        user,
       });
     } catch (error) {
       console.log(error);
@@ -156,6 +162,7 @@ module.exports = {
     try {
       const grandTotal = req.session.totalPrice;
       const addressId = req.body.id;
+      const curAdd = await Address.findOne({ _id: addressId });
       const orderData = await Cart.findOne();
       const currentDate = new Date();
       const fourDaysLater = new Date(currentDate);
@@ -163,7 +170,14 @@ module.exports = {
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
-        address: addressId,
+        address: [
+          curAdd.address,
+          curAdd.locality,
+          curAdd.city,
+          curAdd.district,
+          curAdd.state,
+          curAdd.pincode,
+        ],
         OrderDate: currentDate.toDateString(),
         ExpectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "COD",
@@ -191,6 +205,87 @@ module.exports = {
       const userData = await User.findOne({ email });
       const total = req.session.grandTotal;
       res.render("user/paymentSuccess", { total, userData });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  getDownloadSalesReport: async (req, res) => {
+    console.log(req.body);
+    try {
+      let startDate = new Date(req.body.startDate);
+      const format = req.body.fileFormat;
+      let endDate = new Date(req.body.endDate);
+      endDate.setHours(23, 59, 59, 999);
+
+      const orders = await order
+        .find({
+          PaymentStatus: "Paid",
+          OrderDate: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        })
+        .populate("products.productId");
+
+      let totalSales = 0;
+      orders.forEach((order) => {
+        totalSales += order.totalAmount || 0;
+      });
+
+      console.log(totalSales, "orderssss");
+      const sum = totalSales.length > 0 ? totalSales[0].totalSales : 0;
+      pdf.downloadPdf(req, res, orders, startDate, endDate, totalSales);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  returnRequest: async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      const orderData = await order.findOne({ _id: orderId });
+      const user = await User.findOne({ _id: orderData.userId });
+      const retres = await returnItem.findOne({ userId: orderData.userId });
+      const orderDetails = await order
+        .find({ _id: orderId })
+        .populate("products.productId");
+      const products = orderDetails[0].products;
+      res.render("admin/returnRequest", { orderData, retres, user, products });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  rejectReturn: async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      const newStatus = "rejected";
+      console.log(orderId);
+      const data = await order.findByIdAndUpdate(orderId, {
+        orderStatus: newStatus,
+      });
+      res.redirect("/orders");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  acceptReturn: async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      const newStatus = "Return Order";
+      const data = await order.findByIdAndUpdate(orderId, {
+        orderStatus: newStatus,
+      });
+      const userId = data.userId
+      const orderData = await order.findOne({ _id: orderId });
+
+      const amount = orderData.totalAmount;
+      const refund = await Wallet.findOne({ userId: userId });
+      if (refund) {
+        const updateAmount = amount + refund.wallet;
+        await Wallet.updateOne({ userId: userId, wallet: updateAmount });
+      } else {
+        await Wallet.create({ userId: userId, wallet: amount });
+      }
+      res.redirect("/orders");
     } catch (error) {
       console.log(error);
     }

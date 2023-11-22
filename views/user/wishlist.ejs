@@ -68,16 +68,25 @@
                                             <div class="col-lg col-sm-4 d-flex">
                                                 <div class="float-md-end d-flex">
 
-                                                    <button class="text-white btn-secondary"
+                                                    <!-- <button class="text-white btn-secondary"
                                                         onclick="addToCart('<%=data.productId._id%>')"
                                                         style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Add
                                                         to
-                                                        Cart</button>
+                                                        Cart</button> -->
+                                                    <%if(data.productId.AvailableQuantity==0) {%>
+                                                        <!-- <a class="btn btn1" href="#">Notify Me</a> -->
+                                                        <span class="text-danger">Out of Stock</span>
+                                                        <%}else {%>
+                                                            <a class="text-white btn-secondary"
+                                                                style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
+                                                                onclick="addToCart('<%=data.productId._id%>')">Add To
+                                                                Cart</a>
+                                                            <%} %>
 
-                                                    <button
-                                                        class="btn btn-light border text-danger icon-hover-danger ml-2"
-                                                        onclick="removeFromWish('<%=data.productId._id%>')"
-                                                        style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
+                                                                <button
+                                                                    class="btn btn-light border text-danger icon-hover-danger ml-2"
+                                                                    onclick="removeFromWish('<%=data.productId._id%>')"
+                                                                    style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
 
                                                 </div>
                                             </div>
@@ -94,8 +103,8 @@
                 <br>
                 <br>
                 <script>
-                     function removeFromWish(productId) {
-                        if(confirm('Are you sure to delete this item?')) {
+                    function removeFromWish(productId) {
+                        if (confirm('Are you sure to delete this item?')) {
                             $.ajax({
                                 url: `/removeFromWishlist/${productId}`,
                                 method: 'POST',

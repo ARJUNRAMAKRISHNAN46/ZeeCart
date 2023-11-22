@@ -7,7 +7,6 @@ module.exports = {
     try {
       const orders = await Order.find().sort({ OrderDate: 1 });
       const targetDateTime = new Date();
-      console.log(targetDateTime);
 
       res.render("admin/dashboard");
     } catch (error) {
@@ -16,7 +15,6 @@ module.exports = {
   },
   getCount: async (req, res) => {
     try {
-      console.log("hereeeeeeeeeeee");
       const orders = await Order.find({
         orderStatus: {
           $nin: ["returned", "Cancelled", "Rejected"],
@@ -33,14 +31,12 @@ module.exports = {
       let labelsByAmount;
 
       orders.forEach((order) => {
-        // const orderDate = moment(order.OrderDate, "M/D/YYYY, h:mm:ss A");
         const orderDate = moment(order.OrderDate, "ddd MMM DD YYYY");
         const dayMonthYear = orderDate.format("YYYY-MM-DD");
         const monthYear = orderDate.format("YYYY-MM");
         const year = orderDate.format("YYYY");
 
         if (req.url === "/count-orders-by-day") {
-          console.log(orderCountsByDay[dayMonthYear], "count");
           if (!orderCountsByDay[dayMonthYear]) {
             orderCountsByDay[dayMonthYear] = 1;
             totalAmountByDay[dayMonthYear] = order.totalAmount;
@@ -48,7 +44,6 @@ module.exports = {
             orderCountsByDay[dayMonthYear]++;
             totalAmountByDay[dayMonthYear] += order.totalAmount;
           }
-          console.log(totalAmountByDay[dayMonthYear], "total------------->");
           const ordersByDay = Object.keys(orderCountsByDay).map(
             (dayMonthYear) => ({
               _id: dayMonthYear,
@@ -77,12 +72,13 @@ module.exports = {
           dataByCount = ordersByDay.map((entry) => entry.count);
           dataByAmount = amountsByDay.map((entry) => entry.total);
         } else if (req.url === "/count-orders-by-month") {
+          console.log("vannnn");
           if (!orderCountsByMonthYear[monthYear]) {
             orderCountsByMonthYear[monthYear] = 1;
-            totalAmountByMonthYear[monthYear] = order.TotalPrice;
+            totalAmountByMonthYear[monthYear] = order.totalAmount;
           } else {
             orderCountsByMonthYear[monthYear]++;
-            totalAmountByMonthYear[monthYear] += order.TotalPrice;
+            totalAmountByMonthYear[monthYear] += order.totalAmount;
           }
 
           const ordersByMonth = Object.keys(orderCountsByMonthYear).map(
@@ -113,10 +109,10 @@ module.exports = {
           // Count orders by year
           if (!orderCountsByYear[year]) {
             orderCountsByYear[year] = 1;
-            totalAmountByYear[year] = order.TotalPrice;
+            totalAmountByYear[year] = order.totalAmount;
           } else {
             orderCountsByYear[year]++;
-            totalAmountByYear[year] += order.TotalPrice;
+            totalAmountByYear[year] += order.totalAmount;
           }
 
           const ordersByYear = Object.keys(orderCountsByYear).map((year) => ({
@@ -173,14 +169,10 @@ module.exports = {
             as: "productDetails",
           },
         },
-        // {
-        //   $unwind: "$productDetails",
-        // },
-        // { $project: { _id: 1, totalCount: 1, productDetails: 1 }}
+        {
+          $unwind: "$productDetails",
+        },
       ]);
-      bestSeller.forEach((x) => {
-        console.log(x?.productDetails[0]?.ProductName,'-------------------!!!');
-      })
 
       if (!latestOrders || !bestSeller) throw new Error("No Data Found");
 

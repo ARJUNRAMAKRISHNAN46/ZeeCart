@@ -26,7 +26,7 @@
                 </div>
                 <%})%>
             </div>
-            <div class="d-flex justify-content-end"><a class="btn btn-primary m-3" href="/getAddAddress">Add
+            <div class="d-flex justify-content-end"><a class="btn btn-primary m-3" href="/getAddUserAddress">Add
                 Address</a></div>
           </div>
         </div>
@@ -124,11 +124,9 @@
       });
     }
 
-    // function makePayment(orderId) {
     function makePayment(AddressId) {
       addressId = AddressId;
       $.ajax({
-        // url: `/makePayment/${orderId}`,
         url: `/makePayment`,
         type: 'POST',
         contentType: 'application/json',

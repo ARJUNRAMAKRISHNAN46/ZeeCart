@@ -15,6 +15,9 @@ const userschema = new Schema(
     statuz: {
       type: String,
     },
+    refferedBy: {
+      type: String,
+    },
   },
   {
     timestamps: true,

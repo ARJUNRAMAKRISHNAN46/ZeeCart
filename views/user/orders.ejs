@@ -169,17 +169,14 @@
                                             <%=x.ExpectedDeliveryDate%>
                                         </span></strong></p><br>
 
-                                <%if(addressDetails[0]){%>
                                     <p><span class="font-weight-bold"><b>Delivery Address</b> :
-                                            <%= addressDetails[0].address %>,<%= addressDetails[0].locality %>, <br>
-                                                    <%= addressDetails[0].city %> , <%= addressDetails[0].district %> ,
-                                                            <%= addressDetails[0].state %> , <br>
-                                                                PIN : <%= addressDetails[0].pincode %>
+                                            <%= x.address[0] %>,<%= x.address[1] %>, <br>
+                                                    <%= x.address[2] %> , <%= x.address[3] %> ,
+                                                            <%= x.address[4]%> , <br>
+                                                                PIN : <%= x.address[5] %>
                                         </span></p>
-                                    <%}%>
                             </div>
                 </div>
-                <!-- Add class 'active' to progress -->
                 <div class="row d-flex justify-content-center">
                     <div class="col-12">
                         <ul id="progressbar" class="text-center">
@@ -228,7 +225,25 @@
                                                                                                                     Order
                                                                                                                     Returned
                                                                                                                 </h2>
-                                                                                                                <%}%>
+                                                                                                                <%} %>
+                                                                                                                <% if
+                                                                                                                (x.orderStatus=='rejected'
+                                                                                                                ) { %>
+                                                                                                                <h2
+                                                                                                                    class="alert alert-danger">
+                                                                                                                    Order
+                                                                                                                    Rejected by Admin
+                                                                                                                </h2>
+                                                                                                                <%} %>
+                                                                                                                <% if
+                                                                                                                (x.orderStatus=='Requested'
+                                                                                                                ) { %>
+                                                                                                                <h2
+                                                                                                                    class="alert alert-danger">
+                                                                                                                    Requested for Return 
+                                                                                                                </h2>
+                                                                                                                <%}
+                                                                                                                %>
 
                         </ul>
                     </div>
@@ -259,13 +274,14 @@
                         </div>
                     </div>
                 </div>
-                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='Rejected' && x.orderStatus !=='Return Order' &&
+                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='rejected' && x.orderStatus !=='Return Order' &&
                     x.orderStatus !=='Order Arrived' ) {%>
                     <div class="d-flex justify-content-end">
                         <a class="btn  btn-danger mx-3" id="cancelBtn"
                             onclick="updateOrderStatus('<%= x._id %>','Cancelled' )" href="">Cancel Order</a>
 
                     </div>
+                
                     <%}else if(x.orderStatus=='Order Arrived' ) {%>
                         <div class="d-flex justify-content-end">
                             <!-- <a class="btn  btn-primary mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Return Order' )"

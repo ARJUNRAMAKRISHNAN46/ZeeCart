@@ -1,0 +1,65 @@
+<%- include('../layout/header.ejs') %>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .return-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .return-card {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4 mb-4">Product Return Request</h1>
+        <div class="return-card">
+            <h4>Order Details</h4>
+            <p><strong>Order ID: </strong> #<%=orderData._id%></p>
+            <%products.forEach((x) => {%>
+                <p><strong>Product Name: </strong> <%=x.productId.ProductName%></p>
+                <%})%>
+            <p><strong>Customer Name: </strong><%=user.name%></p>
+            <p><strong>Return Reason: </strong><%=retres.returnReason%></p>
+
+            <div class="mt-4">
+                <a href="/acceptReturn/<%=orderData._id%>%>" class="btn btn-success mr-2" onclick="acceptReturn()">Accept Return</a>
+                <a href="/rejectReturn/<%=orderData._id%>%>" class="btn btn-danger" onclick="rejectReturn()">Reject Return</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXj5u8tJaqMl9PA3pmSA5b+DtB1PD7LxaIzQ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy4p50d5Nt0iqz9byNtws0q2W7LJ2Zlry"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // function acceptReturn() {
+        //     alert('Return Accepted!');
+        // }
+        // function rejectReturn() {
+        //     alert('Return Rejected!');
+        // }
+    </script>
+</body>
+
+</html>

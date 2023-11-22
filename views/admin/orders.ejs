@@ -100,7 +100,8 @@
                                 <%= x.totalAmount %>
                             </td>
                             <td>
-                                <% if (x.orderStatus !=='Cancelled' && x.orderStatus !== 'Return Order' ) { %>
+                                <% if (x.orderStatus !=='Cancelled' && x.orderStatus !=='Requested' && x.orderStatus
+                                    !=='rejected' && x.orderStatus !== 'Return Order' ) { %>
                                     <% const currentStatus=x.orderStatus || 'Order Placed' ; %>
                                         <select class="form-select text-success" id="statusSelect<%= i %>"
                                             onchange="updateOrderStatus('<%= x._id %>', this.value)">
@@ -117,12 +118,17 @@
                                                 >Rejected</option>
                                         </select>
 
-                                        <% } else if(x.orderStatus =='Cancelled' ) { %>
-                                            <h6 class="text-danger bg-warning p-1 d-flex justify-content-center"><b> Cancelled</b></h6>
-                                            <% }
-                                            else if(x.orderStatus == 'Return Order'){ %>
-                                                <h6 class="text-warning bg-danger p-1 d-flex justify-content-center"><b>Returned</b></h6>
-                                                <%} %>
+                                        <% } else if(x.orderStatus=='Cancelled' ) { %>
+                                            <h6 class="text-danger bg-warning p-1 d-flex justify-content-center"><b>
+                                                    Cancelled</b></h6>
+                                            <% } else if(x.orderStatus=='Requested' ){ %>
+                                                <a class="btn btn-danger" href="/returnRequest/<%=x._id%>">Return
+                                                    Request</a>
+                                                <%} else if(x.orderStatus=='rejected' ) {%>
+                                                    <h5 class="text-danger">Return Rejected</h5>
+                                                    <%}else if(x.orderStatus=='Return Order' ) {%>
+                                                        <h5 class="text-success">Return Order</h5>  <%}%>
+
                             </td>
                             <td>
                                 <a class="btn btn-primary" href="/viewDetails/<%= x._id%>?id=<%= x.address%>">View</a>

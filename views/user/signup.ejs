@@ -135,7 +135,7 @@
             <div class="shape"></div>
         </div>
         <form action="/send-otp" method="post">
-            <h3>Login Here</h3>
+            <h3>SignUp Here</h3>
             <p id="error">
                 <%=err%>
             </p>
@@ -155,44 +155,4 @@
             <div class="signup-link">Already a member? <a href="/login">Login now</a></div>
         </form>
 
-
-        <!-- <body style="background-image: radial-gradient(circle at center, rgb(255, 45, 203) 0, rgb(50, 50, 254), rgb(234, 0, 255) 100%);"> -->
-        <!-- <div class="container">
-        <div class="wrapper">
-            <div class="title"><span>Login Form</span></div>
-            <form action="/send-otp" method="post">
-                <p id="error"><%=err%></p>
-                <input type="hidden" value="Active" name="statuz">
-                <p class="msg" id="message1"></p>
-                <div class="row">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Username" name="name" id="myInput1" onchange="validateUserName()">
-                </div>
-                <p class="msg" id="message2"></p>
-                <div class="row">
-                    <i class="fa-solid fa-envelope" style="color: #ffffff;"></i>
-                    <input type="email" placeholder="Email" name="email" id="myInput2" onchange="validateUserEmail()">
-                </div>
-                <p class="msg" id="message3"></p>
-                <div class="row">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" name="password" id="password"
-                        onchange="validatePassword();">
-                </div>
-                <p class="msg" id="message"></p>
-                <div class="row">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Confirm Password" name="confirmpassword" id="confirmpass1"
-                        onkeyup="checkPasswordMatch();">
-                </div>
-                <div class="row button">
-                    <input type="submit" value="Sign Up" class="btn solid" id="signupButton" disabled>
-                </div>
-                
-                <div class="signup-link">Already a member? <a href="/login">Login now</a></div>
-            </form>
-        </div>
-    </div>
-</body>
-     -->
         <%-include('../layout/user/partials/footer.ejs')-%>

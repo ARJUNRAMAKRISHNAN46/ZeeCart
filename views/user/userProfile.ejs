@@ -4,7 +4,7 @@
         <section style="background-color: #eee;">
             <div class="container py-5">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-8">
                         <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -12,6 +12,15 @@
                                 <li class="breadcrumb-item active" aria-current="page">User Profile</li>
                             </ol>
                         </nav>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-light rounded-3 p-2 mb-4 d-flex justify-content-center text-secondary">
+                           <%if(userName) {%>
+                            <h5> Reffered By : <b><%=userName%></b></h5>
+                            <%}else{%>
+                                <h5>No one Reffered You</h5>
+                                <%}%>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -86,15 +95,28 @@
                         <form action="/forgotpass" method="get">
                             <div class="card mb-4 mb-lg-0">
                                 <a href="/myCoupons" class="btn border border-danger rounded-3 mt-1">coupons</a>
-                                <a href="/getAddUserAddress" class="btn border border-danger rounded-3 mt-1" type="button"
-                                    id="openModal"><b>Add
-                                        Address</b></a>
+                                <a href="/addAddress" class="btn border border-danger rounded-3 mt-1" type="button">Add
+                                        Address</a>
                                 <button type="submit" class="btn border border-danger rounded-3 mt-1"><b>Change
                                         Password</b></button>
                                 <button type="button" id="copyReferralLink"
                                     class="btn border border-danger mt-1 text-danger"><b>Invite
                                         Friends</b><br>Click Here For Copy Referral Link
                                 </button>
+                                <div class="border border-danger mt-1">
+                                    <%if(userNames.length > 0) {%>
+                                        <h5 class="bg-secondary text-center text-white p-1">Invited Friends</h5>
+                                    <ol>
+                                        <%let i = 1;%>
+                                        <% userNames.forEach((x) =>{%>
+                                            <li class="d-flex justify-content-between"><%=i++%> . Name : <%=x%> <span class="text-success mx-4">+₹100</span></li>
+                                            <%})%>
+                                        
+                                      </ol>
+                                        <%}else{%>
+                                            <h5 class="text-center">No Invitation yet......!</h5>
+                                            <%} %>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -111,7 +133,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <p class="text-muted mb-0">
-                                                <%=x.address%>,
+                                                <%=x.houseName%>,
                                             </p>
                                             <p class="text-muted mb-0">
                                                 <%=x.locality%>,
@@ -151,7 +173,7 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div id="myModal" class="modal">
+                        <!-- <div id="myModal" class="modal">
                             <form action="/addAddress" method="post">
                                 <div class="row d-flex justify-content-center align-items-center">
                                     <div class="col-12 col-md-6 my-5"
@@ -215,7 +237,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

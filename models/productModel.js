@@ -60,6 +60,9 @@ const productSchema = new Schema({
   },
   inWish: {
     type:Boolean,
+  },
+  temp : {
+    type : String,
   }
 });
 

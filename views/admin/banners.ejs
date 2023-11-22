@@ -36,17 +36,101 @@
 
         </div>
 
-<div style="width: 100vw;height: 100vh;background-color: rgb(165, 213, 255);">
+        <div class="container mt-5">
+            <form action="/addBanner" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="bannerTitle">Banner Title:</label>
+                    <input type="text" class="form-control" id="bannerTitle" name="title" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="bannerImage">Banner Image:</label>
+                    <input type="file" class="form-control-file" id="bannerImage" name="image" accept="image/*" required
+                        onchange="previewImage(this)">
+                    <br>
+                    <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; display: none;">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Add New Banner</button>
+            </form>
 
-</div>
-<script>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "200px";
-    }
+            <hr>
 
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
-</script>
+            <div class="row">
+                <% banners.forEach(function(banner) { %>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <img src="/banner-images/cropped_images/<%=banner.image %>" class="card-img-top"
+                                alt="Banner Image">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= banner.title %>
+                                </h5>
+                                <button class="btn btn-danger"
+                                    onclick="deleteBanner('<%= banner._id %>')">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
 
-<%- include('../layout/footer.ejs') %>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            function deleteBanner(bannerId) {
+                alert('Deleting Banner with ID: ' + bannerId);
+                console.log('jereee');
+
+                fetch(`/deleteBanner?bannerId=${bannerId}`, {
+                    method: 'GET',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire(data.msg).then(() => {
+                            });
+                        } else {
+                            Swal.fire(data.msg);
+                        }
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        </script>
+
+        </div>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+
+            function previewImage(input) {
+                var preview = document.getElementById('imagePreview');
+                var file = input.files[0];
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                    preview.style.display = 'block';
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '';
+                    preview.style.display = 'none';
+                }
+            }
+        </script>
+
+
+        <%- include('../layout/footer.ejs') %>

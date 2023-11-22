@@ -9,6 +9,7 @@ const { Mongoose, ObjectId } = require("mongoose");
 const crypto = require("crypto");
 const { log } = require("console");
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
+const Banner = require('../models/bannerModel');
 
 let userEmail;
 module.exports = {
@@ -37,7 +38,8 @@ module.exports = {
             BudgetMobiles.push(x);
           }
         });
-        
+        const banner = await Banner.find().limit(3);
+        console.log(banner,'---------');
         const FlagMob = await products
           .find({ Category: "FLAGSHIP MOBILES" })
           .limit(8);
@@ -47,7 +49,7 @@ module.exports = {
             FlagMobiles.push(x);
           }
         });
-        res.render("user/home", { data, arr, BudgetMobiles, FlagMobiles });
+        res.render("user/home", { data, arr, BudgetMobiles, FlagMobiles,banner });
       }
     } catch (error) {
       console.log(error);
