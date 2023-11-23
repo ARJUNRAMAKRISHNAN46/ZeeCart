@@ -59,11 +59,18 @@ const productSchema = new Schema({
     type: String,
   },
   inWish: {
-    type:Boolean,
+    type: Boolean,
   },
-  temp : {
-    type : String,
-  }
+  isDeleted: { type: Boolean, default: false },
+  Status: { type: String },
+  IsInCategoryOffer: {
+    type: Boolean,
+    default: false,
+  },
+  categoryOffer: {
+    offerPercentage: { type: Number },
+  },
+  beforeOffer: { type: Number },
 });
 
 const productUploads = mongoose.model("productUploads", productSchema);

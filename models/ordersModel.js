@@ -17,11 +17,11 @@ const orderSchema = new Schema({
   ],
   
   address:Array,
-  OrderDate: {
+  orderDate: {
     type:Date,
     required : true,
   },
-  ExpectedDeliveryDate: Date,
+  expectedDeliveryDate: Date,
   paymentMethod: String,
   PaymentStatus:String,
   totalAmount: Number,

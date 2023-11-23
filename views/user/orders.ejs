@@ -141,7 +141,7 @@
                         </div>
                         <%} %>
                             <div class="d-flex">
-                                <h5>Order ID <span class="text-primary font-weight-bold">#<%=x._id%></span></h5>
+                                <h5>Order ID <span class="text-primary font-weight-bold">ODR[<%=x._id%>]</span></h5>
                             </div>
 
                             <div class="d-flex">
@@ -163,11 +163,12 @@
                             </div>
                             <div class="d-flex flex-column text-sm-right">
                                 <p class="mb-0"><strong>Order Date : <span>
-                                            <%=x.OrderDate%>
+                                            <%=x.orderDate%>
                                         </span></strong></p>
                                 <p class="mb-0"><strong>Expected Delivery : <span>
-                                            <%=x.ExpectedDeliveryDate%>
+                                            <%=x.expectedDeliveryDate%>
                                         </span></strong></p><br>
+                                        <h5><strong>Payment Method : <span><%=x.paymentMethod%></span></strong></h5>
 
                                     <p><span class="font-weight-bold"><b>Delivery Address</b> :
                                             <%= x.address[0] %>,<%= x.address[1] %>, <br>

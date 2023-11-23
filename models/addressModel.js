@@ -3,6 +3,7 @@ const { schema } = require("./userModel");
 const Schema = mongoose.Schema;
 
 const addressSchema = new Schema({
+    userId: { type: Schema.Types.ObjectId },
     name : {
         type : String
     },

@@ -3,6 +3,7 @@ const OTP = require("../models/otpModel");
 const Products = require("../models/productModel");
 const { sendOTP } = require("../util/otp");
 const Wallet = require("../models/walletModel");
+const WalletHistory = require("../models/walletHistoryModel");
 
 var _email;
 var _name;
@@ -124,7 +125,7 @@ module.exports = {
           statuz: statuz,
           name: name,
           password: password,
-          refferedBy : referal,
+          refferedBy: referal,
         });
         const preUserId = usedata._id;
         const userData = await Wallet.findOne({ userId: referal });
@@ -134,12 +135,87 @@ module.exports = {
             { userId: referal },
             {
               $inc: { wallet: 100 },
-              $push: { invited: preUserId }
+              $push: { invited: preUserId },
             }
           );
-          
+          const walletHistory = await WalletHistory.findOne({
+            userId: referal,
+          });
+          if (walletHistory !== null) {
+            const reason = "Referal Bonus";
+            const type = "credit";
+            const date = new Date()
+            await WalletHistory.updateMany(
+              { userId: referal,
+                $push: {
+                  refund: {
+                    amount: 100,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                },
+              }
+            );
+          } else {
+            const reason = "Referal Bonus";
+            const type = "credit";
+            const date = new Date()
+            await WalletHistory.create(
+              { userId: referal ,
+                refund: [
+                  {
+                    amount: 100,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                ],
+              }
+            );
+          }
         } else {
-          await Wallet.create({ userId: referal, wallet: 100, invited: [preUserId] });
+          const walletHistory = await WalletHistory.findOne({
+            userId: referal,
+          });
+          if (walletHistory !== null) {
+            const reason = "Referal Bonus";
+            const type = "credit";
+            const date = new Date()
+            await WalletHistory.updateMany(
+              { userId: referal,
+                $push: {
+                  refund: {
+                    amount: 100,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                },
+              }
+            );
+          } else {
+            const reason = "Referal Bonus";
+            const type = "credit";
+            const date = new Date()
+            await WalletHistory.create(
+              { userId: referal ,
+                refund: [
+                  {
+                    amount: 100,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                ],
+              }
+            );
+          }
+          await Wallet.create({
+            userId: referal,
+            wallet: 100,
+            invited: [preUserId],
+          });
         }
         res.redirect("/");
       } else {

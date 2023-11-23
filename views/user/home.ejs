@@ -1,5 +1,5 @@
 <%- include('../layout/header.ejs') -%>
-    <%-include('../layout/user/header.ejs')-%>
+    <%- include('../layout/user/header.ejs') -%>
 
         <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
 
@@ -110,28 +110,33 @@
                                                         <%=x.ProductName%>
                                                     </h5>
                                                     <div>
-                                                        <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>/-</span>
+                                                        <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>
+                                                                /-</span>
                                                         <span class="original-price">₹<%=x.Price%>/-</span>
                                                     </div>
                                                     <div class="mt-2">
-                                                        <%if(x.AvailableQuantity == 0) {%>
+                                                        <%if(x.AvailableQuantity==0) {%>
                                                             <a class="btn btn1" href="#">Notify Me</a>
                                                             <%}else {%>
-                                                                <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
+                                                                <a class="btn btn1"
+                                                                    onclick="addToCart('<%=x._id%>')">Add To
                                                                     Cart</a>
                                                                 <%} %>
-                                                        <% if(x.inWish) {%>
-                                                            <a onclick="removeFromWish('<%=x._id%>')"
-                                                                class="btn btn1"> <i
-                                                                    class="fa fa-heart text-danger"></i> </a>
-                                                            <%}else {%>
-                                                                <a onclick="addToWishlist('<%=x._id%>')"
-                                                                    class="btn btn1"> <i class="fa fa-heart"></i>
-                                                                </a>
-                                                                <%}%>
-                                                                    <a href="/productspecs/<%=x._id%>" class="btn btn1">
-                                                                        View </a>
-                                                                    </frm>
+                                                                    <% if(x.inWish) {%>
+                                                                        <a onclick="removeFromWish('<%=x._id%>')"
+                                                                            class="btn btn1"> <i
+                                                                                class="fa fa-heart text-danger"></i>
+                                                                        </a>
+                                                                        <%}else {%>
+                                                                            <a onclick="addToWishlist('<%=x._id%>')"
+                                                                                class="btn btn1"> <i
+                                                                                    class="fa fa-heart"></i>
+                                                                            </a>
+                                                                            <%}%>
+                                                                                <a href="/productspecs/<%=x._id%>"
+                                                                                    class="btn btn1">
+                                                                                    View </a>
+                                                                                </frm>
                                                     </div>
                                                 </div>
                             </div>
@@ -147,7 +152,7 @@
 
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <%banner.forEach((x) => {%>
+                <%banner.forEach((x)=> {%>
                     <div class="carousel-item active">
                         <img src="/banner-images/cropped_images/<%= x.image %>" class="d-block w-100" alt="Banner1">
                     </div>
@@ -192,16 +197,16 @@
                                                         <%=x.ProductName%>
                                                     </h5>
                                                     <div>
-                                                        <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>%>/-</span>
+                                                        <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>
+                                                                %>/-</span>
                                                         <span class="original-price">₹<%=x.Price%>/-</span>
                                                     </div>
                                                     <div class="mt-2">
                                                         <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
                                                             Cart</a>
                                                         <% if(x.inWish) {%>
-                                                            <a onclick="removeFromWish('<%=x._id%>')"
-                                                                class="btn btn1"> <i
-                                                                    class="fa fa-heart text-danger"></i> </a>
+                                                            <a onclick="removeFromWish('<%=x._id%>')" class="btn btn1">
+                                                                <i class="fa fa-heart text-danger"></i> </a>
                                                             <%}else {%>
                                                                 <a onclick="addToWishlist('<%=x._id%>')"
                                                                     class="btn btn1"> <i class="fa fa-heart"></i>
@@ -221,6 +226,7 @@
         </div>
 
         <!-- ----------------------------------------------------------------Footer---------------------------------------------------------------- -->
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <script>
 
             function addToCart(productId) {
@@ -231,15 +237,19 @@
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Item added to cart',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function () {
-                                // You can add a callback function here if needed
-                                console.log('Response from the server:', response);
-                            });
+                            Toastify({
+                                text: 'Item added to cart',
+                                duration: 1500,
+                                gravity: 'top',
+                                position: 'center',
+                                backgroundColor: 'black',
+                                style: {
+                                    borderRadius: '10px',
+                                },
+                            }).showToast()
+                                .then(function () {
+                                    console.log('Response from the server:', response);
+                                });
                         }
                     },
                     error: function (xhr, status, error) {
@@ -260,25 +270,34 @@
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Item added to wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                                
-                            }).then(function () {
-                                location.reload();
+                            window.location.reload();
+                            Toastify({
+                                text: 'Item added to wishlist',
+                                duration: 1500,
+                                gravity: 'top',
+                                position: 'center',
+                                backgroundColor: 'black',
+                                style: {
+                                    borderRadius: '10px',
+                                },
+                            }).showToast().then(function () {
                                 console.log('Response from the server:', response);
                             });
-                           
+
                         }
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops, something went wrong!'
-                        });
+                        Toastify({
+                            text: 'oops!Something went wrong',
+                            duration: 1500,
+                            gravity: 'top',
+                            position: 'center',
+                            backgroundColor: 'red',
+                            style: {
+                                borderRadius: '10px',
+                            },
+                        }).showToast()
                     }
                 });
             }
@@ -292,49 +311,36 @@
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Item removed from wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function () {
-                                location.reload();
-                                console.log('Response from the server:', response);
-                            });
+                            window.location.reload();
+                            Toastify({
+                                text: 'Item removed from wishlist',
+                                duration: 1500,
+                                gravity: 'top',
+                                position: 'center',
+                                backgroundColor: 'black',
+                                style: {
+                                    borderRadius: '10px',
+                                },
+                            }).showToast()
+                                .then(function () {
+                                    console.log('Response from the server:', response);
+                                });
                         }
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops, something went wrong!'
-                        });
+                        Toastify({
+                            text: 'oops!Something went wrong',
+                            duration: 1500,
+                            gravity: 'top',
+                            position: 'center',
+                            backgroundColor: 'red',
+                            style: {
+                                borderRadius: '10px',
+                            },
+                        }).showToast()
                     }
                 });
-            }
-
-            function searchProducts() {
-                const searchInput = document.getElementById("searchInput").value;
-                fetch(`/search?query=${searchInput}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        displaySearchResults(data);
-                    });
-            }
-
-            function displaySearchResults(results) {
-                const searchResults = document.getElementById("searchResults");
-                searchResults.innerHTML = '';
-
-                if (results.length === 0) {
-                    searchResults.textContent = "No products found.";
-                } else {
-                    results.forEach(product => {
-                        const productElement = document.createElement("div");
-                        productElement.textContent = product.name;
-                        searchResults.appendChild(productElement);
-                    });
-                }
             }
 
         </script>

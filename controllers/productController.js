@@ -255,7 +255,6 @@ module.exports = {
       const formattedDate = `${year}-${month}-${day}`;
 
       if (expiryDate > formattedDate) {
-        
         const proData = await products.updateMany(
           { Category: catagory },
           {
@@ -329,6 +328,80 @@ module.exports = {
       res.redirect("/offers");
     } catch (error) {
       console.log(error);
+    }
+  },
+  deleteSingleImage: async (req, res) => {
+    try {
+      const productId = req.params.id;
+      const imageIndex = req.params.index;
+      console.log(productId, imageIndex, "---------------->");
+      const product = await products.findById(productId);
+      console.log(product, "product");
+      if (!product) {
+        return res.status(404).send("Product not found");
+      }
+      const update = await products.updateOne(
+        { _id: productId },
+        { $pull: { images: imageIndex } }
+      );
+      res.json({
+        success: true,
+      });
+    } catch (error) {
+      console.error("Error while deleting the product image:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  },
+  addCategoryOffer: async (req, res) => {
+    try {
+      const { Catagory, discount, expiryDate } = req.body;
+      const newOffer = await offer.create({
+        Catagory: Catagory,
+        discount: discount,
+        expiryDate: expiryDate,
+        Status: "Active",
+      });
+
+      const fetchCategoryId = await Category.findOne({
+        catagoryName: Catagory,
+      });
+
+      if (!fetchCategoryId) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+      const categoryId = fetchCategoryId._id;
+      const productsBeforeOffer = await products.find({
+        catagoryName: Catagory,
+      });
+
+      for (const product of productsBeforeOffer) {
+        const discountPrice = product.DiscountAmount;
+
+        await products.updateOne(
+          { _id: product._id },
+          {
+            $set: {
+              beforeOffer: discountPrice,
+              IsInCategoryOffer: true,
+              categoryOffer: { offerPercentage: discount },
+            },
+          }
+        );
+      }
+      const offerMultiplier = 1 - discount / 100;
+      const productData = await products.updateMany(
+        { Category: Catagory },
+        {
+          $mul: { DiscountAmount: offerMultiplier },
+        }
+      );
+      res.redirect("/offers");
+      // res
+      //   .status(201)
+      //   .json({ success: true, message: "Category offer added successfully" });
+    } catch (error) {
+      console.error("Error while adding the category offer:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   },
 };

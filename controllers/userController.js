@@ -39,7 +39,6 @@ module.exports = {
           }
         });
         const banner = await Banner.find().limit(3);
-        console.log(banner,'---------');
         const FlagMob = await products
           .find({ Category: "FLAGSHIP MOBILES" })
           .limit(8);

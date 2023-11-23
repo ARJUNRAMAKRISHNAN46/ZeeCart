@@ -58,6 +58,8 @@ const {
   deleteOffer,
   editOffer,
   postEditOffer,
+  deleteSingleImage,
+  addCategoryOffer,
 } = require("../controllers/productController");
 
 //<--------------Catagory---------------->
@@ -70,7 +72,7 @@ routers.get("/deletecatagory/:id", verifyAdmin, deleteCatagory);
 
 //<----------------Offer------------------>
 routers.get("/offers", verifyAdmin, admin_offers);
-routers.post("/addOffer", verifyAdmin, addOffer);
+routers.post("/addOffer", verifyAdmin, addCategoryOffer);
 routers.get("/deleteOffer/:id", verifyAdmin, deleteOffer);
 routers.get("/editOffer/:id", verifyAdmin, editOffer);
 routers.post("/postEditOffer", verifyAdmin, postEditOffer);
@@ -88,6 +90,7 @@ routers.get("/products", verifyAdmin, admin_product);
 routers.get("/getproduct", verifyAdmin, getAddProduct);
 routers.get("/blockproduct/:id", verifyAdmin, product_Blocking);
 routers.get("/editProduct/:id", verifyAdmin, getEditProduct);
+routers.get('/deleteSingleImage/:id/:index',verifyAdmin,deleteSingleImage);
 
 //<-----------------Orders------------------>
 routers.get("/orders", verifyAdmin, admin_orders);
@@ -114,7 +117,7 @@ routers.get("/latestOrders", verifyAdmin, getSalesOrder);
 routers.post("/downloadSalesReport", verifyAdmin, getDownloadSalesReport);
 routers.get("/admin", verifyAdmin, admin_admin);
 
-//<-----------------Offers------------------>
+//<-----------------Coupon------------------>
 routers.get("/coupon", verifyAdmin, admin_coupon);
 routers.post("/addCoupon", verifyAdmin, addCoupon);
 
