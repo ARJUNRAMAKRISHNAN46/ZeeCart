@@ -77,7 +77,7 @@
                             <span class="msg" id="err1"></span>
                             <div class="form-group">
                                 <label for="couponCode">Coupon Code</label>
-                                <input type="text" class="form-control" id="couponCode" name="couponCode" required>
+                                <input type="text" class="form-control" id="couponCode" name="couponCode" onclick="checkCouponCode()" required>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
@@ -103,7 +103,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save Coupon</button>
+                                <button type="submit" id="signupButton" class="btn btn-primary">Save Coupon</button>
                             </div>
                         </form>
                     </div>
@@ -153,6 +153,8 @@
                 minPurchasetAmountInput.addEventListener('input', updateDiscountValidation);
                 discountAmountInput.addEventListener('input', updateDiscountValidation);
 
+
+
                 function updateDiscountValidation() {
                     const minPurchasetAmount = parseFloat(minPurchasetAmountInput.value) || 0;
                     const discountAmount = parseFloat(discountAmountInput.value) || 0;
@@ -167,6 +169,23 @@
                 }
             });
 
+            function checkCouponCode() {
+                var codePattern = /^[A-Z0-9#]{8}$/;
+                var couponCode = document.getElementById("couponCode").value;
+                var isValid = codePattern.test(couponCode);
+                var msg = document.getElementById("err1");
+                var signupButton = document.getElementById("signupButton");
+
+                if (isValid) {
+                    msg.innerHTML = "";
+                    signupButton.disabled = false;
+                } else {
+                    msg.innerHTML = "Enter a valid coupon code";
+                    signupButton.disabled = true;
+                }
+
+
+            }
 
         </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -14,7 +14,7 @@
                 </div><br>
                 <input type="hidden" name="status" value="Active">
                 <div class="d-flex justify-content-center align-items-center">
-                    <select class="" id="category" name="Category" required
+                    <select class="" id="category" name="category" required
                         style="width:38%;height: 35px;border-radius: 5px;margin-right: 4%;">
                         <option value="<%=product.Category%>" selected disabled>Select a category</option>
                         <option>BUDGET SMARTPHONES</option>
@@ -23,7 +23,7 @@
                         <option>IOS SMARTPHONES</option>
                         <option>GAMING SMARTPHONES</option>
                     </select>
-                    <select name="BrandName" class="" id="brand" required
+                    <select name="brandName" class="" id="brand" required
                         style="width: 38%;height: 35px;border-radius: 5px;">
                         <option value="<%=product.BrandName%>" selected disabled>Select a Brand</option>
                         <option>SAMSUNG</option>
@@ -70,7 +70,8 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <input type="number" name="Price" placeholder="Enter the price" value="<%=product.Price%>"
                         style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
-                    <input type="number" name="DiscountAmount" placeholder="Discount Amount" value="<%=product.DiscountAmount%>"
+                    <input type="number" name="DiscountAmount" placeholder="Discount Amount"
+                        value="<%=product.DiscountAmount%>"
                         style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
                     <input type="number" name="AvailableQuantity" placeholder="Stock" id="quantity"
                         value="<%=product.AvailableQuantity%>"
@@ -98,22 +99,28 @@
                     <div style="width: 100px;height: 100px;margin-right: 4%;margin-left: 4%;">
                         <img id="imagePreview1" src="/product-images/<%=product.images[0]%>" alt="Image Preview 1"
                             style="max-width: 100px; max-height: 100px;">
+                        <button type="button" onclick="deleteImage('<%=product._id%>','<%=product.images[0]%>')"
+                            class="btn btn-danger text-white">Delete</button>
                     </div>
                     <div style="width: 100px;height: 100px;margin-right: 4%;">
                         <img id="imagePreview2" src="/product-images/<%=product.images[1]%>" alt="Image Preview 2"
                             style="max-width: 100px; max-height: 100px;">
+                        <button type="button" onclick="deleteImage('<%=product._id%>','<%=product.images[1]%>')" class="btn btn-danger text-white">Delete</button>
                     </div>
                     <div style="width: 100px;height: 100px;margin-right: 4%;">
                         <img id="imagePreview3" src="/product-images/<%=product.images[2]%>" alt="Image Preview 3"
                             style="max-width: 100px; max-height: 100px;">
+                        <button type="button" onclick="deleteImage('<%=product._id%>','<%=product.images[2]%>')" class="btn btn-danger text-white">Delete</button>
                     </div>
                     <div style="width: 100px;height: 100px;">
                         <img id="imagePreview4" src="/product-images/<%=product.images[3]%>" alt="Image Preview 4"
                             style="max-width: 100px; max-height: 100px;">
+                        <button type="button" onclick="deleteImage('<%=product._id%>','<%=product.images[3]%>')" class="btn btn-danger text-white">Delete</button>
                     </div>
                 </div>
+                <br><br>
                 <div class="d-flex justify-content-center align-items-center">
-                    <input name="tags" placeholder="Tags" required value="<%=product.Tags%>"
+                    <input name="Tags" placeholder="Tags" required value="<%=product.Tags%>"
                         style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
@@ -137,31 +144,66 @@
 
 
         document.addEventListener('DOMContentLoaded', function () {
-    const priceInput = document.querySelector('input[name="Price"]');
-    const discountInput = document.querySelector('input[name="DiscountAmount"]');
-    const quantityInput = document.querySelector('input[name="AvailableQuantity"]');
-    const errMessage = document.getElementById('err1');
+            const priceInput = document.querySelector('input[name="Price"]');
+            const discountInput = document.querySelector('input[name="DiscountAmount"]');
+            const quantityInput = document.querySelector('input[name="AvailableQuantity"]');
+            const errMessage = document.getElementById('err1');
 
-    priceInput.addEventListener('input', updateDiscountValidation);
-    discountInput.addEventListener('input', updateDiscountValidation);
-    quantityInput.addEventListener('input', updateDiscountValidation);
+            priceInput.addEventListener('input', updateDiscountValidation);
+            discountInput.addEventListener('input', updateDiscountValidation);
+            quantityInput.addEventListener('input', updateDiscountValidation);
 
-    function updateDiscountValidation() {
-        const priceValue = parseFloat(priceInput.value) || 0;
-        const discountValue = parseFloat(discountInput.value) || 0;
-        const quantityValue = parseFloat(quantityInput.value) || 0;
+            function updateDiscountValidation() {
+                const priceValue = parseFloat(priceInput.value) || 0;
+                const discountValue = parseFloat(discountInput.value) || 0;
+                const quantityValue = parseFloat(quantityInput.value) || 0;
 
-        if (discountValue > priceValue) {
-            errMessage.textContent = 'Discount cannot be greater than the price.';
-        } else if (discountValue < 0) {
-            errMessage.textContent = 'Discount cannot be a negative value.';
-        } else if (quantityValue < 0) {
-            errMessage.textContent = 'Quantity cannot be a negative value.';
+                if (discountValue > priceValue) {
+                    errMessage.textContent = 'Discount cannot be greater than the price.';
+                } else if (discountValue < 0) {
+                    errMessage.textContent = 'Discount cannot be a negative value.';
+                } else if (quantityValue < 0) {
+                    errMessage.textContent = 'Quantity cannot be a negative value.';
+                } else {
+                    errMessage.textContent = '';
+                }
+            }
+        });
+
+        function deleteImage(productId, Index) {
+    fetch(`/deleteSingleImage/${productId}/${Index}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data, '------------------->');
+        if (data.success) {
+            alert('Image deleted successfully');
+            window.location.reload();
         } else {
-            errMessage.textContent = '';
+            alert('Oops!! Something went wrong');
         }
-    }
-});
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error occurred while deleting the image');
+    });
+}
+
+        // function deleteImage(productId, Index) {
+        //     $.ajax({
+        //         url: `/deleteSingleImage/${productId}/${Index}`,
+        //         method: 'GET',
+        //         success: function (response) {
+        //             console.log(response,'------------------->');
+        //             if(response.success) {
+        //                 alert('image deleted successfully');
+        //             }else{
+        //                 alert('oops!!something went wrong');
+        //             }
+        //         }
+        //     })
+        // }
 
     </script>
     <%- include('../layout/footer.ejs') %>

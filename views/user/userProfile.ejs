@@ -1,11 +1,11 @@
-<%-include('../layout/user/header.ejs')-%>
+<%- include('../layout/user/header.ejs') -%>
     <%- include('../layout/header.ejs') -%>
 
         <section style="background-color: #eee;">
             <div class="container py-5">
                 <div class="row">
                     <div class="col-8">
-                        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">User</a></li>
@@ -14,19 +14,21 @@
                         </nav>
                     </div>
                     <div class="col-4">
-                        <div class="bg-light rounded-3 p-2 mb-4 d-flex justify-content-center text-secondary">
-                           <%if(userName) {%>
-                            <h5> Reffered By : <b><%=userName%></b></h5>
-                            <%}else{%>
-                                <h5>No one Reffered You</h5>
-                                <%}%>
+                        <div class="bg-light rounded-3 p-2 mb-4 d-flex justify-content-center text-secondary shadow">
+                            <%if(userName) {%>
+                                <h5> Reffered By : <b>
+                                        <%=userName%>
+                                    </b></h5>
+                                <%}else{%>
+                                    <h5>No one Reffered You</h5>
+                                    <%}%>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="card mb-4">
-                            <div class="card-body text-center">
+                            <div class="card-body text-center shadow">
                                 <div class="d-flex justify-content-center">
                                     <img src="/assets/it's me croped.png" alt="avatar" class="rounded-circle img-fluid"
                                         style="width: 150px;">
@@ -83,40 +85,32 @@
                                 <%}%>
                         </div>
                         <div class="card mb-4 mb-lg-0 bg-success text-white">
-                            <div class="p-2 pt-3 d-flex justify-content-center">
+                            <div class="p-1 pt-2 d-flex justify-content-center">
                                 <% if(wallet) {%>
-                                    <h5><b>Wallet : ₹<%=wallet?.wallet%>/-</b></h5>
+                                    <h5>Wallet : ₹<%=wallet?.wallet%>/-</h5>
                                     <%}else{%>
-                                        <h5><b>Wallet : ₹0/-</b></h5>
+                                        <h5>Wallet : ₹0/-</h5>
                                         <%}%>
                             </div>
+                        </div>
+                        <div class="card mb-4 mb-lg-0 shadow">
+                            <a href="/walletHystory?page=1" class="btn border border-success rounded-3 mt-1">
+                                <h5 class="text-success mt-2">Wallet Transaction</h5>
+                            </a>
                         </div>
                         <br>
                         <form action="/forgotpass" method="get">
                             <div class="card mb-4 mb-lg-0">
-                                <a href="/myCoupons" class="btn border border-danger rounded-3 mt-1">coupons</a>
-                                <a href="/addAddress" class="btn border border-danger rounded-3 mt-1" type="button">Add
-                                        Address</a>
-                                <button type="submit" class="btn border border-danger rounded-3 mt-1"><b>Change
+                                <a href="/myCoupons" class="btn border border-danger rounded-3 mt-1 shadow">coupons</a>
+                                <a href="/addAddress" class="btn border border-danger rounded-3 mt-1 shadow"
+                                    type="button">Add
+                                    Address</a>
+                                <button type="submit" class="btn border border-danger rounded-3 mt-1 shadow"><b>Change
                                         Password</b></button>
                                 <button type="button" id="copyReferralLink"
-                                    class="btn border border-danger mt-1 text-danger"><b>Invite
+                                    class="btn border border-danger mt-1 text-danger shadow"><b>Invite
                                         Friends</b><br>Click Here For Copy Referral Link
                                 </button>
-                                <div class="border border-danger mt-1">
-                                    <%if(userNames.length > 0) {%>
-                                        <h5 class="bg-secondary text-center text-white p-1">Invited Friends</h5>
-                                    <ol>
-                                        <%let i = 1;%>
-                                        <% userNames.forEach((x) =>{%>
-                                            <li class="d-flex justify-content-between"><%=i++%> . Name : <%=x%> <span class="text-success mx-4">+₹100</span></li>
-                                            <%})%>
-                                        
-                                      </ol>
-                                        <%}else{%>
-                                            <h5 class="text-center">No Invitation yet......!</h5>
-                                            <%} %>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -126,7 +120,7 @@
                             <div class="card-body">
                                 <hr>
                                 <%data.forEach((x)=> {%>
-                                    <div class="row">
+                                    <div class="row shadow">
                                         <div class="col-sm-3">
                                             <p class="mb-0">Address <%=++i%>
                                             </p>
@@ -173,232 +167,166 @@
                                 </ul>
                             </nav>
                         </div>
-                        <!-- <div id="myModal" class="modal">
-                            <form action="/addAddress" method="post">
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-12 col-md-6 my-5"
-                                        style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
-                                        <br>
-                                        <span class="close" id="closeModal">&times;</span>
-                                        <div class="d-flex bg-secondary justify-content-center align-items-center"
-                                            style="border-radius: 10px 10px 0 0 ;">
-                                            <h1 style="color: rgb(255, 255, 255);">Add Address</h1>
-                                        </div>
-                                        <br>
-                                        <span id="nameError"></span>
-                                        <input type="hidden" value="<%=userData.id%>">
-                                        <div class="d-flex justify-content-center">
-                                            <input type="text" name="name" placeholder="Name"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
-                                                required></input>
-                                            <input type="number" name="mobile" placeholder="Mobile"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;"
-                                                required></input>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex justify-content-center">
-                                            <input type="text" name="email" placeholder="Email"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
-                                                required></input>
-                                            <input type="number" name="pincode" placeholder="Pincode"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;"
-                                                required></input>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <input name="address" placeholder="Address"
-                                                style="width: 100%;height: 100px;border-radius: 5px;padding-left: 5px;"
-                                                required></input>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex justify-content-center">
-                                            <input type="text" name="locality" placeholder="Locality"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
-                                                required></input>
-                                            <input type="text" name="city" placeholder="City"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;"
-                                                required></input>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex justify-content-center">
-                                            <input type="text" name="district" placeholder="District"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
-                                                required></input>
-                                            <input type="text" name="state" placeholder="State"
-                                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;"
-                                                required></input>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-secondary" style="color: white;">Add
-                                                Address</button>
-                                        </div>
-                                        <br>
-                                    </div>
-                                </div>
-                            </form>
-                        </div> -->
                     </div>
                 </div>
             </div>
         </section>
+                <script>
+                    $(document).ready(function () {
+                        $("#profileModalOpener").click(function () {
+                            $("#profileModal").modal('show');
+                        });
+                    });
+                </script>
 
-        <script>
-            $(document).ready(function () {
-                $("#profileModalOpener").click(function () {
-                    $("#profileModal").modal('show');
-                });
-            });
-        </script>
+                <script>
+                    function copyToClipboard(text) {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = text;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                    }
+                    document.getElementById('copyReferralLink').addEventListener('click', function () {
+                        const referralLink = 'http://localhost:4000/send-otp?ref=<%=userData._id%>';
+                        copyToClipboard(referralLink);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Referral link copied to clipboard!',
+                            showConfirmButton: false,
+                            timer: 1500, // You can adjust the timer as needed
+                        });
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const closeModalButton = document.getElementById('closeModal');
+                        const form = document.querySelector('form');
+                        const nameInput = document.querySelector('input[name="name"]');
+                        const mobileInput = document.querySelector('input[name="mobile"]');
+                        const emailInput = document.querySelector('input[name="email"]');
+                        const pincodeInput = document.querySelector('input[name="pincode"]');
+                        const addressInput = document.querySelector('input[name="address"]');
+                        const localityInput = document.querySelector('input[name="locality"]');
+                        const cityInput = document.querySelector('input[name="city"]');
+                        const districtInput = document.querySelector('input[name="district"]');
+                        const stateInput = document.querySelector('input[name="state"]');
 
-        <script>
-            function copyToClipboard(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-            }
-            document.getElementById('copyReferralLink').addEventListener('click', function () {
-                const referralLink = 'http://localhost:4000/send-otp?ref=<%=userData._id%>';
-                copyToClipboard(referralLink);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Referral link copied to clipboard!',
-                    showConfirmButton: false,
-                    timer: 1500, // You can adjust the timer as needed
-                });
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const closeModalButton = document.getElementById('closeModal');
-                const form = document.querySelector('form');
-                const nameInput = document.querySelector('input[name="name"]');
-                const mobileInput = document.querySelector('input[name="mobile"]');
-                const emailInput = document.querySelector('input[name="email"]');
-                const pincodeInput = document.querySelector('input[name="pincode"]');
-                const addressInput = document.querySelector('input[name="address"]');
-                const localityInput = document.querySelector('input[name="locality"]');
-                const cityInput = document.querySelector('input[name="city"]');
-                const districtInput = document.querySelector('input[name="district"]');
-                const stateInput = document.querySelector('input[name="state"]');
-        
-                const nameError = document.getElementById('nameError');
-                const mobileError = document.getElementById('mobileError');
-                const emailError = document.getElementById('emailError');
-                const pincodeError = document.getElementById('pincodeError');
-                const addressError = document.getElementById('addressError');
-                const localityError = document.getElementById('localityError');
-                const cityError = document.getElementById('cityError');
-                const districtError = document.getElementById('districtError');
-                const stateError = document.getElementById('stateError');
-        
-                form.addEventListener('submit', function (event) {
-                    // Prevent form submission to check validations first
-                    event.preventDefault();
-                    
-                    // Validate name (not only spaces)
-                    const name = nameInput.value.trim();
-                    if (!name) {
-                        console.log('true');
-                        nameError.textContent = 'Please enter a valid name.';
-                    } else {
-                        console.log('false');
-                        nameError.textContent = '';
-                    }
-        
-                    // Validate mobile number
-                    const mobile = mobileInput.value.trim();
-                    if (!/^\d{10}$/.test(mobile)) {
-                        mobileError.textContent = 'Please enter a valid 10-digit mobile number.';
-                    } else {
-                        mobileError.textContent = '';
-                    }
-        
-                    // Validate email
-                    const email = emailInput.value.trim();
-                    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-                        emailError.textContent = 'Please enter a valid email address.';
-                    } else {
-                        emailError.textContent = '';
-                    }
-        
-                    // Validate pincode (6 digits)
-                    const pincode = pincodeInput.value.trim();
-                    if (!/^\d{6}$/.test(pincode)) {
-                        pincodeError.textContent = 'Please enter a valid 6-digit pincode.';
-                    } else {
-                        pincodeError.textContent = '';
-                    }
-        
-                    // Validate address
-                    const address = addressInput.value.trim();
-                    if (!address) {
-                        addressError.textContent = 'Please enter a valid address.';
-                    } else {
-                        addressError.textContent = '';
-                    }
-        
-                    // Validate locality
-                    const locality = localityInput.value.trim();
-                    if (!locality) {
-                        localityError.textContent = 'Please enter a valid locality.';
-                    } else {
-                        localityError.textContent = '';
-                    }
-        
-                    // Validate city
-                    const city = cityInput.value.trim();
-                    if (!city) {
-                        cityError.textContent = 'Please enter a valid city.';
-                    } else {
-                        cityError.textContent = '';
-                    }
-        
-                    // Validate district
-                    const district = districtInput.value.trim();
-                    if (!district) {
-                        districtError.textContent = 'Please enter a valid district.';
-                    } else {
-                        districtError.textContent = '';
-                    }
-        
-                    // Validate state
-                    const state = stateInput.value.trim();
-                    if (!state) {
-                        stateError.textContent = 'Please enter a valid state.';
-                    } else {
-                        stateError.textContent = '';
-                    }
-        
-                    // If any error messages exist, stop form submission
-                    if (nameError.textContent || mobileError.textContent || emailError.textContent ||
-                        pincodeError.textContent || addressError.textContent || localityError.textContent ||
-                        cityError.textContent || districtError.textContent || stateError.textContent) {
-                        return;
-                    }
-        
-                    // If all validations pass, submit the form
-                    form.submit();
-                });
-        
-                closeModalButton.addEventListener('click', function () {
-                    // Clear all error messages when closing the modal
-                    nameError.textContent = '';
-                    mobileError.textContent = '';
-                    emailError.textContent = '';
-                    pincodeError.textContent = '';
-                    addressError.textContent = '';
-                    localityError.textContent = '';
-                    cityError.textContent = '';
-                    districtError.textContent = '';
-                    stateError.textContent = '';
-                });
-            });
-        </script>
-        
+                        const nameError = document.getElementById('nameError');
+                        const mobileError = document.getElementById('mobileError');
+                        const emailError = document.getElementById('emailError');
+                        const pincodeError = document.getElementById('pincodeError');
+                        const addressError = document.getElementById('addressError');
+                        const localityError = document.getElementById('localityError');
+                        const cityError = document.getElementById('cityError');
+                        const districtError = document.getElementById('districtError');
+                        const stateError = document.getElementById('stateError');
+
+                        form.addEventListener('submit', function (event) {
+                            // Prevent form submission to check validations first
+                            event.preventDefault();
+
+                            // Validate name (not only spaces)
+                            const name = nameInput.value.trim();
+                            if (!name) {
+                                console.log('true');
+                                nameError.textContent = 'Please enter a valid name.';
+                            } else {
+                                console.log('false');
+                                nameError.textContent = '';
+                            }
+
+                            // Validate mobile number
+                            const mobile = mobileInput.value.trim();
+                            if (!/^\d{10}$/.test(mobile)) {
+                                mobileError.textContent = 'Please enter a valid 10-digit mobile number.';
+                            } else {
+                                mobileError.textContent = '';
+                            }
+
+                            // Validate email
+                            const email = emailInput.value.trim();
+                            if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                                emailError.textContent = 'Please enter a valid email address.';
+                            } else {
+                                emailError.textContent = '';
+                            }
+
+                            // Validate pincode (6 digits)
+                            const pincode = pincodeInput.value.trim();
+                            if (!/^\d{6}$/.test(pincode)) {
+                                pincodeError.textContent = 'Please enter a valid 6-digit pincode.';
+                            } else {
+                                pincodeError.textContent = '';
+                            }
+
+                            // Validate address
+                            const address = addressInput.value.trim();
+                            if (!address) {
+                                addressError.textContent = 'Please enter a valid address.';
+                            } else {
+                                addressError.textContent = '';
+                            }
+
+                            // Validate locality
+                            const locality = localityInput.value.trim();
+                            if (!locality) {
+                                localityError.textContent = 'Please enter a valid locality.';
+                            } else {
+                                localityError.textContent = '';
+                            }
+
+                            // Validate city
+                            const city = cityInput.value.trim();
+                            if (!city) {
+                                cityError.textContent = 'Please enter a valid city.';
+                            } else {
+                                cityError.textContent = '';
+                            }
+
+                            // Validate district
+                            const district = districtInput.value.trim();
+                            if (!district) {
+                                districtError.textContent = 'Please enter a valid district.';
+                            } else {
+                                districtError.textContent = '';
+                            }
+
+                            // Validate state
+                            const state = stateInput.value.trim();
+                            if (!state) {
+                                stateError.textContent = 'Please enter a valid state.';
+                            } else {
+                                stateError.textContent = '';
+                            }
+
+                            // If any error messages exist, stop form submission
+                            if (nameError.textContent || mobileError.textContent || emailError.textContent ||
+                                pincodeError.textContent || addressError.textContent || localityError.textContent ||
+                                cityError.textContent || districtError.textContent || stateError.textContent) {
+                                return;
+                            }
+
+                            // If all validations pass, submit the form
+                            form.submit();
+                        });
+
+                        closeModalButton.addEventListener('click', function () {
+                            // Clear all error messages when closing the modal
+                            nameError.textContent = '';
+                            mobileError.textContent = '';
+                            emailError.textContent = '';
+                            pincodeError.textContent = '';
+                            addressError.textContent = '';
+                            localityError.textContent = '';
+                            cityError.textContent = '';
+                            districtError.textContent = '';
+                            stateError.textContent = '';
+                        });
+                    });
+                </script>
 
 
-        <%- include('../layout/user/footer.ejs') -%>
+
+                <%- include('../layout/user/footer.ejs') -%>

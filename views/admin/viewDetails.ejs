@@ -133,7 +133,7 @@
         <div class="card">
             <div class="row d-flex justify-content-between px-3 top">
                 <div class="d-flex">
-                    <h5>Order ID <span class="text-primary font-weight-bold">#<%=orderId%></span></h5>
+                    <h5>Order ID :<span class="text-primary font-weight-bold"> ODR[<%=orderId%>]</span></h5>
                 </div>
 
                 <div class="d-flex">
@@ -155,11 +155,12 @@
                 </div>
                 <div class="d-flex flex-column text-sm-right">
                     <p class="mb-0"><strong>Order Date : <span>
-                                <%=orderDetails[0].OrderDate%>
+                                <%=orderDetails[0].orderDate%>
                             </span></strong></p>
                     <p class="mb-0"><strong>Expected Delivery : <span>
-                                <%=orderDetails[0].ExpectedDeliveryDate%>
+                                <%=orderDetails[0].expectedDeliveryDate%>
                             </span></strong></p><br>
+                            <h5 class="mb-0 text-success"><strong>Payment Method : <span><%=orderDetails[0].paymentMethod%></span></strong></h5><br>
                     <p class="mb-0"><strong>Name : <%=user.name%>
                             </strong></p>
                     <p class="mb-0"><strong>Email : <%=user.email%>

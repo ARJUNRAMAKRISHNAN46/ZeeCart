@@ -1,4 +1,4 @@
-<%-include('../layout/user/header.ejs')-%>
+<%- include('../layout/user/header.ejs') -%>
 
 
   <div class="container">
@@ -13,7 +13,7 @@
               </div>
               <%address.forEach((x)=> {%>
                 <br>
-                <div class="form-check border shadow px-5 py-3">
+                <div class="form-check border shadow px-5 py-5">
                   <input class="form-check-input" type="radio" name="id" value='<%=x._id%>' id="flexRadioDefault1"
                     checked>
                   <label class="form-check-label text-success" for="flexRadioDefault1" style="font-size: small;">
@@ -34,7 +34,7 @@
           <div class="card border shadow mt-5">
             <div class="card-body">
               <h5 class="card-title">Have You coupon ?</h5>
-              <span  class="bg-danger text-white" role="alert" id="errrorShow"></span>
+              <span class="bg-danger text-white" role="alert" id="errrorShow"></span>
               <div class="input-group mb-3">
                 <% if(couponCode){%>
                   <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon"
@@ -94,8 +94,11 @@
             <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
             <a onclick="makePayment('<%=address[0]._id%>')" type="button" id="rzp-button1"
               style="background: rgb(255, 254, 207);" class="btn btn-success text-dark"><b>Online Payment</b></a>
-            <button class="btn border-success mt-2" type="submit" style="background: rgb(213, 233, 255);" href="/confirmAddress"><b>Cash On
+            <button class="btn border-success mt-2" type="submit" style="background: rgb(213, 233, 255);"
+              href="/confirmAddress"><b>Cash On
                 Delivery</b></button>
+            <a onclick="walletPayment('<%=address[0]._id%>')" class="btn btn-success mt-2 text-dark"
+              style="background: rgb(191, 255, 190);"><b>Wallet Payment</b></a>
           </div>
 
         </div>
@@ -106,20 +109,44 @@
   <br>
   <br>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script>
 
     var orderId;
     var addressId;
+
+    function walletPayment(AddressId) {
+      addressId = AddressId;
+      $.ajax({
+        url: '/walletPayment',
+        method: 'GET',
+        success: function (response) {
+          if (response.success) {
+            Swal.fire('Payment Successful');
+            createOrder(addressId);
+            location.href = '/';
+          } else {
+            Toastify({
+              text: 'Insufficient Balence..! Choose another Payment Method',
+              duration: 1500,
+              gravity: 'top',
+              position: 'center',
+              backgroundColor: 'red',
+              style: {
+                borderRadius: '10px',
+              },
+            }).showToast();
+          }
+        }
+      })
+    }
+
     function createOrder(addressId) {
-      console.log('heree', addressId);
       $.ajax({
         url: `/addToOrders/${addressId}`,
         method: 'POST',
         success: function (response) {
           orderId = response.orderId
-          makePayment();
-          console.log("Response from the server:", response);
-          console.error('sdfghjkdfghjkdfghjk', response.orderId);
         }
       });
     }
@@ -132,7 +159,7 @@
         contentType: 'application/json',
         success: function (response) {
           const order = response.order
-          const  id = order.id;
+          const id = order.id;
           const total = order.amount;
           var options = {
             key: 'rzp_test_idoVEAKqeG0jwu',
@@ -163,7 +190,7 @@
 
     }
     function verifyPayment(payment, order) {
-      console.log('now in verifyPayment ',payment)
+      console.log('now in verifyPayment ', payment)
       $.ajax({
         url: '/verify-payment',
         data: {
@@ -201,10 +228,17 @@
             $('#totalPrice').text(response.grandTotal);
 
           } else {
-            $('#errrorShow').text(response.err);
-            setTimeout(() => {
-              $('#errrorShow').text('');
-            }, 3000);
+            // $('#errrorShow').text(response.err);
+            Toastify({
+              text: response.err,
+              duration: 1500,
+              gravity: 'top',
+              position: 'center',
+              backgroundColor: 'red',
+              style: {
+                borderRadius: '10px',
+              },
+            }).showToast();
             $('#discountAmount').text('');
           }
         },

@@ -8,6 +8,7 @@ const Wallet = require("../models/walletModel");
 const products = require("../models/productModel");
 const pdf = require("../util/salesReportPDF");
 const returnItem = require("../models/retunModel");
+const WalletHistory = require("../models/walletHistoryModel");
 
 module.exports = {
   //getting order page
@@ -33,7 +34,15 @@ module.exports = {
   //adding cart datas into orders
   addToOrders: async (req, res) => {
     try {
-      const grandTotal = req.session.totalPrice;
+      const Total = req.session.totalPrice;
+      const grandTotal = req.session.grandTotal;
+      console.log(Total,grandTotal);
+      let amount;
+      if(grandTotal) {
+        amount = grandTotal;
+      }else{
+        amount = Total;
+      }
       const addressId = req.params.id;
       const curAdd = await Address.findOne({ _id: addressId });
       const orderData = await Cart.findOne();
@@ -51,11 +60,11 @@ module.exports = {
           curAdd.state,
           curAdd.pincode,
         ],
-        OrderDate: currentDate.toDateString(),
-        ExpectedDeliveryDate: fourDaysLater.toDateString(),
+        orderDate: currentDate.toDateString(),
+        expectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "online",
         PaymentStatus: "Paid",
-        totalAmount: grandTotal,
+        totalAmount: amount,
         orderStatus: "Order Processed",
       });
 
@@ -160,8 +169,16 @@ module.exports = {
   },
   cashOnDelivery: async (req, res) => {
     try {
-      const grandTotal = req.session.totalPrice;
+      const grandTotal = req.session.grandTotal;
+      const Total = req.session.totalPrice;
       const addressId = req.body.id;
+      console.log(grandTotal,grandTotal);
+      let amount;
+      if(grandTotal) {
+        amount = grandTotal;
+      }else{
+        amount = Total;
+      }
       const curAdd = await Address.findOne({ _id: addressId });
       const orderData = await Cart.findOne();
       const currentDate = new Date();
@@ -178,8 +195,8 @@ module.exports = {
           curAdd.state,
           curAdd.pincode,
         ],
-        OrderDate: currentDate.toDateString(),
-        ExpectedDeliveryDate: fourDaysLater.toDateString(),
+        orderDate: currentDate.toDateString(),
+        expectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "COD",
         PaymentStatus: "Pending",
         totalAmount: grandTotal,
@@ -274,15 +291,83 @@ module.exports = {
       const data = await order.findByIdAndUpdate(orderId, {
         orderStatus: newStatus,
       });
-      const userId = data.userId
+      const userId = data.userId;
       const orderData = await order.findOne({ _id: orderId });
 
-      const amount = orderData.totalAmount;
+      let amount = orderData.totalAmount;
       const refund = await Wallet.findOne({ userId: userId });
       if (refund) {
+        const walletHistory = await WalletHistory.findOne({
+          userId: userId,
+        });
+        if (walletHistory !== null) {
+          const reason = "Refund for cancelling order";
+          const type = "credit";
+          const date = new Date();
+          await WalletHistory.updateMany({
+            userId: userId,
+            $push: {
+              refund: {
+                amount: amount,
+                reason: reason,
+                type: type,
+                date: date,
+              },
+            },
+          });
+        } else {
+          const reason = "Referal Bonus";
+          const type = "credit";
+          const date = new Date();
+          await WalletHistory.create({
+            userId: userId,
+            refund: [
+              {
+                amount: amount,
+                reason: reason,
+                type: type,
+                date: date,
+              },
+            ],
+          });
+        }
         const updateAmount = amount + refund.wallet;
         await Wallet.updateOne({ userId: userId, wallet: updateAmount });
       } else {
+        const walletHistory = await WalletHistory.findOne({
+          userId: userId,
+        });
+        if (walletHistory !== null) {
+          const reason = "Refund for cancelling order";
+          const type = "credit";
+          const date = new Date();
+          await WalletHistory.updateMany({
+            userId: userId,
+            $push: {
+              refund: {
+                amount: amount,
+                reason: reason,
+                type: type,
+                date: date,
+              },
+            },
+          });
+        } else {
+          const reason = "Referal Bonus";
+          const type = "credit";
+          const date = new Date();
+          await WalletHistory.create({
+            userId: userId,
+            refund: [
+              {
+                amount: amount,
+                reason: reason,
+                type: type,
+                date: date,
+              },
+            ],
+          });
+        }
         await Wallet.create({ userId: userId, wallet: amount });
       }
       res.redirect("/orders");
