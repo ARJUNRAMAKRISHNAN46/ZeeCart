@@ -16,7 +16,14 @@ const orderSchema = new Schema({
     },
   ],
   
-  address:Array,
+  address:{
+    houseName:String,
+    locality:String,
+    city:String,
+    district:String,
+    state:String,
+    pincode:String,
+  },
   orderDate: {
     type:Date,
     required : true,

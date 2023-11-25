@@ -26,6 +26,10 @@ module.exports = {
       if (orderDetails[0] == undefined) {
       } else {
       }
+      console.log(
+        orderDetails,
+        "------------------------------------------------------------------------------------------------------>"
+      );
       res.render("user/orders", { orderDetails, active });
     } catch (error) {
       console.log(error);
@@ -36,11 +40,11 @@ module.exports = {
     try {
       const Total = req.session.totalPrice;
       const grandTotal = req.session.grandTotal;
-      console.log(Total,grandTotal);
+      console.log(Total, grandTotal);
       let amount;
-      if(grandTotal) {
+      if (grandTotal) {
         amount = grandTotal;
-      }else{
+      } else {
         amount = Total;
       }
       const addressId = req.params.id;
@@ -52,14 +56,14 @@ module.exports = {
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
-        address: [
-          curAdd.address,
-          curAdd.locality,
-          curAdd.city,
-          curAdd.district,
-          curAdd.state,
-          curAdd.pincode,
-        ],
+        address: {
+          houseName: curAdd.houseName,
+          locality: curAdd.locality,
+          city: curAdd.city,
+          district: curAdd.district,
+          state: curAdd.state,
+          pincode: curAdd.pincode,
+        },
         orderDate: currentDate.toDateString(),
         expectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "online",
@@ -119,7 +123,7 @@ module.exports = {
       const dataCount = await order.find().count();
       const orderDetails = await order
         .find()
-        .sort({ OrderDate: -1 })
+        .sort({ orderDate: -1 })
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
       let i = (pageNum - 1) * perPage;
@@ -172,11 +176,11 @@ module.exports = {
       const grandTotal = req.session.grandTotal;
       const Total = req.session.totalPrice;
       const addressId = req.body.id;
-      console.log(grandTotal,grandTotal);
+      console.log(grandTotal, grandTotal);
       let amount;
-      if(grandTotal) {
+      if (grandTotal) {
         amount = grandTotal;
-      }else{
+      } else {
         amount = Total;
       }
       const curAdd = await Address.findOne({ _id: addressId });
@@ -187,14 +191,14 @@ module.exports = {
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
-        address: [
-          curAdd.address,
-          curAdd.locality,
-          curAdd.city,
-          curAdd.district,
-          curAdd.state,
-          curAdd.pincode,
-        ],
+        address: {
+          houseName: curAdd.houseName,
+          locality: curAdd.locality,
+          city: curAdd.city,
+          district: curAdd.district,
+          state: curAdd.state,
+          pincode: curAdd.pincode,
+        },
         orderDate: currentDate.toDateString(),
         expectedDeliveryDate: fourDaysLater.toDateString(),
         paymentMethod: "COD",
@@ -237,7 +241,7 @@ module.exports = {
       const orders = await order
         .find({
           PaymentStatus: "Paid",
-          OrderDate: {
+          orderDate: {
             $gte: startDate,
             $lte: endDate,
           },

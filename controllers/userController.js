@@ -9,7 +9,7 @@ const { Mongoose, ObjectId } = require("mongoose");
 const crypto = require("crypto");
 const { log } = require("console");
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
-const Banner = require('../models/bannerModel');
+const Banner = require("../models/bannerModel");
 
 let userEmail;
 module.exports = {
@@ -48,7 +48,13 @@ module.exports = {
             FlagMobiles.push(x);
           }
         });
-        res.render("user/home", { data, arr, BudgetMobiles, FlagMobiles,banner });
+        res.render("user/home", {
+          data,
+          arr,
+          BudgetMobiles,
+          FlagMobiles,
+          banner,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -56,16 +62,48 @@ module.exports = {
   },
   guestPage: async (req, res) => {
     try {
-      const email = req.session.email;
-      const data = await User.findOne({ email });
-      const imgs = await products.find();
-      const arr = [];
-      imgs.forEach((x) => {
-        if (x.status == "Active") {
-          arr.push(x);
-        }
-      });
-      res.render("user/guestHome", { data, arr });
+      const searchQuery = req.body.search;
+
+      if (searchQuery) {
+        const productDetails = await products.find({});
+      } else {
+        const email = req.session.email;
+        const data = await User.findOne({ email });
+        const imgs = await products.find();
+        const arr = [];
+        imgs.forEach((x) => {
+          if (x.status == "Active") {
+            arr.push(x);
+          }
+        });
+        const BudgetMob = await products
+          .find({ Category: "MOST SELLING MOBILES" })
+          .limit(8);
+        let BudgetMobiles = [];
+        BudgetMob.forEach((x) => {
+          if (x.status == "Active") {
+            BudgetMobiles.push(x);
+          }
+        });
+        const banner = await Banner.find().limit(3);
+        const FlagMob = await products
+          .find({ Category: "FLAGSHIP MOBILES" })
+          .limit(8);
+        let FlagMobiles = [];
+        FlagMob.forEach((x) => {
+          if (x.status == "Active") {
+            FlagMobiles.push(x);
+          }
+        });
+
+        res.render("user/guestHome", {
+          data,
+          arr,
+          BudgetMobiles,
+          FlagMobiles,
+          banner,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

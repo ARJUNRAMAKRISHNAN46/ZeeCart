@@ -15,14 +15,14 @@ module.exports = {
           parseInt(expiryDateString.split("-")[2], 10),
           parseInt(expiryDateString.split("-")[1], 10) - 1,
           parseInt(expiryDateString.split("-")[0], 10)
-          );
-          const currentDate = new Date();
+        );
+        const currentDate = new Date();
 
-          if (expiryDate < currentDate) {
+        if (expiryDate < currentDate) {
           if (couponData.minPurchasetAmount <= req.session.totalPrice) {
             const couponAmount = couponData.discountAmount;
             const total = req.session.totalPrice;
-            
+
             req.session.grandTotal = total - couponAmount;
             const grandTotal = req.session.grandTotal;
             req.session.couponCode = coupon;
@@ -56,8 +56,9 @@ module.exports = {
   },
   Cart: async (req, res) => {
     try {
-      const data = await Cart.find();
       const email = req.session.email;
+      const data = await User.findOne({ email });
+      const cartData = await Cart.find();
       const user = await User.findOne({ email: email });
       const userId = user._id;
 
@@ -86,6 +87,7 @@ module.exports = {
           totalQuantity: totalQuantity,
           total: total,
           itemPrice: itemPrice,
+          data,
         });
       } else {
         res.render("user/cart", {
@@ -94,6 +96,7 @@ module.exports = {
           cart: "",
           totalQuantity: "",
           total: "",
+          data,
         });
       }
     } catch (error) {
@@ -211,7 +214,7 @@ module.exports = {
               "products.$.quantity": quantity,
             },
           }
-        ) ;
+        );
 
         let itemPrice = 0;
         let totalQuantity = 0;
@@ -243,6 +246,34 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
+    }
+  },
+  getQuantity : async (req, res) => {
+    try {
+      const email = req.session.email;
+      const user = await User.findOne({ email: email });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, error: "User not found" });
+      }
+  
+      const userId = user._id;
+  
+      const cart = await Cart.findOne({ userId: userId });
+  
+      if (!cart) {
+        // If the cart doesn't exist, return a response with quantity 0
+        return res.json({ success: true, quantity: 0 });
+      }
+  
+      const totalQuantity = cart.calculateTotalQuantity();
+  
+      res.json({ success: true, quantity: totalQuantity });
+    } catch (error) {
+      console.error("Error fetching cart quantity:", error);
+      res
+        .status(500)
+        .json({ success: false, error: "Failed to fetch cart quantity" });
     }
   },
 };

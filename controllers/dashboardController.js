@@ -5,7 +5,7 @@ const { Orders } = require("./orderController");
 module.exports = {
   admin_dash: async (req, res) => {
     try {
-      const orders = await Order.find().sort({ OrderDate: 1 });
+      const orders = await Order.find().sort({ orderDate: 1 });
       const targetDateTime = new Date();
 
       res.render("admin/dashboard");
@@ -31,7 +31,7 @@ module.exports = {
       let labelsByAmount;
 
       orders.forEach((order) => {
-        const orderDate = moment(order.OrderDate, "ddd MMM DD YYYY");
+        const orderDate = moment(order.orderDate, "ddd MMM DD YYYY");
         const dayMonthYear = orderDate.format("YYYY-MM-DD");
         const monthYear = orderDate.format("YYYY-MM");
         const year = orderDate.format("YYYY");
@@ -134,6 +134,7 @@ module.exports = {
         }
       });
 
+      console.log({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
       res.json({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
     } catch (error) {
       console.error("error while chart loading :", error);

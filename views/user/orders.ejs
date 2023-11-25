@@ -130,226 +130,257 @@
         }
     </style>
     <div class="container px-1 px-md-4 py-5 mx-auto">
-        <%orderDetails.forEach((x)=> {%>
-            <div class="card">
-                <div class="row d-flex justify-content-between px-3 top">
-                    <% if(x.orderStatus=='Order Arrived' ) {%>
-                        <div class="d-flex justify-content-end">
-                            <form action="/downloadInvoice/<%=x._id%>" method="post">
-                                <button class="btn btn-success">Download Invoice</button>
-                            </form>
+        <% if(orderDetails.length == 0) {%>
+            <div class="card min-vh-100 d-flex justify-content-center align-items-center ">
+                <h1 class="alert-danger">No Orders Found</h1>
+            </div>
+            <%}else{%>
+                <%orderDetails.forEach((x)=> {%>
+                    <div class="card">
+                        <div class="row d-flex justify-content-between px-3 top">
+                            <% if(x.orderStatus=='Order Arrived' ) {%>
+                                <div class="d-flex justify-content-end">
+                                    <form action="/downloadInvoice/<%=x._id%>" method="post">
+                                        <button class="btn btn-success">Download Invoice</button>
+                                    </form>
+                                </div>
+                                <%} %>
+                                    <div class="d-flex">
+                                        <h5>Order ID <span class="text-primary font-weight-bold">ODR[<%=x._id%>]</span>
+                                        </h5>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <ul>
+                                            <% x.products.forEach((item)=> { %>
+                                                <img width="50px" src="/product-images/<%= item.productId.images[0] %>"
+                                                    alt="<%= item.productId.images[0]%>">
+                                                <li>
+                                                    <b>
+                                                        <%= item.productId.ProductName %>
+                                                    </b>
+                                                    <br> Quantity: <%= item.quantity %>
+                                                </li>
+                                                <%}) %>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h5><span class="font-weight-bold"> Total Amount : ₹<%=x.totalAmount%>/-</span>
+                                        </h5>
+                                    </div>
+                                    <div class="d-flex flex-column text-sm-right">
+                                        <p class="mb-0"><strong>Order Date : <span>
+                                                    <%=x.orderDate%>
+                                                </span></strong></p>
+                                        <p class="mb-0"><strong>Expected Delivery : <span>
+                                                    <%=x.expectedDeliveryDate%>
+                                                </span></strong></p><br>
+                                        <h5><strong>Payment Method : <span>
+                                                    <%=x.paymentMethod%>
+                                                </span></strong></h5>
+
+                                        <p><span class="font-weight-bold"><b>Delivery Address</b> :
+                                                <%= x.address.houseName %>,<%= x.address.locality %>, <br>
+                                                        <%= x.address.city %> , <%= x.address.district %> ,
+                                                                <%= x.address.state %> , <br>
+                                                                    PIN : <%= x.address.pincode %>
+                                            </span></p>
+                                    </div>
                         </div>
-                        <%} %>
-                            <div class="d-flex">
-                                <h5>Order ID <span class="text-primary font-weight-bold">ODR[<%=x._id%>]</span></h5>
-                            </div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12">
+                                <ul id="progressbar" class="text-center">
 
-                            <div class="d-flex">
-                                <ul>
-                                    <% x.products.forEach((item)=> { %>
-                                        <img width="50px" src="/product-images/<%= item.productId.images[0] %>"
-                                            alt="<%= item.productId.images[0]%>">
-                                        <li>
-                                            <b>
-                                                <%= item.productId.ProductName %>
-                                            </b>
-                                            <br> Quantity: <%= item.quantity %>
-                                        </li>
-                                        <%}) %>
-                                </ul>
-                            </div>
-                            <div class="d-flex">
-                                <h5><span class="font-weight-bold"> Total Amount : ₹<%=x.totalAmount%>/-</span></h5>
-                            </div>
-                            <div class="d-flex flex-column text-sm-right">
-                                <p class="mb-0"><strong>Order Date : <span>
-                                            <%=x.orderDate%>
-                                        </span></strong></p>
-                                <p class="mb-0"><strong>Expected Delivery : <span>
-                                            <%=x.expectedDeliveryDate%>
-                                        </span></strong></p><br>
-                                        <h5><strong>Payment Method : <span><%=x.paymentMethod%></span></strong></h5>
-
-                                    <p><span class="font-weight-bold"><b>Delivery Address</b> :
-                                            <%= x.address[0] %>,<%= x.address[1] %>, <br>
-                                                    <%= x.address[2] %> , <%= x.address[3] %> ,
-                                                            <%= x.address[4]%> , <br>
-                                                                PIN : <%= x.address[5] %>
-                                        </span></p>
-                            </div>
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col-12">
-                        <ul id="progressbar" class="text-center">
-
-                            <% if (x.orderStatus=='Order Processed' ) { %>
-                                <% for (let i=0; i < 1; i++) { %>
-                                    <li class="<%= active %>"></li>
-                                    <% } %>
-                                        <%}%>
-                                            <% if (x.orderStatus=='Shipped' ) { %>
-                                                <% for (let i=0; i < 2; i++) { %>
-                                                    <li class="<%= active %>"></li>
-                                                    <% } %>
-                                                        <%}%>
-                                                            <% if (x.orderStatus=='Order in Route' ) { %>
-                                                                <% for (let i=0; i < 3; i++) { %>
-                                                                    <li class="<%= active %>"></li>
-                                                                    <% } %>
-                                                                        <%}%>
-                                                                            <% if (x.orderStatus=='Order Arrived' ) { %>
-                                                                                <% for (let i=0; i < 4; i++) { %>
-                                                                                    <li class="<%= active %>"></li>
-                                                                                    <% } %>
-                                                                                        <%}%>
-                                                                                            <% if
-                                                                                                (x.orderStatus=='Rejected'
-                                                                                                ) { %>
-                                                                                                <h3 class="text-danger">
-                                                                                                    Order Cancelled by
-                                                                                                    Admin</h3>
+                                    <% if (x.orderStatus=='Order Processed' ) { %>
+                                        <% for (let i=0; i < 1; i++) { %>
+                                            <li class="<%= active %>"></li>
+                                            <% } %>
+                                                <%}%>
+                                                    <% if (x.orderStatus=='Shipped' ) { %>
+                                                        <% for (let i=0; i < 2; i++) { %>
+                                                            <li class="<%= active %>"></li>
+                                                            <% } %>
+                                                                <%}%>
+                                                                    <% if (x.orderStatus=='Order in Route' ) { %>
+                                                                        <% for (let i=0; i < 3; i++) { %>
+                                                                            <li class="<%= active %>"></li>
+                                                                            <% } %>
+                                                                                <%}%>
+                                                                                    <% if
+                                                                                        (x.orderStatus=='Order Arrived'
+                                                                                        ) { %>
+                                                                                        <% for (let i=0; i < 4; i++) {
+                                                                                            %>
+                                                                                            <li class="<%= active %>">
+                                                                                            </li>
+                                                                                            <% } %>
                                                                                                 <%}%>
                                                                                                     <% if
-                                                                                                        (x.orderStatus=='Cancelled'
+                                                                                                        (x.orderStatus=='Rejected'
                                                                                                         ) { %>
-                                                                                                        <h2
-                                                                                                            class="alert alert-danger">
+                                                                                                        <h3
+                                                                                                            class="text-danger">
                                                                                                             Order
-                                                                                                            Cancelled
-                                                                                                        </h2>
+                                                                                                            Cancelled by
+                                                                                                            Admin</h3>
                                                                                                         <%}%>
                                                                                                             <% if
-                                                                                                                (x.orderStatus=='Return Order'
+                                                                                                                (x.orderStatus=='Cancelled'
                                                                                                                 ) { %>
                                                                                                                 <h2
                                                                                                                     class="alert alert-danger">
                                                                                                                     Order
-                                                                                                                    Returned
+                                                                                                                    Cancelled
                                                                                                                 </h2>
-                                                                                                                <%} %>
-                                                                                                                <% if
-                                                                                                                (x.orderStatus=='rejected'
-                                                                                                                ) { %>
-                                                                                                                <h2
-                                                                                                                    class="alert alert-danger">
-                                                                                                                    Order
-                                                                                                                    Rejected by Admin
-                                                                                                                </h2>
-                                                                                                                <%} %>
-                                                                                                                <% if
-                                                                                                                (x.orderStatus=='Requested'
-                                                                                                                ) { %>
-                                                                                                                <h2
-                                                                                                                    class="alert alert-danger">
-                                                                                                                    Requested for Return 
-                                                                                                                </h2>
-                                                                                                                <%}
-                                                                                                                %>
+                                                                                                                <%}%>
+                                                                                                                    <% if
+                                                                                                                        (x.orderStatus=='Return Order'
+                                                                                                                        )
+                                                                                                                        {
+                                                                                                                        %>
+                                                                                                                        <h2
+                                                                                                                            class="alert alert-danger">
+                                                                                                                            Order
+                                                                                                                            Returned
+                                                                                                                        </h2>
+                                                                                                                        <%}
+                                                                                                                            %>
+                                                                                                                            <% if
+                                                                                                                                (x.orderStatus=='rejected'
+                                                                                                                                )
+                                                                                                                                {
+                                                                                                                                %>
+                                                                                                                                <h2
+                                                                                                                                    class="alert alert-danger">
+                                                                                                                                    Order
+                                                                                                                                    Rejected
+                                                                                                                                    by
+                                                                                                                                    Admin
+                                                                                                                                </h2>
+                                                                                                                                <%}
+                                                                                                                                    %>
+                                                                                                                                    <% if
+                                                                                                                                        (x.orderStatus=='Requested'
+                                                                                                                                        )
+                                                                                                                                        {
+                                                                                                                                        %>
+                                                                                                                                        <h2
+                                                                                                                                            class="alert alert-danger">
+                                                                                                                                            Requested
+                                                                                                                                            for
+                                                                                                                                            Return
+                                                                                                                                        </h2>
+                                                                                                                                        <%}
+                                                                                                                                            %>
 
-                        </ul>
-                    </div>
-                </div>
-                <div class="row d-flex top">
-                    <div class="col-3 d-flex icon-content">
-                        <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
-                        <div class="d-flex flex-column">
-                            <p class="font-weight-bold">Order<br>Processed</p>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-3 d-flex icon-content justify-content-center">
-                        <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
-                        <div class="d-flex flex-column">
-                            <p class="font-weight-bold">Order<br>Shipped</p>
-                        </div>
-                    </div>
-                    <div class="col-3 d-flex icon-content justify-content-end">
-                        <img class="icon" src="https://i.imgur.com/TkPm63y.png">
-                        <div class="d-flex flex-column">
-                            <p class="font-weight-bold">Order<br>En Route</p>
-                        </div>
-                    </div>
-                    <div class="col-3 d-flex icon-content justify-content-end">
-                        <img class="icon" src="https://i.imgur.com/HdsziHP.png">
-                        <div class="d-flex flex-column">
-                            <p class="font-weight-bold">Order<br>Arrived</p>
-                        </div>
-                    </div>
-                </div>
-                <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='rejected' && x.orderStatus !=='Return Order' &&
-                    x.orderStatus !=='Order Arrived' ) {%>
-                    <div class="d-flex justify-content-end">
-                        <a class="btn  btn-danger mx-3" id="cancelBtn"
-                            onclick="updateOrderStatus('<%= x._id %>','Cancelled' )" href="">Cancel Order</a>
-
-                    </div>
-                
-                    <%}else if(x.orderStatus=='Order Arrived' ) {%>
-                        <div class="d-flex justify-content-end">
-                            <!-- <a class="btn  btn-primary mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Return Order' )"
-                                href="">Return Order</a> -->
-                            <button class="btn btn-primary mx-3 " id="openModal">Return Order</button>
-                        </div>
-                        <div id="myModal" class="modal">
-                            <form action="/returnItem/<%=x._id%>" method="post">
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-12 col-md-4 my-5"
-                                        style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
-                                        <br>
-                                        <h4 class="bg-primary d-flex justify-content-center py-2 text-white">Return Product</h4>
-                                        <label for="returnReason">Reason for Return:</label>
-                                        <select id="returnReason" name="returnReason">
-                                            <option value="defective">Defective</option>
-                                            <option value="wrong-model">Wrong Model</option>
-                                            <option value="changed-mind">Changed Mind</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <br>
-                                        <br>
-                                        <textarea name="description" id="" placeholder="description"
-                                            style="width: 100%;"></textarea>
-                                        <div class="d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-secondary" onclick="return('are you sure you want to return this order')" style="color: white;">Request</button>
-                                        </div>
-                                        <br>
-                                    </div>
+                        <div class="row d-flex top">
+                            <div class="col-3 d-flex icon-content">
+                                <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Order<br>Processed</p>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="col-3 d-flex icon-content justify-content-center">
+                                <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Order<br>Shipped</p>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex icon-content justify-content-end">
+                                <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Order<br>En Route</p>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex icon-content justify-content-end">
+                                <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Order<br>Arrived</p>
+                                </div>
+                            </div>
                         </div>
-                        <%} %>
-            </div>
-            <%})%>
+                        <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='rejected' && x.orderStatus
+                            !=='Return Order' && x.orderStatus !=='Order Arrived' ) {%>
+                            <div class="d-flex justify-content-end">
+                                <a class="btn  btn-danger mx-3" id="cancelBtn"
+                                    onclick="updateOrderStatus('<%= x._id %>','Cancelled' )" href="">Cancel Order</a>
+
+                            </div>
+
+                            <%}else if(x.orderStatus=='Order Arrived' ) {%>
+                                <div class="d-flex justify-content-end">
+                                    <!-- <a class="btn  btn-primary mx-3" id="cancelBtn" onclick="updateOrderStatus('<%= x._id %>','Return Order' )"
+                                        href="">Return Order</a> -->
+                                    <button class="btn btn-primary mx-3 " id="openModal">Return Order</button>
+                                </div>
+                                <div id="myModal" class="modal">
+                                    <form action="/returnItem/<%=x._id%>" method="post">
+                                        <div class="row d-flex justify-content-center align-items-center">
+                                            <div class="col-12 col-md-4 my-5"
+                                                style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
+                                                <br>
+                                                <h4 class="bg-primary d-flex justify-content-center py-2 text-white">
+                                                    Return Product</h4>
+                                                <label for="returnReason">Reason for Return:</label>
+                                                <select id="returnReason" name="returnReason">
+                                                    <option value="defective">Defective</option>
+                                                    <option value="wrong-model">Wrong Model</option>
+                                                    <option value="changed-mind">Changed Mind</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                                <br>
+                                                <br>
+                                                <textarea name="description" id="" placeholder="description"
+                                                    style="width: 100%;"></textarea>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="submit" class="btn btn-secondary"
+                                                        onclick="return('are you sure you want to return this order')"
+                                                        style="color: white;">Request</button>
+                                                </div>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <%} %>
+                    </div>
+                    <%})%>
     </div>
+    <%} %>
 
-    <script>
+        <script>
 
-        function updateOrderStatus(orderId, newStatus) {
-            if (confirm('Are you sure to cancel this order?')) {
-                fetch(`/deleteOrderStatus/${orderId}?status=${newStatus}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    // body: JSON.stringify({ status: newStatus }),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.success) {
-                            alert('Order status deleted successfully!');
-                        } else {
-                            alert('Failed to update order status.');
-                        }
+            function updateOrderStatus(orderId, newStatus) {
+                if (confirm('Are you sure to cancel this order?')) {
+                    fetch(`/deleteOrderStatus/${orderId}?status=${newStatus}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        // body: JSON.stringify({ status: newStatus }),
                     })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                alert('Order status deleted successfully!');
+                            } else {
+                                alert('Failed to update order status.');
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                }
             }
-        }
 
-        $(document).ready(function () {
-            $("#profileModalOpener").click(function () {
-                $("#profileModal").modal('show');
+            $(document).ready(function () {
+                $("#profileModalOpener").click(function () {
+                    $("#profileModal").modal('show');
+                });
             });
-        });
 
-    </script>
-    <%- include('../layout/user/footer.ejs') -%>
+        </script>
+        <!-- <%- include('../layout/user/footer.ejs') -%> -->

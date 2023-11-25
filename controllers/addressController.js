@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Wallet = require("../models/walletModel");
 const Cart = require("../models/cartModel");
 const WalletHistory = require("../models/walletHistoryModel");
+const Order = require('../models/ordersModel');
 
 module.exports = {
   //get user profile page
@@ -237,6 +238,30 @@ module.exports = {
           const walletData = await Wallet.updateOne({
             userId: userId,
             $set: { wallet: newPrice },
+          });
+          const addressId = req.params.id;
+          const curAdd = await Address.findOne({ _id: addressId });
+          const orderData = await Cart.findOne();
+          const currentDate = new Date();
+          const fourDaysLater = new Date(currentDate);
+          fourDaysLater.setDate(currentDate.getDate() + 4);
+          const order = await Order.create({
+            userId: orderData.userId,
+            products: orderData.products,
+            address: {
+              houseName: curAdd.houseName,
+              locality: curAdd.locality,
+              city: curAdd.city,
+              district: curAdd.district,
+              state: curAdd.curAddstate,
+              pincode: curAdd.pincode,
+            },
+            orderDate: currentDate.toDateString(),
+            expectedDeliveryDate: fourDaysLater.toDateString(),
+            paymentMethod: "Wallet",
+            PaymentStatus: "Paid",
+            totalAmount: amount,
+            orderStatus: "Order Processed",
           });
           const refund = await Wallet.findOne({ userId: userId });
           if (refund) {

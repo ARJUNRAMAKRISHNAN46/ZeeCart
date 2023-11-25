@@ -1,4 +1,4 @@
-<%-include('../layout/user/header.ejs')-%>
+<%- include('../layout/user/header.ejs') -%>
   <!DOCTYPE html>
   <html lang="en">
 
@@ -65,7 +65,8 @@
                                       <%= data.productId?.ProductName %>
                                         <br>
 
-                                        <div class="text-primary"><b> Rs. <%= data.productId?.DiscountAmount %></b></div>
+                                        <div class="text-primary"><b> Rs. <%= data.productId?.DiscountAmount %></b>
+                                        </div>
                                     </a>
                                   </div>
                                 </div>
@@ -81,7 +82,8 @@
                               <span id="quantity_<%= data.productId?._id %>">
                                 <%= data.quantity %>
                               </span>
-                              <button id="<%= data.productId._id %>" class="btn btn-light border px-2 icon-hover-primary" type="button"
+                              <button id="<%= data.productId._id %>"
+                                class="btn btn-light border px-2 icon-hover-primary" type="button"
                                 onclick="quantityChanger('<%= data.productId?._id %>',1,'<%= cart._id %>')"><i
                                   class="fa-solid fa-plus" style="color: #000000;"></i></button>
 
@@ -92,7 +94,7 @@
                               <div class="float-md-end">
                                 <strong class="card-text text-center text-danger out-of-stock-message" id=""
                                   style="display: none;"> </strong>
-                                
+
                                 <% if(data.productId?.inWish) {%>
                                   <a onclick="removeFromWish('<%= data.productId?._id%>')" class="btn btn1"> <i
                                       class="fa fa-heart text-danger"></i> </a>
@@ -101,7 +103,7 @@
                                         class="fa fa-heart"></i>
                                     </a>
                                     <%}%>
-                                    
+
                                       <a href="#" class="btn btn-light border text-danger icon-hover-danger"
                                         onclick="removeFromCart('<%= data.productId?._id %>','<%= cart._id %>')">Remove</a>
                               </div>
@@ -179,51 +181,76 @@
     <br>
     <br>
 
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
 
       function quantityChanger(productId, count, cartId) {
         var quantityElement = document.getElementById("quantity_" + productId);
         var currentQuantity = parseInt(quantityElement.innerText, 10)
+        var cartQuantityElement = document.getElementById('cart-count');
+
         if (count === 1 && currentQuantity < 4) {
           currentQuantity += 1;
           quantityElement.innerText = currentQuantity;
+          console.log(cartQuantityElement.textContent);
+          cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
           console.log("count increased...")
         } else if (count === -1 && currentQuantity > 1) {
           currentQuantity -= 1;
           quantityElement.innerText = currentQuantity;
+          console.log(cartQuantityElement.textContent);
+          cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) - 1;
           console.log("count decreased...")
-        }else{
-          Swal.fire('You have reached the limit..!');
-        }
-        
-        // if ( currentQuantity <= 5 ) {
-        
-          console.log('-------------------------------------------------->');
-          $.ajax({
-            url: '/updatequantity',
-            method: 'POST',
-            data: {
-              productId: productId,
-              quantity: currentQuantity,
-              cartId: cartId,
+        } else {
+          Toastify({
+            text: 'You have reached the limit..!',
+            duration: 1500,
+            gravity: 'top',
+            position: 'center',
+            backgroundColor: 'red',
+            style: {
+              borderRadius: '10px',
             },
-            success: function (response) {
-              if(response.success) {
+          }).showToast()
+        }
 
-                console.log("Response from the server:", response);
-  
-                $('#subtotalAmount').text(response.itemPrice.toFixed(2));
-                $('#totalQuantityValue').text(response.totalQuantity);
-                $('#totalPrice').text('Rs.' + response.total.toFixed(2));
-              }else{
-                Swal.fire('Out of Stock..!');
-                quantityElement.innerText = currentQuantity-1;
-              }
+        // if ( currentQuantity <= 5 ) {
 
+        console.log('-------------------------------------------------->');
+        $.ajax({
+          url: '/updatequantity',
+          method: 'POST',
+          data: {
+            productId: productId,
+            quantity: currentQuantity,
+            cartId: cartId,
+          },
+          success: function (response) {
+            if (response.success) {
+
+              console.log("Response from the server:", response);
+
+              $('#subtotalAmount').text(response.itemPrice.toFixed(2));
+              $('#totalQuantityValue').text(response.totalQuantity);
+              $('#totalPrice').text('Rs.' + response.total.toFixed(2));
+            } else {
+              Toastify({
+                text: 'Out of Stock',
+                duration: 1500,
+                gravity: 'top',
+                position: 'center',
+                backgroundColor: 'black',
+                style: {
+                  borderRadius: '10px',
+                },
+              }).showToast()
+              quantityElement.innerText = currentQuantity - 1;
             }
-          });
 
-          console.log("updated quantity successfully");
+          }
+        });
+
+        console.log("updated quantity successfully");
 
       }
 
@@ -256,25 +283,35 @@
           success: function (response) {
             console.log(response);
             if (response.success) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Item added to wishlist',
-                showConfirmButton: false,
-                timer: 1500
-
-              }).then(function () {
-                location.reload();
-                console.log('Response from the server:', response);
-              });
+              Toastify({
+                text: 'Item added to wishlist',
+                duration: 1500,
+                gravity: 'top',
+                position: 'center',
+                backgroundColor: 'black',
+                style: {
+                  borderRadius: '10px',
+                },
+              }).showToast()
+                .then(function () {
+                  location.reload();
+                  console.log('Response from the server:', response);
+                });
 
             }
           },
           error: function (xhr, status, error) {
             console.error('Error:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops, something went wrong!'
-            });
+            Toastify({
+              text: 'Oops, something went wrong!',
+              duration: 1500,
+              gravity: 'top',
+              position: 'center',
+              backgroundColor: 'black',
+              style: {
+                borderRadius: '10px',
+              },
+            }).showToast()
           }
         });
       }
@@ -287,23 +324,34 @@
           success: function (response) {
             console.log(response);
             if (response.success) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Item removed from wishlist',
-                showConfirmButton: false,
-                timer: 1500
-              }).then(function () {
-                location.reload();
-                console.log('Response from the server:', response);
-              });
+              Toastify({
+                text: 'Item removed from wishlist',
+                duration: 1500,
+                gravity: 'top',
+                position: 'center',
+                backgroundColor: 'black',
+                style: {
+                  borderRadius: '10px',
+                },
+              }).showToast()
+                .then(function () {
+                  location.reload();
+                  console.log('Response from the server:', response);
+                });
             }
           },
           error: function (xhr, status, error) {
             console.error('Error:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops, something went wrong!'
-            });
+            Toastify({
+              text: 'Oops, something went wrong!',
+              duration: 1500,
+              gravity: 'top',
+              position: 'center',
+              backgroundColor: 'black',
+              style: {
+                borderRadius: '10px',
+              },
+            }).showToast()
           }
         });
       }

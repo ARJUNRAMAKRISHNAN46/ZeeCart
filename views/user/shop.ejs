@@ -1,5 +1,5 @@
 <%- include('../layout/header.ejs') -%>
-    <%-include('../layout/user/header.ejs')-%>
+    <%- include('../layout/user/header.ejs') -%>
 
         <section>
             <div class="main-navbar shadow-sm sticky-top" style="width: 100vw;">
@@ -127,33 +127,47 @@
                 </div>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <script>
 
             function addToCart(productId) {
-
+                var cartQuantityElement = document.getElementById('cart-count');
+                console.log(cartQuantityElement.textContent);
+                cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
                 $.ajax({
                     url: `/addToCart/${productId}`,
                     method: 'POST',
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Item added to cart',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function () {
-                                // You can add a callback function here if needed
-                                console.log('Response from the server:', response);
-                            });
+                            Toastify({
+                                text: 'Item added to cart',
+                                duration: 1500,
+                                gravity: 'top',
+                                position: 'center',
+                                backgroundColor: 'black',
+                                style: {
+                                    borderRadius: '10px',
+                                },
+                            }).showToast()
+                                .then(function () {
+                                    // You can add a callback function here if needed
+                                    console.log('Response from the server:', response);
+                                });
                         }
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops, something went wrong!'
-                        });
+                        Toastify({
+                                text: 'Oops, something went wrong!',
+                                duration: 1500,
+                                gravity: 'top',
+                                position: 'center',
+                                backgroundColor: 'black',
+                                style: {
+                                    borderRadius: '10px',
+                                },
+                            }).showToast()
                     }
                 });
             }

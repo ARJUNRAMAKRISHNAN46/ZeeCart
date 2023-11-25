@@ -1,0 +1,50 @@
+<%- include('../layout/header.ejs') -%>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .error-container {
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 8em;
+            color: #dc3545;
+        }
+
+        .error-message {
+            font-size: 1.5em;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+
+        .back-to-home {
+            text-decoration: none;
+            background-color: #dc3545;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .back-to-home:hover {
+            background-color: #c82333;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div class="error-container">
+            <div class="error-code">404</div>
+            <div class="error-message">Page Not Found</div>
+            <a href="/" class="back-to-home">Back to Home</a>
+        </div>
+
+        <%- include('../layout/user/footer.ejs') -%>

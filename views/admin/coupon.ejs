@@ -74,10 +74,11 @@
                     </div>
                     <div class="modal-body">
                         <form action="/addCoupon" method="post">
-                            <span class="msg" id="err1"></span>
+                            <span class="msg alert-danger" id="err1"></span>
                             <div class="form-group">
                                 <label for="couponCode">Coupon Code</label>
-                                <input type="text" class="form-control" id="couponCode" name="couponCode" onclick="checkCouponCode()" required>
+                                <input type="text" class="form-control" id="couponCode" name="couponCode"
+                                    onclick="checkCouponCode()" required>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
@@ -136,6 +137,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
         <script>
             function openNav() {
                 document.getElementById("mySidenav").style.width = "200px";
@@ -170,8 +172,8 @@
             });
 
             function checkCouponCode() {
-                var codePattern = /^[A-Z0-9#]{8}$/;
-                var couponCode = document.getElementById("couponCode").value;
+                var codePattern = /^[A-Z0-9#]+$/;
+                var couponCode = document.getElementById("couponCode").value.trim();
                 var isValid = codePattern.test(couponCode);
                 var msg = document.getElementById("err1");
                 var signupButton = document.getElementById("signupButton");
@@ -189,6 +191,7 @@
 
         </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <script>
             document.addEventListener("click", function (event) {
                 const copyButton = event.target.closest(".copy-button");
@@ -204,11 +207,16 @@
                     document.execCommand("copy");
                     document.body.removeChild(textArea);
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Coupon Copied!',
-                        text: `Coupon code ${couponCode.innerText} has been copied to the clipboard.`,
-                    });
+                    Toastify({
+                        text: 'coupon copied',
+                        duration: 1500,
+                        gravity: 'top',
+                        position: 'center',
+                        backgroundColor: 'green',
+                        style: {
+                            borderRadius: '10px',
+                        },
+                    }).showToast();
                 }
             });
         </script>

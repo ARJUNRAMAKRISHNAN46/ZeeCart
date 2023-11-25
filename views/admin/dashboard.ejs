@@ -65,12 +65,13 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="endDate" class="form-label">End Date:</label>
-                                        <input type="date" name="endDate" class="form-control" id="endDate" onchange="dateValidation()" required>
+                                        <input type="date" name="endDate" class="form-control" id="endDate"
+                                            onchange="dateValidation()" required>
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary"
-                                            id="downBtn" >Download Report</button>
+                                        <button type="submit" class="btn btn-primary" onclick="loader()"
+                                            id="downBtn">Download Report</button>
                                     </div>
                                 </form>
                             </div>
@@ -204,6 +205,34 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
+            function loader() {
+                let timerInterval;
+                Swal.fire({
+                    title: "Auto close toast!",
+                    html: "I will close in <b></b> milliseconds.",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    toast: true, // Set to true to display it as a toast
+                    position: "top-end", // You can change the position as needed
+                    showConfirmButton: false, // Hide the "OK" button
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log("I was closed by the timer");
+                    }
+                });
+
+            }
 
             function dateValidation() {
                 var startDate = new Date(document.getElementById('startDate').value);
@@ -246,7 +275,7 @@
             //         document.getElementById('error').textContent = 'Invalid date range3';
             //     } else {
             //         document.getElementById('error').textContent = '';
-                    // document.getElementById('salesReportForm').submit();
+            // document.getElementById('salesReportForm').submit();
             //     }
             // }
         </script>

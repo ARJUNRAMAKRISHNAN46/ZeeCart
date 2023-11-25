@@ -219,7 +219,6 @@
                                                 </div>
                             </div>
                         </div>
-
                         <%}) %>
                 </div>
             </div>
@@ -230,12 +229,15 @@
         <script>
 
             function addToCart(productId) {
-
+                var cartQuantityElement = document.getElementById('cart-count');
+                console.log(cartQuantityElement.textContent);
+                cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
                 $.ajax({
                     url: `/addToCart/${productId}`,
                     method: 'POST',
                     success: function (response) {
                         console.log(response);
+
                         if (response.success) {
                             Toastify({
                                 text: 'Item added to cart',
@@ -254,10 +256,16 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops, something went wrong!'
-                        });
+                        Toastify({
+                            text: 'Oops, something went wrong!',
+                            duration: 1500,
+                            gravity: 'top',
+                            position: 'center',
+                            backgroundColor: 'black',
+                            style: {
+                                borderRadius: '10px',
+                            },
+                        }).showToast()
                     }
                 });
             }

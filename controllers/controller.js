@@ -128,25 +128,61 @@ module.exports = {
           refferedBy: referal,
         });
         const preUserId = usedata._id;
-        const userData = await Wallet.findOne({ userId: referal });
+        if (referal) {
+          const userData = await Wallet.findOne({ userId: referal });
 
-        if (userData !== null) {
-          const waldata = await Wallet.updateOne(
-            { userId: referal },
-            {
-              $inc: { wallet: 100 },
-              $push: { invited: preUserId },
+          if (userData !== null) {
+            const waldata = await Wallet.updateOne(
+              { userId: referal },
+              {
+                $inc: { wallet: 100 },
+                $push: { invited: preUserId },
+              }
+            );
+            const walletHistory = await WalletHistory.findOne({
+              userId: referal,
+            });
+            if (walletHistory !== null) {
+              const reason = "Referal Bonus";
+              const type = "credit";
+              const date = new Date();
+              await WalletHistory.updateMany({
+                userId: referal,
+                $push: {
+                  refund: {
+                    amount: 100,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                },
+              });
+            } else {
+              const reason = "Referal Bonus";
+              const type = "credit";
+              const date = new Date();
+              await WalletHistory.create({
+                userId: referal,
+                refund: [
+                  {
+                    amount: 100,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                ],
+              });
             }
-          );
-          const walletHistory = await WalletHistory.findOne({
-            userId: referal,
-          });
-          if (walletHistory !== null) {
-            const reason = "Referal Bonus";
-            const type = "credit";
-            const date = new Date()
-            await WalletHistory.updateMany(
-              { userId: referal,
+          } else {
+            const walletHistory = await WalletHistory.findOne({
+              userId: referal,
+            });
+            if (walletHistory !== null) {
+              const reason = "Referal Bonus";
+              const type = "credit";
+              const date = new Date();
+              await WalletHistory.updateMany({
+                userId: referal,
                 $push: {
                   refund: {
                     amount: 100,
@@ -155,14 +191,13 @@ module.exports = {
                     date: date,
                   },
                 },
-              }
-            );
-          } else {
-            const reason = "Referal Bonus";
-            const type = "credit";
-            const date = new Date()
-            await WalletHistory.create(
-              { userId: referal ,
+              });
+            } else {
+              const reason = "Referal Bonus";
+              const type = "credit";
+              const date = new Date();
+              await WalletHistory.create({
+                userId: referal,
                 refund: [
                   {
                     amount: 100,
@@ -171,51 +206,14 @@ module.exports = {
                     date: date,
                   },
                 ],
-              }
-            );
+              });
+            }
+            await Wallet.create({
+              userId: referal,
+              wallet: 100,
+              invited: [preUserId],
+            });
           }
-        } else {
-          const walletHistory = await WalletHistory.findOne({
-            userId: referal,
-          });
-          if (walletHistory !== null) {
-            const reason = "Referal Bonus";
-            const type = "credit";
-            const date = new Date()
-            await WalletHistory.updateMany(
-              { userId: referal,
-                $push: {
-                  refund: {
-                    amount: 100,
-                    reason: reason,
-                    type: type,
-                    date: date,
-                  },
-                },
-              }
-            );
-          } else {
-            const reason = "Referal Bonus";
-            const type = "credit";
-            const date = new Date()
-            await WalletHistory.create(
-              { userId: referal ,
-                refund: [
-                  {
-                    amount: 100,
-                    reason: reason,
-                    type: type,
-                    date: date,
-                  },
-                ],
-              }
-            );
-          }
-          await Wallet.create({
-            userId: referal,
-            wallet: 100,
-            invited: [preUserId],
-          });
         }
         res.redirect("/");
       } else {
@@ -263,7 +261,7 @@ module.exports = {
   //User logout
   logOut: async (req, res) => {
     try {
-      req.session.destroy();
+      req.session.logged = false;
       res.redirect("/");
     } catch (error) {
       console.log(error);

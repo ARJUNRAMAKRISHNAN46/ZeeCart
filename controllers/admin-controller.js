@@ -36,7 +36,7 @@ module.exports = {
 
   adminLogOut: async (req, res) => {
     try {
-      req.session.destroy();
+      req.session.adLogged = false;
       res.redirect("/adminpanel");
     } catch (error) {
       console.log(error);

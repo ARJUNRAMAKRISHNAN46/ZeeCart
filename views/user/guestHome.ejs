@@ -1,5 +1,4 @@
-<%- include('../layout/header.ejs') -%>
-    <!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -13,9 +12,13 @@
     <link rel="stylesheet" href="/userstyle.css">
     <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/razorpay.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body style="overflow-x: hidden;">
@@ -28,9 +31,10 @@
                         <h5 class="brand-name">Zee<span href="" id="zeecart">C</span>art</h5>
                     </div>
                     <div class="col-md-5 my-auto">
-                        <form role="search" action="#" method="post">
+                        <form role="search" action="/login" method="post">
                             <div class="input-group">
-                                <input name="value" type="search" placeholder="Search your product" class="form-control" />
+                                <input name="search" type="search" placeholder="Search your product"
+                                    class="form-control" />
                                 <button class="btn bg-white" type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -40,36 +44,30 @@
                     <div class="col-md-5 my-auto">
                         <ul class="nav justify-content-end">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">
-                                    <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i> Home
+                                <a class="nav-link" href="/login">
+                                    <i class="fa-solid fa-house-chimney fa-xl" style="color: #ffffff;"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fa fa-shopping-cart"></i> Shop
+                                <a class="nav-link" href="/login">
+                                    <i class="fa-brands fa-shopify fa-xl" style="color: #ffffff;"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fa fa-shopping-cart"></i> Cart
+                                <a class="nav-link" href="/login">
+                                    <i class="fa fa-shopping-cart fa-xl"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fa fa-heart"></i> Wishlist
+                                <a class="nav-link" href="/login">
+                                    <i class="fa fa-heart fa-xl"></i>
                                 </a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-user"></i>
-                                    Profile
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">
+                                    <h5><b>Login</b></h5>
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/login"><i class="fa fa-user"></i> Login</a>
-                                    </li>
-            
-                                </ul>
+                            </li>
                             </li>
                         </ul>
                     </div>
@@ -77,113 +75,218 @@
             </div>
         </div>
     </div>
+    <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
 
-        <!-- ------------------------------------------------------carousel----------------------------------------------------------------- -->
-
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="assets/Banner_1.jpg" class="d-block w-100" alt="Banner1">
-                </div>
-                <div class="carousel-item">
-                    <img src="assets/Banner_2.jpg" class="d-block w-100" alt="Banner2">
-                </div>
-                <div class="carousel-item">
-                    <img src="assets/Banner_3.jpg" class="d-block w-100" alt="Banner3">
-                </div>
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="assets/Banner_1.jpg" class="d-block w-100" alt="...">
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <div class="carousel-item">
+                <img src="assets/Banner_2.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="assets/Banner_3.jpg" class="d-block w-100" alt="...">
+            </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
-        <!-----------------------------------------------------------Product List----------------------------------------------------------------------- -->
-
-        <div class="py-3 py-md-5 bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="mb-4"><strong>BEST SELLING MOBILES</strong></h4>
-                    </div>
-                    <%arr.forEach((x)=>{ %>
-                        <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
-                            <form action="/addToCart/<%=x._id%>" method="post">
-                                <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <%=x.ProductName%>
-                                    </h6>
-                                    <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                                    <button style="font-size: small;" type="submit" class="btn btn-secondary">Add To
-                                        Cart</button>
-                                </div>
-                            </form>
+    <!-- ---------------------------------------------------------Product List----------------------------------------------------------------------- -->
+    <div class="py-3 py-md-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="mb-4"><b>Top Brands</b></h3>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card">
+                        <a href="/login">
+                            <div class="category-card-img p-4">
+                                <img src="/assets/s221.png" class="w-100" alt="Laptop">
+                            </div>
+                            <div class="category-card-body">
+                                <h5>SAMSUNG</h5>
+                            </div>
                         </a>
-
-                        <%}) %>
-                </div>
-            </div>
-        </div>
-
-        <!-----------------------------------------------------------------carousel------------------------------------------------------------- -->
-
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="assets/Banner_1.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="assets/Banner_2.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="assets/Banner_3.jpg" class="d-block w-100" alt="...">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-        <!-- ------------------------------------------------------Product List---------------------------------------------------------------- -->
-
-        <div class="py-3 py-md-5 bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="mb-4"><strong>FLAGSHIP MOBILES</strong></h4>
                     </div>
-                    <%arr.forEach((x)=>{ %>
-                        <a href="/productspecs/<%-x._id%>" class="card col-6 col-md-2">
-                            <form action="/addToCart/<%=x._id%>" method="post">
-                                <img class="card-img-top" src="/product-images/<%= x.images[0] %>" alt="Card image cap">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <%=x.ProductName%>
-                                    </h6>
-                                    <p class="card-text" style="font-weight: 700;">₹<%=x.Price%>/-</p>
-                                    <button style="font-size: small;" type="submit" class="btn btn-secondary">Add To
-                                        Cart</button>
-                                </div>
-                            </form>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card">
+                        <a href="/login">
+                            <div class="category-card-img">
+                                <img src="/assets/x14-main.png" class="w-100" alt="Mobile Devices">
+                            </div>
+                            <div class="category-card-body">
+                                <h5>APPLE</h5>
+                            </div>
                         </a>
-                        <%}) %>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card">
+                        <a href="/login">
+                            <div class="category-card-img p-1">
+                                <img src="/assets/x13-main.png" class="w-100" alt="Mens Fashion">
+                            </div>
+                            <div class="category-card-body">
+                                <h5>XIOMI</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card">
+                        <a href="/login">
+                            <div class="category-card-img p-4">
+                                <img src="/assets/rm1.png" class="w-100" alt="Women Fashion">
+                            </div>
+                            <div class="category-card-body">
+                                <h5>REALME</h5>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="py-3 py-md-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="mb-4"><strong>MOST SELLING MOBILES</strong></h4>
+                </div>
+                <% BudgetMobiles.forEach((x)=>{ %>
+                    <div class="col-6 col-md-3">
+                        <div class="product-card">
+                            <div style="height: 300px;" class="product-card-img p-3">
+                                <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
+                            </div>
+                            <%if(x.AvailableQuantity==0) {%>
+                                <label class="stock bg-danger">Out of Stock</label>
+                                <%}else if(x.AvailableQuantity <=10) {%>
+                                    <label class="stock bg-danger">Only <%=x.AvailableQuantity%> left</label>
+                                    <%}else {%>
+                                        <label class="stock bg-success">In Stock</label>
+                                        <%} %>
+                                            <div class="product-card-body">
+                                                <p class="product-brand"></p>
+                                                <h5 class="product-name">
+                                                    <%=x.ProductName%>
+                                                </h5>
+                                                <div>
+                                                    <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>
+                                                            /-</span>
+                                                    <span class="original-price">₹<%=x.Price%>/-</span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <%if(x.AvailableQuantity==0) {%>
+                                                        <a class="btn btn1" href="#">Notify Me</a>
+                                                        <%}else {%>
+                                                            <a class="btn btn1" href="/login">Add To
+                                                                Cart</a>
+                                                            <%} %>
+                                                                <% if(x.inWish) {%>
+                                                                    <a href="/login" class="btn btn1"> <i
+                                                                            class="fa fa-heart text-danger"></i>
+                                                                    </a>
+                                                                    <%}else {%>
+                                                                        <a href="/login" class="btn btn1"> <i
+                                                                                class="fa fa-heart"></i>
+                                                                        </a>
+                                                                        <%}%>
+                                                                            <a href="/login" class="btn btn1">
+                                                                                View </a>
+                                                                            </frm>
+                                                </div>
+                                            </div>
+                        </div>
+                    </div>
 
-        <!-- ----------------------------------------------------------------Footer---------------------------------------------------------------- -->
-        <%- include('../layout/user/footer.ejs') -%>
+
+                    <%}) %>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------------------------------------------------------carousel------------------------------------------------------------- -->
+
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <%banner.forEach((x)=> {%>
+                <div class="carousel-item active">
+                    <img src="/banner-images/cropped_images/<%= x.image %>" class="d-block w-100" alt="Banner1">
+                </div>
+                <%})%>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- ------------------------------------------------------Product List---------------------------------------------------------------- -->
+
+    <div class="py-3 py-md-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="mb-4"><strong>FLAGSHIP MOBILES</strong></h4>
+                </div>
+                <% FlagMobiles.forEach((x)=>{ %>
+                    <div class="col-6 col-md-3">
+                        <div class="product-card">
+                            <div style="height: 300px;" class="product-card-img p-3">
+                                <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
+                            </div>
+                            <%if(x.AvailableQuantity==0) {%>
+                                <label class="stock bg-danger">Out of Stock</label>
+                                <%}else if(x.AvailableQuantity <=10) {%>
+                                    <label class="stock bg-danger">Only <%=x.AvailableQuantity%> left</label>
+                                    <%}else {%>
+                                        <label class="stock bg-success">In Stock</label>
+                                        <%} %>
+                                            <div class="product-card-body">
+                                                <p class="product-brand"></p>
+                                                <h5 class="product-name">
+                                                    <%=x.ProductName%>
+                                                </h5>
+                                                <div>
+                                                    <span class="selling-price">₹<%=Math.trunc(x.DiscountAmount)%>
+                                                            %>/-</span>
+                                                    <span class="original-price">₹<%=x.Price%>/-</span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <a class="btn btn1" href="/login">Add To
+                                                        Cart</a>
+                                                    <% if(x.inWish) {%>
+                                                        <a href="/login" class="btn btn1">
+                                                            <i class="fa fa-heart text-danger"></i> </a>
+                                                        <%}else {%>
+                                                            <a href="/login" class="btn btn1"> <i
+                                                                    class="fa fa-heart"></i>
+                                                            </a>
+                                                            <%}%>
+                                                                <a href="/login" class="btn btn1">
+                                                                    View </a>
+                                                                </frm>
+                                                </div>
+                                            </div>
+                        </div>
+                    </div>
+
+                    <%}) %>
+            </div>
+        </div>
+    </div>

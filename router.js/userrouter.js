@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const CartCount = require("../middleware/helperFunction");
 const { verifyUser, userExist } = require("../middleware/session.js");
 const { errorMiddleware } = require("../middleware/error");
 const { userCoupons } = require("../controllers/couponController.js");
@@ -59,6 +60,7 @@ const {
   removeFromCart,
   updateQuantity,
   checkCoupon,
+  getQuantity,
 } = require("../controllers/cartController.js");
 const {
   wishList,
@@ -83,7 +85,7 @@ const upload = require("../middleware/multer");
 
 //home route------------------------------------------------------->
 router.get("/guest", userExist, guestPage);
-router.get("/", verifyUser, host);
+router.get("/", verifyUser, CartCount, host);
 //login routes----------------------------------------------------->
 router.get("/login", userExist, getLogin);
 router.post("/login", postLogin);
@@ -94,61 +96,67 @@ router.post("/send-otp", postSignupOtp);
 router.get("/getSignup", userExist, getSignup);
 router.post("/signUp", postSignup);
 //address routes--------------------------------------------------->
-router.get("/geteditAddress/:id", verifyUser, getEditAddress);
-router.post("/postEditAddress", verifyUser, postEditAddress);
-router.get("/deleteAddress/:id", verifyUser, deleteAddress);
-router.get("/addAddress", verifyUser, getAddAddress);
-router.post("/addAddress", verifyUser, addAddress);
-router.post("/addNewAddress", verifyUser, addNewAddress);
-router.get('/getAddUserAddress',verifyUser,getAddUserAddress);
+router.get("/geteditAddress/:id", verifyUser, CartCount, getEditAddress);
+router.post("/postEditAddress", verifyUser, CartCount, postEditAddress);
+router.get("/deleteAddress/:id", verifyUser, CartCount, deleteAddress);
+router.get("/addAddress", verifyUser, CartCount, getAddAddress);
+router.post("/addAddress", verifyUser, CartCount, addAddress);
+router.post("/addNewAddress", verifyUser, CartCount, addNewAddress);
+router.get("/getAddUserAddress", verifyUser, CartCount, getAddUserAddress);
 //profile routes--------------------------------------------------->
-router.get("/profile", verifyUser, Profile);
-router.post("/updateProfile", verifyUser, updateProfile);
-router.get("/myCoupons", verifyUser, userCoupons);
-router.get('/walletHystory',verifyUser,WalletHistory);
+router.get("/profile", verifyUser, CartCount, Profile);
+router.post("/updateProfile", verifyUser, CartCount, updateProfile);
+router.get("/myCoupons", verifyUser, CartCount, userCoupons);
+router.get("/walletHystory", verifyUser, CartCount, WalletHistory);
 //cart routes------------------------------------------------------>
-router.get("/cart", verifyUser, Cart);
-router.post("/removefromcart", verifyUser, removeFromCart);
-router.post("/addToCart/:id", verifyUser, addToCart);
-router.post("/updatequantity", verifyUser, updateQuantity);
-router.get("/placeOrder", verifyUser, placeOrder);
-router.post("/confirmAddress", verifyUser, cashOnDelivery);
-router.post("/makePayment", verifyUser, createOrder);
-router.get('/walletPayment',verifyUser,walletPayment);
+router.get("/cart", verifyUser, CartCount, Cart);
+router.post("/removefromcart", verifyUser, CartCount, removeFromCart);
+router.post("/addToCart/:id", verifyUser, CartCount, addToCart);
+router.post("/updatequantity", verifyUser, CartCount, updateQuantity);
+router.get("/placeOrder", verifyUser, CartCount, placeOrder);
+router.post("/confirmAddress", verifyUser, CartCount, cashOnDelivery);
+router.post("/makePayment", verifyUser, CartCount, createOrder);
+router.get("/walletPayment", verifyUser, CartCount, walletPayment);
+router.get("/getcartquantity", verifyUser, CartCount, getQuantity);
 // router.post('/confirmPayment',verifyUser,confirmPayment)
 //shop route------------------------------------------------------->
-router.get("/shop", verifyUser, productList);
-router.get("/brandFilter", verifyUser, brandFilter);
-router.get("/categoryFilter", verifyUser, categoryFilter);
-router.get("/priceSort", verifyUser, priceSort);
-router.get("/priceAboveFourty", verifyUser, priceUnder);
+router.get("/shop", verifyUser, CartCount, productList);
+router.get("/brandFilter", verifyUser, CartCount, brandFilter);
+router.get("/categoryFilter", verifyUser, CartCount, categoryFilter);
+router.get("/priceSort", verifyUser, CartCount, priceSort);
+router.get("/priceAboveFourty", verifyUser, CartCount, priceUnder);
 //error routes----------------------------------------------------->
-router.get("/access-denied", userExist, throwErrOne);
-router.get("/invalid-user", userExist, throwErrTwo);
-router.get("/invalid-otp", userExist, throwErrThree);
+router.get("/access-denied", userExist, CartCount, throwErrOne);
+router.get("/invalid-user", userExist, CartCount, throwErrTwo);
+router.get("/invalid-otp", userExist, CartCount, throwErrThree);
 //product routes--------------------------------------------------->
-router.get("/productspecs/:id", verifyUser, productSpec);
-router.get("/productorders", verifyUser, Orders);
-router.post("/addToOrders/:id", verifyUser, addToOrders);
-router.put("/deleteOrderStatus/:id", verifyUser, deleteOrderStatus);
-router.post("/downloadInvoice/:id", verifyUser, downloadInvoice);
-router.post("/verify-payment", verifyUser, verifyPayment);
-router.post('/returnItem/:id',verifyUser,returnProduct);
+router.get("/productspecs/:id", verifyUser, CartCount, productSpec);
+router.get("/productorders", verifyUser, CartCount, Orders);
+router.post("/addToOrders/:id", verifyUser, CartCount, addToOrders);
+router.put("/deleteOrderStatus/:id", verifyUser, CartCount, deleteOrderStatus);
+router.post("/downloadInvoice/:id", verifyUser, CartCount, downloadInvoice);
+router.post("/verify-payment", verifyUser, CartCount, verifyPayment);
+router.post("/returnItem/:id", verifyUser, CartCount, returnProduct);
 //wishlist route--------------------------------------------------->
-router.get("/wishlist", verifyUser, wishList);
-router.get("/addToWishlist/:id", verifyUser, addToWishlist);
-router.post("/removeFromWishlist/:id", verifyUser, removeFromWishlist);
+router.get("/wishlist", verifyUser, CartCount, wishList);
+router.get("/addToWishlist/:id", verifyUser, CartCount, addToWishlist);
+router.post(
+  "/removeFromWishlist/:id",
+  verifyUser,
+  CartCount,
+  removeFromWishlist
+);
 //forgot password route-------------------------------------------->
-router.post("/verifyemail", verifyEmail);
-router.post("/verifyOtp", comapareOtp);
-router.post("/setPassword", setPassword);
-router.get("/forgotpass", forgotPassword);
-router.get("/resendOtp", userExist, resendOtp);
-router.post("/search", verifyUser, search);
+router.post("/verifyemail", CartCount, verifyEmail);
+router.post("/verifyOtp", CartCount, comapareOtp);
+router.post("/setPassword", CartCount, setPassword);
+router.get("/forgotpass", CartCount, forgotPassword);
+router.get("/resendOtp", CartCount, userExist, resendOtp);
+router.post("/search", CartCount, verifyUser, search);
 //coupon routes-------------------------------------------------->
-router.post("/checkCoupon", verifyUser, checkCoupon);
+router.post("/checkCoupon", verifyUser, CartCount, checkCoupon);
 //password routes-------------------------------------------------->
-router.get("/changePassword", verifyUser, changePassword);
+router.get("/changePassword", verifyUser, CartCount, changePassword);
 //logout route----------------------------------------------------->
 router.get("/logout", verifyUser, logOut);
 
