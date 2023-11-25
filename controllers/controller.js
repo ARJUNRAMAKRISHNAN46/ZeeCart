@@ -62,7 +62,11 @@ module.exports = {
   getSignupOtp: async (req, res) => {
     try {
       const referal = req.query.ref;
-      res.render("user/signup", { err: "", referal });
+      if (referal) {
+        res.render("user/signup", { err: "", referal });
+      } else {
+        res.render("user/signup", { err: "" ,referal:""});
+      }
     } catch (error) {
       console.log(error);
     }
