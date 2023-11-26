@@ -91,6 +91,7 @@
             </div>
           </div>
           <div class="card shadow border mt-3 p-3">
+            <input type="text" value="<%=address%>">
             <% if(address.length>0) {%>
               <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
               <a onclick="makePayment('<%=address[0]._id%>')" type="button" id="rzp-button1"
