@@ -1,67 +1,65 @@
 <%-include('../layout/user/header.ejs')-%>
     <%- include('../layout/header.ejs') -%>
 
-        <body class="bg-secondary">
+        <body>
             <form action="/addAddress" method="post">
-                <div class="row d-flex justify-content-center align-items-center">
+                <!-- <div class="row d-flex justify-content-center align-items-center" style="background:black"> -->
+                <div class="row d-flex justify-content-center align-items-center" style="background-image: url('/assets/addressImage.jpeg');background-repeat: no-repeat;background-size: cover;">
                     <div class="col-12 col-md-6 my-5"
-                        style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
+                        style="border: 5px solid #00a6ff;">
                         <br>
-                        <div class="d-flex justify-content-center align-items-center bg-secondary"
-                            style=" border-radius: 10px 10px 0 0 ;">
+                        <div class="d-flex justify-content-center align-items-center"
+                            style="background: #00a6ff;">
                             <h1 style="color: rgb(255, 255, 255);">Add address</h1>
                         </div>
                         <br>
                         <input type="hidden" value="<%=userId.id%>" name="userId">
                         <div class="d-flex justify-content-center">
-                            <span class="alert-danger" id="error"></span>
+                            <span class="alert-danger border rounded" style="font-weight: 700;" id="error"></span>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
                             <input type="text" name="name" placeholder="Name" id="name"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"
                                 onchange="validateName()" required></input>
                             <input type="number" name="mobile" placeholder="Mobile" onchange="validateMobile()"
-                                id="mobile" style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;"
+                                id="mobile" style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"
                                 required></input>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
                             <input type="text" name="email" placeholder="Email" id="email"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"
                                 onchange="validateEmail()" required></input>
                             <input type="number" name="pincode" placeholder="Pincode" id="pincode"
                                 onchange="validatePincode()" 
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;" required></input>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center align-items-center">
                             <input name="houseName" placeholder="House Name" onchange="validateAddress()" id="address"
-                                style="width: 100%;height: 100px;border-radius: 5px;padding-left: 5px;"
+                                style="width: 100%;height: 100px;border-radius: 5px;padding-left: 5px;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"
                                 required></input>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
                             <input type="text" name="locality" placeholder="Locality" onchange="validateLocality()" id="locality"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"
                                 required></input>
                             <input type="text" name="city" placeholder="City" onchange="validateCity()" id="city"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;" required></input>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
                             <input type="text" name="district" placeholder="District" onchange="validateDistrict()" id="district"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;font-weight: 600;font-size: large;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"
                                 required></input>
                             <input type="text" name="state" placeholder="State" onchange="validateState()" id="state"
-                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                                style="width: 48%;height: 35px;border-radius: 5px;padding-left: 5px;font-size: large;font-weight: 600;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;" required></input>
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
-                            <!-- <button type="submit" class="btn btn-secondary" style="color: white;"
-                                onclick="onSubmit(event)">Add
-                                Address</button> -->
-                            <button class="btn btn-primary" type="submit" id="addBtn">Add Address</button>
+                            <button class="btn btn-primary" type="submit" id="addBtn" style="font-size: large;"><b>Add Address</b></button>
                         </div>
                         <br>
                     </div>

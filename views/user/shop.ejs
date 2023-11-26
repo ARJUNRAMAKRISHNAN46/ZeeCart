@@ -102,17 +102,17 @@
                                                                         onclick="addToCart('<%=x._id%>')">Add To
                                                                         Cart</a>
                                                                     <%} %>
-                                                                        <% if(x.inWish) {%>
+                                                                        <!-- <% if(x.inWish) {%>
                                                                             <a onclick="removeFromWish('<%=x._id%>')"
                                                                                 class="btn btn1"> <i
-                                                                                    class="fa fa-heart text-danger"></i>
+                                                                                    class="fa fa-heart"></i>
                                                                             </a>
-                                                                            <%}else {%>
+                                                                            <%}else {%> -->
                                                                                 <a onclick="addToWishlist('<%=x._id%>')"
                                                                                     class="btn btn1"> <i
                                                                                         class="fa fa-heart"></i>
                                                                                 </a>
-                                                                                <%}%>
+                                                                                <!-- <%}%> -->
                                                                                     <a href="/productspecs/<%=x._id%>"
                                                                                         class="btn btn1"> View
                                                                                     </a>
@@ -180,13 +180,16 @@
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Item added to wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-
-                            }).then(function () {
+                            Toastify({
+                                text: 'Item added to wishlist',
+                                duration: 1500,
+                                gravity: 'top',
+                                position: 'center',
+                                backgroundColor: 'black',
+                                style: {
+                                    borderRadius: '10px',
+                                },
+                            }).showToast().then(function () {
                                 location.reload();
                                 console.log('Response from the server:', response);
                             });
@@ -195,43 +198,49 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops, something went wrong!'
-                        });
+                        Toastify({
+                            text: 'oops!Something went wrong',
+                            duration: 1500,
+                            gravity: 'top',
+                            position: 'center',
+                            backgroundColor: 'red',
+                            style: {
+                                borderRadius: '10px',
+                            },
+                        }).showToast()
                     }
                 });
             }
 
 
-            function removeFromWish(productId) {
+            // function removeFromWish(productId) {
 
-                $.ajax({
-                    url: `/removeFromWishlist/${productId}`,
-                    method: 'POST',
-                    success: function (response) {
-                        console.log(response);
-                        if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Item removed from wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function () {
-                                location.reload();
-                                console.log('Response from the server:', response);
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops, something went wrong!'
-                        });
-                    }
-                });
-            }
+            //     $.ajax({
+            //         url: `/removeFromWishlist/${productId}`,
+            //         method: 'POST',
+            //         success: function (response) {
+            //             console.log(response);
+            //             if (response.success) {
+            //                 Swal.fire({
+            //                     icon: 'success',
+            //                     title: 'Item removed from wishlist',
+            //                     showConfirmButton: false,
+            //                     timer: 1500
+            //                 }).then(function () {
+            //                     location.reload();
+            //                     console.log('Response from the server:', response);
+            //                 });
+            //             }
+            //         },
+            //         error: function (xhr, status, error) {
+            //             console.error('Error:', error);
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Oops, something went wrong!'
+            //             });
+            //         }
+            //     });
+            // }
 
             function searchProducts() {
                 const searchInput = document.getElementById("searchInput").value;

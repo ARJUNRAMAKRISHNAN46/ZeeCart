@@ -98,6 +98,7 @@ module.exports = {
     try {
       let email = req.session.email;
       let address = await Address.find({ email });
+      console.log(address,'addresssssssss------------------>');
       let userId = await User.findOne({ email });
       const coupon = req.session.coupon;
       const couponCode = req.session.couponCode;

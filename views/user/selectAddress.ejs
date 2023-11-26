@@ -91,14 +91,18 @@
             </div>
           </div>
           <div class="card shadow border mt-3 p-3">
-            <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
-            <a onclick="makePayment('<%=address[0]._id%>')" type="button" id="rzp-button1"
-              style="background: rgb(255, 254, 207);" class="btn btn-success text-dark"><b>Online Payment</b></a>
-            <button class="btn border-success mt-2" type="submit" style="background: rgb(213, 233, 255);"
-              href="/confirmAddress"><b>Cash On
-                Delivery</b></button>
-            <a onclick="walletPayment('<%=address[0]._id%>')" class="btn btn-success mt-2 text-dark"
-              style="background: rgb(191, 255, 190);"><b>Wallet Payment</b></a>
+            <% if(address.length>0) {%>
+              <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
+              <a onclick="makePayment('<%=address[0]._id%>')" type="button" id="rzp-button1"
+                style="background: rgb(255, 254, 207);" class="btn btn-success text-dark"><b>Online Payment</b></a>
+                <button class="btn border-success mt-2" type="submit" style="background: rgb(213, 233, 255);"
+                  href="/confirmAddress"><b>Cash On
+                    Delivery</b></button>
+                <a onclick="walletPayment('<%=address[0]._id%>')" class="btn btn-success mt-2 text-dark"
+                  style="background: rgb(191, 255, 190);"><b>Wallet Payment</b></a>
+              <%}else{%>
+              <h5 class="text-danger"><b>Please add an address</b></h5>
+                <%} %>
           </div>
 
         </div>
