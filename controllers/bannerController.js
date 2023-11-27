@@ -14,7 +14,6 @@ module.exports = {
   },
   addBanner: async (req, res) => {
     try {
-      console.log(req.body, req.file);
       let title = req.body.title;
       let imagePath = `/banner-images/${req.file.filename}`;
       let image = req.file;
@@ -28,8 +27,6 @@ module.exports = {
         "image/avif",
       ];
 
-      console.log(image.mimetype, "-------------------------------->");
-      console.log(image, "path-------------------------------->");
       if (!supportedFormats.includes(image.mimetype)) {
         console.log("Unsupported image format");
         return res.redirect("/banners");
@@ -40,10 +37,7 @@ module.exports = {
       const croppedImageBuffer = await sharp(imageBuffer)
         .resize({ width: 750, height: 279, fit: sharp.fit.cover })
         .toBuffer();
-      console.log(
-        croppedImageBuffer,
-        "image cropp image success................................"
-      );
+
       const savePath = path.join(
         __dirname,
         "../public/banner-images/cropped_images"
@@ -64,17 +58,16 @@ module.exports = {
   deleteBanner: async (req, res) => {
     try {
       const bannerId = req.query.bannerId;
-      console.log(bannerId);
       const deleteBan = await Banner.findByIdAndDelete(bannerId);
       res.json({
-        status : true,
-        msg : 'banner delete successfully'
-      })
+        status: true,
+        msg: "banner delete successfully",
+      });
     } catch (error) {
       res.json({
-        status : false,
-        msg : 'error occured while deleting the banner'
-      })
+        status: false,
+        msg: "error occured while deleting the banner",
+      });
       console.log(error);
     }
   },

@@ -167,7 +167,6 @@ module.exports = {
       } else {
         status = false;
       }
-      console.log(wishData, "--------------------->>");
       //fetching product details
       const prodSpec = await products.findById(prodId);
       let i = 0;
@@ -318,13 +317,11 @@ module.exports = {
   },
   postEditOffer: async (req, res) => {
     try {
-      console.log(req.body);
       const offerData = await offer.updateOne({
         Catagory: req.body.Catagory,
         discount: req.body.discount,
         expiryDate: req.body.expiryDate,
       });
-      console.log(offerData, "-------od");
       res.redirect("/offers");
     } catch (error) {
       console.log(error);
@@ -334,9 +331,7 @@ module.exports = {
     try {
       const productId = req.params.id;
       const imageIndex = req.params.index;
-      console.log(productId, imageIndex, "---------------->");
       const product = await products.findById(productId);
-      console.log(product, "product");
       if (!product) {
         return res.status(404).send("Product not found");
       }

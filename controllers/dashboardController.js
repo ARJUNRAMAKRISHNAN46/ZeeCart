@@ -72,7 +72,6 @@ module.exports = {
           dataByCount = ordersByDay.map((entry) => entry.count);
           dataByAmount = amountsByDay.map((entry) => entry.total);
         } else if (req.url === "/count-orders-by-month") {
-          console.log("vannnn");
           if (!orderCountsByMonthYear[monthYear]) {
             orderCountsByMonthYear[monthYear] = 1;
             totalAmountByMonthYear[monthYear] = order.totalAmount;
@@ -134,7 +133,6 @@ module.exports = {
         }
       });
 
-      console.log({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
       res.json({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
     } catch (error) {
       console.error("error while chart loading :", error);

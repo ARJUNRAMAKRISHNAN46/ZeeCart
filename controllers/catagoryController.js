@@ -13,7 +13,7 @@ module.exports = {
     try {
       const catagory = req.body.catagoryname;
       const catagoryz = await Catagory.find();
-      const dataCount = await Catagory.find().count()
+      const dataCount = await Catagory.find().count();
       const prev = await Catagory.findOne({ catagoryName: catagory });
       if (prev) {
         res.render("admin/catagory", {
@@ -77,7 +77,7 @@ module.exports = {
       //creating pagination
       const pageNum = req.query.page;
       const perPage = 2;
-      const dataCount = await Catagory.find().count()
+      const dataCount = await Catagory.find().count();
       const catagoryz = await Catagory.find()
         .skip((pageNum - 1) * perPage)
         .limit(perPage);

@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const Wallet = require("../models/walletModel");
 const Cart = require("../models/cartModel");
 const WalletHistory = require("../models/walletHistoryModel");
-const Order = require('../models/ordersModel');
+const Order = require("../models/ordersModel");
 
 module.exports = {
   //get user profile page
@@ -96,10 +96,9 @@ module.exports = {
   //placing order
   placeOrder: async (req, res) => {
     try {
-      let email = req.session.email;
-      let address = await Address.find({ email });
-      console.log(address,'addresssssssss------------------>');
-      let userId = await User.findOne({ email });
+      const email = req.session.email;
+      const userId = await User.findOne({ email });
+      const address = await Address.find({ userId: userId._id });
       const coupon = req.session.coupon;
       const couponCode = req.session.couponCode;
       const cart = await Cart.findOne({ userId: userId._id }).populate(

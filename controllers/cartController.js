@@ -238,7 +238,6 @@ module.exports = {
           itemPrice: itemPrice,
         });
       } else {
-        console.log("out of stock");
         res.json({
           success: false,
           err: "out of stock",
@@ -248,26 +247,28 @@ module.exports = {
       console.log(error);
     }
   },
-  getQuantity : async (req, res) => {
+  getQuantity: async (req, res) => {
     try {
       const email = req.session.email;
       const user = await User.findOne({ email: email });
-  
+
       if (!user) {
-        return res.status(404).json({ success: false, error: "User not found" });
+        return res
+          .status(404)
+          .json({ success: false, error: "User not found" });
       }
-  
+
       const userId = user._id;
-  
+
       const cart = await Cart.findOne({ userId: userId });
-  
+
       if (!cart) {
         // If the cart doesn't exist, return a response with quantity 0
         return res.json({ success: true, quantity: 0 });
       }
-  
+
       const totalQuantity = cart.calculateTotalQuantity();
-  
+
       res.json({ success: true, quantity: totalQuantity });
     } catch (error) {
       console.error("Error fetching cart quantity:", error);

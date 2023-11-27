@@ -22,14 +22,10 @@ module.exports = {
       const orderDetails = await order
         .find({ userId: userId })
         .populate("products.productId");
-      console.log(orderDetails, "odrsf");
       if (orderDetails[0] == undefined) {
       } else {
       }
-      console.log(
-        orderDetails,
-        "------------------------------------------------------------------------------------------------------>"
-      );
+
       res.render("user/orders", { orderDetails, active });
     } catch (error) {
       console.log(error);
@@ -40,7 +36,6 @@ module.exports = {
     try {
       const Total = req.session.totalPrice;
       const grandTotal = req.session.grandTotal;
-      console.log(Total, grandTotal);
       let amount;
       if (grandTotal) {
         amount = grandTotal;
@@ -176,7 +171,9 @@ module.exports = {
       const grandTotal = req.session.grandTotal;
       const Total = req.session.totalPrice;
       const addressId = req.body.id;
-      console.log(grandTotal, grandTotal);
+      const email = req.session.email;
+      const userData = await User.findOne({ email });
+
       let amount;
       if (grandTotal) {
         amount = grandTotal;
@@ -184,7 +181,7 @@ module.exports = {
         amount = Total;
       }
       const curAdd = await Address.findOne({ _id: addressId });
-      const orderData = await Cart.findOne();
+      const orderData = await Cart.findOne({ userId: userData._id });
       const currentDate = new Date();
       const fourDaysLater = new Date(currentDate);
       fourDaysLater.setDate(currentDate.getDate() + 4);
@@ -220,10 +217,8 @@ module.exports = {
           }
         );
       });
-      await Cart.findOneAndDelete({ userId: orderData.userId });
+      const cartDetails = await Cart.findByIdAndDelete(orderData._id);
       const orderId = Order._id;
-      const email = req.session.email;
-      const userData = await User.findOne({ email });
       const total = req.session.grandTotal;
       res.render("user/paymentSuccess", { total, userData });
     } catch (error) {
@@ -231,7 +226,6 @@ module.exports = {
     }
   },
   getDownloadSalesReport: async (req, res) => {
-    console.log(req.body);
     try {
       let startDate = new Date(req.body.startDate);
       const format = req.body.fileFormat;
@@ -253,7 +247,6 @@ module.exports = {
         totalSales += order.totalAmount || 0;
       });
 
-      console.log(totalSales, "orderssss");
       const sum = totalSales.length > 0 ? totalSales[0].totalSales : 0;
       pdf.downloadPdf(req, res, orders, startDate, endDate, totalSales);
     } catch (error) {
@@ -279,7 +272,6 @@ module.exports = {
     try {
       const orderId = req.params.id;
       const newStatus = "rejected";
-      console.log(orderId);
       const data = await order.findByIdAndUpdate(orderId, {
         orderStatus: newStatus,
       });

@@ -25,14 +25,17 @@ module.exports = {
       _password = password;
       const userData = await User.findOne({ email });
       const products = await Products.find();
-
-      if (userData.email == email && userData.password == password) {
-        if (userData.statuz == "Active") {
-          req.session.logged = true;
-          req.session.email = _email;
-          res.redirect("/");
+      if (userData) {
+        if (userData.email == email && userData.password == password) {
+          if (userData.statuz == "Active") {
+            req.session.logged = true;
+            req.session.email = _email;
+            res.redirect("/");
+          } else {
+            res.redirect("/access-denied");
+          }
         } else {
-          res.redirect("/access-denied");
+          res.redirect("/invalid-user");
         }
       } else {
         res.redirect("/invalid-user");
@@ -65,7 +68,7 @@ module.exports = {
       if (referal) {
         res.render("user/signup", { err: "", referal });
       } else {
-        res.render("user/signup", { err: "" ,referal:""});
+        res.render("user/signup", { err: "", referal: "" });
       }
     } catch (error) {
       console.log(error);

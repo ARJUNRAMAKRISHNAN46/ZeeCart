@@ -19,8 +19,8 @@
                   <label class="form-check-label text-success" for="flexRadioDefault1" style="font-size: small;">
                     <%=x.name%>
                       <%=x.mobile%> <br>
-                        <%=x.address%>,<%=x.locality%>,
-                            <%=x.district%>,<%=x.state%>,<br>
+                        <%=x.houseName%>,<%=x.locality%>,<br>
+                        <%=x.city%>,<%=x.district%>,<%=x.state%>,<br>
                                 <%=x.pincode%>
                   </label>
                 </div>
@@ -91,7 +91,6 @@
             </div>
           </div>
           <div class="card shadow border mt-3 p-3">
-            <input type="text" value="<%=address%>">
             <% if(address.length>0) {%>
               <h5 class="text-success"><b>Choose Your Payment Method</b></h5>
               <a onclick="makePayment('<%=address[0]._id%>')" type="button" id="rzp-button1"

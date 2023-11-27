@@ -177,7 +177,6 @@ module.exports = {
   changePassword: async (req, res) => {
     try {
       const email = req.session.email;
-      console.log(email);
       res.render("user/changePassword");
     } catch (error) {
       console.log(error);
@@ -189,7 +188,6 @@ module.exports = {
       const pageNum = req.query.page;
       const perPage = 5;
       const dataCount = await User.find().count();
-      // console.log(countData);
       const userData = await User.find()
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
@@ -239,7 +237,6 @@ module.exports = {
         })
         .populate("Address")
         .populate("Items.ProductId");
-      console.log("order data ====", orderData);
       const filePath = await invoice.order(orderData);
       const orderId = orderData._id;
       res.json({ orderId });
@@ -256,13 +253,8 @@ module.exports = {
   },
 
   verifyPayment: async (req, res) => {
-    console.log("it is the body", req.body);
     let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_KEY);
-    console.log(
-      req.body.payment.razorpay_order_id +
-        "|" +
-        req.body.payment.razorpay_payment_id
-    );
+
     hmac.update(
       req.body.payment.razorpay_order_id +
         "|" +
@@ -270,27 +262,17 @@ module.exports = {
     );
 
     hmac = hmac.digest("hex");
-    console.log(
-      hmac,
-      "hmacccccccccccccccccccccc------------------------------------------"
-    );
+
     if (hmac === req.body.payment.razorpay_signature) {
       const orderId = req.body.order.receipt;
-      console.log(orderId, "orderIdddddddddddddddddddddddddd");
-      console.log("reciept", req.body.order.receipt);
-      console.log(
-        req.body.orderId,
-        "-------------------------------------------------------------------------------------------------------------------orderid"
-      );
+
       const orderID = req.body.orderId;
       const updateOrderDocument = await order.findByIdAndUpdate(orderID, {
         PaymentStatus: "Paid",
         paymentMethod: "Online",
       });
-      console.log("hmac success");
       res.json({ success: true });
     } else {
-      console.log("hmac failed");
       res.json({ failure: true });
     }
   },

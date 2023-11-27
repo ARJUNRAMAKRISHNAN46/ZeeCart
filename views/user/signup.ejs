@@ -144,14 +144,14 @@
                 <%} %>
             <input type="hidden" value="Active" name="statuz">
             <p class="msg" id="message1"></p>
-            <input type="text" placeholder="name" id="myInput1" name="name" onchange="validateUserName()">
+            <input type="text" placeholder="name" id="myInput1" name="name" onchange="validateUserName()" required>
             <p class="msg" id="message2"></p>
-            <input type="email" placeholder="Email" id="myInput2" name="email" onchange="validateUserEmail()">
+            <input type="email" placeholder="Email" id="myInput2" name="email" onchange="validateUserEmail()" required>
             <p class="msg" id="message3"></p>
-            <input type="password" placeholder="Password" id="password" name="password" onchange="validatePassword();">
+            <input type="password" placeholder="Password" id="password" name="password" onchange="validatePassword();" required>
             <p class="msg" id="message"></p>
             <input type="password" placeholder="Confirm Password" id="confirmpass1" name="confirmpassword"
-                onkeyup="checkPasswordMatch();">
+                onkeyup="checkPasswordMatch();" required>
 
             <button type="submit">Sign Up</button>
             <div class="signup-link">Already a member? <a href="/login">Login now</a></div>

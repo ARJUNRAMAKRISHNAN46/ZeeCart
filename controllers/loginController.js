@@ -35,13 +35,11 @@ module.exports = {
   //     console.log(error);
   //   }
   // },
-  
   // sendOTPController: async (req, res) => {
   //   try {
   //     const { statuz, name, email, password } = req.body;
   //     // console.log(statuz, name, email, password); //fetching user data from database
   //     const data = await User.findOne({ email });
-
   //     if (data) {
   //       res.render("user/signup", { err: "email already exists" });
   //     } else {
@@ -66,9 +64,6 @@ module.exports = {
   //     console.log(error);
   //   }
   // },
-  
-  
-  
   // signUp: async (req, res) => {
   //   try {
   //     const arr = [];
@@ -81,9 +76,7 @@ module.exports = {
   //     const finalotp = Number(arr.join(""));
   //     console.log(finalotp + "ghj");
   //     const { email, name, password, statuz } = req.body;
-
   //     const userOTP = await OTP.find({ email });
-
   //     comparing the entered otp and and sending otp
   //     if (userOTP[0].otp == finalotp) {
   //       req.session.email = email;
@@ -94,7 +87,6 @@ module.exports = {
   //         name: name,
   //         password: password,
   //       });
-
   //       res.redirect("/");
   //     } else {
   //       res.render("user/otp", {

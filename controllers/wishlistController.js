@@ -13,7 +13,6 @@ module.exports = {
       const Wishlist = await wishlist
         .find({ userId: userId })
         .populate("products.productId");
-      console.log(Wishlist, "wishlists..................");
       if (Wishlist.length > 0) {
         wishData = Wishlist[0].products;
       } else {

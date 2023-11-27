@@ -19,7 +19,6 @@ module.exports = {
         res.redirect("/dashboard");
       } else {
         res.render("admin/login", { err: "invalid username or password" });
-        console.log("invalid username or password");
       }
     } catch (error) {
       console.log(error);
@@ -60,7 +59,12 @@ module.exports = {
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
       const formattedDate = `${year}-${month}-${day}`;
-      res.render("admin/offerManagement", { catData, offers, formattedDate, err: "" });
+      res.render("admin/offerManagement", {
+        catData,
+        offers,
+        formattedDate,
+        err: "",
+      });
     } catch (error) {
       console.log(error);
     }
