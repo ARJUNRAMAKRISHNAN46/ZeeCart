@@ -3,7 +3,6 @@ const { generateOTP } = require("./generateOTP");
 const { sendMail } = require("./mail");
 
 async function sendOTP(email) {
-  console.log(email);
   const otp = generateOTP();
   // req.session.otp = otp;
 

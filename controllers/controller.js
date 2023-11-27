@@ -10,6 +10,7 @@ var _name;
 var _statuz;
 var _password;
 var _referal;
+var _otp;
 module.exports = {
   //get login
   getLogin: async (req, res) => {
@@ -89,7 +90,8 @@ module.exports = {
         _password = password;
         _referal = referal;
 
-        await sendOTP(_email);
+        _otp = await sendOTP(_email);
+        console.log(_otp.otp, "--------------------------------------otp");
         // const referal = req.body.referal;
 
         setTimeout(async () => {
@@ -123,7 +125,7 @@ module.exports = {
       const statuz = _statuz;
       const password = _password;
       const userOTP = await OTP.find({ email });
-      if (userOTP[0].otp == finalotp) {
+      if (_otp.otp == finalotp) {
         req.session.logged = true;
         req.session.email = email;
         const referal = _referal;
