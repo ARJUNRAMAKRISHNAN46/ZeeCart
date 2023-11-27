@@ -9,10 +9,11 @@ const CartCount = async (req, res, next) => {
     const cartData = await Cart.findOne({ userId });
 
     if (cartData) {
-      let cartCount = 0;
-      for (const product of cartData.products) {
-        cartCount += product.quantity;
-      }
+      const cartCount = cartData.products.length;
+      // let cartCount = 0;
+      // for (const product of cartData.products) {
+      //   cartCount += product.quantity;
+      // }
       res.locals.cartCount = cartCount;
       res.locals.name = user.name;
     } else {

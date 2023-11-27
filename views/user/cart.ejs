@@ -187,19 +187,19 @@
       function quantityChanger(productId, count, cartId) {
         var quantityElement = document.getElementById("quantity_" + productId);
         var currentQuantity = parseInt(quantityElement.innerText, 10)
-        var cartQuantityElement = document.getElementById('cart-count');
+        // var cartQuantityElement = document.getElementById('cart-count');
 
         if (count === 1 && currentQuantity < 4) {
           currentQuantity += 1;
           quantityElement.innerText = currentQuantity;
           console.log(cartQuantityElement.textContent);
-          cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
+          // cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
           console.log("count increased...")
         } else if (count === -1 && currentQuantity > 1) {
           currentQuantity -= 1;
           quantityElement.innerText = currentQuantity;
           console.log(cartQuantityElement.textContent);
-          cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) - 1;
+          // cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) - 1;
           console.log("count decreased...")
         } else {
           Toastify({
@@ -216,7 +216,6 @@
 
         // if ( currentQuantity <= 5 ) {
 
-        console.log('-------------------------------------------------->');
         $.ajax({
           url: '/updatequantity',
           method: 'POST',

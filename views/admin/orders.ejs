@@ -70,6 +70,7 @@
             <table id="tbOrderHistory" class="table border ps-table w-100 mb-3">
                 <thead>
                     <tr>
+                        <th class="font-weight-bold py-2 border-0 ">No</th>
                         <th class="font-weight-bold py-2 border-0 quantity">Order ID</th>
                         <th class="font-weight-bold py-2 border-0 ">User ID</th>
                         <th class="font-weight-bold py-2 border-0 ">Purchased On</th>
@@ -83,12 +84,14 @@
                 <tbody>
                     <%orderDetails.forEach((x)=> {%>
                         <tr>
+                            <td><%=++i%></td>
                             <td>ODR[<%= x._id %>]
                             </td>
                             <td>#<%= x.userId %>
                             </td>
                             <td>
-                                <%= x.orderDate %>
+                                <%= x.orderDate.toLocaleDateString() || 'N/A' %>
+                                <%= x.orderDate.toLocaleTimeString() || 'N/A' %>
                             </td>
                             <td>
                                 <%= x.paymentMethod %>

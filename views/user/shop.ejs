@@ -108,14 +108,14 @@
                                                                                     class="fa fa-heart"></i>
                                                                             </a>
                                                                             <%}else {%> -->
-                                                                                <a onclick="addToWishlist('<%=x._id%>')"
-                                                                                    class="btn btn1"> <i
-                                                                                        class="fa fa-heart"></i>
-                                                                                </a>
-                                                                                <!-- <%}%> -->
-                                                                                    <a href="/productspecs/<%=x._id%>"
-                                                                                        class="btn btn1"> View
-                                                                                    </a>
+                                                                        <a onclick="addToWishlist('<%=x._id%>')"
+                                                                            class="btn btn1"> <i
+                                                                                class="fa fa-heart"></i>
+                                                                        </a>
+                                                                        <!-- <%}%> -->
+                                                                        <a href="/productspecs/<%=x._id%>"
+                                                                            class="btn btn1"> View
+                                                                        </a>
                                                         </div>
                                                     </div>
                                 </div>
@@ -131,9 +131,9 @@
         <script>
 
             function addToCart(productId) {
-                var cartQuantityElement = document.getElementById('cart-count');
-                console.log(cartQuantityElement.textContent);
-                cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
+                // var cartQuantityElement = document.getElementById('cart-count');
+                // console.log(cartQuantityElement.textContent);
+                // cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
                 $.ajax({
                     url: `/addToCart/${productId}`,
                     method: 'POST',
@@ -159,15 +159,15 @@
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
                         Toastify({
-                                text: 'Oops, something went wrong!',
-                                duration: 1500,
-                                gravity: 'top',
-                                position: 'center',
-                                backgroundColor: 'black',
-                                style: {
-                                    borderRadius: '10px',
-                                },
-                            }).showToast()
+                            text: 'Oops, something went wrong!',
+                            duration: 1500,
+                            gravity: 'top',
+                            position: 'center',
+                            backgroundColor: 'black',
+                            style: {
+                                borderRadius: '10px',
+                            },
+                        }).showToast()
                     }
                 });
             }

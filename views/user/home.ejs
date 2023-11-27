@@ -94,7 +94,7 @@
                     <% BudgetMobiles.forEach((x)=>{ %>
                         <div class="col-6 col-md-3">
                             <div class="product-card">
-                                <div style="height: 300px;" class="product-card-img p-3">
+                                <div class="product-card-img p-3">
                                     <img src="/product-images/<%= x.images[0] %>" alt="Laptop">
                                 </div>
                                 <%if(x.AvailableQuantity==0) {%>
@@ -104,7 +104,7 @@
                                         <%}else {%>
                                             <label class="stock bg-success">In Stock</label>
                                             <%} %>
-                                                <div class="product-card-body">
+                                                <div class="product-card-body text-truncate" style="line-height: 10px;">
                                                     <p class="product-brand"></p>
                                                     <h5 class="product-name">
                                                         <%=x.ProductName%>
@@ -191,9 +191,9 @@
                                         <%}else {%>
                                             <label class="stock bg-success">In Stock</label>
                                             <%} %>
-                                                <div class="product-card-body">
+                                                <div class="product-card-body text-truncate" style="line-height: 10px;">
                                                     <p class="product-brand"></p>
-                                                    <h5 class="product-name">
+                                                    <h5 class="product-name ">
                                                         <%=x.ProductName%>
                                                     </h5>
                                                     <div>
@@ -229,9 +229,9 @@
         <script>
 
             function addToCart(productId) {
-                var cartQuantityElement = document.getElementById('cart-count');
-                console.log(cartQuantityElement.textContent);
-                cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
+                // var cartQuantityElement = document.getElementById('cart-count');
+                // console.log(cartQuantityElement.textContent);
+                // cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
                 $.ajax({
                     url: `/addToCart/${productId}`,
                     method: 'POST',
