@@ -130,7 +130,7 @@
         }
     </style>
     <div class="container px-1 px-md-4 py-5 mx-auto">
-        <% if(orderDetails.length == 0) {%>
+        <% if(orderDetails.length==0) {%>
             <div class="card min-vh-100 d-flex justify-content-center align-items-center ">
                 <h1 class="alert-danger">No Orders Found</h1>
             </div>
@@ -169,22 +169,38 @@
                                         </h5>
                                     </div>
                                     <div class="d-flex flex-column text-sm-right">
-                                        <p class="mb-0"><strong>Order Date : <span>
-                                                    <%=x.orderDate%>
-                                                </span></strong></p>
-                                        <p class="mb-0"><strong>Expected Delivery : <span>
-                                                    <%=x.expectedDeliveryDate%>
-                                                </span></strong></p><br>
-                                        <h5><strong>Payment Method : <span>
-                                                    <%=x.paymentMethod%>
-                                                </span></strong></h5>
 
-                                        <p><span class="font-weight-bold"><b>Delivery Address</b> :
-                                                <%= x.address.houseName %>,<%= x.address.locality %>, <br>
-                                                        <%= x.address.city %> , <%= x.address.district %> ,
-                                                                <%= x.address.state %> , <br>
-                                                                    PIN : <%= x.address.pincode %>
-                                            </span></p>
+                                        <% let orderDate=new Date(x.orderDate) %>
+                                            <p class="card-text">
+                                                Ordered Date and Time:
+                                                <%= orderDate.toLocaleDateString() || 'N/A' %>
+                                                    <%= orderDate.toLocaleTimeString() || 'N/A' %>
+                                            </p>
+                                            <p class="card-text">
+                                                Expected Delivery Date and Time:
+                                                <% if (x.expectedDeliveryDate) { %>
+                                                    <%= (new Date(x.expectedDeliveryDate)).toLocaleString() %>
+                                                        <% } else { %>
+                                                            N/A
+                                                            <% } %>
+                                            </p>
+
+                                            <!-- <p class="mb-0"><strong>Order Date : <span>
+                                                        <%=x.orderDate%>
+                                                    </span></strong></p>
+                                            <p class="mb-0"><strong>Expected Delivery : <span>
+                                                        <%=x.expectedDeliveryDate%>
+                                                    </span></strong></p><br> -->
+                                            <h5><strong>Payment Method : <span>
+                                                        <%=x.paymentMethod%>
+                                                    </span></strong></h5>
+
+                                            <p><span class="font-weight-bold"><b>Delivery Address</b> :
+                                                    <%= x.address.houseName %>,<%= x.address.locality %>, <br>
+                                                            <%= x.address.city %> , <%= x.address.district %> ,
+                                                                    <%= x.address.state %> , <br>
+                                                                        PIN : <%= x.address.pincode %>
+                                                </span></p>
                                     </div>
                         </div>
                         <div class="row d-flex justify-content-center">

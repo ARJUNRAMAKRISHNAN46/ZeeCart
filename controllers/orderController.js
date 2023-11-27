@@ -45,9 +45,12 @@ module.exports = {
       const addressId = req.params.id;
       const curAdd = await Address.findOne({ _id: addressId });
       const orderData = await Cart.findOne();
-      const currentDate = new Date();
-      const fourDaysLater = new Date(currentDate);
-      fourDaysLater.setDate(currentDate.getDate() + 4);
+      const currentDate = new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Kolkata",
+      });
+      const fourDaysLater = new Date(
+        Date.now() + 4 * 24 * 60 * 60 * 1000
+      ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
@@ -59,8 +62,8 @@ module.exports = {
           state: curAdd.state,
           pincode: curAdd.pincode,
         },
-        orderDate: currentDate.toDateString(),
-        expectedDeliveryDate: fourDaysLater.toDateString(),
+        orderDate: currentDate,
+        expectedDeliveryDate: fourDaysLater,
         paymentMethod: "online",
         PaymentStatus: "Paid",
         totalAmount: amount,
@@ -182,9 +185,12 @@ module.exports = {
       }
       const curAdd = await Address.findOne({ _id: addressId });
       const orderData = await Cart.findOne({ userId: userData._id });
-      const currentDate = new Date();
-      const fourDaysLater = new Date(currentDate);
-      fourDaysLater.setDate(currentDate.getDate() + 4);
+      const currentDate = new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Kolkata",
+      });
+      const fourDaysLater = new Date(
+        Date.now() + 4 * 24 * 60 * 60 * 1000
+      ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
@@ -196,8 +202,8 @@ module.exports = {
           state: curAdd.state,
           pincode: curAdd.pincode,
         },
-        orderDate: currentDate.toDateString(),
-        expectedDeliveryDate: fourDaysLater.toDateString(),
+        orderDate: currentDate,
+        expectedDeliveryDate: fourDaysLater,
         paymentMethod: "COD",
         PaymentStatus: "Pending",
         totalAmount: grandTotal,

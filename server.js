@@ -4,7 +4,7 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const cors = require("cors");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const nocache = require("nocache");
 const app = express();
 const router = require("./router.js/userrouter");
@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-app.use(morgan("tiny"));
+// app.use(morgan("tiny"));
 
 app.use(
   cors({
