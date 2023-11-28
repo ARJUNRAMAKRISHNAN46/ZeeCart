@@ -75,104 +75,115 @@
 
 // module.exports = { invoiceDownload };
 
-
-const easyinvoice = require('easyinvoice');
+const easyinvoice = require("easyinvoice");
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
+const pdf = require("html-pdf");
 const writeFileAsync = util.promisify(fs.writeFile);
 
 module.exports = {
-  order: async (order) => {
+  invoiceDownload: async (order) => {
     // console.log(order, "utitlity");
-  var data = {
-            // Customize enables you to provide your own templates
-            // Please review the documentation for instructions and examples
-            "customize": {
-                //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
-            },
+    var data = {
+      // Customize enables you to provide your own templates
+      // Please review the documentation for instructions and examples
+      customize: {
+        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
+      },
 
-            "images": {
-                // "background": "https://public.easyinvoice.cloud/pdf/sample-background.pdf"
-                "logo": fs.readFileSync(path.join(__dirname, '..', 'public', 'assets', 'zeecart.png'), 'base64'),
-                // "background": fs.readFileSync(path.join(__dirname, '..', 'public', 'assets', 'background', 'your_background.png'), 'base64')
-                // "background": "https://public.easyinvoice.cloud/pdf/sample-background.pdf"
+      images: {
+        // "background": "https://public.easyinvoice.cloud/pdf/sample-background.pdf"
+        logo: fs.readFileSync(
+          path.join(__dirname, "..", "public", "assets", "zeecart.png"),
+          "base64"
+        ),
+        // "background": fs.readFileSync(path.join(__dirname, '..', 'public', 'assets', 'background', 'your_background.png'), 'base64')
+        // "background": "https://public.easyinvoice.cloud/pdf/sample-background.pdf"
+      },
+      sender: {
+        company: "ZEECART",
+        address: "NADAKKAVU",
+        zip: "673001",
+        city: "Calicut",
+        country: "Kerala",
+      },
+      client: {
+        // "company": order.ShippedAddress.Name,
+        // "address": order.ShippedAddress.Address,
+        // "zip":order.ShippedAddress.Pincode ,
+        // "zip": order.ShippedAddress.Pincode,
+        // "city": order.ShippedAddress.City,
+        // "state":order.ShippedAddress.State,
+        // "Mob No":order.ShippedAddress.Mobaile,
+        // "state": order.ShippedAddress.State,
+        // "Mob No": order.ShippedAddress.Mobaile
+      },
+      information: {
+        number: order._id,
+        date: order.OrderedDate,
+        "due-date": order.OrderedDate,
+      },
+      products: order.Items.map((product) => ({
+        quantity: product.Quantity,
+        description: product.ProductId.ProductName,
+        "tax-rate": 0,
+        price: product.ProductId.DiscountAmount,
+      })),
 
-            },
-            "sender": {
-                "company": "ZEECART",
-                "address": "NADAKKAVU",
-                "zip": "673001",
-                "city": "Calicut",
-                "country": "Kerala"
-            },
-            "client": {
-                // "company": order.ShippedAddress.Name,
-                // "address": order.ShippedAddress.Address,
-                // "zip":order.ShippedAddress.Pincode ,
-                // "zip": order.ShippedAddress.Pincode,
-                // "city": order.ShippedAddress.City,
-                // "state":order.ShippedAddress.State,
-                // "Mob No":order.ShippedAddress.Mobaile,
-                // "state": order.ShippedAddress.State,
-                // "Mob No": order.ShippedAddress.Mobaile
-            },
-            "information": {
-                "number": order._id,
-                "date": order.OrderedDate,
-                "due-date": order.OrderedDate
-            },
-            "products": order.Items.map((product) => ({
-                "quantity": product.Quantity,
-                "description": product.ProductId.ProductName, 
-                "tax-rate": 0,
-                "price": product.ProductId.DiscountAmount
-            })),
+      "bottom-notice": "Thank You For Your Purchase",
+      settings: {
+        currency: "USD",
+        "tax-notation": "vat",
+        currency: "INR",
+        "tax-notation": "GST",
+        "margin-top": 50,
+        "margin-right": 50,
+        "margin-left": 50,
+        "margin-bottom": 25,
+      },
 
-            "bottom-notice": "Thank You For Your Purchase",
-            "settings": {
-                "currency": "USD",
-                "tax-notation": "vat",
-                "currency": "INR",
-                "tax-notation": "GST",
-                "margin-top": 50,
-                "margin-right": 50,
-                "margin-left": 50,
-                "margin-bottom": 25
-            },
+      // Translate your invoice to your preferred language
+      translate: {
+        // "invoice": "FACTUUR",  // Default to 'INVOICE'
+        // "number": "Nummer", // Defaults to 'Number'
+        // "date": "Datum", // Default to 'Date'
+        // "due-date": "Verloopdatum", // Defaults to 'Due Date'
+        // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
+        // "products": "Producten", // Defaults to 'Products'
+        // "quantity": "Aantal", // Default to 'Quantity'
+        // "price": "Prijs", // Defaults to 'Price'
+        // "product-total": "Totaal", // Defaults to 'Total'
+        // "total": "Totaal", // Defaults to 'Total'
+        // "vat": "btw" // Defaults to 'vat'
+      },
+    }; 
 
-        // Translate your invoice to your preferred language
-        "translate": {
-            // "invoice": "FACTUUR",  // Default to 'INVOICE'
-            // "number": "Nummer", // Defaults to 'Number'
-            // "date": "Datum", // Default to 'Date'
-            // "due-date": "Verloopdatum", // Defaults to 'Due Date'
-            // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
-            // "products": "Producten", // Defaults to 'Products'
-            // "quantity": "Aantal", // Default to 'Quantity'
-            // "price": "Prijs", // Defaults to 'Price'
-            // "product-total": "Totaal", // Defaults to 'Total'
-            // "total": "Totaal", // Defaults to 'Total'
-            // "vat": "btw" // Defaults to 'vat'
-        }
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await easyinvoice.createInvoice(data);
 
-    //Create your invoice! Easy!
+        const htmlContent = result.html;
+        const filePath = path.join(
+          __dirname,
+          "..",
+          "public",
+          "pdf",
+          `${order._id}.pdf`
+        );
 
-      // Create a Promise to handle the asynchronous file writing
-      return new Promise(async (resolve, reject) => {
-        try {
-            const result = await easyinvoice.createInvoice(data);
-
-
-            const filePath = path.join(__dirname, '..', 'public', 'pdf', `${order._id}.pdf`);
-            await writeFileAsync(filePath, result.pdf, 'base64');
-
+        pdf.create(htmlContent).toFile(filePath, (err, res) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
             resolve(filePath);
- } catch (error) {
-            console.log(error)
-            reject(error);
-        }
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        reject(error);
+      }
     });
-    }
+  },
 };

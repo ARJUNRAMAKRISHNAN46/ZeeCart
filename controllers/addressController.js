@@ -224,6 +224,8 @@ module.exports = {
       const userId = userData._id;
       const totalAmount = req.session.totalPrice;
       const grandTotal = req.session.grandTotal;
+      const total = totalAmount;
+
       let amount;
       if (grandTotal) {
         amount = grandTotal;
@@ -245,6 +247,12 @@ module.exports = {
           const currentDate = new Date().toLocaleString("en-US", {
             timeZone: "Asia/Kolkata",
           });
+          let couponCode = "";
+          let couponDiscount = 0;
+          if (req.session.couponDiscount && req.session.couponCode) {
+            couponDiscount = req.session.couponDiscount;
+            couponCode = req.session.couponCode;
+          }
           const fourDaysLater = new Date(
             Date.now() + 4 * 24 * 60 * 60 * 1000
           ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
@@ -263,9 +271,14 @@ module.exports = {
             expectedDeliveryDate: fourDaysLater,
             paymentMethod: "Wallet",
             PaymentStatus: "Paid",
-            totalAmount: amount,
             orderStatus: "Order Processed",
+            couponCode: couponCode,
+            couponDiscount: couponDiscount,
+            totalAmount: totalAmount,
+            discountAmount: amount,
           });
+          req.session.couponCode = "";
+          req.session.couponDiscount = 0;
           const refund = await Wallet.findOne({ userId: userId });
           if (refund) {
             const walletHistory = await WalletHistory.findOne({

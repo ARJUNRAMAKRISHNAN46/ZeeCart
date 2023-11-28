@@ -15,25 +15,28 @@ const orderSchema = new Schema({
       quantity: Number,
     },
   ],
-  
-  address:{
-    houseName:String,
-    locality:String,
-    city:String,
-    district:String,
-    state:String,
-    pincode:String,
+
+  address: {
+    houseName: String,
+    locality: String,
+    city: String,
+    district: String,
+    state: String,
+    pincode: String,
   },
   orderDate: {
-    type:Date,
-    required : true,
+    type: Date,
+    required: true,
   },
   expectedDeliveryDate: Date,
   paymentMethod: String,
-  PaymentStatus:String,
+  PaymentStatus: String,
   totalAmount: Number,
   deliveryDate: Date,
   orderStatus: String,
+  couponDiscount: String,
+  couponCode: String,
+  discountAmount: String,
 });
 
 const orderModels = mongoose.model("order", orderSchema);

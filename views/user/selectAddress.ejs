@@ -162,6 +162,7 @@
         type: 'POST',
         contentType: 'application/json',
         success: function (response) {
+          console.log(response);
           const order = response.order
           const id = order.id;
           const total = order.amount;

@@ -21,6 +21,7 @@ module.exports = {
       const active = "active step0";
       const orderDetails = await order
         .find({ userId: userId })
+        .sort({ orderDate: -1 })
         .populate("products.productId");
       if (orderDetails[0] == undefined) {
       } else {
@@ -36,6 +37,7 @@ module.exports = {
     try {
       const Total = req.session.totalPrice;
       const grandTotal = req.session.grandTotal;
+      const totalAmount = Total;
       let amount;
       if (grandTotal) {
         amount = grandTotal;
@@ -51,6 +53,12 @@ module.exports = {
       const fourDaysLater = new Date(
         Date.now() + 4 * 24 * 60 * 60 * 1000
       ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+      let couponCode = "";
+      let couponDiscount = 0;
+      if (req.session.couponDiscount && req.session.couponCode) {
+        couponDiscount = req.session.couponDiscount;
+        couponCode = req.session.couponCode;
+      }
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
@@ -66,10 +74,14 @@ module.exports = {
         expectedDeliveryDate: fourDaysLater,
         paymentMethod: "online",
         PaymentStatus: "Paid",
-        totalAmount: amount,
         orderStatus: "Order Processed",
+        couponCode: couponCode,
+        couponDiscount: couponDiscount,
+        totalAmount: totalAmount,
+        discountAmount: amount,
       });
-
+      req.session.couponCode = "";
+      req.session.couponDiscount = 0;
       const prodId = orderData.products;
       prodId.forEach(async (x) => {
         const quantity = x.quantity;
@@ -125,6 +137,7 @@ module.exports = {
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
       let i = (pageNum - 1) * perPage;
+
       res.render("admin/orders", { orderDetails, i, dataCount });
     } catch (error) {
       console.log(error);
@@ -134,6 +147,12 @@ module.exports = {
     try {
       const orderId = req.params.id;
       const newStatus = req.body.status;
+      const newPaid = "Paid";
+      if (newStatus == "Order Arrived") {
+        await order.findByIdAndUpdate(orderId, {
+          $set: { PaymentStatus: newPaid },
+        });
+      }
       await order.findByIdAndUpdate(orderId, { orderStatus: newStatus });
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -164,15 +183,16 @@ module.exports = {
     let result = await invoiceDownload(orderDetails, addressDetails, orderId);
     res.redirect("/productorders");
   },
-  downloadfile: async (req, res) => {
-    const id = req.params._id;
-    const filePath = `C:/Users/user/Desktop/Ticker/public/pdf/${id}.pdf`;
-    res.download(filePath, `invoice.pdf`);
-  },
+  // downloadfile: async (req, res) => {
+  //   const id = req.params._id;
+  //   const filePath = `C:/Users/user/Desktop/Ticker/public/pdf/${id}.pdf`;
+  //   res.download(filePath, `invoice.pdf`);
+  // },
   cashOnDelivery: async (req, res) => {
     try {
       const grandTotal = req.session.grandTotal;
       const Total = req.session.totalPrice;
+      const totalAmount = Total;
       const addressId = req.body.id;
       const email = req.session.email;
       const userData = await User.findOne({ email });
@@ -191,6 +211,12 @@ module.exports = {
       const fourDaysLater = new Date(
         Date.now() + 4 * 24 * 60 * 60 * 1000
       ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+      let couponCode = "";
+      let couponDiscount = 0;
+      if (req.session.couponDiscount && req.session.couponCode) {
+        couponDiscount = req.session.couponDiscount;
+        couponCode = req.session.couponCode;
+      }
       const Order = await order.create({
         userId: orderData.userId,
         products: orderData.products,
@@ -206,9 +232,14 @@ module.exports = {
         expectedDeliveryDate: fourDaysLater,
         paymentMethod: "COD",
         PaymentStatus: "Pending",
-        totalAmount: grandTotal,
         orderStatus: "Order Processed",
+        couponCode: couponCode,
+        couponDiscount: couponDiscount,
+        totalAmount: totalAmount,
+        discountAmount: amount,
       });
+      req.session.couponCode = "";
+      req.session.couponDiscount = 0;
       const prodId = orderData.products;
       prodId.forEach(async (x) => {
         const quantity = x.quantity;

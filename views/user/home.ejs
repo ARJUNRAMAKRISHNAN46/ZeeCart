@@ -229,7 +229,7 @@
         <script>
 
             function addToCart(productId) {
-                // var cartQuantityElement = document.getElementById('cart-count');
+                var cartQuantityElement = document.getElementById('cart-count');
                 // console.log(cartQuantityElement.textContent);
                 // cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
                 $.ajax({
@@ -239,6 +239,7 @@
                         console.log(response);
 
                         if (response.success) {
+                            cartQuantityElement.textContent = response.quantity
                             Toastify({
                                 text: 'Item added to cart',
                                 duration: 1500,

@@ -28,7 +28,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
-                        <h5 class="brand-name">Zee<span href="" id="zeecart">C</span>art</h5>
+                        <a href="/">
+                            <h5 class="brand-name">Zee<span href="" id="zeecart">C</span>art</h5>
+                        </a>
                     </div>
                     <div class="col-md-5 my-auto">
                         <form role="search" action="/search" method="post">
@@ -56,11 +58,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/cart">
                                     <i class="fa fa-shopping-cart fa-xl"></i>
-                                        
-                                        <% if (cartCount >= 0) { %>
-                                            <span id="cart-count" class="badge bg-danger"><%=cartCount%></span>
+
+                                    <% if (cartCount>= 0) { %>
+                                        <span id="cart-count" class="badge bg-danger">
+                                            <%=cartCount%>
+                                        </span>
                                         <% } %>
-                                    
+
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -73,9 +77,9 @@
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <!-- <i class="fa fa-user fa-xl"></i> -->
 
-                                    <% if (cartCount >= 0) { %>
+                                    <% if (cartCount>= 0) { %>
                                         <%=name%>
-                                    <% } %>
+                                            <% } %>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="/profile?page=1"><i class="fa fa-user"></i>

@@ -10,6 +10,7 @@ module.exports = {
       const { coupon } = req.body;
       const couponData = await coupons.findOne({ couponCode: coupon });
       if (couponData) {
+        req.session.couponCode = coupon;
         const expiryDateString = couponData.expiryDate;
         const expiryDate = new Date(
           parseInt(expiryDateString.split("-")[2], 10),
@@ -20,6 +21,7 @@ module.exports = {
 
         if (expiryDate < currentDate) {
           if (couponData.minPurchasetAmount <= req.session.totalPrice) {
+            req.session.couponDiscount = couponData.discountAmount;
             const couponAmount = couponData.discountAmount;
             const total = req.session.totalPrice;
 
@@ -35,7 +37,7 @@ module.exports = {
           } else {
             res.json({
               success: false,
-              err: " minimum purchase amount is 100000 ",
+              err: `minimum purchase amount is ${couponData.minPurchasetAmount}`,
             });
           }
         } else {
@@ -79,7 +81,8 @@ module.exports = {
 
         req.session.totalPrice = total;
         req.session.grandTotal = total;
-
+        req.session.couponCode = "";
+        req.session.coupon = 0;
         res.render("user/cart", {
           user,
           product: cart.products,
@@ -149,7 +152,9 @@ module.exports = {
           products: [{ productId: productId, quantity: 1 }],
         });
       }
-      res.json({ success: true });
+      const quan = await Cart.findOne({ userId });
+      const quantity = quan.products.length;
+      res.json({ success: true, quantity: quantity });
     } catch (error) {
       console.log(error);
     }

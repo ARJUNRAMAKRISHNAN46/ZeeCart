@@ -403,8 +403,14 @@
                     },
                     options: {
                         legend: { display: false },
+                        elements: {
+                            line: {
+                                tension: 0.1
+                            }
+                        }
                     }
                 });
+
 
                 const barColors = ["red", "green", "blue", "orange", "brown"];
                 window.myChart2 = new Chart(Count, {
@@ -456,8 +462,8 @@
                     const statusCell = row.insertCell(4);
 
                     orderIdCell.textContent = order._id;
-                    dateCell.textContent = order.OrderDate;
-                    totalCell.textContent = order.totalAmount;
+                    dateCell.textContent = order.orderDate;
+                    totalCell.textContent = order.discountAmount || order.totalAmount;
                     paymentCell.textContent = order.paymentMethod;
                     statusCell.textContent = order.PaymentStatus;
                 });
