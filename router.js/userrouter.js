@@ -116,7 +116,7 @@ router.post("/updatequantity", verifyUser, CartCount, updateQuantity);
 router.get("/placeOrder", verifyUser, CartCount, placeOrder);
 router.post("/confirmAddress", verifyUser, CartCount, cashOnDelivery);
 router.post("/makePayment", verifyUser, CartCount, createOrder);
-router.get("/walletPayment", verifyUser, CartCount, walletPayment);
+router.get("/walletPayment/:id", verifyUser, CartCount, walletPayment);
 router.get("/getcartquantity", verifyUser, CartCount, getQuantity);
 // router.post('/confirmPayment',verifyUser,confirmPayment)
 //shop route------------------------------------------------------->

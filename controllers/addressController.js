@@ -219,6 +219,7 @@ module.exports = {
   },
   walletPayment: async (req, res) => {
     try {
+      console.log("------------------------------>>>>>>");
       let email = req.session.email;
       let userData = await User.findOne({ email: email });
       const userId = userData._id;
@@ -243,6 +244,10 @@ module.exports = {
           });
           const addressId = req.params.id;
           const curAdd = await Address.findOne({ _id: addressId });
+          console.log(
+            curAdd,
+            "--------------------------------->>>>>>>>>>>>>>>>>"
+          );
           const orderData = await Cart.findOne();
           const currentDate = new Date().toLocaleString("en-US", {
             timeZone: "Asia/Kolkata",
@@ -315,6 +320,7 @@ module.exports = {
                 ],
               });
             }
+            await Cart.findOneAndDelete({ userId: orderData.userId });
             res.json({
               success: true,
             });
