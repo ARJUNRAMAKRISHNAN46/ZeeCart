@@ -108,7 +108,7 @@ module.exports = {
         if (cart.products[0]) {
           const total = req.session.totalPrice;
           const grandTotal = req.session.grandTotal;
-          res.render("user/selectAddress", {
+          res.render("user/checkout", {
             address,
             userId,
             total,

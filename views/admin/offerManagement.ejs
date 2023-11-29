@@ -73,10 +73,12 @@
         </div>
 
         <div class="container mt-5">
+            <h1 class="text-danger">
+                <b>
+                    <%=err%>
+                </b>
+            </h1>
             <h1>Category Offer Management</h1>
-            <span class="text-danger">
-                <%=err%>
-            </span>
             <button class="btn btn-primary" data-toggle="modal" data-target="#addCouponModal">Add Offer</button>
         </div>
         <div class="modal fade" id="addCouponModal" tabindex="-1" role="dialog" aria-labelledby="addCouponModalLabel"
@@ -218,7 +220,7 @@
 
                 form.addEventListener('submit', function (event) {
                     const formattedDate = new Date().toISOString().split('T')[0];
-                    console.log(formattedDate,'------------------->');
+                    console.log(formattedDate, '------------------->');
                     const expiryDate = expiryDateInput.value;
 
                     if (expiryDate < formattedDate) {

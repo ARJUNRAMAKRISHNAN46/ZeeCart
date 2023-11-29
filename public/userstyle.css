@@ -12,17 +12,18 @@
 }
 
 .main-navbar .top-navbar {
-  background-color: #3c3c3c;
+  /* background-color: #3c3c3c; */
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .main-navbar .top-navbar .brand-name {
-  color: #fff;
+  color: black;
+  font-weight: 700;
 }
 
 .main-navbar .top-navbar .nav-link {
-  color: #fff;
+  color: black;
   font-size: 16px;
   font-weight: 500;
 }

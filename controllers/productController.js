@@ -350,47 +350,64 @@ module.exports = {
   addCategoryOffer: async (req, res) => {
     try {
       const { Catagory, discount, expiryDate } = req.body;
-      const newOffer = await offer.create({
-        Catagory: Catagory,
-        discount: discount,
-        expiryDate: expiryDate,
-        Status: "Active",
-      });
+      const existingOffer = await offer.findOne({ Catagory: Catagory });
+      if (existingOffer) {
+        const catData = await Category.find();
+        const offers = await offer.find();
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+        res.render("admin/offerManagement", {
+          catData,
+          offers,
+          formattedDate,
+          err: "Offer Already Exists",
+        });
+      } else {
+        const newOffer = await offer.create({
+          Catagory: Catagory,
+          discount: discount,
+          expiryDate: expiryDate,
+          Status: "Active",
+        });
 
-      const fetchCategoryId = await Category.findOne({
-        catagoryName: Catagory,
-      });
+        const fetchCategoryId = await Category.findOne({
+          catagoryName: Catagory,
+        });
 
-      if (!fetchCategoryId) {
-        return res.status(404).json({ error: "Category not found" });
-      }
-      const categoryId = fetchCategoryId._id;
-      const productsBeforeOffer = await products.find({
-        catagoryName: Catagory,
-      });
+        if (!fetchCategoryId) {
+          return res.status(404).json({ error: "Category not found" });
+        }
+        const categoryId = fetchCategoryId._id;
+        const productsBeforeOffer = await products.find({
+          catagoryName: Catagory,
+        });
 
-      for (const product of productsBeforeOffer) {
-        const discountPrice = product.DiscountAmount;
+        for (const product of productsBeforeOffer) {
+          const discountPrice = product.DiscountAmount;
 
-        await products.updateOne(
-          { _id: product._id },
+          await products.updateOne(
+            { _id: product._id },
+            {
+              $set: {
+                beforeOffer: discountPrice,
+                IsInCategoryOffer: true,
+                categoryOffer: { offerPercentage: discount },
+              },
+            }
+          );
+        }
+        const offerMultiplier = 1 - discount / 100;
+        const productData = await products.updateMany(
+          { Category: Catagory },
           {
-            $set: {
-              beforeOffer: discountPrice,
-              IsInCategoryOffer: true,
-              categoryOffer: { offerPercentage: discount },
-            },
+            $mul: { DiscountAmount: offerMultiplier },
           }
         );
+        res.redirect("/offers");
       }
-      const offerMultiplier = 1 - discount / 100;
-      const productData = await products.updateMany(
-        { Category: Catagory },
-        {
-          $mul: { DiscountAmount: offerMultiplier },
-        }
-      );
-      res.redirect("/offers");
       // res
       //   .status(201)
       //   .json({ success: true, message: "Category offer added successfully" });

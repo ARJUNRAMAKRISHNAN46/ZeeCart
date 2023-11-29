@@ -327,7 +327,12 @@ module.exports = {
       const userId = data.userId;
       const orderData = await order.findOne({ _id: orderId });
 
-      let amount = orderData.totalAmount;
+      let amount ;
+      if(orderData.discountAmount) {
+        amount = orderData.discountAmount;
+      }else{
+        amount = orderData.totalAmount;
+      }
       const refund = await Wallet.findOne({ userId: userId });
       if (refund) {
         const walletHistory = await WalletHistory.findOne({
@@ -349,7 +354,7 @@ module.exports = {
             },
           });
         } else {
-          const reason = "Referal Bonus";
+          const reason = "Refund for cancelling order";
           const type = "credit";
           const date = new Date();
           await WalletHistory.create({
@@ -386,7 +391,7 @@ module.exports = {
             },
           });
         } else {
-          const reason = "Referal Bonus";
+          const reason = "Refund for cancelling order";
           const type = "credit";
           const date = new Date();
           await WalletHistory.create({
