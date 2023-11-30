@@ -37,6 +37,7 @@ const {
   getAddUserAddress,
   WalletHistory,
   walletPayment,
+  paymentComplete,
 } = require("../controllers/addressController");
 //requiring functions from controller------------------------------>
 const {
@@ -116,6 +117,7 @@ router.post("/updatequantity", verifyUser, CartCount, updateQuantity);
 router.get("/placeOrder", verifyUser, CartCount, placeOrder);
 router.post("/confirmAddress", verifyUser, CartCount, cashOnDelivery);
 router.post("/makePayment", verifyUser, CartCount, createOrder);
+router.get("/paymentComplete", verifyUser, paymentComplete);
 router.get("/walletPayment/:id", verifyUser, CartCount, walletPayment);
 router.get("/getcartquantity", verifyUser, CartCount, getQuantity);
 // router.post('/confirmPayment',verifyUser,confirmPayment)

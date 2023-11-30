@@ -327,10 +327,10 @@ module.exports = {
       const userId = data.userId;
       const orderData = await order.findOne({ _id: orderId });
 
-      let amount ;
-      if(orderData.discountAmount) {
+      let amount;
+      if (orderData.discountAmount) {
         amount = orderData.discountAmount;
-      }else{
+      } else {
         amount = orderData.totalAmount;
       }
       const refund = await Wallet.findOne({ userId: userId });
@@ -342,7 +342,7 @@ module.exports = {
           const reason = "Refund for cancelling order";
           const type = "credit";
           const date = new Date();
-          await WalletHistory.updateMany({
+          await WalletHistory.updateOne({
             userId: userId,
             $push: {
               refund: {
@@ -369,7 +369,7 @@ module.exports = {
             ],
           });
         }
-        const updateAmount = amount + refund.wallet;
+        const updateAmount = Number(amount) + Number(refund.wallet);
         await Wallet.updateOne({ userId: userId, wallet: updateAmount });
       } else {
         const walletHistory = await WalletHistory.findOne({
@@ -379,7 +379,7 @@ module.exports = {
           const reason = "Refund for cancelling order";
           const type = "credit";
           const date = new Date();
-          await WalletHistory.updateMany({
+          await WalletHistory.updateOne({
             userId: userId,
             $push: {
               refund: {

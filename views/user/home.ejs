@@ -122,17 +122,10 @@
                                                                     onclick="addToCart('<%=x._id%>')">Add To
                                                                     Cart</a>
                                                                 <%} %>
-                                                                    <% if(x.inWish) {%>
-                                                                        <a onclick="removeFromWish('<%=x._id%>')"
-                                                                            class="btn btn1"> <i
-                                                                                class="fa fa-heart"></i>
-                                                                        </a>
-                                                                        <%}else {%>
                                                                             <a onclick="addToWishlist('<%=x._id%>')"
                                                                                 class="btn btn1"> <i
                                                                                     class="fa fa-heart"></i>
                                                                             </a>
-                                                                            <%}%>
                                                                                 <a href="/productspecs/<%=x._id%>"
                                                                                     class="btn btn1">
                                                                                     View </a>
@@ -204,14 +197,10 @@
                                                     <div class="mt-2">
                                                         <a class="btn btn1" onclick="addToCart('<%=x._id%>')">Add To
                                                             Cart</a>
-                                                        <!-- <% if(x.inWish) {%>
-                                                            <a onclick="removeFromWish('<%=x._id%>')" class="btn btn1">
-                                                                <i class="fa fa-heart text-danger"></i> </a>
-                                                            <%}else {%> -->
+                                                        
                                                                 <a onclick="addToWishlist('<%=x._id%>')"
                                                                     class="btn btn1"> <i class="fa fa-heart"></i>
                                                                 </a>
-                                                                <!-- <%}%> -->
                                                                     <a href="/productspecs/<%=x._id%>" class="btn btn1">
                                                                         View </a>
                                                                     </frm>
@@ -279,7 +268,7 @@
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
-                            window.location.reload();
+                            // window.location.reload();
                             Toastify({
                                 text: 'Item added to wishlist',
                                 duration: 1500,

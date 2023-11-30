@@ -128,9 +128,9 @@
           method: 'GET',
           success: function (response) {
             if (response.success) {
-              Swal.fire('Payment Successful');
+              // Swal.fire('Payment Successful');
               createOrder(addressId);
-              location.href = '/';
+              location.href = '/paymentComplete';
             } else {
               Toastify({
                 text: 'Insufficient Balence..! Choose another Payment Method',

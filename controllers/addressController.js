@@ -168,11 +168,15 @@ module.exports = {
       const perPage = 5;
       let email = req.session.email;
       let userData = await User.findOne({ email: email });
+      console.log(email,'-------------------------email');
       const userId = userData._id;
+      console.log(userId,'-------------------------userid');
+
       const wallet = await Wallet.findOne({ userId: userId });
 
       let userNames = [];
       if (wallet !== null) {
+        console.log(wallet.invited,'----------------------------------invited');
         for (const userId of wallet.invited) {
           try {
             const user = await User.findOne({ _id: userId });
@@ -189,22 +193,25 @@ module.exports = {
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
       const num = (pageNum - 1) * perPage;
+      console.log(walletHistory,'-------------------------walletHistory');
 
       let dateArr = [];
-      walletHistory.refund.forEach((x) => {
-        const dateString = x.date;
-        const parsedDate = new Date(dateString);
-        const year = parsedDate.getFullYear();
-        const month = parsedDate.getMonth() + 1;
-        const day = parsedDate.getDate();
-        const hours = parsedDate.getHours();
-        const minutes = parsedDate.getMinutes();
-        const seconds = parsedDate.getSeconds();
-        const formattedDateTime = `${year}-${month < 10 ? "0" : ""}${month}-${
-          day < 10 ? "0" : ""
-        }${day} ${hours}:${minutes}:${seconds}`;
-        dateArr.push(formattedDateTime);
-      });
+      if (walletHistory) {
+        walletHistory.refund.forEach((x) => {
+          const dateString = x.date;
+          const parsedDate = new Date(dateString);
+          const year = parsedDate.getFullYear();
+          const month = parsedDate.getMonth() + 1;
+          const day = parsedDate.getDate();
+          const hours = parsedDate.getHours();
+          const minutes = parsedDate.getMinutes();
+          const seconds = parsedDate.getSeconds();
+          const formattedDateTime = `${year}-${month < 10 ? "0" : ""}${month}-${
+            day < 10 ? "0" : ""
+          }${day} ${hours}:${minutes}:${seconds}`;
+          dateArr.push(formattedDateTime);
+        });
+      }
 
       res.render("user/walletHistory", {
         userNames,
@@ -339,6 +346,15 @@ module.exports = {
           success: false,
         });
       }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  paymentComplete: async (req, res) => {
+    try {
+      const email = req.session.email;
+      const userData = await User.findOne({ email: email });
+      res.render("user/paymentSuccess", { userData });
     } catch (error) {
       console.log(error);
     }

@@ -9,7 +9,7 @@ const nocache = require("nocache");
 const app = express();
 const router = require("./router.js/userrouter");
 const routers = require("./router.js/adminrouter");
-const { checkOffer } = require("./util/cronjob");
+// const { checkOffer } = require("./util/cronjob");
 
 app.use(nocache());
 

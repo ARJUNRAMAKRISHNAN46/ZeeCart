@@ -153,18 +153,18 @@
                                 </div>
 
                                 <div class="d-flex">
-                                    <ul>
-                                        <% x.products.forEach((item)=> { %>
-                                            <img width="50px" src="/product-images/<%= item.productId.images[0] %>"
-                                                alt="<%= item.productId.images[0]%>">
+                                    <% x.products.forEach((item)=> { %>
+                                        <ul>
+                                            <img src="/product-images/<%= item.productId.images[0] %>"
+                                                alt="<%= item.productId.images[0]%>" style="width: 80px;">
                                             <li>
                                                 <b>
                                                     <%= item.productId.ProductName %>
                                                 </b>
                                                 <br> Quantity: <%= item.quantity %>
                                             </li>
+                                        </ul>
                                             <%}) %>
-                                    </ul>
                                 </div>
                                 <div class="d-flex" style="line-height: 10px;">
                                     <% if(x.couponCode) {%>
@@ -481,3 +481,4 @@
               </script>
 
             <!-- <%- include('../layout/user/footer.ejs') -%> -->
+        <%- include('../layout/user/footer.ejs') -%>
