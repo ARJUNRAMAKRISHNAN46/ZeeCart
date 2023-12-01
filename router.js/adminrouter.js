@@ -117,7 +117,7 @@ routers.get("/count-orders-by-year", verifyAdmin, getCount);
 routers.get("/latestOrders", verifyAdmin, getSalesOrder);
 // routers.get("/downloadSalesReport", verifyAdmin, getDownloadSalesReport);
 routers.get("/admin", verifyAdmin, admin_admin);
-routers.post('/downloadSalesReport',verifyAdmin,generateOrderInvoice)
+routers.post('/salesReportDownload',verifyAdmin,generateOrderInvoice)
 
 //<-----------------Coupon------------------>
 routers.get("/coupon", verifyAdmin, admin_coupon);

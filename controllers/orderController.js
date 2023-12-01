@@ -436,7 +436,7 @@ module.exports = {
       let startDate = new Date(req.body.startDate);
       let endDate = new Date(req.body.endDate);
       endDate.setHours(23, 59, 59, 999);
-      console.log(req.body);
+      // console.log(req.body);
       console.log(startDate, endDate);
       const Order = await order
         .find({
