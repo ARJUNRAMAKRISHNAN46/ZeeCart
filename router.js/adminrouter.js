@@ -30,6 +30,7 @@ const {
   returnRequest,
   rejectReturn,
   acceptReturn,
+  generateOrderInvoice,
 } = require("../controllers/orderController");
 const {
   admin_catagory,
@@ -114,8 +115,9 @@ routers.get("/count-orders-by-day", verifyAdmin, getCount);
 routers.get("/count-orders-by-month", verifyAdmin, getCount);
 routers.get("/count-orders-by-year", verifyAdmin, getCount);
 routers.get("/latestOrders", verifyAdmin, getSalesOrder);
-routers.post("/downloadSalesReport", verifyAdmin, getDownloadSalesReport);
+routers.get("/downloadSalesReport", verifyAdmin, getDownloadSalesReport);
 routers.get("/admin", verifyAdmin, admin_admin);
+routers.post('/downloadSalesReport',verifyAdmin,generateOrderInvoice)
 
 //<-----------------Coupon------------------>
 routers.get("/coupon", verifyAdmin, admin_coupon);

@@ -55,4 +55,3 @@ mongoose.connect(process.env.MONGO_URI).then(() =>
     console.log("server running in http://localhost:4000");
   })
 );
-``

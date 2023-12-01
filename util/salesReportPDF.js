@@ -8,7 +8,7 @@ module.exports ={
     const html = ejs.render(template, { orders, startDate, endDate, totalSales });
     
     const pdfOptions = {
-        format: 'Letter',
+        format: 'A3',
         orientation: 'portrait',
     };
     pdf.create(html, pdfOptions).toFile(`public/SRpdf/sales-report.pdf`, (err, response) => {

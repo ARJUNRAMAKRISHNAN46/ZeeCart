@@ -7,14 +7,14 @@
                 style="border-right: 1px solid rgb(141, 141, 141);border-bottom: 1px solid rgb(141, 141, 141); padding-top: 50px;">
                 <div class="col-lg-12 d-flex justify-content-center align-items-center">
                     <div id="img-show">
-                        <img class="productImage" src="/product-images/<%=prodSpec.images[i]%>" alt="Product imgae 1">
+                        <img class="productImage" id="mainImage" src="/product-images/<%=prodSpec.images[i]%>" alt="Product imgae 1">
                     </div>
                 </div>
                 <div class="col-lg-12 d-flex justify-content-center align-items-center" style="height: 140px;">
                     <%prodSpec.images.forEach((x)=> {%>
-                        <div style="width: 100px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
-                                id="changeImage" onclick="changeImage('/product-images/<%=prodSpec.images[i++]%>0l;')"
-                                src="/product-images/<%=prodSpec.images[i++]%>" alt="Product Image 1" alt=""></div>
+                        <a style="width: 100px;height: 120px;margin: 5px;"><img style="width: 80px; height: 120px;"
+                                id="changeImage" onclick="changeImage('/product-images/<%=prodSpec.images[i++]%>')"
+                                src="/product-images/<%=prodSpec.images[i++]%>" alt="Product Image 1"></a>
                         <%})%>
 
                 </div>
@@ -67,16 +67,18 @@
         <script>
             var options = {
                 width: 280,
-                zoomWidth: 400,
+                zoomWidth: 300,
                 offset: { vertical: 50, horizontal: 90 }
             };
             new ImageZoom(document.getElementById("img-show"), options);
 
+            function changeImage(productId) {
+                var mainImage = document.getElementById('mainImage');
+                mainImage.src = productId;
 
-            function changeImage() {
-                let main = document.getElementById('productImage');
-                main.style.src()
             }
+            // let main = document.getElementById('productImage');
+            // main.style.src()
         </script>
 
 

@@ -9,6 +9,7 @@ const products = require("../models/productModel");
 const pdf = require("../util/salesReportPDF");
 const returnItem = require("../models/retunModel");
 const WalletHistory = require("../models/walletHistoryModel");
+const { generateInvoicePDF } = require("../util/downloadSalesReport");
 
 module.exports = {
   //getting order page
@@ -46,10 +47,10 @@ module.exports = {
       }
       const addressId = req.params.id;
       const curAdd = await Address.findOne({ _id: addressId });
-      const orderData = await Cart.findOne();
       const currentDate = new Date().toLocaleString("en-US", {
         timeZone: "Asia/Kolkata",
       });
+      const orderData = await Cart.findOne();
       const fourDaysLater = new Date(
         Date.now() + 4 * 24 * 60 * 60 * 1000
       ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
@@ -264,20 +265,21 @@ module.exports = {
   },
   getDownloadSalesReport: async (req, res) => {
     try {
-      let startDate = new Date(req.body.startDate);
-      const format = req.body.fileFormat;
-      let endDate = new Date(req.body.endDate);
-      endDate.setHours(23, 59, 59, 999);
+      // const format = req.body.fileFormat;
+      let startDate = new Date();
+      let endDate = new Date();
+      // endDate.setHours(23, 59, 59, 999);
 
-      const orders = await order
-        .find({
-          PaymentStatus: "Paid",
-          orderDate: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        })
-        .populate("products.productId");
+      // const orders = await order
+      //   .find({
+      //     PaymentStatus: "Paid",
+      //     orderDate: {
+      //       $gte: startDate,
+      //       $lte: endDate,
+      //     },
+      //   })
+      //   .populate("products.productId");
+      const orders = await order.find().populate("products.productId");
 
       let totalSales = 0;
       orders.forEach((order) => {
@@ -342,17 +344,20 @@ module.exports = {
           const reason = "Refund for cancelling order";
           const type = "credit";
           const date = new Date();
-          await WalletHistory.updateOne({
-            userId: userId,
-            $push: {
-              refund: {
-                amount: amount,
-                reason: reason,
-                type: type,
-                date: date,
+          await WalletHistory.findOneAndUpdate(
+            { userId },
+            {
+              $push: {
+                refund: {
+                  amount: amount,
+                  reason: reason,
+                  type: type,
+                  date: date,
+                },
               },
             },
-          });
+            { new: true }
+          );
         } else {
           const reason = "Refund for cancelling order";
           const type = "credit";
@@ -370,7 +375,12 @@ module.exports = {
           });
         }
         const updateAmount = Number(amount) + Number(refund.wallet);
-        await Wallet.updateOne({ userId: userId, wallet: updateAmount });
+        const priceInc = await Wallet.findByIdAndUpdate(
+          userId,
+          { wallet: updateAmount },
+          { new: true }
+        );
+        console.log(priceInc, "------------------------->");
       } else {
         const walletHistory = await WalletHistory.findOne({
           userId: userId,
@@ -379,17 +389,20 @@ module.exports = {
           const reason = "Refund for cancelling order";
           const type = "credit";
           const date = new Date();
-          await WalletHistory.updateOne({
-            userId: userId,
-            $push: {
-              refund: {
-                amount: amount,
-                reason: reason,
-                type: type,
-                date: date,
+          await WalletHistory.findOneAndUpdate(
+            { userId },
+            {
+              $push: {
+                refund: {
+                  amount: amount,
+                  reason: reason,
+                  type: type,
+                  date: date,
+                },
               },
             },
-          });
+            { new: true }
+          );
         } else {
           const reason = "Refund for cancelling order";
           const type = "credit";
@@ -406,11 +419,52 @@ module.exports = {
             ],
           });
         }
-        await Wallet.create({ userId: userId, wallet: amount });
+        const priceInc = await Wallet.findByIdAndUpdate(
+          userId,
+          { wallet: updateAmount },
+          { new: true }
+        );
+        console.log(priceInc, "------------------------->");
       }
       res.redirect("/orders");
     } catch (error) {
       console.log(error);
+    }
+  },
+  generateOrderInvoice: async (req, res) => {
+    try {
+      let startDate = new Date(req.body.startDate);
+      let endDate = new Date(req.body.endDate);
+      endDate.setHours(23, 59, 59, 999);
+      console.log(req.body);
+      console.log(startDate, endDate);
+      const Order = await order
+        .find({
+          PaymentStatus: "Paid",
+          orderDate: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        })
+        .populate("products.productId");
+      console.log(Order, "--------------------------------order");
+
+      // const Order = await order
+      //   .find({ PaymentStatus: "Paid" })
+      //   .populate("products.productId");
+      // const startDate = '23-11-2023';
+      // const endDate = '23-12-2023';
+      const pdfBuffer = await generateInvoicePDF(Order, startDate, endDate);
+
+      // Set headers for the response
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", "attachment; filename=sales Report.pdf");
+
+      res.status(200).end(pdfBuffer);
+    } catch (error) {
+      console.log(error);
+      res.redirect("/dashboard");
+      // res.status(400).json({ error: error.message });
     }
   },
 };

@@ -43,6 +43,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="button" id="downloadReportButton" class="btn btn-dark">Download Sales
                             Report</button>
+                            <a href="/downloadSalesReport" class="btn btn-danger">Download Sales Report</a>
                     </div>
                 </div>
 
@@ -244,7 +245,7 @@
                 if (startDate > currentDate) {
                     error.innerHTML = 'Invalid date range: Start date cannot be in the future.';
                     downBtn.style.display = 'none'; // or set to 'block' if needed
-                } else if (endDate > currentDate) {
+                } else if (endDate >= currentDate) {
                     error.innerHTML = 'Invalid date range: End date cannot be in the future.';
                     downBtn.style.display = 'none'; // or set to 'block' if needed
                 } else if (startDate > endDate) {
