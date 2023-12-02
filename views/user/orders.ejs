@@ -352,7 +352,7 @@
                                 </div>
                             </div>
                             <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='rejected' && x.orderStatus
-                                !=='Return Order' && x.orderStatus !=='Order Arrived' ) {%>
+                                !=='Return Order' && x.orderStatus !=='Order Arrived' && x.orderStatus !== 'Requested' ) {%>
                                 <div class="d-flex justify-content-end">
                                     <a class="btn  btn-danger mx-3" id="cancelBtn"
                                         onclick="updateOrderStatus('<%= x._id %>','Cancelled' )" href="">Cancel

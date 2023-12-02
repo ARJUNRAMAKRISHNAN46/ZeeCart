@@ -375,12 +375,22 @@ module.exports = {
           });
         }
         const updateAmount = Number(amount) + Number(refund.wallet);
-        const priceInc = await Wallet.findByIdAndUpdate(
+        console.log(
+          updateAmount,
           userId,
-          { wallet: updateAmount },
-          { new: true }
+          "------------------------------updateamount"
         );
-        console.log(priceInc, "------------------------->");
+        // const priceInc = await Wallet.findByIdAndUpdate(
+        //   userId,
+        //   { wallet: updateAmount },
+        //   { new: true }
+        // );
+        const priceInc = await Wallet.updateOne({
+          userId: userId,
+          wallet: updateAmount,
+        });
+
+        console.log("Updated Document:", priceInc);
       } else {
         const walletHistory = await WalletHistory.findOne({
           userId: userId,
@@ -419,11 +429,12 @@ module.exports = {
             ],
           });
         }
-        const priceInc = await Wallet.findByIdAndUpdate(
-          userId,
-          { wallet: updateAmount },
-          { new: true }
-        );
+        const updateAmount = Number(amount) + Number(refund.wallet);
+
+        const priceInc = await Wallet.updateOne({
+          userId: userId,
+          wallet: updateAmount,
+        });
         console.log(priceInc, "------------------------->");
       }
       res.redirect("/orders");
@@ -458,7 +469,10 @@ module.exports = {
 
       // Set headers for the response
       res.setHeader("Content-Type", "application/pdf");
-      res.setHeader("Content-Disposition", "attachment; filename=sales Report.pdf");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=sales Report.pdf"
+      );
 
       res.status(200).end(pdfBuffer);
     } catch (error) {
