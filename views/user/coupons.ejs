@@ -37,18 +37,22 @@
     <div class="container mt-5">
         <div class="row">
             <% coupons.forEach((x)=> {%>
-                <div class="coupon-card border shadow rounded col-6 col-md-3 m-3" style="background: #ffe5ae;">
-                    <img src="/assets/diwali.png" width="150" alt="Coupon Image">
+                <div class="coupon-card border shadow rounded col-6 col-md-4 m-3" style="background: #ffe5ae;">
+                    <img src="/assets/diwali.png" width="130" alt="Coupon Image">
                     <!-- <p class="discription"><%=x.description%></p> -->
                     <h4>
                         <%=x.description%>
                     </h4>
                     <p class="coupon-code">
-                        <%=x.couponCode%>
+                        Coupon Code : <%=x.couponCode%>
+                    </p>
+                    <span>Minimum Purchase Amount</span>
+                    <p class="coupon-code">
+                        ₹<%=x.minPurchasetAmount%>/-
                     </p>
                     <p class="expiredate">
                         <b>
-                            <%=x.expiryDate%>
+                            Expiry Date : <%=x.expiryDate%>
                         </b>
                     </p>
                     <button class="copy-button">Copy</button>
@@ -76,11 +80,11 @@
                 document.body.removeChild(textArea);
 
                 Toastify({
-                    text: 'coupon copied',
+                    text: 'coupon code copied',
                     duration: 1500,
                     gravity: 'top',
                     position: 'center',
-                    backgroundColor: 'green',
+                    backgroundColor: 'black',
                     style: {
                         borderRadius: '10px',
                     },

@@ -133,7 +133,6 @@ module.exports = {
         }
       });
 
-      console.log(labelsByCount, labelsByAmount, dataByCount, dataByAmount,'------------------------------------------------------------------------------>');
       res.json({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
     } catch (error) {
       console.error("error while chart loading :", error);

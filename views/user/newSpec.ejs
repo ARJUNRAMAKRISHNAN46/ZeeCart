@@ -27,7 +27,9 @@
                                 <%}else {%>
                                     <label class="stock bg-success">In Stock</label>
                                     <%} %>
-                                        <span class="product-price"> ₹<%=prodSpec.Price%>/-</span>
+                                    <div class="d-flex">
+                                        <span class="product-price text-success"> ₹<%=prodSpec.DiscountAmount%>/- </span><span style="text-decoration: line-through;margin-top: 5px;margin-left: 5px;"> ₹<%=prodSpec.Price%>/-</span>
+                                    </div>
                                         <!-- <div class="product-rating">
                                             <span><a href="/addToWishlist/<%=prodSpec._id%>?page=" id="wishbutton"
                                                     style="border: 0;">

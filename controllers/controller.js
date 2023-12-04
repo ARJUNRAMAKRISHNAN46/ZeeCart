@@ -91,8 +91,6 @@ module.exports = {
         _referal = referal;
 
         _otp = await sendOTP(_email);
-        console.log(_otp.otp, "--------------------------------------otp");
-        // const referal = req.body.referal;
 
         setTimeout(async () => {
           await OTP.deleteOne({ email: email });

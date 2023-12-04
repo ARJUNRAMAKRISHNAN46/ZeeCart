@@ -6,10 +6,10 @@ module.exports = {
       //creating pagination
       const pageNum = req.query.page;
       const perPage = 3;
-      const dataCount = await Brand.find().count();
-      const brandz = await Brand.find()
-        .skip((pageNum - 1) * perPage)
-        .limit(perPage);
+      const [dataCount, brandz] = await Promise.all([
+        Brand.find().count(),
+        Brand.find().skip((pageNum - 1) * perPage).limit(perPage)
+      ]);
       let i = (pageNum - 1) * perPage;
       res.render("admin/brands", {
         title: "admin brands",

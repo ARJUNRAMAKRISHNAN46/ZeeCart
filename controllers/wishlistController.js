@@ -72,22 +72,20 @@ module.exports = {
   removeFromWishlist: async (req, res) => {
     try {
       const email = req.session.email;
-      const userData = await User.find({ email: email });
       const productId = req.params.id;
-      const wishData = await products.updateOne(
-        { _id: productId },
-        { $set: { inWish: "false" } }
-      );
-      await wishlist.updateOne(
-        { userId: userData[0]._id },
-        {
-          $pull: {
-            products: {
-              productId: productId,
+      const userData = await User.findOne({ email });
+      if (userData) {
+        const wishlistData = await wishlist.updateOne(
+          { userId: userData._id },
+          {
+            $pull: {
+              products: {
+                productId: productId,
+              },
             },
-          },
-        }
-      );
+          }
+        );
+      }
       res.json({
         success: true,
       });

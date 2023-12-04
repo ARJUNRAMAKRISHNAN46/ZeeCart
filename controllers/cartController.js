@@ -59,9 +59,11 @@ module.exports = {
   Cart: async (req, res) => {
     try {
       const email = req.session.email;
-      const data = await User.findOne({ email });
-      const cartData = await Cart.find();
-      const user = await User.findOne({ email: email });
+      const [data, cartData, user] = await Promise.all([
+        User.findOne({ email }),
+        Cart.find(),
+        User.findOne({ email }),
+      ]);
       const userId = user._id;
 
       const cart = await Cart.findOne({ userId: userId }).populate(
@@ -190,10 +192,10 @@ module.exports = {
       const email = req.session.email;
       const user = await User.findOne({ email: email });
       const userId = user._id;
-      const carts = await Cart.findOne({ userId: userId }).populate(
-        "products.productId"
-      );
-      const cart = await Cart.findOne({ userId: userId });
+      const [carts, cart] = await Promise.all([
+        Cart.findOne({ userId: userId }).populate("products.productId"),
+        Cart.findOne({ userId: userId }),
+      ]);
       if (!cart) {
         return res
           .status(404)

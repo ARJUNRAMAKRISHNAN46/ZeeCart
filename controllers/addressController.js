@@ -98,12 +98,12 @@ module.exports = {
     try {
       const email = req.session.email;
       const userId = await User.findOne({ email });
-      const address = await Address.find({ userId: userId._id });
+      const [address, cart] = await Promise.all([
+        Address.find({ userId: userId._id }),
+        Cart.findOne({ userId: userId._id }).populate("products.productId"),
+      ]);
       const coupon = req.session.coupon;
       const couponCode = req.session.couponCode;
-      const cart = await Cart.findOne({ userId: userId._id }).populate(
-        "products.productId"
-      );
       if (cart !== null) {
         if (cart.products[0]) {
           const total = req.session.totalPrice;
@@ -168,15 +168,13 @@ module.exports = {
       const perPage = 5;
       let email = req.session.email;
       let userData = await User.findOne({ email: email });
-      console.log(email,'-------------------------email');
       const userId = userData._id;
-      console.log(userId,'-------------------------userid');
 
       const wallet = await Wallet.findOne({ userId: userId });
 
       let userNames = [];
       if (wallet !== null) {
-        console.log(wallet.invited,'----------------------------------invited');
+       
         for (const userId of wallet.invited) {
           try {
             const user = await User.findOne({ _id: userId });
@@ -193,7 +191,6 @@ module.exports = {
         .skip((pageNum - 1) * perPage)
         .limit(perPage);
       const num = (pageNum - 1) * perPage;
-      console.log(walletHistory,'-------------------------walletHistory');
 
       let dateArr = [];
       if (walletHistory) {
@@ -226,7 +223,6 @@ module.exports = {
   },
   walletPayment: async (req, res) => {
     try {
-      console.log("------------------------------>>>>>>");
       let email = req.session.email;
       let userData = await User.findOne({ email: email });
       const userId = userData._id;
@@ -251,10 +247,7 @@ module.exports = {
           });
           const addressId = req.params.id;
           const curAdd = await Address.findOne({ _id: addressId });
-          console.log(
-            curAdd,
-            "--------------------------------->>>>>>>>>>>>>>>>>"
-          );
+         
           const orderData = await Cart.findOne();
           const currentDate = new Date().toLocaleString("en-US", {
             timeZone: "Asia/Kolkata",

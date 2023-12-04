@@ -2,14 +2,16 @@ const PDFDocument = require("pdfkit");
 const moment = require("moment");
 
 // Table Row with Bottom Line
-function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
+function generateTableRow(doc, y, c1, c2, c3, c4, c5,c6,c7) {
   doc
-    .fontSize(10)
-    .text(c1, 50, y)
-    .text(c2, 90, y)
-    .text(c3, 240, y)
-    .text(c4, 400, y)
-    .text(c5, 0, y, { align: "right" })
+    .fontSize(7)
+    .text(c1, 40, y)
+    .text(c2, 70, y)
+    .text(c3, 180, y)
+    .text(c4, 300, y)
+    .text(c5, 400, y)
+    .text(c6, 470, y)
+    .text(c7, 0, y, { align: "right" })
     .moveTo(50, y + 15)
     .lineTo(560, y + 15)
     .lineWidth(0.5)
@@ -20,16 +22,16 @@ function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
 // Table row without bottom line
 function generateTableRowNoLine(doc, y, c1, c2, c3, c4, c5) {
   doc
-    .fontSize(10)
+    .fontSize(7)
     .text(c1, 100, y)
     .text(c2, 100, y)
-    .text(c3, 300, y, { width: 90, align: "right" })
-    .text(c4, 600, y, { width: 90, align: "right" })
+    .text(c3, 420, y, { width: 90, align: "right" })
+    .text(c4, 200, y, { width: 90, align: "right" })
     .text(c5, 0, y, { align: "right" });
 }
 
 // Generating Invoice for customers
-const generateInvoicePDF = async (order, startDate, endDate) => {
+const generateSalesPDF = async (order, startDate, endDate) => {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({ margin: 50 });
@@ -44,17 +46,20 @@ const generateInvoicePDF = async (order, startDate, endDate) => {
       doc
         .fontSize(15)
         .text(
-            `Sales Report ${
-                startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
-              } to ${
-                endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString()
-              }`
-              ,
+          `Sales Report ${
+            startDate.toLocaleDateString() +
+            " " +
+            startDate.toLocaleTimeString()
+          } to ${
+            endDate.toLocaleDateString() + " " + endDate.toLocaleTimeString()
+          }`,
           50,
           50,
           {
             align: "center",
             width: 500,
+            color: "white",
+            backgroundColor: "gray",
           }
         );
 
@@ -68,6 +73,8 @@ const generateInvoicePDF = async (order, startDate, endDate) => {
         "Order ID",
         "User ID",
         "Order Date",
+        "Payment Method",
+        "coupon Amount",
         "Amount"
       );
 
@@ -83,6 +90,8 @@ const generateInvoicePDF = async (order, startDate, endDate) => {
           x._id,
           x.userId,
           x.orderDate.toLocaleDateString() + x.orderDate.toLocaleTimeString(),
+          x.paymentMethod,
+          x.couponDiscount,
           x.totalAmount
         );
         i++;
@@ -105,5 +114,5 @@ const generateInvoicePDF = async (order, startDate, endDate) => {
 };
 
 module.exports = {
-  generateInvoicePDF,
+  generateSalesPDF,
 };

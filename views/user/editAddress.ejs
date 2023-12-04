@@ -1,15 +1,15 @@
 <%-include('../layout/user/header.ejs')-%>
-    <%- include('../layout/header.ejs') -%>
+    <!-- <%- include('../layout/header.ejs') -%> -->
 
         <body class="bg-secondary">
             <form action="/postEditAddress" method="post">
-                <div class="row d-flex justify-content-center align-items-center">
+                <div class="row d-flex justify-content-center align-items-center" style="background-image: url('/assets/addressImage.jpeg');background-repeat: no-repeat;background-size: cover;">
                     <div class="col-12 col-md-6 my-5"
-                        style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
+                    style="border: 5px solid #00a6ff;">
                         <br>
-                        <div class="d-flex justify-content-center align-items-center bg-secondary"
+                        <div class="d-flex justify-content-center align-items-center bg-primary"
                             style=" border-radius: 10px 10px 0 0 ;">
-                            <h1 style="color: rgb(255, 255, 255);">Add Address</h1>
+                            <h1 style="color: rgb(255, 255, 255);">Edit Address</h1>
                         </div>
                         <br>
                         <input type="hidden" value="<%= address._id %>" name="id">
@@ -30,7 +30,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center align-items-center">
-                            <input name="address" placeholder="Address" value="<%= address.address %>"
+                            <input name="address" placeholder="Address" value="<%= address.houseName %>"
                                 style="width: 100%;height: 100px;border-radius: 5px;padding-left: 5px;"
                                 required></input>
                         </div>
@@ -52,7 +52,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-secondary" style="color: white;">Add
+                            <button type="submit" class="btn btn-primary" style="color: white;">Add
                                 Address</button>
                         </div>
                         <br>

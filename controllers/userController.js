@@ -21,8 +21,10 @@ module.exports = {
         const productDetails = await products.find({});
       } else {
         const email = req.session.email;
-        const data = await User.findOne({ email });
-        const imgs = await products.find();
+        const [data, imgs] = await Promise.all([
+          User.findOne({ email }),
+          products.find(),
+        ]);
         const arr = [];
         imgs.forEach((x) => {
           if (x.status == "Active") {
@@ -38,10 +40,10 @@ module.exports = {
             BudgetMobiles.push(x);
           }
         });
-        const banner = await Banner.find().limit(3);
-        const FlagMob = await products
-          .find({ Category: "FLAGSHIP MOBILES" })
-          .limit(8);
+        const [banner, FlagMob] = await Promise.all([
+          Banner.find().limit(3),
+          products.find({ Category: "FLAGSHIP MOBILES" }).limit(8),
+        ]);
         let FlagMobiles = [];
         FlagMob.forEach((x) => {
           if (x.status == "Active") {
@@ -68,8 +70,10 @@ module.exports = {
         const productDetails = await products.find({});
       } else {
         const email = req.session.email;
-        const data = await User.findOne({ email });
-        const imgs = await products.find();
+        const [data, imgs] = await Promise.all([
+          User.findOne({ email }),
+          products.find(),
+        ]);
         const arr = [];
         imgs.forEach((x) => {
           if (x.status == "Active") {
@@ -85,10 +89,10 @@ module.exports = {
             BudgetMobiles.push(x);
           }
         });
-        const banner = await Banner.find().limit(3);
-        const FlagMob = await products
-          .find({ Category: "FLAGSHIP MOBILES" })
-          .limit(8);
+        const [banner, FlagMob] = await Promise.all([
+          Banner.find().limit(3),
+          products.find({ Category: "FLAGSHIP MOBILES" }).limit(8),
+        ]);
         let FlagMobiles = [];
         FlagMob.forEach((x) => {
           if (x.status == "Active") {
@@ -187,10 +191,12 @@ module.exports = {
       //creating pagination
       const pageNum = req.query.page;
       const perPage = 5;
-      const dataCount = await User.find().count();
-      const userData = await User.find()
-        .skip((pageNum - 1) * perPage)
-        .limit(perPage);
+      const [dataCount, userData] = await Promise.all([
+        User.find().count(),
+        User.find()
+          .skip((pageNum - 1) * perPage)
+          .limit(perPage),
+      ]);
       let i = (pageNum - 1) * perPage;
       res.render("admin/userList", {
         title: "admin-user list",

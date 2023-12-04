@@ -12,12 +12,14 @@ module.exports = {
   addCategory: async (req, res) => {
     try {
       const catagory = req.body.catagoryname;
-      const catagoryz = await Catagory.find();
-      const dataCount = await Catagory.find().count();
-      const prev = await Catagory.findOne({ catagoryName: catagory });
+      const [categoryz, dataCount, prev] = await Promise.all([
+        Catagory.find(),
+        Catagory.find().count(),
+        Catagory.findOne({ catagoryName: catagory }),
+      ]);
       if (prev) {
         res.render("admin/catagory", {
-          catagoryz,
+          categoryz,
           i: 1,
           dataCount,
           err: "catagory already exists",
@@ -77,10 +79,13 @@ module.exports = {
       //creating pagination
       const pageNum = req.query.page;
       const perPage = 2;
-      const dataCount = await Catagory.find().count();
-      const catagoryz = await Catagory.find()
-        .skip((pageNum - 1) * perPage)
-        .limit(perPage);
+      const [dataCount, catagoryz] = await Promise.all([
+        Catagory.find().count(),
+        Catagory.find()
+          .skip((pageNum - 1) * perPage)
+          .limit(perPage),
+      ]);
+
       let i = (pageNum - 1) * perPage;
       res.render("admin/catagory", { catagoryz, i, dataCount, err: "" });
     } catch (error) {

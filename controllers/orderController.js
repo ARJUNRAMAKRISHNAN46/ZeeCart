@@ -3,13 +3,13 @@ const User = require("../models/userModel");
 const Address = require("../models/addressModel");
 const Cart = require("../models/cartModel");
 const moment = require("moment");
-const { invoiceDownload } = require("../util/invoice");
+const { generateInvoicePDF } = require("../util/downloadInvoice");
 const Wallet = require("../models/walletModel");
 const products = require("../models/productModel");
 const pdf = require("../util/salesReportPDF");
 const returnItem = require("../models/retunModel");
 const WalletHistory = require("../models/walletHistoryModel");
-const { generateInvoicePDF } = require("../util/downloadSalesReport");
+const { generateSalesPDF } = require("../util/downloadSalesReport");
 
 module.exports = {
   //getting order page
@@ -46,11 +46,13 @@ module.exports = {
         amount = Total;
       }
       const addressId = req.params.id;
-      const curAdd = await Address.findOne({ _id: addressId });
+      const [curAdd, orderData] = await Promise.all([
+        Address.findOne({ _id: addressId }),
+        Cart.findOne(),
+      ]);
       const currentDate = new Date().toLocaleString("en-US", {
         timeZone: "Asia/Kolkata",
       });
-      const orderData = await Cart.findOne();
       const fourDaysLater = new Date(
         Date.now() + 4 * 24 * 60 * 60 * 1000
       ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
@@ -87,15 +89,17 @@ module.exports = {
       prodId.forEach(async (x) => {
         const quantity = x.quantity;
         const id = x.productId;
-        const proData = await products.findOne({ _id: id });
         const stock = proData.AvailableQuantity;
         const newQuantity = stock - quantity;
-        const product = await products.updateOne(
-          { _id: id },
-          {
-            $set: { AvailableQuantity: newQuantity },
-          }
-        );
+        const [proData, product] = await Promise.all([
+          products.findOne({ _id: id }),
+          products.updateOne(
+            { _id: id },
+            {
+              $set: { AvailableQuantity: newQuantity },
+            }
+          ),
+        ]);
       });
       await Cart.findOneAndDelete({ userId: orderData.userId });
       const orderId = Order._id;
@@ -112,10 +116,10 @@ module.exports = {
       const orderId = req.params.id;
       const addressId = req.query.id;
 
-      const orderDetails = await order
-        .find({ _id: orderId })
-        .populate("products.productId");
-      const user = await User.findOne({ _id: orderDetails[0].userId });
+      const [orderDetails, user] = await Promise.all([
+        order.find({ _id: orderId }).populate("products.productId"),
+        User.findOne({ _id: orderDetails[0].userId }),
+      ]);
       const orderData = orderDetails[0].products;
       res.render("admin/viewDetails", {
         orderDetails,
@@ -131,12 +135,15 @@ module.exports = {
     try {
       const pageNum = req.query.page;
       const perPage = 10;
-      const dataCount = await order.find().count();
-      const orderDetails = await order
-        .find()
-        .sort({ orderDate: -1 })
-        .skip((pageNum - 1) * perPage)
-        .limit(perPage);
+      const [dataCount, orderDetails] = await Promise.all([
+        order.find().count(),
+        order
+          .find()
+          .sort({ orderDate: -1 })
+          .skip((pageNum - 1) * perPage)
+          .limit(perPage),
+      ]);
+
       let i = (pageNum - 1) * perPage;
 
       res.render("admin/orders", { orderDetails, i, dataCount });
@@ -176,19 +183,17 @@ module.exports = {
   downloadInvoice: async (req, res) => {
     const orderId = req.params.id;
     const orderDetails = await order
-      .find({ _id: orderId })
+      .findOne({ _id: orderId })
       .populate("products.productId");
-    const addressDetails = await order
-      .find({ _id: orderId })
-      .populate("address");
-    let result = await invoiceDownload(orderDetails, addressDetails, orderId);
-    res.redirect("/productorders");
+    let result = await generateInvoicePDF(orderDetails);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=sales Report.pdf"
+    );
+
+    res.status(200).end(result);
   },
-  // downloadfile: async (req, res) => {
-  //   const id = req.params._id;
-  //   const filePath = `C:/Users/user/Desktop/Ticker/public/pdf/${id}.pdf`;
-  //   res.download(filePath, `invoice.pdf`);
-  // },
   cashOnDelivery: async (req, res) => {
     try {
       const grandTotal = req.session.grandTotal;
@@ -204,8 +209,10 @@ module.exports = {
       } else {
         amount = Total;
       }
-      const curAdd = await Address.findOne({ _id: addressId });
-      const orderData = await Cart.findOne({ userId: userData._id });
+      const [curAdd, orderData] = await Promise.all([
+        Address.findOne({ _id: addressId }),
+        Cart.findOne({ userId: userData._id }),
+      ]);
       const currentDate = new Date().toLocaleString("en-US", {
         timeZone: "Asia/Kolkata",
       });
@@ -295,12 +302,12 @@ module.exports = {
   returnRequest: async (req, res) => {
     try {
       const orderId = req.params.id;
-      const orderData = await order.findOne({ _id: orderId });
-      const user = await User.findOne({ _id: orderData.userId });
-      const retres = await returnItem.findOne({ userId: orderData.userId });
-      const orderDetails = await order
-        .find({ _id: orderId })
-        .populate("products.productId");
+      const [orderData, user, retres, orderDetails] = await Promise.all([
+        order.findOne({ _id: orderId }),
+        User.findOne({ _id: orderData.userId }),
+        returnItem.findOne({ userId: orderData.userId }),
+        order.find({ _id: orderId }).populate("products.productId"),
+      ]);
       const products = orderDetails[0].products;
       res.render("admin/returnRequest", { orderData, retres, user, products });
     } catch (error) {
@@ -323,11 +330,15 @@ module.exports = {
     try {
       const orderId = req.params.id;
       const newStatus = "Return Order";
-      const data = await order.findByIdAndUpdate(orderId, {
-        orderStatus: newStatus,
-      });
+      const [updatedOrder, orderData] = await Promise.all([
+        order.findByIdAndUpdate(
+          orderId,
+          { orderStatus: newStatus },
+          { new: true }
+        ),
+        order.findOne({ _id: orderId }),
+      ]);
       const userId = data.userId;
-      const orderData = await order.findOne({ _id: orderId });
 
       let amount;
       if (orderData.discountAmount) {
@@ -375,11 +386,7 @@ module.exports = {
           });
         }
         const updateAmount = Number(amount) + Number(refund.wallet);
-        console.log(
-          updateAmount,
-          userId,
-          "------------------------------updateamount"
-        );
+        
         // const priceInc = await Wallet.findByIdAndUpdate(
         //   userId,
         //   { wallet: updateAmount },
@@ -390,7 +397,6 @@ module.exports = {
           wallet: updateAmount,
         });
 
-        console.log("Updated Document:", priceInc);
       } else {
         const walletHistory = await WalletHistory.findOne({
           userId: userId,
@@ -435,7 +441,6 @@ module.exports = {
           userId: userId,
           wallet: updateAmount,
         });
-        console.log(priceInc, "------------------------->");
       }
       res.redirect("/orders");
     } catch (error) {
@@ -447,8 +452,6 @@ module.exports = {
       let startDate = new Date(req.body.startDate);
       let endDate = new Date(req.body.endDate);
       endDate.setHours(23, 59, 59, 999);
-      // console.log(req.body);
-      console.log(startDate, endDate);
       const Order = await order
         .find({
           PaymentStatus: "Paid",
@@ -458,14 +461,13 @@ module.exports = {
           },
         })
         .populate("products.productId");
-      console.log(Order, "--------------------------------order");
 
       // const Order = await order
       //   .find({ PaymentStatus: "Paid" })
       //   .populate("products.productId");
       // const startDate = '23-11-2023';
       // const endDate = '23-12-2023';
-      const pdfBuffer = await generateInvoicePDF(Order, startDate, endDate);
+      const pdfBuffer = await generateSalesPDF(Order, startDate, endDate);
 
       // Set headers for the response
       res.setHeader("Content-Type", "application/pdf");

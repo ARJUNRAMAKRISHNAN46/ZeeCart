@@ -43,8 +43,10 @@ module.exports = {
 
   getAddProduct: async (req, res) => {
     try {
-      const category = await Category.find();
-      const brands = await Brand.find();
+      const [category, brands] = await Promise.all([
+        Category.find(),
+        Brand.find(),
+      ]);
       res.render("admin/addProduct", { brands, category });
     } catch (error) {
       console.log(error);
@@ -156,8 +158,8 @@ module.exports = {
     try {
       const prodId = req.params.id;
       const email = req.session.email;
-      const userData = await User.findOne({ email: email });
       const userId = userData._id;
+      const userData = await User.findOne({ email: email });
       const wishData = await wishlist.findOne({
         products: { $elemMatch: { productId: prodId } },
       });
@@ -308,8 +310,10 @@ module.exports = {
   editOffer: async (req, res) => {
     try {
       let couponId = req.params.id;
-      const couponData = await offer.findOne({ _id: couponId });
-      const catData = await Category.find();
+      const [couponData, catData] = await Promise.all([
+        Offer.findOne({ _id: couponId }),
+        Category.find(),
+      ]);
       res.render("admin/editOffer", { couponData, catData });
     } catch (error) {
       console.log(error);
@@ -352,8 +356,10 @@ module.exports = {
       const { Catagory, discount, expiryDate } = req.body;
       const existingOffer = await offer.findOne({ Catagory: Catagory });
       if (existingOffer) {
-        const catData = await Category.find();
-        const offers = await offer.find();
+        const [catData, offers] = await Promise.all([
+          Category.find(),
+          Offer.find(),
+        ]);
         const date = new Date();
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0");

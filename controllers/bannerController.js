@@ -28,7 +28,6 @@ module.exports = {
       ];
 
       if (!supportedFormats.includes(image.mimetype)) {
-        console.log("Unsupported image format");
         return res.redirect("/banners");
       }
 

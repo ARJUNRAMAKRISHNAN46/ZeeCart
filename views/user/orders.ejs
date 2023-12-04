@@ -139,98 +139,98 @@
                     <%orderDetails.forEach((x)=> {%>
                         <div class="card border border-dark">
                             <div class="row d-flex justify-content-between px-3 top">
-                                <!-- <% if(x.orderStatus=='Order Arrived' ) {%>
+                                <% if(x.orderStatus=='Order Arrived' ) {%>
                                     <div class="d-flex justify-content-end">
                                         <form action="/downloadInvoice/<%=x._id%>" method="post">
                                             <button class="btn btn-success">Download Invoice</button>
                                         </form>
                                     </div>
-                                    <%} %> -->
-                                <div class="d-flex">
-                                    <h5>Order ID :<span class="text-dark font-weight-bold"> ODR - <%=x._id%>
+                                    <%} %>
+                                        <div class="d-flex">
+                                            <h5>Order ID :<span class="text-dark font-weight-bold"> ODR - <%=x._id%>
                                                 </span>
-                                    </h5>
-                                </div>
+                                            </h5>
+                                        </div>
 
-                                <div class="d-flex">
-                                    <% x.products.forEach((item)=> { %>
-                                        <ul>
-                                            <img src="/product-images/<%= item.productId.images[0] %>"
-                                                alt="<%= item.productId.images[0]%>" style="width: 80px;">
-                                            <li>
-                                                <b>
-                                                    <%= item.productId.ProductName %>
-                                                </b>
-                                                <br> Quantity: <%= item.quantity %>
-                                            </li>
-                                        </ul>
-                                            <%}) %>
-                                </div>
-                                <div class="d-flex" style="line-height: 10px;">
-                                    <% if(x.couponCode) {%>
-                                        <table class="table">
-                                            <tr style="background: rgb(241, 255, 184);">
-                                                <th>Coupon Code</th>
-                                                <th>Total Amount</th>
-                                                <th>Discount Amount</th>
-                                                <th>Final Amount</th>
-                                            </tr>
-                                            <tr style="background: rgb(241, 255, 184);">
-                                                <td>
+                                        <div class="d-flex">
+                                            <% x.products.forEach((item)=> { %>
+                                                <ul>
+                                                    <img src="/product-images/<%= item.productId.images[0] %>"
+                                                        alt="<%= item.productId.images[0]%>" style="width: 80px;">
+                                                    <li>
+                                                        <b>
+                                                            <%= item.productId.ProductName %>
+                                                        </b>
+                                                        <br> Quantity: <%= item.quantity %>
+                                                    </li>
+                                                </ul>
+                                                <%}) %>
+                                        </div>
+                                        <div class="d-flex" style="line-height: 10px;">
+                                            <% if(x.couponCode) {%>
+                                                <table class="table">
+                                                    <tr style="background: rgb(241, 255, 184);">
+                                                        <th>Coupon Code</th>
+                                                        <th>Total Amount</th>
+                                                        <th>Discount Amount</th>
+                                                        <th>Final Amount</th>
+                                                    </tr>
+                                                    <tr style="background: rgb(241, 255, 184);">
+                                                        <td>
+                                                            <i>
+                                                                <%=x.couponCode%>
+                                                            </i>
+                                                        </td>
+                                                        <td><i>₹<%=x.totalAmount%>/-</i></td>
+                                                        <td>
+                                                            <i>
+                                                                <%=x.couponDiscount%>/-
+                                                            </i>
+                                                        </td>
+                                                        <td><i>₹<%=x.discountAmount%>/-</i></td>
+                                                    </tr>
+                                                </table>
+                                                <%}else{%>
+                                                    <h5><span class="font-weight-bold"> Total Amount : ₹
+                                                            <%=x.totalAmount%>
+                                                                <%} %>
+
+                                        </div>
+                                        <div class="d-flex flex-column text-sm-right" style="line-height: 20px;">
+
+                                            <% let orderDate=new Date(x.orderDate) %>
+                                                <p class="card-text" style="line-height: 10px;">
+                                                    <b>Ordered Date and Time:</b>
                                                     <i>
-                                                        <%=x.couponCode%>
+                                                        <%= orderDate.toLocaleDateString() || 'N/A' %>
+                                                            <%= orderDate.toLocaleTimeString() || 'N/A' %>
                                                     </i>
-                                                </td>
-                                                <td><i>₹<%=x.totalAmount%>/-</i></td>
-                                                <td>
-                                                    <i>
-                                                        <%=x.couponDiscount%>/-
-                                                    </i>
-                                                </td>
-                                                <td><i>₹<%=x.discountAmount%>/-</i></td>
-                                            </tr>
-                                        </table>
-                                        <%}else{%>
-                                            <h5><span class="font-weight-bold"> Total Amount : ₹
-                                                    <%=x.totalAmount%>
-                                                        <%} %>
+                                                </p>
+                                                <p class="card-text" style="line-height: 10px;">
+                                                    <b>Expected Delivery Date and Time:</b>
+                                                    <% if (x.expectedDeliveryDate) { %>
+                                                        <i>
+                                                            <%= (new Date(x.expectedDeliveryDate)).toLocaleString() %>
+                                                                <% } else { %>
+                                                                    N/A
+                                                                    <% } %>
+                                                        </i>
+                                                </p>
 
-                                </div>
-                                <div class="d-flex flex-column text-sm-right" style="line-height: 20px;">
+                                                <p style="line-height: 10px;"><strong>Payment Method : <span
+                                                            class="text-success">
+                                                            <%=x.paymentMethod%>
+                                                        </span></strong></p>
 
-                                    <% let orderDate=new Date(x.orderDate) %>
-                                        <p class="card-text" style="line-height: 10px;">
-                                            <b>Ordered Date and Time:</b>
-                                            <i>
-                                                <%= orderDate.toLocaleDateString() || 'N/A' %>
-                                                    <%= orderDate.toLocaleTimeString() || 'N/A' %>
-                                            </i>
-                                        </p>
-                                        <p class="card-text" style="line-height: 10px;">
-                                            <b>Expected Delivery Date and Time:</b>
-                                            <% if (x.expectedDeliveryDate) { %>
-                                                <i>
-                                                    <%= (new Date(x.expectedDeliveryDate)).toLocaleString() %>
-                                                        <% } else { %>
-                                                            N/A
-                                                            <% } %>
-                                                </i>
-                                        </p>
-
-                                        <p style="line-height: 10px;"><strong>Payment Method : <span
-                                                    class="text-success">
-                                                    <%=x.paymentMethod%>
-                                                </span></strong></p>
-
-                                        <p><span class="font-weight-bold"><b>Delivery Address</b> :
-                                                <i>
-                                                    <%= x.address.houseName %>,<%= x.address.locality %>, <br>
-                                                            <%= x.address.city %> , <%= x.address.district %> ,
-                                                                    <%= x.address.state %> , <br>
-                                                                        PIN : <%= x.address.pincode %>
-                                                </i>
-                                            </span></p>
-                                </div>
+                                                <p><span class="font-weight-bold"><b>Delivery Address</b> :
+                                                        <i>
+                                                            <%= x.address.houseName %>,<%= x.address.locality %>, <br>
+                                                                    <%= x.address.city %> , <%= x.address.district %> ,
+                                                                            <%= x.address.state %> , <br>
+                                                                                PIN : <%= x.address.pincode %>
+                                                        </i>
+                                                    </span></p>
+                                        </div>
                             </div>
                             <div class="row d-flex justify-content-center">
                                 <div class="col-12">
@@ -352,7 +352,8 @@
                                 </div>
                             </div>
                             <% if(x.orderStatus !=='Cancelled' && x.orderStatus !=='rejected' && x.orderStatus
-                                !=='Return Order' && x.orderStatus !=='Order Arrived' && x.orderStatus !== 'Requested' ) {%>
+                                !=='Return Order' && x.orderStatus !=='Order Arrived' && x.orderStatus !=='Requested' )
+                                {%>
                                 <div class="d-flex justify-content-end">
                                     <a class="btn  btn-danger mx-3" id="cancelBtn"
                                         onclick="updateOrderStatus('<%= x._id %>','Cancelled' )" href="">Cancel
@@ -368,117 +369,98 @@
                                     </div>
                                     <div id="myModal" class="modal p-5 mt-5" style="background: rgb(190, 190, 190);">
                                         <div class="modal-content p-5">
-                                          <span class="close" id="closeModal">&times;</span>
-                                          <form action="/returnItem/<%=x._id%>" method="post">
-                                            <h4 class="bg-primary d-flex justify-content-center py-2 text-white">Return Product</h4>
-                                            <label for="returnReason">Reason for Return:</label>
-                                            <select id="returnReason" name="returnReason" required>
-                                              <option value="defective">Defective</option>
-                                              <option value="wrong-model">Wrong Model</option>
-                                              <option value="changed-mind">Changed Mind</option>
-                                              <option value="other">Other</option>
-                                            </select>
-                                            <textarea name="description" placeholder="Description" style="width: 100%;" required></textarea>
-                                            <div class="d-flex justify-content-center">
-                                              <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to return this order')">Request</button>
-                                            </div>
-                                          </form>
-                                        </div>
-                                      </div>
-                                    <!-- <div id="myModal" class="modal">
-                                        <form action="/returnItem/<%=x._id%>" method="post">
-                                            <div class="row d-flex justify-content-center align-items-center">
-                                                <div class="col-12 col-md-4 my-5"
-                                                    style="border: 5px solid #3c3c3c;border-radius: 15px;background-color: rgb(224, 224, 255);">
-                                                    <br>
-                                                    <h4
-                                                        class="bg-primary d-flex justify-content-center py-2 text-white">
-                                                        Return Product</h4>
-                                                    <label for="returnReason">Reason for Return:</label>
-                                                    <select id="returnReason" name="returnReason">
-                                                        <option value="defective">Defective</option>
-                                                        <option value="wrong-model">Wrong Model</option>
-                                                        <option value="changed-mind">Changed Mind</option>
-                                                        <option value="other">Other</option>
-                                                    </select>
-                                                    <br>
-                                                    <br>
-                                                    <textarea name="description" id="" placeholder="description"
-                                                        style="width: 100%;"></textarea>
-                                                    <div class="d-flex justify-content-center">
-                                                        <button type="submit" class="btn btn-secondary"
-                                                            onclick="return('are you sure you want to return this order')"
-                                                            style="color: white;">Request</button>
-                                                    </div>
-                                                    <br>
+                                            <span class="close" id="closeModal">&times;</span>
+                                            <form action="/returnItem/<%=x._id%>" method="post">
+                                                <h4 class="bg-primary d-flex justify-content-center py-2 text-white">
+                                                    Return Product</h4>
+                                                <label for="returnReason">Reason for Return:</label>
+                                                <select id="returnReason" name="returnReason" required>
+                                                    <option value="defective">Defective</option>
+                                                    <option value="wrong-model">Wrong Model</option>
+                                                    <option value="changed-mind">Changed Mind</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                                <textarea name="description" placeholder="Description"
+                                                    style="width: 100%;" required></textarea>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="submit" class="btn btn-secondary"
+                                                        onclick="return confirm('Are you sure you want to return this order')">Request</button>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div> -->
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
                                     <%} %>
                         </div>
                         <%})%>
         </div>
         <%} %>
-            <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
-            <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script> -->
+          
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
             <script>
 
                 function updateOrderStatus(orderId, newStatus) {
-                    if (confirm('Are you sure to cancel this order?')) {
-                        fetch(`/deleteOrderStatus/${orderId}?status=${newStatus}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            // body: JSON.stringify({ status: newStatus }),
-                        })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (data.success) {
-                                    alert('Order status deleted successfully!');
-                                } else {
-                                    alert('Failed to update order status.');
-                                }
+                    Swal.fire({
+                        title: 'Are you sure to delete this item?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, keep it',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/deleteOrderStatus/${orderId}?status=${newStatus}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
                             })
-                            .catch((error) => {
-                                console.error('Error:', error);
-                            });
-                    }
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Order status deleted successfully!',
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Failed to update order status.',
+                                        });
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
+                            Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                        } else {
+                            Swal.fire('Cancelled', 'Your item is safe :)', 'info');
+                        }
+                    });
+                    
                 }
 
-                // $(document).ready(function () {
-                //     $("#openModal").click(function () {
-                //         $("#myModal").modal('show');
-                //     });
-                // });
+             
 
             </script>
             <script>
-                // Get the modal element and the button that opens it
                 const modal = document.getElementById('myModal');
                 const btnOpenModal = document.getElementById('openModal');
                 const closeModal = document.getElementById('closeModal');
-              
-                // Open the modal when the button is clicked
-                btnOpenModal.addEventListener('click', () => {
-                  modal.style.display = 'block';
-                });
-              
-                // Close the modal when the close button is clicked
-                closeModal.addEventListener('click', () => {
-                  modal.style.display = 'none';
-                });
-              
-                // Close the modal if the user clicks outside of it
-                window.addEventListener('click', (event) => {
-                  if (event.target === modal) {
-                    modal.style.display = 'none';
-                  }
-                });
-              </script>
 
-            <!-- <%- include('../layout/user/footer.ejs') -%> -->
-        <%- include('../layout/user/footer.ejs') -%>
+                btnOpenModal.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                });
+
+                closeModal.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+
+                window.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            </script>
+
+            <%- include('../layout/user/footer.ejs') -%>

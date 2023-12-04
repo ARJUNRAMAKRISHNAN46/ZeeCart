@@ -1,120 +1,179 @@
 <%- include('../layout/header.ejs') -%>
     <%- include('../layout/user/header.ejs') -%>
-    <!DOCTYPE html>
-    <html lang="en">
+        <!DOCTYPE html>
+        <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
-        <style>
-            .row {
-                display: flex;
-                justify-content: space-between;
-            }
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+            <style>
+                .row {
+                    display: flex;
+                    justify-content: space-between;
+                }
 
-            body {
-                background-color: #ffffff
-            }
-        </style>
-    </head>
+                body {
+                    background-color: #ffffff
+                }
+            </style>
+        </head>
 
-    <body>
-        <% if(!wishData[0]){%>
-            <div class="container m-5">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-8">
-                        <div class="card border shadow mt-5 vh-100">
-                            <h1 class="mx-5 my-5">Your Wishlist is Empty</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <%}else{%>
-                <div class="container">
+        <body>
+            <% if(!wishData[0]){%>
+                <div class="container m-5">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-8">
-                            <div class="card border shadow mt-5 ">
-                                <div class="m-4">
-                                    <h4 class="card-title mb-4">Your Wishlist</h4>
-                                    <% wishData.forEach((data)=> { %>
-                                        <div class="row d-flex gy-3 mb-4">
-                                            <div class="col-lg-5">
-                                                <div class="me-lg-5">
-                                                    <div class="d-flex">
-                                                        <img src="/product-images/<%=data.productId.images[0] %>"
-                                                            alt="<%= data.productId.ProductName %>"
-                                                            class="border rounded me-3"
-                                                            style="width: 80px; height: 96px" />
-                                                        <div class="">
-                                                            <a href="#" class="nav-link"
-                                                                style="text-decoration: none; color: #000000; font-weight: 500;">
-                                                                <%= data.productId.ProductName %>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg col-sm-2">
-                                                <div class="text-primary"><b> Rs. <%= data.productId.Price %></b>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg col-sm-4 d-flex">
-                                                <div class="float-md-end d-flex">
-
-                                                    <!-- <button class="text-white btn-secondary"
-                                                        onclick="addToCart('<%=data.productId._id%>')"
-                                                        style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Add
-                                                        to
-                                                        Cart</button> -->
-                                                    <%if(data.productId.AvailableQuantity==0) {%>
-                                                        <!-- <a class="btn btn1" href="#">Notify Me</a> -->
-                                                        <span class="text-danger">Out of Stock</span>
-                                                        <%}else {%>
-                                                            <button class="text-white btn-secondary"
-                                                                style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
-                                                                onclick="addToCart('<%=data.productId._id%>')">Add To
-                                                                Cart</button>
-                                                            <%} %>
-
-                                                                <button
-                                                                    class="btn btn-light border text-danger icon-hover-danger ml-2"
-                                                                    onclick="removeFromWish('<%=data.productId._id%>')"
-                                                                    style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <% }); %>
-                                            <%} %>
-                                </div>
-
+                            <div class="card border shadow mt-5 vh-100">
+                                <h1 class="mx-5 my-5">Your Wishlist is Empty</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
-                <br>
-                <br>
-                <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-                <script>
-                    function removeFromWish(productId) {
-                        if (window.confirm('Are you sure to delete this item?')) {
+                <%}else{%>
+                    <div class="container">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-8">
+                                <div class="card border shadow mt-5 ">
+                                    <div class="m-4">
+                                        <h4 class="card-title mb-4">Your Wishlist</h4>
+                                        <% wishData.forEach((data)=> { %>
+                                            <div class="row d-flex gy-3 mb-4">
+                                                <div class="col-lg-5">
+                                                    <div class="me-lg-5">
+                                                        <div class="d-flex">
+                                                            <img src="/product-images/<%=data.productId.images[0] %>"
+                                                                alt="<%= data.productId.ProductName %>"
+                                                                class="border rounded me-3"
+                                                                style="width: 80px; height: 96px" />
+                                                            <div class="">
+                                                                <a href="#" class="nav-link"
+                                                                    style="text-decoration: none; color: #000000; font-weight: 500;">
+                                                                    <%= data.productId.ProductName %>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg col-sm-2">
+                                                    <div class="text-primary"><b> Rs. <%= data.productId.Price %></b>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg col-sm-4 d-flex">
+                                                    <div class="float-md-end d-flex">
+
+                                                        <!-- <button class="text-white btn-secondary"
+                                                        onclick="addToCart('<%=data.productId._id%>')"
+                                                        style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Add
+                                                        to
+                                                        Cart</button> -->
+                                                        <%if(data.productId.AvailableQuantity==0) {%>
+                                                            <!-- <a class="btn btn1" href="#">Notify Me</a> -->
+                                                            <span class="text-danger">Out of Stock</span>
+                                                            <%}else {%>
+                                                                <button class="text-white btn-secondary"
+                                                                    style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
+                                                                    onclick="addToCart('<%=data.productId._id%>')">Add
+                                                                    To
+                                                                    Cart</button>
+                                                                <%} %>
+
+                                                                    <button
+                                                                        class="btn btn-light border text-danger icon-hover-danger ml-2"
+                                                                        onclick="removeFromWish('<%=data.productId._id%>')"
+                                                                        style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }); %>
+                                                <%} %>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <br>
+                    <br>
+                    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+                    <script>
+                        function removeFromWish(productId) {
+
+                            Swal.fire({
+                                title: 'Are you sure to delete this item?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, delete it!',
+                                cancelButtonText: 'No, keep it',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                                    console.log('hello ok aayii');
+                                    $.ajax({
+                                        url: `/removeFromWishlist/${productId}`,
+                                        method: 'POST',
+                                        success: function (response) {
+                                            console.log(response);
+                                            if (response.success) {
+                                                location.reload();
+                                                Toastify({
+                                                    text: 'Item removed from wishlist',
+                                                    duration: 1500,
+                                                    gravity: 'top',
+                                                    position: 'center',
+                                                    backgroundColor: 'black',
+                                                    style: {
+                                                        borderRadius: '10px',
+                                                    },
+                                                }).showToast().then(function () {
+                                                    console.log('helrorororororo');
+                                                    console.log('Response from the server:', response);
+                                                });
+                                                return
+                                            }
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Error:', error);
+                                            Toastify({
+                                                text: 'Oops!Somthing went wrong',
+                                                duration: 1500,
+                                                gravity: 'top',
+                                                position: 'center',
+                                                backgroundColor: 'red',
+                                                style: {
+                                                    borderRadius: '10px',
+                                                },
+                                            }).showToast()
+                                        }
+                                    })
+
+                                } else {
+                                    Swal.fire('Cancelled', 'Your item is safe :)', 'info');
+                                    console.log('aah cancel aayii');
+                                }
+                            });
+                        }
+                    </script>
+                    <script>
+                        function addToCart(productId) {
+
                             $.ajax({
-                                url: `/removeFromWishlist/${productId}`,
+                                url: `/addToCart/${productId}`,
                                 method: 'POST',
                                 success: function (response) {
                                     console.log(response);
                                     if (response.success) {
-                                        location.reload();
                                         Toastify({
-                                            text: 'Item removed from wishlist',
+                                            text: 'Item added to cart',
                                             duration: 1500,
                                             gravity: 'top',
                                             position: 'center',
@@ -122,17 +181,16 @@
                                             style: {
                                                 borderRadius: '10px',
                                             },
-                                        }).showToast().then(function () {
-                                            console.log('helrorororororo');
-                                            console.log('Response from the server:', response);
-                                        });
-                                        return
+                                        }).showToast()
+                                            .then(function () {
+                                                console.log('Response from the server:', response);
+                                            });
                                     }
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('Error:', error);
                                     Toastify({
-                                        text: 'Oops!Somthing went wrong',
+                                        text: 'Oops! Something went wrong',
                                         duration: 1500,
                                         gravity: 'top',
                                         position: 'center',
@@ -144,46 +202,5 @@
                                 }
                             });
                         }
-                    }
-
-                    function addToCart(productId) {
-
-                        $.ajax({
-                            url: `/addToCart/${productId}`,
-                            method: 'POST',
-                            success: function (response) {
-                                console.log(response);
-                                if (response.success) {
-                                    Toastify({
-                                        text: 'Item added to wishlist',
-                                        duration: 1500,
-                                        gravity: 'top',
-                                        position: 'center',
-                                        backgroundColor: 'black',
-                                        style: {
-                                            borderRadius: '10px',
-                                        },
-                                    }).showToast()
-                                        .then(function () {
-                                            // You can add a callback function here if needed
-                                            console.log('Response from the server:', response);
-                                        });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                                Toastify({
-                                    text: 'Oops! Something went wrong',
-                                    duration: 1500,
-                                    gravity: 'top',
-                                    position: 'center',
-                                    backgroundColor: 'red',
-                                    style: {
-                                        borderRadius: '10px',
-                                    },
-                                }).showToast()
-                            }
-                        });
-                    }
-                </script>
-                <%- include('../layout/user/footer.ejs') -%>
+                    </script>
+                    <%- include('../layout/user/footer.ejs') -%>

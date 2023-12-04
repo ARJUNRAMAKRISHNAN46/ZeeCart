@@ -171,162 +171,165 @@
                 </div>
             </div>
         </section>
-                <script>
-                    $(document).ready(function () {
-                        $("#profileModalOpener").click(function () {
-                            $("#profileModal").modal('show');
-                        });
-                    });
-                </script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#profileModalOpener").click(function () {
+                    $("#profileModal").modal('show');
+                });
+            });
+        </script>
 
-                <script>
-                    function copyToClipboard(text) {
-                        const textarea = document.createElement('textarea');
-                        textarea.value = text;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textarea);
+        <script>
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            document.getElementById('copyReferralLink').addEventListener('click', function () {
+                const referralLink = 'https://zeecart.shop/send-otp?ref=<%=userData._id%>';
+                copyToClipboard(referralLink);
+                Toastify({
+                    text: 'Referral link copied to clipboard!',
+                    duration: 1500,
+                    close: true,
+                    gravity: 'top', 
+                    position: 'center',
+                    backgroundColor: 'black',
+                }).showToast();
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const closeModalButton = document.getElementById('closeModal');
+                const form = document.querySelector('form');
+                const nameInput = document.querySelector('input[name="name"]');
+                const mobileInput = document.querySelector('input[name="mobile"]');
+                const emailInput = document.querySelector('input[name="email"]');
+                const pincodeInput = document.querySelector('input[name="pincode"]');
+                const addressInput = document.querySelector('input[name="address"]');
+                const localityInput = document.querySelector('input[name="locality"]');
+                const cityInput = document.querySelector('input[name="city"]');
+                const districtInput = document.querySelector('input[name="district"]');
+                const stateInput = document.querySelector('input[name="state"]');
+
+                const nameError = document.getElementById('nameError');
+                const mobileError = document.getElementById('mobileError');
+                const emailError = document.getElementById('emailError');
+                const pincodeError = document.getElementById('pincodeError');
+                const addressError = document.getElementById('addressError');
+                const localityError = document.getElementById('localityError');
+                const cityError = document.getElementById('cityError');
+                const districtError = document.getElementById('districtError');
+                const stateError = document.getElementById('stateError');
+
+                form.addEventListener('submit', function (event) {
+                    // Prevent form submission to check validations first
+                    event.preventDefault();
+
+                    // Validate name (not only spaces)
+                    const name = nameInput.value.trim();
+                    if (!name) {
+                        console.log('true');
+                        nameError.textContent = 'Please enter a valid name.';
+                    } else {
+                        console.log('false');
+                        nameError.textContent = '';
                     }
-                    document.getElementById('copyReferralLink').addEventListener('click', function () {
-                        const referralLink = 'http://localhost:4000/send-otp?ref=<%=userData._id%>';
-                        copyToClipboard(referralLink);
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Referral link copied to clipboard!',
-                            showConfirmButton: false,
-                            timer: 1500, // You can adjust the timer as needed
-                        });
-                    });
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const closeModalButton = document.getElementById('closeModal');
-                        const form = document.querySelector('form');
-                        const nameInput = document.querySelector('input[name="name"]');
-                        const mobileInput = document.querySelector('input[name="mobile"]');
-                        const emailInput = document.querySelector('input[name="email"]');
-                        const pincodeInput = document.querySelector('input[name="pincode"]');
-                        const addressInput = document.querySelector('input[name="address"]');
-                        const localityInput = document.querySelector('input[name="locality"]');
-                        const cityInput = document.querySelector('input[name="city"]');
-                        const districtInput = document.querySelector('input[name="district"]');
-                        const stateInput = document.querySelector('input[name="state"]');
 
-                        const nameError = document.getElementById('nameError');
-                        const mobileError = document.getElementById('mobileError');
-                        const emailError = document.getElementById('emailError');
-                        const pincodeError = document.getElementById('pincodeError');
-                        const addressError = document.getElementById('addressError');
-                        const localityError = document.getElementById('localityError');
-                        const cityError = document.getElementById('cityError');
-                        const districtError = document.getElementById('districtError');
-                        const stateError = document.getElementById('stateError');
+                    // Validate mobile number
+                    const mobile = mobileInput.value.trim();
+                    if (!/^\d{10}$/.test(mobile)) {
+                        mobileError.textContent = 'Please enter a valid 10-digit mobile number.';
+                    } else {
+                        mobileError.textContent = '';
+                    }
 
-                        form.addEventListener('submit', function (event) {
-                            // Prevent form submission to check validations first
-                            event.preventDefault();
+                    // Validate email
+                    const email = emailInput.value.trim();
+                    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                        emailError.textContent = 'Please enter a valid email address.';
+                    } else {
+                        emailError.textContent = '';
+                    }
 
-                            // Validate name (not only spaces)
-                            const name = nameInput.value.trim();
-                            if (!name) {
-                                console.log('true');
-                                nameError.textContent = 'Please enter a valid name.';
-                            } else {
-                                console.log('false');
-                                nameError.textContent = '';
-                            }
+                    // Validate pincode (6 digits)
+                    const pincode = pincodeInput.value.trim();
+                    if (!/^\d{6}$/.test(pincode)) {
+                        pincodeError.textContent = 'Please enter a valid 6-digit pincode.';
+                    } else {
+                        pincodeError.textContent = '';
+                    }
 
-                            // Validate mobile number
-                            const mobile = mobileInput.value.trim();
-                            if (!/^\d{10}$/.test(mobile)) {
-                                mobileError.textContent = 'Please enter a valid 10-digit mobile number.';
-                            } else {
-                                mobileError.textContent = '';
-                            }
+                    // Validate address
+                    const address = addressInput.value.trim();
+                    if (!address) {
+                        addressError.textContent = 'Please enter a valid address.';
+                    } else {
+                        addressError.textContent = '';
+                    }
 
-                            // Validate email
-                            const email = emailInput.value.trim();
-                            if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-                                emailError.textContent = 'Please enter a valid email address.';
-                            } else {
-                                emailError.textContent = '';
-                            }
+                    // Validate locality
+                    const locality = localityInput.value.trim();
+                    if (!locality) {
+                        localityError.textContent = 'Please enter a valid locality.';
+                    } else {
+                        localityError.textContent = '';
+                    }
 
-                            // Validate pincode (6 digits)
-                            const pincode = pincodeInput.value.trim();
-                            if (!/^\d{6}$/.test(pincode)) {
-                                pincodeError.textContent = 'Please enter a valid 6-digit pincode.';
-                            } else {
-                                pincodeError.textContent = '';
-                            }
+                    // Validate city
+                    const city = cityInput.value.trim();
+                    if (!city) {
+                        cityError.textContent = 'Please enter a valid city.';
+                    } else {
+                        cityError.textContent = '';
+                    }
 
-                            // Validate address
-                            const address = addressInput.value.trim();
-                            if (!address) {
-                                addressError.textContent = 'Please enter a valid address.';
-                            } else {
-                                addressError.textContent = '';
-                            }
+                    // Validate district
+                    const district = districtInput.value.trim();
+                    if (!district) {
+                        districtError.textContent = 'Please enter a valid district.';
+                    } else {
+                        districtError.textContent = '';
+                    }
 
-                            // Validate locality
-                            const locality = localityInput.value.trim();
-                            if (!locality) {
-                                localityError.textContent = 'Please enter a valid locality.';
-                            } else {
-                                localityError.textContent = '';
-                            }
+                    // Validate state
+                    const state = stateInput.value.trim();
+                    if (!state) {
+                        stateError.textContent = 'Please enter a valid state.';
+                    } else {
+                        stateError.textContent = '';
+                    }
 
-                            // Validate city
-                            const city = cityInput.value.trim();
-                            if (!city) {
-                                cityError.textContent = 'Please enter a valid city.';
-                            } else {
-                                cityError.textContent = '';
-                            }
+                    // If any error messages exist, stop form submission
+                    if (nameError.textContent || mobileError.textContent || emailError.textContent ||
+                        pincodeError.textContent || addressError.textContent || localityError.textContent ||
+                        cityError.textContent || districtError.textContent || stateError.textContent) {
+                        return;
+                    }
 
-                            // Validate district
-                            const district = districtInput.value.trim();
-                            if (!district) {
-                                districtError.textContent = 'Please enter a valid district.';
-                            } else {
-                                districtError.textContent = '';
-                            }
+                    // If all validations pass, submit the form
+                    form.submit();
+                });
 
-                            // Validate state
-                            const state = stateInput.value.trim();
-                            if (!state) {
-                                stateError.textContent = 'Please enter a valid state.';
-                            } else {
-                                stateError.textContent = '';
-                            }
-
-                            // If any error messages exist, stop form submission
-                            if (nameError.textContent || mobileError.textContent || emailError.textContent ||
-                                pincodeError.textContent || addressError.textContent || localityError.textContent ||
-                                cityError.textContent || districtError.textContent || stateError.textContent) {
-                                return;
-                            }
-
-                            // If all validations pass, submit the form
-                            form.submit();
-                        });
-
-                        closeModalButton.addEventListener('click', function () {
-                            // Clear all error messages when closing the modal
-                            nameError.textContent = '';
-                            mobileError.textContent = '';
-                            emailError.textContent = '';
-                            pincodeError.textContent = '';
-                            addressError.textContent = '';
-                            localityError.textContent = '';
-                            cityError.textContent = '';
-                            districtError.textContent = '';
-                            stateError.textContent = '';
-                        });
-                    });
-                </script>
+                closeModalButton.addEventListener('click', function () {
+                    // Clear all error messages when closing the modal
+                    nameError.textContent = '';
+                    mobileError.textContent = '';
+                    emailError.textContent = '';
+                    pincodeError.textContent = '';
+                    addressError.textContent = '';
+                    localityError.textContent = '';
+                    cityError.textContent = '';
+                    districtError.textContent = '';
+                    stateError.textContent = '';
+                });
+            });
+        </script>
 
 
 
-                <%- include('../layout/user/footer.ejs') -%>
+        <%- include('../layout/user/footer.ejs') -%>
