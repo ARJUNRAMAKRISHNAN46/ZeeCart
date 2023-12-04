@@ -213,9 +213,9 @@
                     html: "I will close in <b></b> milliseconds.",
                     timer: 2000,
                     timerProgressBar: true,
-                    toast: true, // Set to true to display it as a toast
-                    position: "top-end", // You can change the position as needed
-                    showConfirmButton: false, // Hide the "OK" button
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
                     didOpen: () => {
                         Swal.showLoading();
                         const timer = Swal.getPopup().querySelector("b");
@@ -227,7 +227,6 @@
                         clearInterval(timerInterval);
                     }
                 }).then((result) => {
-                    /* Read more about handling dismissals below */
                     if (result.dismiss === Swal.DismissReason.timer) {
                         console.log("I was closed by the timer");
                     }
@@ -244,13 +243,13 @@
 
                 if (startDate > currentDate) {
                     error.innerHTML = 'Invalid date range: Start date cannot be in the future.';
-                    downBtn.style.display = 'none'; // or set to 'block' if needed
+                    downBtn.style.display = 'none';
                 } else if (endDate >= currentDate) {
                     error.innerHTML = 'Invalid date range: End date cannot be in the future.';
-                    downBtn.style.display = 'none'; // or set to 'block' if needed
+                    downBtn.style.display = 'none';
                 } else if (startDate > endDate) {
                     error.innerHTML = 'Invalid date range: Start date cannot be after end date.';
-                    downBtn.style.display = 'none'; // or set to 'block' if needed
+                    downBtn.style.display = 'none';
                 } else {
                     error.innerHTML = '';
                     downBtn.style.display = 'block';
@@ -258,27 +257,6 @@
 
             }
 
-            // function validateAndSubmit(event) {
-            //     event.preventDefault();
-
-            //     const startDate = new Date(document.getElementById('startDate').value);
-            //     const endDate = new Date(document.getElementById('endDate').value);
-            //     const currentDate = new Date();
-            //     console.log(currentDate, '------------------');
-            //     console.log(startDate, '------------------');
-            //     console.log(endDate, '------------------');
-
-            //     if (startDate > currentDate) {
-            //         document.getElementById('error').textContent = 'Invalid date range1';
-            //     } else if (endDate > currentDate) {
-            //         document.getElementById('error').textContent = 'Invalid date range2';
-            //     } else if (startDate > endDate) {
-            //         document.getElementById('error').textContent = 'Invalid date range3';
-            //     } else {
-            //         document.getElementById('error').textContent = '';
-            // document.getElementById('salesReportForm').submit();
-            //     }
-            // }
         </script>
 
         <script>

@@ -133,7 +133,7 @@ const uploadFields = [
   { name: "image3", maxCount: 1 },
 ];
 routers.post("/addproduct", upload.fields(uploadFields), addProduct);
-routers.post("/editedproduct/:id", upload.fields(uploadFields), editProduct);
+routers.post("/editedproduct/:id", upload.any(), editProduct);
 
 //<-----------------banner------------------>
 routers.get("/banners", verifyAdmin, admin_banners);

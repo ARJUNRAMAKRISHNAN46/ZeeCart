@@ -482,6 +482,10 @@ html {
   border: 1px solid lightgray;
   height: 45px;
 }
+.btnz-1 {
+  border: 1px solid lightgray;
+  height: 30px;
+}
 .zeediv {
   padding: 20px;
   background-color: #757575;

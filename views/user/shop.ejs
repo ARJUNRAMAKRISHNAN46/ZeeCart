@@ -65,9 +65,10 @@
                 </ul>
             </div>
         </section> -->
-        <section>
-            <div class="d-flex border border-dark justify-content-center" style="font-size: small;"><h3><b>FILTER HERE</b></h3></div>
+        <!-- --------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- <div class="d-flex border border-dark justify-content-center" style="font-size: small;"><h3><b>FILTER HERE</b></h3></div>
+            
             <div class="d-flex border border-dark" style="font-size: small;">
                 <a class="dropdown-item border border-dark shadow" href="/priceSort?sort=minus">
                     LOW TO HIGH
@@ -94,17 +95,62 @@
                     XIOMI
                 </a>
                 <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=FLAGSHIP MOBILES">
-                    FLAGSHIP MOBILES
+                    FLAGSHIP
                 </a>
                 <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=MOST SELLING MOBILES">
-                    MOST SELLING MOBILES
+                    MOST SELLING PRODUCTS
                 </a>
                 <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=IOS MOBILES">
-                    IOS MOBILES
+                    IOS 
                 </a>
                 <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=BUDGET SMARTPHONES">
-                    BUDGET SMARTPHONES
+                    BUDGET 
                 </a>
+            </div> -->
+
+        <section class="mt-">
+            <span style="font-size:20px;cursor:pointer" class="openNav" onclick="openNav()"><b>Open Filter</b></span>
+            <div id="mySidenav" class="sidenav" style="margin-top: 60px;">
+                <div class="d-flex align-items-center justify-content-end" onclick="closeNav()"><b>Close</b></div>
+                <div class="m-2 d-flex align-items-center justify-content-center">
+                    <h5><b>FILTER PRODUCTS</b></h5>
+                </div>
+
+                <div class="btnz d-flex align-items-center justify-content-center bg-secondary text-white">
+                    <span>PRICE</span>
+                </div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/priceSort?sort=minus">LOW TO HIGH</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/priceSort?sort=plus">HIGH TO LOW</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/priceAboveFourty?type=ascending">UNDER 40000</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/priceAboveFourty?type=descending">BELOW 40000</a></span></div>
+                <div class="btnz d-flex align-items-center justify-content-center bg-secondary text-white">
+                    <span>BRAND</span>
+                </div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/brandFilter?brandData=SAMSUNG">SAMSUNG</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/brandFilter?brandData=APPLE">APPLE</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/brandFilter?brandData=REALME">REALME</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/brandFilter?brandData=XIOMI">XIOMI</a></span></div>
+                <div class="btnz d-flex align-items-center justify-content-center bg-secondary text-white">
+                    <span>CATEGORY</span>
+                </div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/categoryFilter?catData=FLAGSHIP MOBILES">FLAGSHIP</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/categoryFilter?catData=MOST SELLING MOBILES">MOST SELLING</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/categoryFilter?catData=IOS MOBILES">IOS</a></span></div>
+                <div class="btnz-1 d-flex align-items-center justify-content-center"><span><a class="a-tag"
+                            href="/categoryFilter?catData=BUDGET SMARTPHONES">BUDGET</a></span></div>
+
+
             </div>
         </section>
 
@@ -309,5 +355,15 @@
                 }
             }
 
+        </script>
+        <script>
+
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "200px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
         </script>
         <%- include('../layout/user/footer.ejs') -%>

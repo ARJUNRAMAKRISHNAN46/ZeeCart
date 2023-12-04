@@ -102,9 +102,11 @@ module.exports = {
         images.push(...exisitngProduct.images);
       }
       for (i = 0; i < 4; i++) {
-        const fieldname = `image${i + 1}`;
-        if (req.files[fieldname] && req.files[fieldname][0]) {
-          images[i] = req.files[fieldname][0]?.filename;
+        // const fieldname = `image${i + 1}`;
+        if (req.files[i]) {
+          let temp = req.files[i]?.fieldname.split('');
+          console.log(temp);
+          images[temp[5]-1] = req.files[i]?.filename;
         }
       }
       req.body.image = images;
