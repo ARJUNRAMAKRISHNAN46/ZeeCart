@@ -1,113 +1,6 @@
 <%- include('../layout/header.ejs') -%>
     <%- include('../layout/user/header.ejs') -%>
 
-        <!-- <section>
-            <div class="main-navbar shadow-sm sticky-top" style="width: 100vw;">
-                <ul style="list-style: none;">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            </i><strong>Filter</strong>
-                        </a>
-                        <ul class="dropdown-menu p-4" style="line-height: 10px;" aria-labelledby="navbarDropdown">
-                            <li>
-                                <h6><strong>PRICE</strong></h6>
-                            </li>
-                            <li><a class="dropdown-item" href="/priceSort?sort=minus">
-                                    <p>LOW TO HIGH</p>
-                                </a>
-                            </li>
-                            <li><a class="dropdown-item" href="/priceSort?sort=plus">
-                                    <p>HIGH TO LOW</p>
-                                </a>
-                            </li>
-                            <li>
-                                <h6><strong>PRICE RANGE</strong></h6>
-                            </li>
-                            <li><a class="dropdown-item" href="/priceAboveFourty?type=ascending">
-                                    <p>UNDER 40000</p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/priceAboveFourty?type=descending">
-                                    <p>ABOVE 40000</p>
-                                </a></li>
-                            <li>
-                                <h6><strong>BRAND</strong></h6>
-                            </li>
-                            <li><a class="dropdown-item" href="/brandFilter?brandData=SAMSUNG">
-                                    <p>SAMSUNG </p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/brandFilter?brandData=APPLE">
-                                    <p>APPLE </p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/brandFilter?brandData=REALME">
-                                    <p>REALME </p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/brandFilter?brandData=XIOMI">
-                                    <p>XIOMI </p>
-                                </a></li>
-                            <li>
-                                <h6><strong>CATEGORY</strong></h6>
-                            </li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=FLAGSHIP MOBILES">
-                                    <p>FLAGSHIP MOBILES </p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=MOST SELLING MOBILES">
-                                    <p>MOST SELLING MOBILES </p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=IOS MOBILES">
-                                    <p>IOS MOBILES</p>
-                                </a></li>
-                            <li><a class="dropdown-item" href="/categoryFilter?catData=BUDGET SMARTPHONES">
-                                    <p>BUDGET SMARTPHONES </p>
-                                </a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </section> -->
-        <!-- --------------------------------------------------------------------------------------------------------------------------->
-
-        <!-- <div class="d-flex border border-dark justify-content-center" style="font-size: small;"><h3><b>FILTER HERE</b></h3></div>
-            
-            <div class="d-flex border border-dark" style="font-size: small;">
-                <a class="dropdown-item border border-dark shadow" href="/priceSort?sort=minus">
-                    LOW TO HIGH
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/priceSort?sort=plus">
-                    HIGH TO LOW
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/priceAboveFourty?type=ascending">
-                    UNDER 40000
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/priceAboveFourty?type=descending">
-                    ABOVE 40000
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/brandFilter?brandData=SAMSUNG">
-                    SAMSUNG
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/brandFilter?brandData=APPLE">
-                    APPLE
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/brandFilter?brandData=REALME">
-                    REALME
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/brandFilter?brandData=XIOMI">
-                    XIOMI
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=FLAGSHIP MOBILES">
-                    FLAGSHIP
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=MOST SELLING MOBILES">
-                    MOST SELLING PRODUCTS
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=IOS MOBILES">
-                    IOS 
-                </a>
-                <a class="dropdown-item border border-dark shadow" href="/categoryFilter?catData=BUDGET SMARTPHONES">
-                    BUDGET 
-                </a>
-            </div> -->
-
         <section class="mt-">
             <span style="font-size:20px;cursor:pointer" class="openNav" onclick="openNav()"><b>Open Filter</b></span>
             <div id="mySidenav" class="sidenav" style="margin-top: 60px;">
@@ -190,17 +83,12 @@
                                                                         onclick="addToCart('<%=x._id%>')">Add To
                                                                         Cart</a>
                                                                     <%} %>
-                                                                        <!-- <% if(x.inWish) {%>
-                                                                            <a onclick="removeFromWish('<%=x._id%>')"
-                                                                                class="btn btn1"> <i
-                                                                                    class="fa fa-heart"></i>
-                                                                            </a>
-                                                                            <%}else {%> -->
+                                                                        
                                                                         <a onclick="addToWishlist('<%=x._id%>')"
                                                                             class="btn btn1"> <i
                                                                                 class="fa fa-heart"></i>
                                                                         </a>
-                                                                        <!-- <%}%> -->
+                                                                      
                                                                         <a href="/productspecs/<%=x._id%>"
                                                                             class="btn btn1"> View
                                                                         </a>
@@ -220,8 +108,7 @@
 
             function addToCart(productId) {
                 var cartQuantityElement = document.getElementById('cart-count');
-                // console.log(cartQuantityElement.textContent);
-                // cartQuantityElement.textContent = parseInt(cartQuantityElement.textContent) + 1;
+                
                 $.ajax({
                     url: `/addToCart/${productId}`,
                     method: 'POST',
