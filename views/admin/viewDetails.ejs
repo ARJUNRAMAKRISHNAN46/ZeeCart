@@ -151,7 +151,33 @@
                     </ul>
                 </div>
                 <div class="d-flex">
-                    <h5><span class="font-weight-bold"> Total Amount : ₹<%=orderDetails[0].totalAmount%>/-</span></h5>
+                    <% if(orderDetails[0].couponCode) {%>
+                        <table class="table">
+                            <tr style="background: rgb(241, 255, 184);">
+                                <th>Coupon Code</th>
+                                <th>Total Amount</th>
+                                <th>Discount Amount</th>
+                                <th>Final Amount</th>
+                            </tr>
+                            <tr style="background: rgb(241, 255, 184);">
+                                <td>
+                                    <i>
+                                        <%=orderDetails[0].couponCode%>
+                                    </i>
+                                </td>
+                                <td><i>₹<%=orderDetails[0].totalAmount%>/-</i></td>
+                                <td>
+                                    <i>
+                                        <%=orderDetails[0].couponDiscount%>/-
+                                    </i>
+                                </td>
+                                <td><i>₹<%=orderDetails[0].discountAmount%>/-</i></td>
+                            </tr>
+                        </table>
+                        <%}else{%>
+                            <h5><span class="font-weight-bold"> Total Amount : ₹
+                                    <%=orderDetails[0].totalAmount%>
+                                        <%} %>
                 </div>
                 <div class="d-flex flex-column text-sm-right">
                     <% let orderDate=new Date(orderDetails[0].orderDate) %>

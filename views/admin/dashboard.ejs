@@ -384,7 +384,7 @@
                         legend: { display: false },
                         elements: {
                             line: {
-                                tension: 0.1
+                                tension: 0.4
                             }
                         }
                     }
@@ -463,7 +463,7 @@
                     productImageCell.appendChild(imgElement);
                     productCell.textContent = seller.productDetails._id;
                     productNameCell.textContent = seller.productDetails.ProductName;
-                    priceCell.textContent = seller.productDetails.DiscountAmount;
+                    priceCell.textContent = seller.productDetails.DiscountAmount||seller.productDetails.totalAmount;
                     statusCell.textContent = seller.productDetails.AvailableQuantity === 0 ? "Out of Stock" : "In Stock";
                     salesCell.textContent = seller.totalCount;
                 });

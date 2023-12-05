@@ -153,8 +153,8 @@ module.exports = {
     try {
       const prodId = req.params.id;
       const email = req.session.email;
-      const userId = userData._id;
       const userData = await User.findOne({ email: email });
+      const userId = userData._id;
       const wishData = await wishlist.findOne({
         products: { $elemMatch: { productId: prodId } },
       });

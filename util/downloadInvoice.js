@@ -1,16 +1,19 @@
 const PDFDocument = require("pdfkit");
 const moment = require("moment");
 const path = require("path");
+const User = require('../models/userModel');
 
 // Table Row with Bottom Line
-function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
+function generateTableRow(doc, y, c1, c2, c3, c4, c5, c6, c7) {
   doc
     .fontSize(10)
     .text(c1, 50, y)
     .text(c2, 100, y)
-    .text(c3, 280, y, { width: 90, align: "right" })
-    .text(c4, 370, y, { width: 90, align: "right" })
-    .text(c5, 0, y, { align: "right" })
+    .text(c3, 220, y)
+    .text(c4, 270, y)
+    .text(c5, 340, y)
+    .text(c6, 400, y, { width: 90, align: "right" })
+    .text(c7, 0, y, { align: "right" })
     .moveTo(50, y + 15)
     .lineTo(560, y + 15)
     .lineWidth(0.5)
@@ -19,19 +22,38 @@ function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
 }
 
 // Table row without bottom line
-function generateTableRowNoLine(doc, y, c1, c2, c3, c4, c5) {
-
+function generateTableRowNoLine1(doc, y, c1, c2, c3, c4, c5) {
   doc
     .fontSize(10)
     .text(c1, 50, y)
     .text(c2, 100, y)
-    .text(c3, 280, y, { width: 90, align: "right" })
+    .text(c3, 280, y)
+    .text(c4, 370, y, { width: 90, align: "right" })
+    .text(c5, 0, y, { align: "right" });
+}
+
+function generateTableRowNoLine2(doc, y, c1, c2, c3, c4, c5) {
+  doc
+    .fontSize(10)
+    .text(c1, 50, y)
+    .text(c2, 100, y)
+    .text(c3, 280, y)
+    .text(c4, 370, y, { width: 90, align: "right" })
+    .text(c5, 0, y, { align: "right" });
+}
+
+function generateTableRowNoLine3(doc, y, c1, c2, c3, c4, c5) {
+  doc
+    .fontSize(10)
+    .text(c1, 50, y)
+    .text(c2, 100, y)
+    .text(c3, 280, y)
     .text(c4, 370, y, { width: 90, align: "right" })
     .text(c5, 0, y, { align: "right" });
 }
 
 // Generating Invoice for customers
-const generateInvoicePDF = async (order) => {
+const generateInvoicePDF = async (order,userData) => {
   return new Promise((resolve, reject) => {
     try {
       const imagePath = path.join(__dirname, "../public/assets/zeecart.png");
@@ -64,12 +86,17 @@ const generateInvoicePDF = async (order) => {
         .stroke()
         .text(`Order Id: ${order._id}`, 50, 200)
         .text(`Order Date: ${order.orderDate.toLocaleDateString()}`, 50, 215)
-        .text(`Total Amount: ${order.totalAmount}`, 50, 230)
-        .text(order.address.houseName + "," + order.address.locality, 330, 200)
+        .text(
+          `Total Amount: ${order.discountAmount || order.totalAmount}`,
+          50,
+          230
+        )
+        .text(userData.name, 330, 200)
+        .text(order.address.houseName + "," + order.address.locality, 330, 215)
         .text(
           `${order.address.city}, ${order.address.district}, ${order.address.state}, ${order.address.pincode}`,
           330,
-          215
+          230
         )
         .moveTo(50, 250)
         .lineTo(550, 250)
@@ -89,36 +116,59 @@ const generateInvoicePDF = async (order) => {
         "SL No",
         "Product Name",
         "Price",
+        "Offer Price",
+        "Brand Name",
         "Quantity",
         "Sub Total"
       );
-      
       for (i = 0; i < order.products.length; i++) {
         const position = invoiceTableTop + (i + 1) * 30;
         const item = order.products;
-          generateTableRow(
-            doc,
-            position,
-            i + 1,
-            item[i].productId.ProductName,
-            item[i].productId.DiscountAmount,
-            item[i].quantity,
-            item[i].productId.DiscountAmount * item[i].quantity
-          );
 
-
-       
+        generateTableRow(
+          doc,
+          position,
+          i + 1,
+          item[i].productId.ProductName,
+          item[i].productId.Price,
+          item[i].productId.DiscountAmount,
+          item[i].productId.BrandName,
+          item[i].quantity,
+          item[i].productId.DiscountAmount * item[i].quantity
+        );
       }
 
-      const subtotalPosition = invoiceTableTop + (i + 1) * 30;
-      generateTableRowNoLine(
+      const subtotalPosition1 = invoiceTableTop + (i + 1) * 30;
+      generateTableRowNoLine1(
         doc,
-        subtotalPosition,
+        subtotalPosition1,
         "",
         "",
         "",
-        "Total",
+        "Sub Total",
         order.totalAmount
+      );
+
+      const subtotalPosition2 = invoiceTableTop + (i + 1) * 40;
+      generateTableRowNoLine2(
+        doc,
+        subtotalPosition2,
+        "",
+        "",
+        "",
+        "Coupon Discount",
+        order.couponDiscount || 0
+      );
+
+      const subtotalPosition3 = invoiceTableTop + (i + 1) * 50;
+      generateTableRowNoLine3(
+        doc,
+        subtotalPosition3,
+        "",
+        "",
+        "",
+        "Total Amount",
+        order.discountAmount
       );
 
       // Footer for the PDF

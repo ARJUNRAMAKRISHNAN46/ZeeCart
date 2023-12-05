@@ -83,6 +83,7 @@ const generateSalesPDF = async (order, startDate, endDate) => {
       order.forEach((x) => {
         var position = invoiceTableTop + (i + 1) * 30;
         sum += x.totalAmount;
+        sum -= x.couponDiscount;
         generateTableRow(
           doc,
           position,
@@ -92,7 +93,7 @@ const generateSalesPDF = async (order, startDate, endDate) => {
           x.orderDate.toLocaleDateString() + x.orderDate.toLocaleTimeString(),
           x.paymentMethod,
           x.couponDiscount,
-          x.totalAmount
+          x.discountAmount || x.totalAmount
         );
         i++;
       });

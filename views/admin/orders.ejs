@@ -72,7 +72,11 @@
                                 <%= x.PaymentStatus %>
                             </td>
                             <td>
-                                <%= x.totalAmount %>
+                                <% if(x.discountAmount) {%>
+                                    <%=x.discountAmount%>
+                                    <%}else{%>
+                                        <%= x.totalAmount %>
+                                        <%} %>
                             </td>
                             <td>
                                 <% if (x.orderStatus !=='Cancelled' && x.orderStatus !=='Requested' && x.orderStatus

@@ -116,10 +116,11 @@ module.exports = {
       const orderId = req.params.id;
       const addressId = req.query.id;
 
-      const [orderDetails, user] = await Promise.all([
-        order.find({ _id: orderId }).populate("products.productId"),
-        User.findOne({ _id: orderDetails[0].userId }),
-      ]);
+      const orderDetails = await order
+        .find({ _id: orderId })
+        .populate("products.productId");
+      const user = await User.findOne({ _id: orderDetails[0].userId });
+
       const orderData = orderDetails[0].products;
       res.render("admin/viewDetails", {
         orderDetails,
@@ -182,14 +183,16 @@ module.exports = {
   },
   downloadInvoice: async (req, res) => {
     const orderId = req.params.id;
+    const email = req.session.email;
+    const userData = await User.findOne({email})
     const orderDetails = await order
       .findOne({ _id: orderId })
       .populate("products.productId");
-    let result = await generateInvoicePDF(orderDetails);
+    let result = await generateInvoicePDF(orderDetails,userData);
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      "attachment; filename=sales Report.pdf"
+      "attachment; filename=Invoice.pdf"
     );
 
     res.status(200).end(result);
@@ -386,7 +389,7 @@ module.exports = {
           });
         }
         const updateAmount = Number(amount) + Number(refund.wallet);
-        
+
         // const priceInc = await Wallet.findByIdAndUpdate(
         //   userId,
         //   { wallet: updateAmount },
@@ -396,7 +399,6 @@ module.exports = {
           userId: userId,
           wallet: updateAmount,
         });
-
       } else {
         const walletHistory = await WalletHistory.findOne({
           userId: userId,
