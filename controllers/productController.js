@@ -102,22 +102,15 @@ module.exports = {
         images.push(...exisitngProduct.images);
       }
       for (i = 0; i < 4; i++) {
-        // const fieldname = `image${i + 1}`;
         if (req.files[i]) {
           let temp = req.files[i]?.fieldname.split('');
-          console.log(temp);
           images[temp[5]-1] = req.files[i]?.filename;
         }
       }
       req.body.image = images;
 
       const productDetails = req.body;
-      // let ret = [
-      //   files.main[0].filename,
-      //   files.image1[0].filename,
-      //   files.image2[0].filename,
-      //   files.image3[0].filename,
-      // ];
+      
       const uploaded = await products.updateOne(
         { _id: id },
         {
