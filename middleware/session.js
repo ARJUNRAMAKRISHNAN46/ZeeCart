@@ -8,7 +8,7 @@ const verifyUser = (req, res, next) => {
 
 const userExist = (req, res, next) => {
   if (req.session.logged) {
-    res.redirect("/");
+    res.redirect("/" );
   } else {
     next();
   }

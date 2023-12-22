@@ -464,11 +464,7 @@ module.exports = {
         })
         .populate("products.productId");
 
-      // const Order = await order
-      //   .find({ PaymentStatus: "Paid" })
-      //   .populate("products.productId");
-      // const startDate = '23-11-2023';
-      // const endDate = '23-12-2023';
+      
       const pdfBuffer = await generateSalesPDF(Order, startDate, endDate);
 
       // Set headers for the response

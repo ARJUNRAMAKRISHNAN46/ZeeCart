@@ -164,7 +164,7 @@ module.exports = {
   },
   WalletHistory: async (req, res) => {
     try {
-      const pageNum = req.query.page;
+      const  pageNum = req.query.page;
       const perPage = 5;
       let email = req.session.email;
       let userData = await User.findOne({ email: email });
