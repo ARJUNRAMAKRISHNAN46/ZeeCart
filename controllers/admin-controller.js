@@ -1,7 +1,7 @@
 const Users = require("../models/userModel");
 const multer = require("multer");
 const Catagory = require("../models/catagoryModel");
-const offer = require("../models/offerModel");
+const Offer = require("../models/offerModel");
 
 module.exports = {
   //admin validation
@@ -52,7 +52,7 @@ module.exports = {
 
   admin_offers: async (req, res) => {
     try {
-      const [catData, offersData] = await Promise.all([
+      const [catData, offers] = await Promise.all([
         Catagory.find(),
         Offer.find(),
       ]);
