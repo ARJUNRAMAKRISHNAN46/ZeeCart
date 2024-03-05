@@ -86,21 +86,17 @@ module.exports = {
       req.session.couponCode = "";
       req.session.couponDiscount = 0;
       const prodId = orderData.products;
-      prodId.forEach(async (x) => {
+      for (const x of prodId) {
         const quantity = x.quantity;
         const id = x.productId;
+        const proData = await products.findOne({ _id: id });
         const stock = proData.AvailableQuantity;
         const newQuantity = stock - quantity;
-        const [proData, product] = await Promise.all([
-          products.findOne({ _id: id }),
-          products.updateOne(
+        await products.updateOne(
             { _id: id },
-            {
-              $set: { AvailableQuantity: newQuantity },
-            }
-          ),
-        ]);
-      });
+            { $set: { AvailableQuantity: newQuantity } }
+        );
+    }
       await Cart.findOneAndDelete({ userId: orderData.userId });
       const orderId = Order._id;
       res.json({

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: my-mongoose-app
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: my-mongoose-app
+  template: 
+    metadata:
+      labels: 
+        app: my-mongoose-app
+    spec:
+      containers:
+        - name: my-mongoose-app
+          image: mongo:latest
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: my-mongoose-app
+spec: 
+  selector:
+    app: my-mongoose-app
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017

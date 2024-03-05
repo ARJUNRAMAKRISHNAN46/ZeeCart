@@ -1,5 +1,7 @@
 const Razorpay = require("razorpay");
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
+console.log('Initializing Razorpay object with key_id: 1 :', process.env.RAZORPAY_KEY_ID);
+
 
 var instance = new Razorpay({
   key_id: RAZORPAY_ID_KEY,

@@ -1,6 +1,5 @@
 const express = require("express");
 const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
 const { sendOTP } = require("../util/otp");
 const OTP = require("../models/otpModel");
 const products = require("../models/productModel");
@@ -10,6 +9,8 @@ const crypto = require("crypto");
 const { log } = require("console");
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 const Banner = require("../models/bannerModel");
+console.log('Initializing Razorpay object with key_id:', process.env.RAZORPAY_KEY_ID);
+
 
 let userEmail;
 module.exports = {
